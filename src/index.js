@@ -1,4 +1,11 @@
 
+import 'SCSS/styles.scss';
+
+console.log('App.js init');
+
+export default {};
+
+
 import './styles/main.scss'
 
 // создание свойства класса без конструктора

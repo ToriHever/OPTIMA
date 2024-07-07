@@ -1,0 +1,14 @@
+//Сюда импортируются все глобальные стили и стили с страниц
+
+@import './pages/main';
+
+
+
+
+$font-size: 1rem;
+$font-color: green;
+
+html {
+    font-size: $font-size;
+    color: $font-color;
+}

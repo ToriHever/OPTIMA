@@ -1,23 +1,67 @@
-const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const {
-    CleanWebpackPlugin
-} = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
+const CopyPlugin = require("copy-webpack-plugin");
 
 
+const path = require('path');
+const glob = require('glob');
 
-module.exports = {
+const PATH = {
+    dev: {
+        source: 'src',
+        scripts: 'src/js',
+        styles: 'src/styles',
+        assets: 'src/assets',
+    },
+    pub: {
+        source: 'dist',
+        scripts: 'dist/js',
+        styles: 'dist/styles',
+        assets: 'dist/assets',
+    },
+};
+
+const PATH_DEV = path.resolve(__dirname, PATH.dev.source);
+const PATH_PUB = path.resolve(__dirname, PATH.pub.source);
+
+
+const config = {
 
     entry: {
-        main: path.resolve(__dirname, './src/index.js'),
+        'js/App': './src/js/App.js',
+        'js/pages/main': './src/js/pages/main.js',
+        'js/pages/about': './src/js/pages/about.js',
     },
 
     output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].js',
+        publicPath: './',
+
     },
+        plugins: [
+
+        new CopyPlugin({
+          patterns: [
+                { from: 'pages', to: PATH_PUB },
+                { from: PATH.dev.assets, to: PATH_PUB + '/assets' },
+          ],
+        }),
+
+        new CleanWebpackPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        ],
+
+        resolve: {
+            alias: {
+                SCSS: path.resolve(PATH.dev.styles),
+                SCRIPTS: path.resolve(PATH.dev.scripts),
+            },
+            extensions: ['.js'],
+        },
+
 
     mode: 'development',
     devServer: {
@@ -34,15 +78,6 @@ module.exports = {
         ],
     },
 
-    plugins: [
-        new HtmlWebpackPlugin({
-            title: 'webpack Boilerplate',
-            template: path.resolve(__dirname, './src/template.html'), // шаблон
-            filename: 'index.html', // название выходного файла
-        }),
-        new CleanWebpackPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-    ],
 
     module: {
         rules: [
@@ -76,3 +111,5 @@ module.exports = {
         ],
     }
 }
+
+module.exports = config;
