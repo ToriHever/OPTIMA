@@ -1,4 +1,6 @@
 
+import './styles/main.scss'
+
 // создание свойства класса без конструктора
 class Game {
     name = 'Violin Charades'
