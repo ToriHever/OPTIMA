@@ -4,6 +4,8 @@ const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpack = require('webpack')
+
 
 module.exports = {
     entry: {
@@ -22,7 +24,21 @@ module.exports = {
 
 
 module.exports = {
-    // ...
+
+    mode: 'development',
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'public'),
+        },
+        compress: true,
+        port: 9000,
+        allowedHosts: [
+          'host.com',
+          'subdomain.host.com',
+          'subdomain2.host.com',
+          'host2.com',
+        ],
+    },
 
     plugins: [
         new HtmlWebpackPlugin({
@@ -31,6 +47,7 @@ module.exports = {
             filename: 'index.html', // название выходного файла
         }),
         new CleanWebpackPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
     ],
 
     module: {
