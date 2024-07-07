@@ -17,3 +17,6 @@ heading.textContent = 'Тестовый заголовлок'
 // добавляем заголовок в DOM
 const root = document.querySelector('#root')
 root.append(heading)
+
+import example from './assets/img/costil_logo.jpg'
+
