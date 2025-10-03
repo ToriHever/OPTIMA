@@ -1,0 +1,160 @@
+/* ========================================
+   SERVICES.CSS - Таблица услуг
+   ======================================== */
+
+.services {
+    padding: var(--spacing-xxl) 0;
+    background: var(--color-white);
+}
+
+.services-table-wrapper {
+    overflow-x: auto;
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+}
+
+/* Таблица */
+.services-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.9375rem;
+}
+
+.services-table thead {
+    background: var(--gradient-primary);
+    color: var(--color-white);
+}
+
+.services-table thead th {
+    padding: var(--spacing-md);
+    text-align: left;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--color-primary);
+}
+
+.services-table thead th:first-child {
+    border-top-left-radius: var(--radius-lg);
+}
+
+.services-table thead th:last-child {
+    border-top-right-radius: var(--radius-lg);
+}
+
+/* Заголовки секций */
+.table-section-header td {
+    background: var(--color-bg-grey);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-weight: 700;
+}
+
+.table-section-header h3 {
+    color: var(--color-primary);
+    font-size: 1.125rem;
+    margin: 0;
+}
+
+/* Ячейки таблицы */
+.services-table tbody tr {
+    transition: all var(--transition-fast);
+    border-bottom: 1px solid var(--color-bg-grey);
+}
+
+.services-table tbody tr:not(.table-section-header):hover {
+    background: rgba(48, 103, 110, 0.05);
+    transform: scale(1.01);
+    box-shadow: var(--shadow-sm);
+}
+
+.services-table tbody td {
+    padding: var(--spacing-md);
+    vertical-align: top;
+}
+
+.services-table tbody tr:not(.table-section-header) td:first-child {
+    font-weight: 600;
+    color: var(--color-dark);
+    width: 40%;
+}
+
+.services-table tbody tr:not(.table-section-header) td:nth-child(2) {
+    font-weight: 700;
+    color: var(--color-primary-light);
+    width: 15%;
+    white-space: nowrap;
+}
+
+.services-table tbody tr:not(.table-section-header) td:nth-child(3) {
+    color: var(--color-dark);
+    opacity: 0.85;
+    line-height: 1.6;
+    width: 45%;
+}
+
+.services-table tbody td strong {
+    color: var(--color-accent);
+    font-weight: 700;
+}
+
+/* Адаптивность таблицы */
+@media (max-width: 1024px) {
+    .services-table {
+        font-size: 0.875rem;
+    }
+    
+    .services-table thead th,
+    .services-table tbody td {
+        padding: var(--spacing-sm);
+    }
+}
+
+@media (max-width: 768px) {
+    .services {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .services-table-wrapper {
+        border-radius: var(--radius-md);
+    }
+    
+    /* Делаем таблицу прокручиваемой горизонтально */
+    .services-table {
+        min-width: 700px;
+    }
+    
+    .services-table thead th {
+        font-size: 0.875rem;
+        padding: var(--spacing-sm);
+    }
+    
+    .table-section-header h3 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-table {
+        font-size: 0.8125rem;
+        min-width: 650px;
+    }
+    
+    .services-table thead th,
+    .services-table tbody td {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .table-section-header td {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .table-section-header h3 {
+        font-size: 0.9375rem;
+    }
+}

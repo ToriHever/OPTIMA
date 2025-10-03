@@ -1,0 +1,261 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #313131;
+    background-color: #FFFFFF;
+    line-height: 1.6;
+}
+
+.service-process {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #00444D;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.section-subtitle {
+    font-size: 18px;
+    color: #30676E;
+    text-align: center;
+    margin-bottom: 60px;
+    font-weight: 400;
+}
+
+.process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.step-item {
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 68, 77, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.step-item:hover {
+    box-shadow: 0 4px 16px rgba(0, 68, 77, 0.12);
+}
+
+.step-item.active {
+    box-shadow: 0 6px 24px rgba(0, 68, 77, 0.15);
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    padding: 24px 28px;
+    cursor: pointer;
+    gap: 20px;
+    background: #FFFFFF;
+    transition: background-color 0.3s ease;
+}
+
+.step-header:hover {
+    background-color: #f8f9fa;
+}
+
+.step-item.active .step-header {
+    background-color: #00444D;
+}
+
+.step-number {
+    font-size: 24px;
+    font-weight: 700;
+    color: #30676E;
+    min-width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e8f4f5 0%, #d4eaec 100%);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.step-item.active .step-number {
+    background: #FFFFFF;
+    color: #00444D;
+}
+
+.step-title {
+    flex: 1;
+    font-size: 22px;
+    font-weight: 600;
+    color: #313131;
+    transition: color 0.3s ease;
+}
+
+.step-item.active .step-title {
+    color: #FFFFFF;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #30676E;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.step-item.active .toggle-btn {
+    transform: rotate(180deg);
+    color: #FFFFFF;
+}
+
+.toggle-btn:hover {
+    opacity: 0.8;
+}
+
+.step-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    padding: 0 28px;
+}
+
+.step-item.active .step-content {
+    max-height: 2000px;
+    padding: 0 28px 32px 28px;
+}
+
+.action-block {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #30676E;
+}
+
+.action-block:last-child {
+    margin-bottom: 0;
+}
+
+.action-block.highlight {
+    background: linear-gradient(135deg, #e8f4f5 0%, #f8f9fa 100%);
+    border-left-color: #D91E1E;
+}
+
+.action-block h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #00444D;
+    margin-bottom: 10px;
+}
+
+.action-block p {
+    font-size: 15px;
+    color: #313131;
+    line-height: 1.7;
+}
+
+.action-block ul {
+    margin-top: 12px;
+    padding-left: 20px;
+}
+
+.action-block ul li {
+    font-size: 15px;
+    color: #313131;
+    margin-bottom: 8px;
+    line-height: 1.7;
+}
+
+.action-block ul li:last-child {
+    margin-bottom: 0;
+}
+
+.action-block strong {
+    color: #00444D;
+    font-weight: 600;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .service-process {
+        padding: 60px 15px;
+    }
+
+    .section-title {
+        font-size: 32px;
+    }
+
+    .section-subtitle {
+        font-size: 16px;
+        margin-bottom: 40px;
+    }
+
+    .step-header {
+        padding: 20px 18px;
+        gap: 15px;
+    }
+
+    .step-number {
+        font-size: 20px;
+        min-width: 44px;
+        height: 44px;
+    }
+
+    .step-title {
+        font-size: 18px;
+    }
+
+    .step-content {
+        padding: 0 18px;
+    }
+
+    .step-item.active .step-content {
+        padding: 0 18px 24px 18px;
+    }
+
+    .action-block {
+        padding: 16px;
+    }
+
+    .action-block h4 {
+        font-size: 16px;
+    }
+
+    .action-block p,
+    .action-block ul li {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 28px;
+    }
+
+    .step-title {
+        font-size: 16px;
+    }
+
+    .step-number {
+        font-size: 18px;
+        min-width: 40px;
+        height: 40px;
+    }
+}

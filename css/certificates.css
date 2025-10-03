@@ -1,0 +1,81 @@
+/* ========================================
+   CERTIFICATES.CSS - Сертификаты
+   ======================================== */
+
+.certificates {
+    padding: var(--spacing-xxl) 0;
+    background: var(--color-bg-light);
+}
+
+.certificates-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md);
+}
+
+.certificate-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    position: relative;
+}
+
+.certificate-card::after {
+    content: '🔍';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 3rem;
+    opacity: 0;
+    transition: all var(--transition-base);
+}
+
+.certificate-card:hover::after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.certificate-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: var(--shadow-xl);
+    z-index: 10;
+}
+
+.certificate-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: all var(--transition-base);
+}
+
+.certificate-card:hover img {
+    filter: brightness(0.7);
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .certificates-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .certificates {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .certificates-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .certificates-grid {
+        grid-template-columns: 1fr;
+    }
+}

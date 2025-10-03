@@ -1,0 +1,197 @@
+/* ========================================
+   ANIMATIONS.CSS - Анимации
+   ======================================== */
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Анимация масштабирования */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Анимация переливающегося градиента */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Анимация свечения */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(48, 103, 110, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(48, 103, 110, 0.6);
+    }
+}
+
+/* Анимация вращения */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Анимация покачивания */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Анимация блика */
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 200%;
+    }
+}
+
+/* Классы для анимаций при скролле */
+.animate-on-scroll {
+    opacity: 0;
+}
+
+.animate-on-scroll.animated {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.animate-left {
+    opacity: 0;
+}
+
+.animate-left.animated {
+    animation: fadeInLeft 0.8s ease forwards;
+}
+
+.animate-right {
+    opacity: 0;
+}
+
+.animate-right.animated {
+    animation: fadeInRight 0.8s ease forwards;
+}
+
+.animate-scale {
+    opacity: 0;
+}
+
+.animate-scale.animated {
+    animation: scaleIn 0.6s ease forwards;
+}
+
+/* Задержки для последовательной анимации */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
+
+/* Анимация для иконок */
+.icon-hover {
+    transition: all var(--transition-base);
+}
+
+.icon-hover:hover {
+    transform: scale(1.2) rotate(10deg);
+    color: var(--color-accent);
+}
+
+/* Анимация подчеркивания */
+.underline-animation {
+    position: relative;
+    display: inline-block;
+}
+
+.underline-animation::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary-light);
+    transition: width var(--transition-base);
+}
+
+.underline-animation:hover::after {
+    width: 100%;
+}
+
+/* Эффект ripple для кнопок (уже добавлено в components.css) */
+
+/* Reduce motion для пользователей с ограничениями */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

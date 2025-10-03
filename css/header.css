@@ -1,0 +1,222 @@
+/* ========================================
+   HEADER.CSS - Шапка сайта
+   ======================================== */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--color-white);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Верхняя часть шапки */
+.header-top {
+    background: var(--color-dark);
+    color: var(--color-white);
+    padding: var(--spacing-xs) 0;
+}
+
+.header-contacts {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    font-size: 0.875rem;
+}
+
+.header-contact {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-white);
+    opacity: 0.9;
+    transition: opacity var(--transition-fast);
+}
+
+.header-contact:hover {
+    opacity: 1;
+}
+
+.header-contact svg {
+    flex-shrink: 0;
+}
+
+.header-phone {
+    font-weight: 600;
+    margin-left: auto;
+}
+
+/* Основная часть шапки */
+.header-main {
+    background: var(--color-white);
+    padding: var(--spacing-sm) 0;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+/* Логотип */
+.logo {
+    flex-shrink: 0;
+    transition: transform var(--transition-base);
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+/* Навигация */
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-right: auto;
+}
+
+.nav-link {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--color-primary-light);
+    transition: width var(--transition-base);
+}
+
+.nav-link:hover {
+    color: var(--color-primary-light);
+}
+
+.nav-link:hover::after {
+    width: 80%;
+}
+
+/* Мобильное меню */
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+}
+
+.mobile-menu-btn span {
+    width: 28px;
+    height: 3px;
+    background: var(--color-primary);
+    border-radius: 2px;
+    transition: all var(--transition-base);
+}
+
+.mobile-menu-btn:hover span {
+    background: var(--color-primary-light);
+}
+
+.mobile-menu-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .header-contacts {
+        gap: var(--spacing-sm);
+        font-size: 0.8125rem;
+    }
+    
+    .nav {
+        gap: var(--spacing-sm);
+    }
+    
+    .nav-link {
+        font-size: 0.9375rem;
+        padding: var(--spacing-xs);
+    }
+}
+
+@media (max-width: 768px) {
+    .header-top {
+        display: none;
+    }
+    
+    .header-content {
+        gap: var(--spacing-sm);
+    }
+    
+    .nav {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        max-width: 320px;
+        height: calc(100vh - 70px);
+        background: var(--color-white);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: var(--spacing-lg);
+        gap: var(--spacing-sm);
+        box-shadow: var(--shadow-lg);
+        transition: left var(--transition-base);
+        overflow-y: auto;
+    }
+    
+    .nav.active {
+        left: 0;
+    }
+    
+    .nav-link {
+        width: 100%;
+        font-size: 1.125rem;
+        padding: var(--spacing-sm);
+    }
+    
+    .nav-link::after {
+        display: none;
+    }
+    
+    .mobile-menu-btn {
+        display: flex;
+    }
+    
+    .header-main .btn {
+        padding: 10px 20px;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo img {
+        max-width: 120px;
+        height: auto;
+    }
+    
+    .header-main .btn {
+        padding: 8px 16px;
+        font-size: 0.8125rem;
+    }
+}

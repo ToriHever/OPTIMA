@@ -1,0 +1,23 @@
+/* ========================================
+   MAIN.CSS - Главный файл стилей
+   Импортирует все модульные CSS файлы
+   ======================================== */
+
+/* Базовые стили и переменные */
+@import url('base.css');
+
+/* Компоненты */
+@import url('components.css');
+
+/* Анимации */
+@import url('animations.css');
+
+/* Секции */
+@import url('header.css');
+@import url('hero.css');
+@import url('categories.css');
+@import url('cta.css');
+@import url('services.css');
+@import url('warranty.css');
+@import url('certificates.css');
+@import url('footer.css');
