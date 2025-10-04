@@ -53,18 +53,59 @@
     background: var(--color-bg-grey);
     padding: var(--spacing-sm) var(--spacing-md);
     font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: background var(--transition-fast);
+}
+
+.table-section-header:hover td {
+    background: #d0d0d0;
 }
 
 .table-section-header h3 {
     color: var(--color-primary);
     font-size: 1.125rem;
     margin: 0;
+    padding-right: 40px;
+    position: relative;
 }
 
-/* Ячейки таблицы */
-.services-table tbody tr {
+.table-section-header h3::after {
+    content: '▼';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: var(--color-primary);
+    transition: transform var(--transition-base);
+}
+
+.table-section-header.collapsed h3::after {
+    transform: translateY(-50%) rotate(-90deg);
+}
+
+/* Строки внутри секции */
+.services-table tbody tr:not(.table-section-header) {
     transition: all var(--transition-fast);
     border-bottom: 1px solid var(--color-bg-grey);
+    max-height: 200px;
+    opacity: 1;
+}
+
+/* Скрытые строки */
+.services-table tbody tr.hidden-row {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    border: none;
+    visibility: collapse;
+}
+
+.services-table tbody tr.hidden-row td {
+    padding: 0;
+    line-height: 0;
 }
 
 .services-table tbody tr:not(.table-section-header):hover {

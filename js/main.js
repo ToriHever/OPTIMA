@@ -353,6 +353,75 @@ class ProcessAccordion {
 }
 
 // ============================================
+// АККОРДЕОН ДЛЯ ТАБЛИЦЫ УСЛУГ
+// ============================================
+class ServicesAccordion {
+    constructor() {
+        this.table = document.querySelector('.services-table tbody');
+        this.sections = [];
+        this.init();
+    }
+    
+    init() {
+        if (!this.table) return;
+        
+        // Находим все заголовки секций
+        const headers = this.table.querySelectorAll('.table-section-header');
+        
+        headers.forEach((header, index) => {
+            // Собираем строки каждой секции
+            const sectionRows = [];
+            let currentRow = header.nextElementSibling;
+            
+            // Идем по строкам до следующего заголовка или конца таблицы
+            while (currentRow && !currentRow.classList.contains('table-section-header')) {
+                sectionRows.push(currentRow);
+                currentRow = currentRow.nextElementSibling;
+            }
+            
+            // Сохраняем информацию о секции
+            this.sections.push({
+                header: header,
+                rows: sectionRows
+            });
+            
+            // Скрываем все секции кроме первой
+            if (index !== 0) {
+                header.classList.add('collapsed');
+                sectionRows.forEach(row => {
+                    row.classList.add('hidden-row');
+                });
+            }
+            
+            // Добавляем обработчик клика
+            header.addEventListener('click', () => {
+                this.toggleSection(header, sectionRows);
+            });
+        });
+        
+        console.log('Services accordion initialized:', this.sections.length, 'sections');
+    }
+    
+    toggleSection(header, rows) {
+        const isCollapsed = header.classList.contains('collapsed');
+        
+        if (isCollapsed) {
+            // Открываем секцию
+            header.classList.remove('collapsed');
+            rows.forEach(row => {
+                row.classList.remove('hidden-row');
+            });
+        } else {
+            // Закрываем секцию
+            header.classList.add('collapsed');
+            rows.forEach(row => {
+                row.classList.add('hidden-row');
+            });
+        }
+    }
+}
+
+// ============================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -364,6 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new Modal();
     new CertificateModal();
     new ProcessAccordion(); // Добавили аккордеон
+    new ServicesAccordion(); // Аккордеон таблицы услуг
     
     // Дополнительная проверка и инициализация для сертификатов
     setTimeout(() => {
