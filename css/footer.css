@@ -59,8 +59,8 @@
 }
 
 .social-link {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,10 +70,31 @@
     transition: all var(--transition-base);
 }
 
+.social-link svg {
+    width: 24px;
+    height: 24px;
+}
+
 .social-link:hover {
-    background: var(--color-primary-light);
-    transform: translateY(-4px) rotate(5deg);
+    transform: translateY(-4px);
     box-shadow: 0 4px 12px rgba(48, 103, 110, 0.4);
+}
+
+/* Индивидуальные цвета для соцсетей */
+.social-link.vk:hover {
+    background: #0077FF;
+}
+
+.social-link.telegram:hover {
+    background: #0088cc;
+}
+
+.social-link.youtube:hover {
+    background: #FF0000;
+}
+
+.social-link.whatsapp:hover {
+    background: #25D366;
 }
 
 /* Контакты */
