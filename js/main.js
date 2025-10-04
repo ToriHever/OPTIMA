@@ -300,6 +300,59 @@ class CertificateModal {
 }
 
 // ============================================
+// АККОРДЕОН ДЛЯ ПРОЦЕССА РАБОТЫ
+// ============================================
+class ProcessAccordion {
+    constructor() {
+        this.steps = document.querySelectorAll('.process-step');
+        this.init();
+    }
+    
+    init() {
+        if (!this.steps.length) return;
+        
+        // Закрываем все этапы кроме первого
+        this.steps.forEach((step, index) => {
+            if (index !== 0) {
+                step.classList.add('collapsed');
+            }
+            
+            // Добавляем обработчик клика
+            const content = step.querySelector('.process-step-content');
+            if (content) {
+                content.addEventListener('click', () => {
+                    this.toggleStep(step);
+                });
+            }
+        });
+        
+        console.log('Process accordion initialized:', this.steps.length, 'steps');
+    }
+    
+    toggleStep(clickedStep) {
+        const isCollapsed = clickedStep.classList.contains('collapsed');
+        
+        if (isCollapsed) {
+            // Открываем кликнутый
+            clickedStep.classList.remove('collapsed');
+        } else {
+            // Закрываем кликнутый
+            clickedStep.classList.add('collapsed');
+        }
+        
+        // Опционально: закрывать другие этапы при открытии нового
+        // Раскомментируйте если нужно, чтобы был открыт только один этап
+        /*
+        this.steps.forEach(step => {
+            if (step !== clickedStep) {
+                step.classList.add('collapsed');
+            }
+        });
+        */
+    }
+}
+
+// ============================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -310,6 +363,61 @@ document.addEventListener('DOMContentLoaded', () => {
     new StickyHeader();
     new Modal();
     new CertificateModal();
+    new ProcessAccordion(); // Добавили аккордеон
+    
+    // Дополнительная проверка и инициализация для сертификатов
+    setTimeout(() => {
+        const modal = document.getElementById('certificateModal');
+        const cards = document.querySelectorAll('.certificate-card');
+        
+        console.log('Certificate modal:', modal);
+        console.log('Certificate cards:', cards.length);
+        
+        if (modal && cards.length > 0) {
+            cards.forEach((card, index) => {
+                card.addEventListener('click', function(e) {
+                    console.log(`Card ${index} clicked`);
+                    const img = this.querySelector('img');
+                    if (img) {
+                        const modalImg = modal.querySelector('.certificate-modal-image');
+                        if (modalImg) {
+                            modalImg.src = img.src;
+                            modalImg.alt = img.alt;
+                            modal.classList.add('active');
+                            document.body.style.overflow = 'hidden';
+                            console.log('Modal opened with:', img.src);
+                        }
+                    }
+                });
+            });
+            
+            // Закрытие
+            const closeBtn = modal.querySelector('.certificate-modal-close');
+            const overlay = modal.querySelector('.certificate-modal-overlay');
+            
+            const closeModal = () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                console.log('Modal closed');
+            };
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeModal);
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', closeModal);
+            }
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+        } else {
+            console.error('Modal или карточки не найдены!');
+        }
+    }, 100);
     
     console.log('🚀 Сайт загружен успешно!');
 });

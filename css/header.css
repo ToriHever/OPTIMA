@@ -23,7 +23,7 @@
     justify-content: center;
     gap: var(--spacing-md);
     flex-wrap: wrap;
-    font-size: 0.800rem;
+    font-size: 0.750rem;
 }
 
 .header-contact {
@@ -57,7 +57,7 @@
 /* Основная часть шапки */
 .header-main {
     background: var(--color-white);
-    padding: var(--spacing-sm) 0;
+    padding: var(--spacing-xs) 0;
 }
 
 .header-content {
