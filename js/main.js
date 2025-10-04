@@ -78,11 +78,12 @@ class ScrollAnimations {
             this.animatedElements.push(card);
         });
         
+        // УБИРАЕМ анимацию для category-card - она конфликтует!
         const categoryCards = document.querySelectorAll('.category-card');
-        categoryCards.forEach((card, index) => {
-            card.classList.add('animate-scale', `delay-${(index % 2) + 1}`);
-            this.animatedElements.push(card);
-        });
+        // categoryCards.forEach((card, index) => {
+        //     card.classList.add('animate-scale', `delay-${(index % 2) + 1}`);
+        //     this.animatedElements.push(card);
+        // });
         
         const ctaFeatures = document.querySelectorAll('.cta-feature');
         ctaFeatures.forEach((feature, index) => {
@@ -100,6 +101,13 @@ class ScrollAnimations {
         warrantyCards.forEach((card, index) => {
             card.classList.add(index === 0 ? 'animate-left' : 'animate-right');
             this.animatedElements.push(card);
+        });
+        
+        // Процесс работы
+        const processSteps = document.querySelectorAll('.process-step');
+        processSteps.forEach((step, index) => {
+            step.classList.add('animate-on-scroll', `delay-${(index % 3) + 1}`);
+            this.animatedElements.push(step);
         });
         
         const sectionTitles = document.querySelectorAll('.section-title, .section-title-dark');
@@ -219,6 +227,79 @@ class Modal {
 }
 
 // ============================================
+// МОДАЛЬНОЕ ОКНО ДЛЯ СЕРТИФИКАТОВ
+// ============================================
+class CertificateModal {
+    constructor() {
+        this.modal = document.getElementById('certificateModal');
+        this.modalImage = this.modal?.querySelector('.certificate-modal-image');
+        this.closeBtn = this.modal?.querySelector('.certificate-modal-close');
+        this.overlay = this.modal?.querySelector('.certificate-modal-overlay');
+        
+        this.init();
+    }
+    
+    init() {
+        if (!this.modal) return;
+        
+        // Обработчики для карточек сертификатов
+        const certificateCards = document.querySelectorAll('.certificate-card');
+        
+        certificateCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const img = card.querySelector('img');
+                if (img) {
+                    this.openModal(img.src, img.alt);
+                }
+            });
+        });
+        
+        // Закрытие по кнопке
+        this.closeBtn?.addEventListener('click', () => this.closeModal());
+        
+        // Закрытие по overlay
+        this.overlay?.addEventListener('click', () => this.closeModal());
+        
+        // Закрытие по Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modal.classList.contains('active')) {
+                this.closeModal();
+            }
+        });
+    }
+    
+    openModal(src, alt) {
+        if (!this.modal || !this.modalImage) return;
+        
+        this.modalImage.src = src;
+        this.modalImage.alt = alt;
+        
+        // Блокируем прокрутку страницы
+        document.body.style.overflow = 'hidden';
+        
+        // Показываем модалку
+        this.modal.classList.add('active');
+    }
+    
+    closeModal() {
+        if (!this.modal) return;
+        
+        // Разблокируем прокрутку
+        document.body.style.overflow = '';
+        
+        // Скрываем модалку
+        this.modal.classList.remove('active');
+        
+        // Очищаем изображение после закрытия анимации
+        setTimeout(() => {
+            if (this.modalImage) {
+                this.modalImage.src = '';
+            }
+        }, 300);
+    }
+}
+
+// ============================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -228,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new SmoothScroll();
     new StickyHeader();
     new Modal();
+    new CertificateModal();
     
     console.log('🚀 Сайт загружен успешно!');
 });

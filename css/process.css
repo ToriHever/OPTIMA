@@ -1,0 +1,321 @@
+/* ========================================
+   PROCESS.CSS - Как мы работаем
+   ======================================== */
+
+.process {
+    padding: var(--spacing-xxl) 0;
+    background: var(--color-white);
+    position: relative;
+}
+
+.process-timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Вертикальная линия между этапами */
+.process-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50px;
+    top: 60px;
+    bottom: 60px;
+    width: 3px;
+    background: linear-gradient(180deg, 
+        var(--color-primary-light) 0%, 
+        var(--color-primary) 50%, 
+        var(--color-primary-light) 100%);
+    z-index: 0;
+}
+
+/* Этап */
+.process-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+}
+
+.process-step:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* Номер этапа */
+.process-step-number {
+    position: absolute;
+    left: 26px;
+    top: 18px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-white);
+    border: 3px solid var(--color-primary);
+    border-radius: 50%;
+    z-index: 2;
+    transition: all var(--transition-base);
+}
+
+.process-step-number span {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    transition: color var(--transition-base);
+}
+
+.process-step:hover .process-step-number {
+    background: var(--color-primary);
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px rgba(0, 68, 77, 0.3);
+}
+
+.process-step:hover .process-step-number span {
+    color: var(--color-white);
+}
+
+/* Иконка */
+.process-step-icon {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e8f4f5 0%, #d4eaec 100%);
+    border-radius: var(--radius-lg);
+    color: var(--color-primary-light);
+    transition: all var(--transition-base);
+    position: relative;
+    z-index: 1;
+}
+
+.process-step:hover .process-step-icon {
+    background: var(--gradient-primary);
+    color: var(--color-white);
+    transform: scale(1.05) rotate(-5deg);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Контент */
+.process-step-content {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    border: 2px solid var(--color-bg-grey);
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.process-step:hover .process-step-content {
+    border-color: var(--color-primary-light);
+    box-shadow: var(--shadow-lg);
+    transform: translateX(8px);
+}
+
+.process-step-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    padding-bottom: var(--spacing-sm);
+}
+
+.process-step-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+    transition: width var(--transition-base);
+}
+
+.process-step:hover .process-step-title::after {
+    width: 120px;
+}
+
+.process-step-description {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+/* Действие */
+.process-action {
+    padding: var(--spacing-sm);
+    border-left: 3px solid var(--color-bg-grey);
+    transition: all var(--transition-fast);
+}
+
+.process-action:hover {
+    border-left-color: var(--color-primary-light);
+    background: rgba(48, 103, 110, 0.03);
+    padding-left: var(--spacing-md);
+}
+
+.process-action h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.process-action p {
+    font-size: 0.9375rem;
+    color: var(--color-dark);
+    opacity: 0.9;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.process-action ul {
+    margin-top: var(--spacing-xs);
+    padding-left: var(--spacing-md);
+}
+
+.process-action ul li {
+    font-size: 0.9375rem;
+    color: var(--color-dark);
+    opacity: 0.9;
+    margin-bottom: var(--spacing-xs);
+    line-height: 1.6;
+}
+
+.process-action ul li:last-child {
+    margin-bottom: 0;
+}
+
+.process-action strong {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Время выполнения */
+.process-time {
+    background: linear-gradient(135deg, rgba(217, 30, 30, 0.05) 0%, rgba(217, 30, 30, 0.02) 100%);
+    border-left-color: var(--color-accent);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.process-time h4 {
+    color: var(--color-accent);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .process {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .process-timeline::before {
+        left: 20px;
+    }
+    
+    .process-step {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-lg);
+        padding-left: 80px;
+    }
+    
+    .process-step-number {
+        left: -4px;
+        width: 40px;
+        height: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    .process-step-number span {
+        font-size: 1rem;
+    }
+    
+    .process-step:hover .process-step-number {
+        transform: translateY(-50%) scale(1.15);
+    }
+    
+    .process-step-icon {
+        position: absolute;
+        left: -70px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 60px;
+        height: 60px;
+    }
+    
+    .process-step-icon svg {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .process-step:hover .process-step-icon {
+        transform: translateY(-50%) scale(1.05) rotate(-5deg);
+    }
+    
+    .process-step-content {
+        padding: var(--spacing-md);
+    }
+    
+    .process-step:hover .process-step-content {
+        transform: translateX(4px);
+    }
+    
+    .process-step-title {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .process-step {
+        padding-left: 60px;
+        margin-bottom: var(--spacing-md);
+        padding-bottom: var(--spacing-md);
+    }
+    
+    .process-step-icon {
+        width: 48px;
+        height: 48px;
+        left: -56px;
+    }
+    
+    .process-step-icon svg {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .process-step-number {
+        width: 32px;
+        height: 32px;
+        left: -2px;
+    }
+    
+    .process-step-number span {
+        font-size: 0.875rem;
+    }
+    
+    .process-step-content {
+        padding: var(--spacing-sm);
+    }
+    
+    .process-step-title {
+        font-size: 1.125rem;
+    }
+    
+    .process-action h4 {
+        font-size: 1rem;
+    }
+    
+    .process-action p,
+    .process-action ul li {
+        font-size: 0.875rem;
+    }
+}

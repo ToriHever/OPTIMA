@@ -111,6 +111,11 @@ a {
     transition: color var(--transition-base);
 }
 
+span{
+    margin: 0;
+    padding: auto;
+}
+
 img {
     max-width: 100%;
     height: auto;
@@ -131,7 +136,7 @@ ul, ol {
 }
 
 .text-small {
-    font-size: 0.875rem;
+    font-size: 0.800rem;
 }
 
 .text-center {

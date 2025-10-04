@@ -20,6 +20,7 @@
 .header-contacts {
     display: flex;
     align-items: center;
+
     gap: var(--spacing-md);
     flex-wrap: wrap;
     font-size: 0.875rem;
@@ -42,9 +43,15 @@
     flex-shrink: 0;
 }
 
+.header-schedule{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0px;
+}
+
 .header-phone {
     font-weight: 600;
-    margin-left: auto;
 }
 
 /* Основная часть шапки */

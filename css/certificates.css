@@ -24,17 +24,40 @@
 }
 
 .certificate-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 80px;
+    height: 80px;
+    background: rgba(0, 68, 77, 0.9);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.certificate-card::before {
     content: '🔍';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    font-size: 3rem;
+    font-size: 2.5rem;
+    z-index: 2;
     opacity: 0;
     transition: all var(--transition-base);
 }
 
 .certificate-card:hover::after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.certificate-card:hover::before {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
 }
@@ -56,6 +79,90 @@
     filter: brightness(0.7);
 }
 
+/* ========================================
+   МОДАЛЬНОЕ ОКНО ДЛЯ СЕРТИФИКАТА
+   ======================================== */
+
+.certificate-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+}
+
+.certificate-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.certificate-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(4px);
+    transition: opacity var(--transition-base);
+}
+
+.certificate-modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    z-index: 1;
+    transform: scale(0.8);
+    transition: transform var(--transition-base);
+}
+
+.certificate-modal.active .certificate-modal-content {
+    transform: scale(1);
+}
+
+.certificate-modal-image {
+    max-width: 100%;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    display: block;
+}
+
+.certificate-modal-close {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-white);
+    transition: all var(--transition-base);
+    z-index: 2;
+}
+
+.certificate-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: rotate(90deg) scale(1.1);
+}
+
 /* Адаптивность */
 @media (max-width: 1024px) {
     .certificates-grid {
@@ -72,10 +179,35 @@
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-sm);
     }
+    
+    .certificate-modal-close {
+        top: -60px;
+        width: 44px;
+        height: 44px;
+    }
 }
 
 @media (max-width: 480px) {
     .certificates-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .certificate-modal {
+        padding: var(--spacing-sm);
+    }
+    
+    .certificate-modal-image {
+        border-radius: var(--radius-md);
+    }
+    
+    .certificate-modal-close {
+        width: 40px;
+        height: 40px;
+        top: -50px;
+    }
+    
+    .certificate-modal-close svg {
+        width: 24px;
+        height: 24px;
     }
 }
