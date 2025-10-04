@@ -20,10 +20,10 @@
 .header-contacts {
     display: flex;
     align-items: center;
-
+    justify-content: center;
     gap: var(--spacing-md);
     flex-wrap: wrap;
-    font-size: 0.875rem;
+    font-size: 0.800rem;
 }
 
 .header-contact {
