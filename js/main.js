@@ -203,28 +203,28 @@ class StickyHeader {
 // ============================================
 // МОДАЛЬНОЕ ОКНО (для форм)
 // ============================================
-class Modal {
-    constructor() {
-        this.init();
-    }
+// class Modal {
+//     constructor() {
+//         this.init();
+//     }
     
-    init() {
-        // Здесь можно добавить логику для модальных окон
-        // При клике на кнопки "Оставить заявку" открывать модальное окно
-        const modalBtns = document.querySelectorAll('.btn-primary');
+//     init() {
+//         // Кнопки "Оставить заявку" открывают форму обратной связи
+//         const modalBtns = document.querySelectorAll('.btn-primary, .btn-secondary');
         
-        modalBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                // Если кнопка ведет на якорь, не открываем модалку
-                if (btn.getAttribute('href')?.startsWith('#')) return;
-                
-                e.preventDefault();
-                console.log('Открыть форму обратной связи');
-                // Здесь код для открытия модального окна
-            });
-        });
-    }
-}
+//         modalBtns.forEach(btn => {
+//             const btnText = btn.textContent.toLowerCase();
+            
+//             // Если кнопка "Оставить заявку", открываем форму
+//             if (btnText.includes('оставить заявку') || btnText.includes('обратная связь')) {
+//                 btn.addEventListener('click', (e) => {
+//                     e.preventDefault();
+//                     window.contactModal?.open();
+//                 });
+//             }
+//         });
+//     }
+// }
 
 // ============================================
 // МОДАЛЬНОЕ ОКНО ДЛЯ СЕРТИФИКАТОВ
@@ -599,6 +599,7 @@ class RepairStatusModal {
 }
 
 
+
 // ============================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================
@@ -608,13 +609,15 @@ document.addEventListener('DOMContentLoaded', () => {
     new ScrollAnimations();
     new SmoothScroll();
     new StickyHeader();
-    new Modal();
+    // new Modal();
     new CertificateModal();
-    new ProcessAccordion(); // Добавили аккордеон
-    new ServicesAccordion(); // Аккордеон таблицы услуг
+    new ProcessAccordion(); 
+    new ServicesAccordion();
+
     window.repairStatusModal = new RepairStatusModal();
+    // window.contactModal = new ContactModal();
     // Дополнительная проверка и инициализация для сертификатов
-    
+
     setTimeout(() => {
         const modal = document.getElementById('certificateModal');
         const cards = document.querySelectorAll('.certificate-card');
