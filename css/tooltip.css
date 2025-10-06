@@ -1,0 +1,59 @@
+/* Основной стиль для элемента-триггера */
+.tooltip-trigger {
+  position: relative; /* Обязательно для позиционирования подсказки */
+  border-bottom: 1px dashed #000; /* Для визуального обозначения */
+  cursor: help; /* Меняем курсор для подсказки */
+}
+
+/* Скрываем подсказку по умолчанию */
+.tooltip-trigger::after {
+  content: attr(data-tooltip); /* Получаем текст из data-tooltip */
+  position: absolute;
+  display: block;
+  width: 280%;
+
+  bottom: 100%; /* Размещаем над текстом */
+  white-space: normal;
+  word-wrap: break-word;
+  left: 50%;
+  transform: translateX(-50%); /* Центрируем */
+  background-color: #333;
+  color: #fff;
+  padding: var(--spacing-xs);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 200;
+  z-index: 10; /* Убедимся, что подсказка поверх других элементов */
+
+  /* Скрываем и делаем прозрачным */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s; /* Плавный переход */
+}
+
+/* Показываем подсказку при наведении */
+.tooltip-trigger:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Дополнительно: можно добавить стрелку с ::before */
+.tooltip-trigger::before {
+  content: "";
+  position: absolute;
+  top: -5px; /* Размещаем чуть ниже подсказки */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent; /* Создаем треугольник */
+  z-index: 11;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.tooltip-trigger:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
