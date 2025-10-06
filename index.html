@@ -18,36 +18,36 @@
     <link rel="stylesheet" href="css/main.css">
 
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XLD3ZFW0WX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XLD3ZFW0WX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-    gtag('config', 'G-XLD3ZFW0WX');
-  </script>
+      gtag('config', 'G-XLD3ZFW0WX');
+    </script>
 
-  <!-- Yandex.Metrika counter -->
-  <script type="text/javascript">
-      (function(m,e,t,r,i,k,a){
-          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();
-          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=104177120', 'ym');
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=104177120', 'ym');
 
-      ym(104177120, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/104177120" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-  <!-- /Yandex.Metrika counter -->
+        ym(104177120, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/104177120" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
-  <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "tc2t1djn1r");
-  </script>
+    <!-- /Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "tc2t1djn1r");
+    </script>
 
 </head>
 
@@ -113,7 +113,7 @@
                         <a href="#services" class="nav-link">Услуги</a>
                     </nav>
 
-                    <a href="#status" class="btn btn-primary">Статус ремонта</a>
+                    <button class="btn btn-primary" data-modal-target="check-state-modal">Статус ремонта</button>
 
                     <button class="mobile-menu-btn" aria-label="Открыть меню">
                         <span></span>
@@ -124,6 +124,42 @@
             </div>
         </div>
     </header>
+
+    <!-- Checker -->
+    <div class="check-state-modal" id="check-state-modal">
+        <div class="check-state-modal__content">
+            <span class="check-state-modal__close">&times;</span>
+            <h2 class="check-state-modal__title">Проверка статуса ремонта</h2>
+            <div class="check-state-modal__search-container">
+                <input
+                    type="text"
+                    class="check-state-modal__search-input"
+                    id="check-state-modal__search-input"
+                    placeholder="Введите номер ремонта"
+                />
+                <button class="check-state-modal__search-button">Проверить</button>
+            </div>
+            <div class="check-state-modal__table__container">
+                <table id="data-table" class="check-state-modal__table">
+                    <thead class="check-state-modal__table__head">
+                        <tr class="check-state-modal__table__row">
+                            <th class="check-state-modal__table__header">№ ремонта</th>
+                            <th class="check-state-modal__table__header">Устройство</th>
+                            <th class="check-state-modal__table__header">Статус</th>
+                            <th class="check-state-modal__table__header">Нахождение</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modal-table-body">
+                        <tr>
+                            <td colspan="4" class="check-state-modal__table__empty">
+                                Введите номер ремонта для проверки статуса
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -947,8 +983,8 @@
             <div class="footer-bottom">
                 <p class="footer-copyright">© 2025 Оптима Сервис. Все права защищены.</p>
                 <div class="footer-legal">
-                    <a href="#" class="footer-link">Политика конфиденциальности</a>
-                    <a href="#" class="footer-link">Пользовательское соглашение</a>
+                    <p href="#" class="footer-link">Политика конфиденциальности</p>
+                    <p href="#" class="footer-link">Пользовательское соглашение</p>
                 </div>
             </div>
         </div>
@@ -968,7 +1004,7 @@
 
     <script src="js/main.js"></script>
 
-    <!-- JSON-LD Микроразметка Schema.org -->
+<!-- JSON-LD Микроразметка Schema.org -->
 
 <!-- 1. Организация -->
 <script type="application/ld+json">

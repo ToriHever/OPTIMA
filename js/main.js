@@ -422,6 +422,184 @@ class ServicesAccordion {
 }
 
 // ============================================
+// МОДАЛЬНОЕ ОКНО ПРОВЕРКИ СТАТУСА РЕМОНТА
+// ============================================
+class RepairStatusModal {
+    constructor() {
+        this.modal = document.getElementById('check-state-modal');
+        this.closeBtn = document.querySelector('.check-state-modal__close');
+        this.searchBtn = document.querySelector('.check-state-modal__search-button');
+        this.searchInput = document.getElementById('check-state-modal__search-input');
+        this.tableBody = document.querySelector('#data-table tbody');
+        this.triggerButtons = document.querySelectorAll('[data-modal-target]');
+        
+        this.init();
+    }
+    
+    init() {
+        if (!this.modal) return;
+        
+        // Открытие через data-modal-target
+        this.triggerButtons.forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = btn.getAttribute('data-modal-target');
+                if (target === 'check-state-modal') {
+                    this.open();
+                }
+            });
+        });
+        
+        // Закрытие модального окна
+        this.closeBtn?.addEventListener('click', () => this.close());
+        
+        // Закрытие при клике вне модального окна
+        this.modal.addEventListener('click', (e) => {
+            if (e.target === this.modal) {
+                this.close();
+            }
+        });
+        
+        // Закрытие по Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modal.classList.contains('modal-show')) {
+                this.close();
+            }
+        });
+        
+        // Поиск по Enter
+        this.searchInput?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.searchRepair();
+            }
+        });
+        
+        // Поиск по кнопке
+        this.searchBtn?.addEventListener('click', () => this.searchRepair());
+    }
+    
+    open() {
+        if (!this.modal) return;
+        
+        document.body.style.overflow = 'hidden';
+        this.modal.style.display = 'flex';
+        this.modal.classList.add('modal-show');
+        
+        // Очищаем поле и таблицу
+        if (this.searchInput) {
+            this.searchInput.value = '';
+        }
+        if (this.tableBody) {
+            this.tableBody.innerHTML = '';
+        }
+        
+        this.searchInput?.focus();
+    }
+    
+    close() {
+        if (!this.modal) return;
+        
+        this.modal.classList.add('modal-hide');
+        
+        setTimeout(() => {
+            document.body.style.overflow = 'initial';
+            this.modal.classList.remove('modal-show', 'modal-hide');
+            this.modal.style.display = 'none';
+        }, 200);
+    }
+    
+    showLoading() {
+        if (!this.tableBody) return;
+        
+        this.tableBody.innerHTML = `
+            <tr>
+                <td colspan="4" style="text-align: center; padding: 40px; color: var(--color-primary-light);">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <div style="width: 20px; height: 20px; border: 3px solid var(--color-bg-grey); border-top-color: var(--color-primary-light); border-radius: 50%; animation: rotate 1s linear infinite;"></div>
+                        Загрузка...
+                    </div>
+                </td>
+            </tr>
+        `;
+    }
+    
+    showError(message) {
+        if (!this.tableBody) return;
+        
+        this.tableBody.innerHTML = `
+            <tr>
+                <td colspan="4" style="text-align: center; padding: 40px; color: #721C24;">
+                    ${message}
+                </td>
+            </tr>
+        `;
+    }
+    
+    async searchRepair() {
+        const searchInputText = this.searchInput?.value.trim();
+        
+        if (!searchInputText) {
+            this.showError('Введите номер ремонта');
+            return;
+        }
+        
+        this.showLoading();
+        
+        try {
+            const response = await fetch(`https://devicedoctors.ru/api/ExternalAccess/${searchInputText}`, {
+                headers: {
+                    'signature': 'DeviceDoctors',
+                }
+            });
+            
+            const json = await response.json();
+            
+            if (!this.tableBody) return;
+            
+            this.tableBody.innerHTML = '';
+            
+            if (json.Status === 'ExternalRequestFailed') {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="4" style="text-align: center; padding: 40px; color: #721C24;">${json.UserMessage}</td>`;
+                this.tableBody.appendChild(row);
+            } else {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="font-weight: 700; color: var(--color-primary-light);">${json.data.id}</td>
+                    <td>${json.data.deviceFullName}</td>
+                    <td>${this.formatStatus(json.data.status)}</td>
+                    <td>${json.data.state}</td>
+                `;
+                this.tableBody.appendChild(row);
+            }
+        } catch (err) {
+            console.error('Ошибка при запросе:', err);
+            this.showError('Произошла ошибка при проверке статуса. Попробуйте позже.');
+        }
+    }
+    
+    formatStatus(status) {
+        // Можно добавить красивые бейджи для статусов
+        const statusMap = {
+            'Ожидает': 'status-badge--pending',
+            'В работе': 'status-badge--in-progress',
+            'Завершен': 'status-badge--completed',
+            'Готов': 'status-badge--ready',
+            'Готов к выдаче': 'status-badge--ready'
+        };
+        
+        const badgeClass = statusMap[status] || '';
+        
+        if (badgeClass) {
+            return `<span class="status-badge ${badgeClass}">${status}</span>`;
+        }
+        
+        return status;
+    }
+}
+
+
+// ============================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -434,8 +612,9 @@ document.addEventListener('DOMContentLoaded', () => {
     new CertificateModal();
     new ProcessAccordion(); // Добавили аккордеон
     new ServicesAccordion(); // Аккордеон таблицы услуг
-    
+    window.repairStatusModal = new RepairStatusModal();
     // Дополнительная проверка и инициализация для сертификатов
+    
     setTimeout(() => {
         const modal = document.getElementById('certificateModal');
         const cards = document.querySelectorAll('.certificate-card');
