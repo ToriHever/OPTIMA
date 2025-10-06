@@ -98,7 +98,7 @@
 }
 
 /* Контакты */
-.footer-contacts {
+.footer-contacts>a::not(span){
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
@@ -107,11 +107,18 @@
 .footer-contact {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
     font-size: 0.9375rem;
     color: var(--color-white);
     opacity: 0.9;
     transition: all var(--transition-fast);
+}
+
+.footer-contacts > *:not(:first-child):not(.text-small) {
+    margin-top: var(--spacing-xs);
+}
+.footer-contacts > *.text-small {
+    position: relative;
+    top: -5px;
 }
 
 .footer-contact:hover {

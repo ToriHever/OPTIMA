@@ -143,6 +143,8 @@ ul, ol {
 
 .text-small {
     font-size: 0.700rem;
+    color: var(--color-bg-grey);
+    opacity: .7;
 }
 
 .text-center {
