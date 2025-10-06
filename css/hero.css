@@ -23,7 +23,7 @@
 
 .hero-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.25fr 1fr;
     gap: var(--spacing-xl);
     align-items: center;
     margin-bottom: var(--spacing-xxl);
