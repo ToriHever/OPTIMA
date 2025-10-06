@@ -4,9 +4,10 @@
 
 :root {
     /* Цвета бренда */
-    --color-primary: #00444D;
-    --color-primary-light: #30676E;
-    --color-primary-very-light: #88d4dd;
+    --color-primary: #00444D; /* Самый тёмный */
+    --color-primary-light: #30676E; /* Светлее */
+    --color-primary-lighter: #88d4dd; /* Ещё светлее */
+    --color-primary-lightest: #85f3ff; /* Самый светлый */
     --color-accent: #D91E1E;
     --color-white: #FFFFFF;
     --color-dark: #313131;
@@ -106,13 +107,13 @@ p {
 }
 
 a {
-    color: var(--color-white);
+    color: var(--color-primary-lighter);
     text-decoration: none;
     transition: color var(--transition-base);
 }
 
 a:hover {
-    color: var(--color-primary-very-light);
+    color: var(--color-primary-lightest);
     transition: color var(--transition-base);
 }
 
