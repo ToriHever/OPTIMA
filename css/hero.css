@@ -91,7 +91,7 @@
 }
 
 /* Карточки преимуществ */
-.hero-features {
+.hero-features {    
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: var(--spacing-md);

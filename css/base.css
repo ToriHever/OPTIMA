@@ -32,6 +32,7 @@
     
     /* Размеры */
     --container-width: 1200px;
+    --container-big-width: 1400px;
     --spacing-xs: 8px;
     --spacing-sm: 16px;
     --spacing-md: 24px;
@@ -78,6 +79,12 @@ body {
 /* Контейнер */
 .container {
     max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.container-big {
+    max-width: var(--container-big-width);
     margin: 0 auto;
     padding: 0 var(--spacing-md);
 }
