@@ -613,6 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new CertificateModal();
     new ProcessAccordion(); 
     new ServicesAccordion();
+    new HeroParallax();
 
     window.repairStatusModal = new RepairStatusModal();
     // window.contactModal = new ContactModal();
