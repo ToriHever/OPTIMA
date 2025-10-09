@@ -14,8 +14,7 @@
     border: none;
     border-radius: var(--radius-full);
     cursor: pointer;
-    transition: all var(--transition-base);
-    text-align: center;
+    transition: all var(--transition-base);text-align: center;
     position: relative;
     overflow: hidden;
 }
@@ -137,6 +136,30 @@
     line-height: 1.6;
 }
 
+.socials {
+    position: fixed;
+    width: 97vh;
+    bottom: 35%;
+    right: -90vh;
+    z-index: 2;
+    margin: var(--spacing-xs);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.social-link-body {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-light);
+    border-radius: 50%;
+    color: var(--color-white) !important;
+    transition: all var(--transition-base);
+}
+
 /* Адаптивность кнопок */
 @media (max-width: 768px) {
     .btn {
@@ -148,6 +171,10 @@
         padding: 14px 32px;
         font-size: 1rem;
     }
+    .socials {
+    bottom: 0;
+
+}
 }
 
 @media (max-width: 480px) {

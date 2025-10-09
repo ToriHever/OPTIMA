@@ -66,7 +66,6 @@
     justify-content: space-between;
     gap: var(--spacing-lg);
 }
-
 /* Логотип */
 .logo {
     flex-shrink: 0;
@@ -114,6 +113,7 @@
 .nav-link:hover::after {
     width: 80%;
 }
+
 
 /* Мобильное меню */
 .mobile-menu-btn {

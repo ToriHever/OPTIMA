@@ -66,7 +66,7 @@
     justify-content: center;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    color: var(--color-white);
+    color: var(--color-white) !important;
     transition: all var(--transition-base);
 }
 
@@ -75,25 +75,25 @@
     height: 24px;
 }
 
-.social-link:hover {
+.social-link-body, .social-link:hover {
     transform: translateY(-4px);
     box-shadow: 0 4px 12px rgba(48, 103, 110, 0.4);
 }
 
 /* Индивидуальные цвета для соцсетей */
-.social-link.vk:hover {
+.social-link-body.vk:hover, .social-link.vk:hover {
     background: #0077FF;
 }
 
-.social-link.telegram:hover {
+.social-link-body.telegram:hover, .social-link.telegram:hover {
     background: #0088cc;
 }
 
-.social-link.youtube:hover {
+.social-link-body.youtube:hover, .social-link.youtube:hover {
     background: #FF0000;
 }
 
-.social-link.whatsapp:hover {
+.social-link-body.whatsapp:hover, .social-link.whatsapp:hover {
     background: #25D366;
 }
 
