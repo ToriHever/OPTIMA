@@ -896,6 +896,107 @@
         </div>
     </section>
 
+        <!-- Reviews Section -->
+  <section class="reviews" id="reviews">
+        <div class="container">
+            <h2 class="section-title">
+                Отзывы <span class="text-light">клиентов</span>
+            </h2>
+            <p class="section-subtitle">
+                Реальные отзывы наших клиентов с Яндекс.Карт
+            </p>
+            
+            <div class="reviews-container">
+                <!-- Отзывы слева -->
+                <div class="reviews-widget">
+                    <div style="width:100%;height:800px;overflow:hidden;position:relative;">
+                        <iframe 
+                            style="width:100%;height:100%;border:1px solid #e6e6e6;border-radius:8px;box-sizing:border-box" 
+                            src="https://yandex.ru/maps-reviews-widget/228625207834?comments"
+                            title="Отзывы о Сервисном центре Оптима"
+                        ></iframe>
+                        <a 
+                            href="https://yandex.ru/maps/org/servisny_tsentr_optima/228625207834/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            style="box-sizing:border-box;text-decoration:none;color:#b3b3b3;font-size:10px;font-family:YS Text,sans-serif;padding:0 20px;position:absolute;bottom:8px;width:100%;text-align:center;left:0;overflow:hidden;text-overflow:ellipsis;display:block;max-height:14px;white-space:nowrap;padding:0 16px;box-sizing:border-box"
+                        >
+                            Сервисный центр Оптима на карте Ростова‑на‑Дону — Яндекс Карты
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Форма справа -->
+                <div class="reviews-form">
+                    <div class="reviews-form-card">
+                        <h3 class="reviews-form-title">Остались вопросы?</h3>
+                        <p class="reviews-form-subtitle">Заполните форму и мы свяжемся с вами в ближайшее время</p>
+                        
+                        <form class="reviews-contact-form" id="reviews-contact-form" novalidate>
+                            <div class="form-group">
+                                <input
+                                    type="text"
+                                    id="reviews-name"
+                                    name="name"
+                                    class="form-input"
+                                    placeholder="Ваше имя *"
+                                    required
+                                />
+                                <span class="form-error" id="reviews-name-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input
+                                    type="email"
+                                    id="reviews-email"
+                                    name="email"
+                                    class="form-input"
+                                    placeholder="Email *"
+                                    required
+                                />
+                                <span class="form-error" id="reviews-email-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input
+                                    type="tel"
+                                    id="reviews-phone"
+                                    name="phone"
+                                    class="form-input"
+                                    placeholder="+7 (999) 123-45-67"
+                                />
+                                <span class="form-error" id="reviews-phone-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <textarea
+                                    id="reviews-message"
+                                    name="message"
+                                    class="form-textarea"
+                                    placeholder="Ваш вопрос *"
+                                    rows="4"
+                                    required
+                                ></textarea>
+                                <span class="form-error" id="reviews-message-error"></span>
+                                <span class="form-counter" id="reviews-message-counter">0 / 15</span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-large btn-submit">
+                                Отправить вопрос
+                            </button>
+                        </form>
+                        
+                        <div class="reviews-form-success" id="reviews-success" style="display: none;">
+                            <div class="success-icon">✓</div>
+                            <h4 class="success-title">Вопрос отправлен!</h4>
+                            <p class="success-text">Мы свяжемся с вами в ближайшее время</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -982,11 +1083,12 @@
             </div>
 
             <div class="footer-map" id="map">
-                <iframe
+              <div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/org/servisny_tsentr_optima/228625207834/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Сервисный центр Оптима</a><a href="https://yandex.ru/maps/39/rostov-na-donu/category/phone_repair/184107787/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:14px;">Ремонт телефонов в Ростове‑на‑Дону</a><a href="https://yandex.ru/maps/39/rostov-na-donu/category/coffee_machine_repair/18797871051/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:28px;">Ремонт кофемашин в Ростове‑на‑Дону</a><iframe src="https://yandex.ru/map-widget/v1/?ll=39.705434%2C47.254643&mode=search&oid=228625207834&ol=biz&z=17" width="100%" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
+                <!-- <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2708.030948884885!2d39.70915490000001!3d47.2550981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40e3b8478cd6a0db%3A0x4e9d70ac6691478d!2z0YPQuy4g0JvQsNGA0LjQvdCwLCAxOCwg0KDQvtGB0YLQvtCyLdC90LAt0JTQvtC90YMsINCg0L7RgdGC0L7QstGB0LrQsNGPINC-0LHQuy4sIDM0NDA2OA!5e0!3m2!1sru!2sru!4v1759579717601!5m2!1sru!2sru"
                     width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                </iframe> -->
             </div>
 
             <div class="footer-bottom">
