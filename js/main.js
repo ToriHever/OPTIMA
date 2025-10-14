@@ -614,7 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new ProcessAccordion(); 
     new ServicesAccordion();
     new HeroParallax();
-    new ReviewsForm();
+    new ReviewsEmailSender();
 
     window.repairStatusModal = new RepairStatusModal();
     // window.contactModal = new ContactModal();
