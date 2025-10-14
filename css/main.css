@@ -15,6 +15,7 @@
 /* Секции */
 @import url('header.css');
 @import url('hero.css');
+@import url('brands.css');
 @import url('categories.css');
 @import url('cta.css');
 @import url('services.css');

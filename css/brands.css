@@ -1,0 +1,211 @@
+/* ========================================
+   BRANDS.CSS - Карусель брендов
+   ======================================== */
+
+.brands {
+    padding: var(--spacing-lg) 0;
+    background: var(--color-bg-light);
+    overflow: hidden;
+    position: relative;
+}
+
+.brands-header {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.brands-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--color-dark);
+}
+
+.brands-track {
+    position: relative;
+    width: 100%;
+    
+}
+
+/* Градиентные маски по краям */
+.brands-track::before,
+.brands-track::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.brands-track::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-bg-light), transparent);
+}
+
+.brands-track::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-bg-light), transparent);
+}
+
+.brands-content {
+    display: flex;
+    gap: var(--spacing-md);
+    animation: scroll 120s linear infinite;
+    width: fit-content;
+}
+
+/* Пауза при наведении */
+.brands-track:hover .brands-content {
+    animation-play-state: paused;
+}
+
+/* Анимация прокрутки */
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Карточка бренда */
+.brand-card {
+    flex-shrink: 0;
+    width: 160px;
+    height: 100px;
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    position: relative;
+}
+
+.brand-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.brand-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all var(--transition-base);
+}
+
+.brand-card:hover .brand-logo {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+.brand-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    text-align: center;
+    margin-top: var(--spacing-xs);
+    opacity: 0.6;
+    transition: opacity var(--transition-base);
+}
+
+.brand-card:hover .brand-name {
+    opacity: 1;
+}
+
+/* Тултип */
+.brand-card::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    background: var(--color-dark);
+    color: var(--color-white);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all var(--transition-base);
+    z-index: 10;
+}
+
+.brand-card::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    border: 6px solid transparent;
+    border-bottom-color: var(--color-dark);
+    opacity: 0;
+    transition: all var(--transition-base);
+    z-index: 10;
+}
+
+.brand-card:hover::after,
+.brand-card:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .brands {
+        padding: var(--spacing-md) 0;
+    }
+    
+    .brands-track::before,
+    .brands-track::after {
+        width: 50px;
+    }
+    
+    .brands-content {
+        gap: var(--spacing-sm);
+        animation-duration: 40s;
+    }
+    
+    .brand-card {
+        width: 120px;
+        height: 80px;
+    }
+    
+    .brand-logo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .brand-name {
+        font-size: 0.625rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-card {
+        width: 100px;
+        height: 70px;
+    }
+    
+    .brand-logo {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* Reduce motion для пользователей с ограничениями */
+@media (prefers-reduced-motion: reduce) {
+    .brands-content {
+        animation: none;
+    }
+}
