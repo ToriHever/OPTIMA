@@ -186,7 +186,7 @@
                         Профессиональный ремонт техники! Диагностика 0 руб. Предоставим гарантию на все работы и запчасти!
                     </p>
                     <div class="hero-buttons">
-                        <a href="mailto:larina@optima-sc.ru" class="btn btn-primary btn-large">Оставить заявку</a>
+                        <a href="#reviews" class="btn btn-primary btn-large">Оставить заявку</a>
                         <a href="#services"><button class="btn btn-secondary btn-large">Услуги</button></a>
                     </div>
                 </div>
@@ -385,7 +385,7 @@
                         <li>Согласования сроков</li>
                     </ul>
                     <div class="cta-buttons">
-                        <a href="mailto:larina@optima-sc.ru"  class="btn btn-primary btn-large">Оставить заявку</a>
+                        <a href="#reviews" class="btn btn-primary btn-large">Оставить заявку</a>
                     </div>
                 </div>
 
@@ -1113,94 +1113,10 @@
         </div>
     </div>
 
- <!-- Modal: Форма обратной связи -->
-     <div class="contact-modal" id="contact-modal">
-        <div class="contact-modal__overlay"></div>
-        <div class="contact-modal__content">
-            <button class="contact-modal__close" aria-label="Закрыть">&times;</button>
-            <a href="mailto:larina@optima-sc.ru" class="contact-modal__title">Оставить заявку</a>
-            <p class="contact-modal__subtitle">Заполните форму и мы свяжемся с вами в ближайшее время</p>
-            
-            <form class="contact-form" id="contact-form" novalidate>
-                <div class="form-group">
-                    <label for="contact-name" class="form-label">
-                        Имя <span class="required">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="contact-name"
-                        name="name"
-                        class="form-input"
-                        placeholder="Введите ваше имя"
-                        required
-                    />
-                    <span class="form-error" id="name-error"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="contact-email" class="form-label">
-                        Почта <span class="required">*</span>
-                    </label>
-                    <input
-                        type="email"
-                        id="contact-email"
-                        name="email"
-                        class="form-input"
-                        placeholder="example@mail.com"
-                        required
-                    />
-                    <span class="form-error" id="email-error"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="contact-phone" class="form-label">
-                        Номер телефона
-                    </label>
-                    <input
-                        type="tel"
-                        id="contact-phone"
-                        name="phone"
-                        class="form-input"
-                        placeholder="+7 (999) 123-45-67"
-                    />
-                    <span class="form-error" id="phone-error"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="contact-message" class="form-label">
-                        Опишите проблему или вопрос <span class="required">*</span>
-                    </label>
-                    <textarea
-                        id="contact-message"
-                        name="message"
-                        class="form-textarea"
-                        placeholder="Опишите вашу проблему или вопрос (минимум 15 символов)"
-                        rows="5"
-                        required
-                    ></textarea>
-                    <span class="form-error" id="message-error"></span>
-                    <span class="form-counter" id="message-counter">0 / 15</span>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-large btn-submit">
-                    Отправить заявку
-                </button>
-            </form>
-
-            <div class="contact-modal__success" id="success-message" style="display: none;">
-                <div class="success-icon">✓</div>
-                <h3 class="success-title">Заявка отправлена!</h3>
-                <p class="success-text">Мы ответим как только освободимся!</p>
-                <button class="btn btn-primary" onclick="window.contactModal.close()">
-                    Закрыть
-                </button>
-            </div>
-        </div>
-    </div>
+ 
 
     <script src="js/main.js"></script>
     <script src="js/hero-parallax.js"></script>
-    <script src="js/reviews-form.js"></script>
     <script src="js/reviews-email-sender.js"></script>
     <!-- <script src="js/contact-modal.js"></script> -->
 
