@@ -609,10 +609,10 @@ document.addEventListener('DOMContentLoaded', () => {
     new ScrollAnimations();
     new SmoothScroll();
     new StickyHeader();
-    // new Modal();
     new CertificateModal();
     new ProcessAccordion(); 
     new ServicesAccordion();
+    new BrandsCarousel();
     new HeroParallax();
     new ReviewsEmailSender();
 
