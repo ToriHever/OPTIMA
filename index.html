@@ -547,19 +547,21 @@
                 <div class="cta-text">
                     <h2 class="cta-title">
                         Оставьте заявку на<br>
-                        <span class="text-accent">бесплатную диагностику</span> на сайте!
+                        <span class="text-accent">бесплатную диагностику!</span>
                     </h2>
                     <p class="cta-description">
-                        Оставьте заявку на сайте, мы свяжемся с вами в ближайшее время для:
+                        Мы сами заберем вашу технику на бесплатную диагностику! Просто вызовите курьера.
                     </p>
                     <ul class="cta-list">
-                        <li>Подтверждения заявки</li>
-                        <li>Расчета стоимости</li>
-                        <li>Согласования сроков</li>
+                      <li>Бесплатный выезд курьера по Ростову-на-Дону</li>
+                      <li>Бесплатная диагностика вашей техники</li>
+                      <li>Оценка стоимости ремонта в течение 24 часов</li>
                     </ul>
-                    <div class="cta-buttons">
-                        <a href="#reviews" class="btn btn-primary btn-large">Оставить заявку</a>
-                    </div>
+                    
+                      <button class="btn btn-primary btn-large" onclick="window.courierModal?.open()">
+                          Вызвать курьера бесплатно
+                      </button>
+                  
                 </div>
 
                 <div class="cta-features">
@@ -1102,7 +1104,7 @@
                 <!-- Форма справа -->
                 <div class="reviews-form">
                     <div class="reviews-form-card">
-                        <h3 class="reviews-form-title">Остались вопросы?</h3>
+                        <h3 class="reviews-form-title">Форма заявки</h3>
                         <p class="reviews-form-subtitle">Заполните форму и мы свяжемся с вами в ближайшее время</p>
                         
                         <form class="reviews-contact-form" id="reviews-contact-form" novalidate>
@@ -1161,7 +1163,7 @@
                         
                         <div class="reviews-form-success" id="reviews-success" style="display: none;">
                             <div class="success-icon">✓</div>
-                            <h4 class="success-title">Вопрос отправлен!</h4>
+                            <h4 class="success-title">Сообщение отправлено!</h4>
                             <p class="success-text">Мы свяжемся с вами в ближайшее время</p>
                         </div>
                     </div>
@@ -1273,6 +1275,121 @@
             </div>
         </div>
     </footer>
+<!-- Модальное окно вызова курьера -->
+<div class="courier-modal" id="courier-modal">
+    <div class="courier-modal__overlay"></div>
+    <div class="courier-modal__content">
+        <button class="courier-modal__close" aria-label="Закрыть">&times;</button>
+        
+        <div class="courier-modal__header">
+            <h2 class="courier-modal__title">Вызов курьера</h2>
+            <p class="courier-modal__subtitle">Заполните форму, и мы заберем вашу технику на бесплатную диагностику</p>
+        </div>
+        
+        <form class="courier-form" id="courier-form" novalidate>
+            <div class="form-group">
+                <label class="form-label" for="courier-address">
+                    Адрес <span class="required">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="courier-address"
+                    name="address"
+                    class="form-input"
+                    placeholder="Например: ул. Пушкина, д. 10, кв. 5"
+                    required
+                />
+                <span class="form-error" id="courier-address-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="courier-name">
+                    ФИО <span class="required">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="courier-name"
+                    name="name"
+                    class="form-input"
+                    placeholder="Иванов Иван Иванович"
+                    required
+                />
+                <span class="form-error" id="courier-name-error"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="courier-phone">
+                    Телефон <span class="required">*</span>
+                </label>
+                <input
+                    type="tel"
+                    id="courier-phone"
+                    name="phone"
+                    class="form-input"
+                    placeholder="+7 (999) 123-45-67"
+                    required
+                    />
+                    <span class="form-error" id="courier-phone-error"></span>
+                    </div>
+
+            <div class="form-group">
+            <label class="form-label" for="courier-category">
+                Категория техники <span class="required">*</span>
+            </label>
+            <select
+                id="courier-category"
+                name="category"
+                class="form-select"
+                required
+            >
+                <option value="">Выберите категорию</option>
+                <option value="smartphone">Смартфоны и планшеты</option>
+                <option value="laptop">Ноутбуки и компьютеры</option>
+                <option value="tv">Телевизоры</option>
+                <option value="audio">Аудиотехника</option>
+                <option value="coffee">Кофемашины</option>
+                <option value="vacuum">Пылесосы (в т.ч. роботы-пылесосы)</option>
+                <option value="washing">Стиральные машины</option>
+                <option value="fridge">Холодильники</option>
+                <option value="dishwasher">Посудомоечные машины</option>
+                <option value="microwave">Микроволновые печи</option>
+                <option value="small">Мелкая бытовая техника</option>
+                <option value="other">Другое</option>
+            </select>
+            <span class="form-error" id="courier-category-error"></span>
+        </div>
+
+        <div class="form-group" id="custom-category-group" style="display: none;">
+            <label class="form-label" for="courier-custom">
+                Опишите технику <span class="required">*</span>
+            </label>
+            <textarea
+                id="courier-custom"
+                name="custom"
+                class="form-textarea"
+                placeholder="Укажите название техники и примерные габариты (например: Парогенератор Tefal, высота 30см, вес ~3кг)"
+                rows="4"
+            ></textarea>
+            <span class="form-error" id="courier-custom-error"></span>
+            <span class="form-hint">Это поможет курьеру подготовиться к транспортировке</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large btn-submit">
+            Вызвать курьера
+        </button>
+    </form>
+    
+    <div class="courier-modal__success" id="courier-success" style="display: none;">
+        <div class="success-icon">✓</div>
+        <h3 class="success-title">Заявка принята!</h3>
+        <p class="success-text">
+            Наш курьер свяжется с вами в ближайшее время для уточнения деталей и согласования времени визита.
+        </p>
+        <p class="success-text">
+            Обычно мы забираем технику в течение 2-3 часов после заявки.
+        </p>
+    </div>
+  </div>
+
     <!-- Modal: для сертификатов -->
     <div class="certificate-modal" id="certificateModal">
         <div class="certificate-modal-overlay"></div>
@@ -1291,6 +1408,7 @@
     <script src="js/main.js"></script>
     <script src="js/hero-parallax.js"></script>
     <script src="js/reviews-email-sender.js"></script>
+    <script src="js/courier-modal.js"></script>
     <!-- <script src="js/contact-modal.js"></script> -->
 
 

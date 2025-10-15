@@ -616,7 +616,9 @@ document.addEventListener('DOMContentLoaded', () => {
     new HeroParallax();
     new ReviewsEmailSender();
 
+    window.courierModal = new CourierModal();
     window.repairStatusModal = new RepairStatusModal();
+
     // window.contactModal = new ContactModal();
     // Дополнительная проверка и инициализация для сертификатов
 
