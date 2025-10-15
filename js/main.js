@@ -612,6 +612,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new CertificateModal();
     new ProcessAccordion(); 
     new ServicesAccordion();
+    new RepairsAccordion();
     new BrandsCarousel();
     new HeroParallax();
     new ReviewsEmailSender();

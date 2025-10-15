@@ -1,0 +1,365 @@
+/* ========================================
+   REPAIRS.CSS - Работаем с неисправностями
+   ======================================== */
+
+.repairs {
+    padding: var(--spacing-xxl) 0;
+    background: var(--color-white);
+    position: relative;
+}
+
+.repairs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+/* Карточка категории */
+.repair-category {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--color-bg-grey);
+    padding: var(--spacing-lg);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.repair-category::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gradient-primary);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform var(--transition-base);
+}
+
+.repair-category:hover::before {
+    transform: scaleY(1);
+}
+
+.repair-category:hover {
+    border-color: var(--color-primary-light);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+}
+
+/* Заголовок категории */
+.repair-category-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.repair-category-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+    transition: transform var(--transition-base);
+}
+
+.repair-category:hover .repair-category-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.repair-category-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    flex: 1;
+    transition: color var(--transition-base);
+}
+
+.repair-category:hover .repair-category-title {
+    color: var(--color-primary-light);
+}
+
+.repair-category-description {
+    font-size: 0.875rem;
+    color: var(--color-dark);
+    opacity: 0.7;
+    margin-top: var(--spacing-xs);
+}
+
+/* Счетчик услуг */
+.repair-count {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: var(--gradient-primary);
+    color: var(--color-white);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-base);
+}
+
+.repair-category:hover .repair-count {
+    transform: scale(1.1);
+}
+
+/* Скрываем контент - он будет в модалке */
+.repair-category-content {
+    display: none;
+}
+
+/* ========================================
+   МОДАЛЬНОЕ ОКНО
+   ======================================== */
+
+.repairs-modal {
+    display: none;
+    position: fixed;
+    z-index: 10001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.repairs-modal.active {
+    display: flex;
+}
+
+.repairs-modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+}
+
+.repairs-modal__content {
+    position: relative;
+    background: var(--color-white);
+    padding: var(--spacing-xl);
+    width: 90%;
+    max-width: 900px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    animation: slideDown 0.4s ease;
+    z-index: 1;
+}
+
+/* Кастомный скроллбар */
+.repairs-modal__content::-webkit-scrollbar {
+    width: 0px;
+}
+
+
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.repairs-modal__close {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-dark);
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+    line-height: 1;
+    z-index: 2;
+}
+
+.repairs-modal__close:hover {
+    background: var(--color-bg-light);
+    color: var(--color-accent);
+    transform: rotate(90deg);
+}
+
+.repairs-modal__header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    padding-right: var(--spacing-xl);
+}
+
+.repairs-modal__icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+}
+
+.repairs-modal__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    flex: 1;
+}
+
+/* Подкатегории в модалке */
+.repair-subcategory {
+    margin-bottom: var(--spacing-lg);
+    background: var(--color-bg-light);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-primary-light);
+}
+
+.repair-subcategory:last-child {
+    margin-bottom: 0;
+}
+
+.repair-subcategory-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Список услуг в модалке */
+.repair-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-xs);
+}
+
+.repair-list li {
+    font-size: 0.9375rem;
+    color: var(--color-dark);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    padding-left: calc(var(--spacing-sm) * 2);
+    position: relative;
+    line-height: 1.6;
+    transition: all var(--transition-fast);
+    border-radius: var(--radius-sm);
+    background: var(--color-white);
+}
+
+.repair-list li::before {
+    content: '✓';
+    position: absolute;
+    left: var(--spacing-sm);
+    color: var(--color-primary-light);
+    font-weight: 700;
+    transition: transform var(--transition-fast);
+}
+
+.repair-list li:hover {
+    background: rgba(48, 103, 110, 0.1);
+    padding-left: calc(var(--spacing-sm) * 2.5);
+    box-shadow: var(--shadow-sm);
+}
+
+.repair-list li:hover::before {
+    transform: scale(1.2);
+    color: var(--color-primary);
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .repairs {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .repairs-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-md);
+    }
+    
+    .repair-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .repairs {
+        padding: var(--spacing-lg) 0;
+    }
+    
+    .repairs-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+    
+    .repair-category {
+        padding: var(--spacing-md);
+    }
+    
+    .repair-category-title {
+        font-size: 1.125rem;
+    }
+    
+    .repairs-modal__content {
+        width: 95%;
+        padding: var(--spacing-md);
+        max-height: 90vh;
+    }
+    
+    .repairs-modal__title {
+        font-size: 1.5rem;
+    }
+    
+    .repairs-modal__icon {
+        font-size: 2.5rem;
+    }
+    
+    .repair-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .repair-category-icon {
+        font-size: 2rem;
+    }
+    
+    .repair-category-title {
+        font-size: 1rem;
+    }
+    
+    .repairs-modal__content {
+        width: 100%;
+        height: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+    
+    .repairs-modal__title {
+        font-size: 1.25rem;
+    }
+    
+    .repair-subcategory-title {
+        font-size: 1rem;
+    }
+    
+    .repair-list li {
+        font-size: 0.875rem;
+    }
+}
