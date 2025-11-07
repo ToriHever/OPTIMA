@@ -139,41 +139,7 @@
                 </svg>
             </a>
   </div>
-    <!-- Checker -->
-    <div class="check-state-modal" id="check-state-modal">
-        <div class="check-state-modal__content">
-            <span class="check-state-modal__close">&times;</span>
-            <h2 class="check-state-modal__title">Проверка статуса ремонта</h2>
-            <div class="check-state-modal__search-container">
-                <input
-                    type="text"
-                    class="check-state-modal__search-input"
-                    id="check-state-modal__search-input"
-                    placeholder="Введите номер ремонта"
-                />
-                <button class="check-state-modal__search-button">Проверить</button>
-            </div>
-            <div class="check-state-modal__table__container">
-                <table id="data-table" class="check-state-modal__table">
-                    <thead class="check-state-modal__table__head">
-                        <tr class="check-state-modal__table__row">
-                            <th class="check-state-modal__table__header">№ ремонта</th>
-                            <th class="check-state-modal__table__header">Устройство</th>
-                            <th class="check-state-modal__table__header">Статус</th>
-                            <th class="check-state-modal__table__header">Нахождение</th>
-                        </tr>
-                    </thead>
-                    <tbody id="modal-table-body">
-                        <tr>
-                            <td colspan="4" class="check-state-modal__table__empty">
-                                Введите номер ремонта для проверки статуса
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-      </div>
+
 
     <!-- Hero Section -->
     <section class="hero">
@@ -206,7 +172,7 @@
                                 stroke="currentColor" stroke-width="2" />
                         </svg>
                     </div>
-                    <h3 class="feature-title">Оригинальные запчасти</h3>
+                    <p class="feature-title">Оригинальные запчасти</p>
                     <p class="feature-text">В наличии более 1200 видов оригинальных запчастей</p>
                 </div>
                 <div class="feature-card feature-card--with-badges">
@@ -216,7 +182,7 @@
                                 stroke="currentColor" stroke-width="2" />
                         </svg>
                     </div>
-                    <h3 class="feature-title">Авторизованный сервис</h3>
+                    <p class="feature-title">Авторизованный сервис</p>
                     <p class="feature-text">Официальный СЦ Dreame и Polaris. Гарантийный ремонт</p>
                     <!-- Две плашки справа -->
                     <div class="feature-badges">
@@ -236,7 +202,7 @@
                             <path d="M24 18V24L28 28" stroke="currentColor" stroke-width="2" />
                         </svg>
                     </div>
-                    <h3 class="feature-title">Без наценок</h3>
+                    <p class="feature-title">Без наценок</p>
                     <p class="feature-text">Озвучиваем стоимость ремонта до его начала</p>
                 </div>
 
@@ -247,7 +213,7 @@
                             <path d="M16 24L22 28L32 18" stroke="currentColor" stroke-width="2" />
                         </svg>
                     </div>
-                    <h3 class="feature-title">Выезды по всему городу</h3>
+                    <p class="feature-title">Выезды по всему городу</p>
                     <p class="feature-text">Делаем выезды по городу для ремонта крупной техники</p>
                 </div>
 
@@ -258,7 +224,7 @@
                             <rect x="12" y="12" width="24" height="24" rx="2" stroke="currentColor" stroke-width="2" />
                         </svg>
                     </div>
-                    <h3 class="feature-title">Оплата за результат</h3>
+                    <p class="feature-title">Оплата за результат</p>
                     <p class="feature-text">Вы платите только по факту выполненной работы</p>
                 </div>
             </div>
@@ -444,6 +410,7 @@
             <h2 class="section-title">
                 Ремонтируем <span class="text-light">технику</span>
             </h2>
+            <p class="warranty-text" style="text-align: center;">Ремонт техники в центре города — это гарантия быстрого и профессионального восстановления любых ваших устройств. Наш сервисный центр специализируется на широком спектре оборудования, от мелкой электроники до крупной бытовой техники. Ниже представлен полный перечень категорий устройств, с которыми работают наши специалисты:</p>
 
             <div class="categories-grid">
                 <div class="category-card">
@@ -1519,6 +1486,43 @@
             </div>
         </div>
     </footer>
+
+     <!-- Checker -->
+    <div class="check-state-modal" id="check-state-modal">
+        <div class="check-state-modal__content">
+            <span class="check-state-modal__close">&times;</span>
+            <h2 class="check-state-modal__title">Проверка статуса ремонта</h2>
+            <div class="check-state-modal__search-container">
+                <input
+                    type="text"
+                    class="check-state-modal__search-input"
+                    id="check-state-modal__search-input"
+                    placeholder="Введите номер ремонта"
+                />
+                <button class="check-state-modal__search-button">Проверить</button>
+            </div>
+            <div class="check-state-modal__table__container">
+                <table id="data-table" class="check-state-modal__table">
+                    <thead class="check-state-modal__table__head">
+                        <tr class="check-state-modal__table__row">
+                            <th class="check-state-modal__table__header">№ ремонта</th>
+                            <th class="check-state-modal__table__header">Устройство</th>
+                            <th class="check-state-modal__table__header">Статус</th>
+                            <th class="check-state-modal__table__header">Нахождение</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modal-table-body">
+                        <tr>
+                            <td colspan="4" class="check-state-modal__table__empty">
+                                Введите номер ремонта для проверки статуса
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+
 <!-- Модальное окно вызова курьера -->
 <div class="courier-modal" id="courier-modal">
     <div class="courier-modal__overlay"></div>
