@@ -89,12 +89,16 @@
     background: #0088cc;
 }
 
-.social-link-body.youtube:hover, .social-link.youtube:hover {
-    background: #FF0000;
+.social-link-body.dzen:hover, .social-link.dzen:hover {
+    background: #000000;
 }
 
 .social-link-body.whatsapp:hover, .social-link.whatsapp:hover {
     background: #25D366;
+}
+
+.social-link-body.rutube:hover, .social-link.rutube:hover {
+    background: #100943;
 }
 
 /* Контакты */
