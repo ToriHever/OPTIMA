@@ -1,0 +1,151 @@
+/* ========================================
+   about-us.css - О нас
+   ======================================== */
+
+   .about-us{
+    background: var(--color-primary-light);
+    padding: var(--spacing-xxl) 0;
+   }
+
+   /* ========================================
+   SERVICES SECTION - Что мы ремонтируем?
+   ======================================== */
+
+.services-section {
+    padding: var(--spacing-xl) 0;
+    background: var(--color-white);
+}
+
+.services-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.services-section > p {
+    font-size: 1.125rem;
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.service-card {
+    background: var(--color-white);
+    border: 1px solid #e5e7eb;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-primary);
+}
+
+.service-card:hover::before {
+    opacity: 1;
+}
+
+.service-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.service-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.service-card ul li {
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    padding: var(--spacing-xs) 0;
+    padding-left: var(--spacing-md);
+    position: relative;
+    line-height: 1.6;
+}
+
+.service-card ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .services-section {
+        padding: var(--spacing-lg) 0;
+    }
+    
+    .services-section h2 {
+        font-size: 1.75rem;
+    }
+    
+    .services-section > p {
+        font-size: 1rem;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+    
+    .service-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .service-card h3 {
+        font-size: 1.125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .service-card ul li {
+        font-size: 0.875rem;
+    }
+}
