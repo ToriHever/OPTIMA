@@ -27,6 +27,12 @@
     gap: var(--spacing-xl);
 }
 
+.warranty-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+}
+
 .warranty-card {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
