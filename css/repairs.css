@@ -88,7 +88,7 @@
 /* Счетчик услуг */
 .repair-count {
     position: absolute;
-    top: var(--spacing-md);
+    bottom: var(--spacing-md);
     right: var(--spacing-md);
     background: var(--gradient-primary);
     color: var(--color-white);
