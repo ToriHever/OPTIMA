@@ -65,6 +65,8 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-lg);
+    width: max-content;
+    margin: 0 auto;
 }
 /* Логотип */
 .logo {
