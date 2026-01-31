@@ -598,6 +598,218 @@ class RepairStatusModal {
     }
 }
 
+// ============================================
+// ГАЛЕРЕЯ ИЗОБРАЖЕНИЙ - ОБНОВЛЕННАЯ ВЕРСИЯ
+// Поиск работает по alt И по title
+// ============================================
+
+class ImageGallery {
+    constructor() {
+        this.galleryContainer = document.querySelector('.gallery-grid');
+        this.searchInput = document.querySelector('.gallery-search-input');
+        this.counterElement = document.querySelector('.gallery-counter');
+        this.emptyMessage = document.querySelector('.gallery-empty');
+        this.modal = document.querySelector('.gallery-modal');
+        this.modalImg = document.querySelector('.gallery-modal-img');
+        this.modalTitle = document.querySelector('.gallery-modal-title');
+        this.closeBtn = document.querySelector('.gallery-modal-close');
+        this.prevBtn = document.querySelector('.gallery-modal-prev');
+        this.nextBtn = document.querySelector('.gallery-modal-next');
+        
+        this.images = [];
+        this.filteredImages = [];
+        this.currentIndex = 0;
+        
+        this.init();
+    }
+    
+    init() {
+        if (!this.galleryContainer) return;
+        
+        this.collectImages();
+        this.initSearch();
+        this.initModal();
+        this.updateCounter();
+    }
+    
+    collectImages() {
+        const items = this.galleryContainer.querySelectorAll('.gallery-item');
+        
+        items.forEach((item, index) => {
+            const img = item.querySelector('.gallery-item-img');
+            
+            // Собираем все возможные источники текста для поиска
+            const alt = img.getAttribute('alt') || '';
+            const title = img.getAttribute('title') || '';
+            const dataTitle = img.getAttribute('data-title') || '';
+            
+            // Объединяем все в одну строку для поиска
+            const searchText = `${alt} ${title} ${dataTitle}`.toLowerCase().trim();
+            
+            // Для отображения используем приоритет: alt > title > data-title > дефолт
+            const displayTitle = alt || title || dataTitle || `Изображение ${index + 1}`;
+            
+            this.images.push({
+                element: item,
+                img: img,
+                searchText: searchText, // ← по этому полю ищем
+                titleOriginal: displayTitle, // ← это показываем
+                index: index
+            });
+            
+            item.addEventListener('click', () => this.openModal(index));
+        });
+        
+        this.filteredImages = [...this.images];
+    }
+    
+    initSearch() {
+        if (!this.searchInput) return;
+        
+        let searchTimeout;
+        
+        this.searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            
+            searchTimeout = setTimeout(() => {
+                this.filterImages(e.target.value);
+            }, 300);
+        });
+        
+        this.searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.searchInput.value = '';
+                this.filterImages('');
+            }
+        });
+    }
+    
+    filterImages(query) {
+        const searchQuery = query.toLowerCase().trim();
+        
+        if (!searchQuery) {
+            this.filteredImages = [...this.images];
+            this.images.forEach(item => {
+                item.element.classList.remove('hidden');
+            });
+            this.showEmptyMessage(false);
+        } else {
+            // Поиск по searchText (который включает и alt, и title)
+            this.filteredImages = this.images.filter(item => 
+                item.searchText.includes(searchQuery)
+            );
+            
+            this.images.forEach(item => {
+                if (item.searchText.includes(searchQuery)) {
+                    item.element.classList.remove('hidden');
+                } else {
+                    item.element.classList.add('hidden');
+                }
+            });
+            
+            this.showEmptyMessage(this.filteredImages.length === 0);
+        }
+        
+        this.updateCounter();
+    }
+    
+    showEmptyMessage(show) {
+        if (this.emptyMessage) {
+            if (show) {
+                this.emptyMessage.classList.add('active');
+            } else {
+                this.emptyMessage.classList.remove('active');
+            }
+        }
+    }
+    
+    updateCounter() {
+        if (this.counterElement) {
+            const total = this.images.length;
+            const visible = this.filteredImages.length;
+            
+            if (visible === total) {
+                this.counterElement.textContent = `Показано ${total} изображений`;
+            } else {
+                this.counterElement.textContent = `Найдено ${visible} из ${total} изображений`;
+            }
+        }
+    }
+    
+    initModal() {
+        if (!this.modal) return;
+        
+        this.closeBtn?.addEventListener('click', () => this.closeModal());
+        
+        this.modal.addEventListener('click', (e) => {
+            if (e.target === this.modal) {
+                this.closeModal();
+            }
+        });
+        
+        this.prevBtn?.addEventListener('click', () => this.showPrevious());
+        this.nextBtn?.addEventListener('click', () => this.showNext());
+        
+        document.addEventListener('keydown', (e) => {
+            if (!this.modal.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') {
+                this.closeModal();
+            } else if (e.key === 'ArrowLeft') {
+                this.showPrevious();
+            } else if (e.key === 'ArrowRight') {
+                this.showNext();
+            }
+        });
+    }
+    
+    openModal(index) {
+        if (!this.modal) return;
+        
+        this.currentIndex = index;
+        const image = this.images[index];
+        
+        this.modalImg.src = image.img.src;
+        this.modalImg.alt = image.titleOriginal;
+        this.modalTitle.textContent = image.titleOriginal;
+        
+        this.modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        this.updateNavigationButtons();
+    }
+    
+    closeModal() {
+        if (!this.modal) return;
+        
+        this.modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    showPrevious() {
+        this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+        this.updateModalContent();
+    }
+    
+    showNext() {
+        this.currentIndex = (this.currentIndex + 1) % this.images.length;
+        this.updateModalContent();
+    }
+    
+    updateModalContent() {
+        const image = this.images[this.currentIndex];
+        
+        this.modalImg.src = image.img.src;
+        this.modalImg.alt = image.titleOriginal;
+        this.modalTitle.textContent = image.titleOriginal;
+        
+        this.updateNavigationButtons();
+    }
+    
+    updateNavigationButtons() {
+        // Циклическая навигация - кнопки всегда активны
+    }
+}
 
 
 // ============================================
@@ -609,6 +821,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new ScrollAnimations();
     new SmoothScroll();
     new StickyHeader();
+    new ImageGallery();
     // new Modal();
     new CertificateModal();
     new ProcessAccordion(); 
