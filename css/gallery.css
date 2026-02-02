@@ -58,7 +58,6 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 8px; /* Отступ для скроллбара */
-    margin-bottom: var(--spacing-md);
     
     /* Плавный скролл */
     scroll-behavior: smooth;
@@ -136,11 +135,12 @@
     bottom: 0;
     left: 0;
     right: 0;
+    height: 100%;
     padding: var(--spacing-xs);
-    background: linear-gradient(to top, rgba(255, 255, 255, 0.9) 60%, transparent);
-    color: var(--color-dark);
+    background: linear-gradient(to top, rgba(183, 199, 201, 0.9), rgba(0, 68, 77, 0.9));
+    color: var(--color-white);
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 400;
     text-align: center;
     opacity: 0;
     transition: opacity var(--transition-base);
