@@ -7,9 +7,9 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './header.html',
-  styleUrls: ['./header.scss']
+  styleUrl: './header.scss'
 })
-export class HeaderComponent {
+export class Header {
   isMenuOpen = false;
   isScrolled = false;
   

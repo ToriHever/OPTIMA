@@ -1,0 +1,20 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.section-placeholder {
+  padding: $spacing-xxl 0;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-bg-light;
+  
+  h2 {
+    color: $color-primary;
+    text-align: center;
+  }
+  
+  &:nth-child(even) {
+    background: $color-white;
+  }
+}
