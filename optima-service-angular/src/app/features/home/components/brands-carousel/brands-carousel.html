@@ -1,0 +1,63 @@
+<section id="brands" class="brands-section">
+  <div class="container-big">
+    <!-- Заголовок -->
+    <div class="brands-header">
+      <h2 class="section-title-dark">
+        Работаем с <strong>ведущими производителями</strong>
+      </h2>
+      <p class="section-subtitle-dark">
+        Авторизованный сервисный центр. Используем только оригинальные запчасти и комплектующие.
+      </p>
+    </div>
+
+    <!-- Карусель -->
+    <div class="brands-carousel-wrapper">
+      <div class="brands-track" [style.animation-play-state]="isPaused ? 'paused' : 'running'">
+        <!-- Первый набор логотипов -->
+        <div class="brands-set">
+          <div class="brand-item" *ngFor="let brand of brands" 
+               (mouseenter)="pauseCarousel()" 
+               (mouseleave)="resumeCarousel()">
+            <div class="brand-logo">
+              <img [src]="brand.logo" [alt]="brand.name" [title]="brand.name">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Дублированный набор для бесшовного loop -->
+        <div class="brands-set">
+          <div class="brand-item" *ngFor="let brand of brands" 
+               (mouseenter)="pauseCarousel()" 
+               (mouseleave)="resumeCarousel()">
+            <div class="brand-logo">
+              <img [src]="brand.logo" [alt]="brand.name" [title]="brand.name">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Статистика -->
+    <div class="brands-stats">
+      <div class="stat-item animate-on-scroll" [class.animated]="isVisible">
+        <div class="stat-number">{{ brands.length }}+</div>
+        <div class="stat-label">Авторизованных брендов</div>
+      </div>
+      
+      <div class="stat-item animate-on-scroll delay-1" [class.animated]="isVisible">
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Лет на рынке</div>
+      </div>
+      
+      <div class="stat-item animate-on-scroll delay-2" [class.animated]="isVisible">
+        <div class="stat-number">5000+</div>
+        <div class="stat-label">Довольных клиентов</div>
+      </div>
+      
+      <div class="stat-item animate-on-scroll delay-3" [class.animated]="isVisible">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Ремонт с первого раза</div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,207 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.brands-section {
+  padding: $spacing-xxl 0;
+  background: $color-white;
+  overflow: hidden;
+}
+
+.brands-header {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+}
+
+// Карусель
+.brands-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: $spacing-xl;
+  
+  // Градиентные fade по краям
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, $color-white, transparent);
+  }
+  
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, $color-white, transparent);
+  }
+}
+
+.brands-track {
+  display: flex;
+  width: fit-content;
+  animation: scroll 40s linear infinite;
+  
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+.brands-set {
+  display: flex;
+  gap: $spacing-lg;
+  padding: 0 $spacing-lg;
+}
+
+.brand-item {
+  flex-shrink: 0;
+  width: 180px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.brand-logo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md;
+  background: $color-white;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  transition: all $transition-base;
+  
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all $transition-base;
+  }
+  
+  &:hover {
+    box-shadow: $shadow-md;
+    
+    img {
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+  }
+}
+
+// Анимация прокрутки
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+// Статистика
+.brands-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-lg;
+  margin-top: $spacing-xxl;
+  padding: $spacing-xl 0;
+  border-top: 1px solid $color-bg-grey;
+}
+
+.stat-item {
+  text-align: center;
+  padding: $spacing-md;
+}
+
+.stat-number {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: $color-primary;
+  line-height: 1;
+  margin-bottom: $spacing-sm;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: $color-dark;
+  font-weight: 500;
+}
+
+// Адаптивность
+@media (max-width: 1024px) {
+  .brand-item {
+    width: 150px;
+    height: 100px;
+  }
+  
+  .brands-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+  }
+}
+
+@media (max-width: 768px) {
+  .brands-section {
+    padding: $spacing-xl 0;
+  }
+  
+  .brand-item {
+    width: 120px;
+    height: 80px;
+  }
+  
+  .brands-carousel-wrapper {
+    &::before,
+    &::after {
+      width: 80px;
+    }
+  }
+  
+  .brands-stats {
+    margin-top: $spacing-xl;
+    padding: $spacing-lg 0;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .stat-label {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-item {
+    width: 100px;
+    height: 70px;
+  }
+  
+  .brands-set {
+    gap: $spacing-sm;
+  }
+  
+  .brands-stats {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+  }
+}
