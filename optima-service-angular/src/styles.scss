@@ -1,1 +1,275 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+// Импорт стилей
+@import 'styles/variables';
+@import 'styles/mixins';
+@import 'styles/animations';
+
+// ========================================
+// GLOBAL STYLES - Глобальные стили
+// ========================================
+
+// Сброс стилей
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #313131;
+  background-color: #FFFFFF;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Контейнеры
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.container-big {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+// Типография
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  color: #313131;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin-bottom: 24px;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  margin-bottom: 16px;
+}
+
+p {
+  margin-bottom: 16px;
+}
+
+a {
+  color: #88d4dd;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: #85f3ff;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+// Утилитарные классы
+.text-accent {
+  color: #30676E;
+}
+
+.text-light {
+  font-weight: 300;
+}
+
+.text-small {
+  font-size: 0.700rem;
+  color: #E8E8E8;
+  opacity: 0.7;
+}
+
+.text-center {
+  text-align: center;
+}
+
+// Заголовки секций
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #313131;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-title-dark {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  color: #313131;
+  text-align: center;
+  margin-bottom: 16px;
+  
+  strong {
+    font-weight: 700;
+  }
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: #30676E;
+  text-align: center;
+  margin-bottom: 64px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-subtitle-dark {
+  font-size: 1rem;
+  color: #313131;
+  text-align: center;
+  margin-bottom: 64px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.8;
+}
+
+// Кнопки
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Open Sans', sans-serif;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  
+  &:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00444D 0%, #30676E 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(0, 68, 77, 0.3);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0, 68, 77, 0.4);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btn-secondary {
+  background: #FFFFFF;
+  color: #00444D;
+  border: 2px solid #00444D;
+  box-shadow: 0 2px 8px rgba(0, 68, 77, 0.1);
+  
+  &:hover {
+    background: #00444D;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 68, 77, 0.2);
+  }
+}
+
+.btn-large {
+  padding: 18px 48px;
+  font-size: 1.125rem;
+}
+
+// Адаптивность
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  .container-big {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  .container-big {
+    padding: 0 16px;
+  }
+  
+  .section-subtitle {
+    margin-bottom: 40px;
+  }
+  
+  .section-subtitle-dark {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .section-subtitle {
+    margin-bottom: 32px;
+  }
+  
+  .section-subtitle-dark {
+    margin-bottom: 32px;
+  }
+}

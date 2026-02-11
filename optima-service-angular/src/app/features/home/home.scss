@@ -1,5 +1,6 @@
-@use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as *;
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
 
 .section-placeholder {
   padding: $spacing-xxl 0;

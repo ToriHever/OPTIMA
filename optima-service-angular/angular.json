@@ -41,6 +41,7 @@
           },
           "configurations": {
             "production": {
+              "styles": ["src/styles.scss"], 
               "budgets": [
                 {
                   "type": "initial",
@@ -56,6 +57,7 @@
               "outputHashing": "all"
             },
             "development": {
+              "styles": ["src/styles.scss"],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
