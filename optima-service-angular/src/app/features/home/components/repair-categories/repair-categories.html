@@ -1,0 +1,80 @@
+<section class="categories-section">
+  <div class="container">
+    <!-- Заголовок -->
+    <div class="categories-header">
+      <h2 class="section-title">
+        Что мы ремонтируем
+      </h2>
+      <p class="section-subtitle">
+        Профессиональный ремонт любой бытовой техники. Работаем со всеми брендами и моделями.
+      </p>
+    </div>
+
+    <!-- Сетка категорий -->
+    <div class="categories-grid">
+      <div class="category-card animate-on-scroll" 
+           *ngFor="let category of categories; let i = index"
+           [class.animated]="isVisible"
+           [style.animation-delay]="(i * 0.1) + 's'"
+           (click)="scrollToServices()">
+        
+        <!-- Иконка -->
+        <div class="card-icon">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor">
+            <path [attr.d]="category.icon" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <!-- Название -->
+        <h3 class="card-title">{{ category.name }}</h3>
+
+        <!-- Описание -->
+        <p class="card-description">{{ category.description }}</p>
+
+        <!-- Особенности -->
+        <ul class="card-features">
+          <li *ngFor="let feature of category.features">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M5 8L7 10L11 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            {{ feature }}
+          </li>
+        </ul>
+
+        <!-- Цена -->
+        <div class="card-price">
+          <span class="price-label">Ремонт от</span>
+          <span class="price-value">{{ category.priceFrom }}</span>
+        </div>
+
+        <!-- Кнопка -->
+        <button class="card-button">
+          <span>Подробнее</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+            <path d="M7 4L13 10L7 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- CTA блок -->
+    <div class="categories-cta">
+      <div class="cta-content">
+        <h3>Не нашли свою технику?</h3>
+        <p>Мы ремонтируем любую бытовую технику. Позвоните нам, и мы поможем решить вашу проблему.</p>
+      </div>
+      <div class="cta-buttons">
+        <button class="btn btn-primary btn-large" (click)="openCallbackForm()">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+            <path d="M14,11v1.8c0,.7-.5,1.2-1.2,1.2,0,0,0,0-.1,0-1.9-.2-3.6-.8-5.2-1.8-1.5-.9-2.7-2.2-3.6-3.6-1-1.6-1.7-3.4-1.9-5.2,0-.7.4-1.2,1.1-1.3,0,0,0,0,.1,0h1.8c.6,0,1.1.4,1.2,1,0,.6.2,1.1.4,1.7.2.4,0,.9-.3,1.3l-.8.8c.9,1.5,2.1,2.8,3.6,3.6l.8-.8c.3-.3.8-.4,1.3-.3.5.2,1.1.3,1.7.4.6,0,1.1.6,1,1.2Z" 
+                  transform="translate(3,3)"/>
+          </svg>
+          Заказать звонок
+        </button>
+        <a href="tel:89885163131" class="btn btn-secondary btn-large">
+          8 (988) 516-31-31
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

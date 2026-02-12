@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-hero',
@@ -12,11 +12,17 @@ export class Hero implements OnInit, OnDestroy {
   isVisible = false;
   parallaxOffset = 0;
   
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  
   ngOnInit(): void {
-    // Анимация при загрузке
-    setTimeout(() => {
-      this.isVisible = true;
-    }, 100);
+    // Анимация при загрузке - сразу показываем контент
+    if (isPlatformBrowser(this.platformId)) {
+      // Небольшая задержка (50-100мс), чтобы браузер успел отрисовать 
+      // начальное состояние перед запуском анимации
+      setTimeout(() => {
+        this.isVisible = true;
+      }, 50); 
+    }
   }
   
   ngOnDestroy(): void {
@@ -28,9 +34,11 @@ export class Hero implements OnInit, OnDestroy {
    */
   @HostListener('window:scroll')
   onScroll(): void {
-    const scrollPosition = window.pageYOffset;
-    // Параллакс: фон двигается медленнее чем скролл
-    this.parallaxOffset = scrollPosition * 0.5;
+    if (isPlatformBrowser(this.platformId)) {
+      const scrollPosition = window.pageYOffset;
+      // Параллакс: фон двигается медленнее чем скролл
+      this.parallaxOffset = scrollPosition * 0.5;
+    }
   }
   
   /**
@@ -45,9 +53,11 @@ export class Hero implements OnInit, OnDestroy {
    * Скролл к секции с услугами
    */
   scrollToServices(): void {
-    const servicesSection = document.querySelector('#services');
-    if (servicesSection) {
-      servicesSection.scrollIntoView({ behavior: 'smooth' });
+    if (isPlatformBrowser(this.platformId)) {
+      const servicesSection = document.querySelector('#services');
+      if (servicesSection) {
+        servicesSection.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   }
   
@@ -56,9 +66,11 @@ export class Hero implements OnInit, OnDestroy {
    */
   scrollToNext(event: Event): void {
     event.preventDefault();
-    const brandsSection = document.querySelector('#brands');
-    if (brandsSection) {
-      brandsSection.scrollIntoView({ behavior: 'smooth' });
+    if (isPlatformBrowser(this.platformId)) {
+      const brandsSection = document.querySelector('#brands');
+      if (brandsSection) {
+        brandsSection.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   }
 }

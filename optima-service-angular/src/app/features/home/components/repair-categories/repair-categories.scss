@@ -1,0 +1,308 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.categories-section {
+  padding: $spacing-xxl 0;
+  background: $color-white;
+}
+
+.categories-header {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+}
+
+// Сетка категорий
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xxl;
+}
+
+// Карточка категории
+.category-card {
+  display: flex;
+  flex-direction: column;
+  padding: $spacing-xl;
+  background: $color-white;
+  border: 2px solid $color-bg-grey;
+  border-radius: $radius-lg;
+  transition: all $transition-base;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, $color-primary 0%, $color-primary-light 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform $transition-base;
+  }
+  
+  &:hover {
+    border-color: $color-primary-light;
+    box-shadow: $shadow-lg;
+    transform: translateY(-8px);
+    
+    &::before {
+      transform: scaleX(1);
+    }
+    
+    .card-icon {
+      background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+      color: $color-white;
+      transform: scale(1.1);
+    }
+    
+    .card-button {
+      background: $color-primary;
+      color: $color-white;
+      
+      svg {
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+// Иконка
+.card-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-bg-light;
+  border-radius: $radius-md;
+  color: $color-primary;
+  margin-bottom: $spacing-md;
+  transition: all $transition-base;
+  
+  svg {
+    stroke-width: 1.5;
+  }
+}
+
+// Название
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $color-dark;
+  margin-bottom: $spacing-sm;
+}
+
+// Описание
+.card-description {
+  font-size: 0.9375rem;
+  color: rgba($color-dark, 0.7);
+  line-height: 1.6;
+  margin-bottom: $spacing-md;
+}
+
+// Особенности
+.card-features {
+  list-style: none;
+  margin-bottom: $spacing-md;
+  
+  li {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: 0.9375rem;
+    color: $color-dark;
+    margin-bottom: $spacing-xs;
+    
+    svg {
+      flex-shrink: 0;
+      color: $color-primary-light;
+      stroke-width: 2.5;
+    }
+  }
+}
+
+// Цена
+.card-price {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $color-bg-grey;
+}
+
+.price-label {
+  font-size: 0.875rem;
+  color: rgba($color-dark, 0.6);
+}
+
+.price-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $color-primary;
+}
+
+// Кнопка
+.card-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  background: $color-bg-light;
+  border: none;
+  border-radius: $radius-md;
+  font-size: 1rem;
+  font-weight: 600;
+  color: $color-primary;
+  cursor: pointer;
+  transition: all $transition-base;
+  margin-top: auto;
+  
+  svg {
+    stroke-width: 2.5;
+    transition: transform $transition-base;
+  }
+}
+
+// CTA блок
+.categories-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-xl;
+  padding: $spacing-xl;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-lg;
+  color: $color-white;
+}
+
+.cta-content {
+  flex: 1;
+  
+  h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $color-white;
+    margin-bottom: $spacing-sm;
+  }
+  
+  p {
+    font-size: 1.125rem;
+    color: rgba($color-white, 0.9);
+    margin: 0;
+  }
+}
+
+.cta-buttons {
+  display: flex;
+  gap: $spacing-md;
+  flex-shrink: 0;
+}
+
+// Адаптивность
+@media (max-width: 1024px) {
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+  }
+  
+  .categories-cta {
+    flex-direction: column;
+    text-align: center;
+    
+    .cta-buttons {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .categories-section {
+    padding: $spacing-xl 0;
+  }
+  
+  .categories-grid {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+  
+  .category-card {
+    padding: $spacing-lg;
+  }
+  
+  .card-icon {
+    width: 64px;
+    height: 64px;
+    
+    svg {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+  }
+  
+  .cta-content {
+    h3 {
+      font-size: 1.5rem;
+    }
+    
+    p {
+      font-size: 1rem;
+    }
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    
+    .btn {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .category-card {
+    padding: $spacing-md;
+  }
+  
+  .card-icon {
+    width: 56px;
+    height: 56px;
+    
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  
+  .card-title {
+    font-size: 1.125rem;
+  }
+  
+  .card-description {
+    font-size: 0.875rem;
+  }
+  
+  .card-features li {
+    font-size: 0.875rem;
+  }
+  
+  .price-value {
+    font-size: 1.25rem;
+  }
+  
+  .categories-cta {
+    padding: $spacing-lg;
+  }
+}
