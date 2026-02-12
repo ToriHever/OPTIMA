@@ -1,0 +1,304 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.warranty-section {
+  padding: $spacing-xxl 0;
+  background: linear-gradient(135deg, 
+    rgba($color-primary, 0.02) 0%, 
+    rgba($color-primary-light, 0.05) 100%
+  );
+}
+
+.warranty-header {
+  text-align: center;
+  margin-bottom: $spacing-xxl;
+}
+
+// Основной блок
+.warranty-main {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: $spacing-xl;
+  margin-bottom: $spacing-xxl;
+  background: $color-white;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+}
+
+// Бейдж гарантии
+.warranty-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: $spacing-lg;
+  background: linear-gradient(135deg, 
+    rgba($color-primary, 0.05) 0%, 
+    rgba($color-primary-light, 0.1) 100%
+  );
+  border-radius: $radius-lg;
+}
+
+.badge-icon {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-primary;
+  margin-bottom: $spacing-md;
+}
+
+.badge-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $color-primary;
+  margin-bottom: $spacing-xs;
+  line-height: 1.2;
+}
+
+.badge-text {
+  font-size: 1rem;
+  color: rgba($color-dark, 0.7);
+  margin: 0;
+}
+
+// Список преимуществ
+.warranty-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.warranty-item {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background: $color-white;
+  border: 1px solid $color-bg-grey;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+  
+  &:hover {
+    border-color: $color-primary-light;
+    box-shadow: $shadow-sm;
+    transform: translateX(8px);
+  }
+}
+
+.item-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, 
+    rgba($color-primary, 0.1) 0%, 
+    rgba($color-primary-light, 0.15) 100%
+  );
+  border-radius: $radius-md;
+  color: $color-primary;
+}
+
+.item-content {
+  flex: 1;
+  
+  h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $color-dark;
+    margin-bottom: $spacing-xs;
+  }
+  
+  p {
+    font-size: 0.9375rem;
+    color: rgba($color-dark, 0.7);
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// Условия
+.warranty-conditions {
+  margin-bottom: $spacing-xxl;
+  
+  h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $color-dark;
+    text-align: center;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-lg;
+}
+
+.condition-card {
+  position: relative;
+  padding: $spacing-lg;
+  background: $color-white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  transition: all $transition-base;
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+.condition-number {
+  position: absolute;
+  top: -16px;
+  left: 24px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $gradient-primary;
+  color: $color-white;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba($color-primary, 0.3);
+}
+
+.condition-card h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: $color-dark;
+  margin-bottom: $spacing-sm;
+  margin-top: $spacing-sm;
+}
+
+.condition-card p {
+  font-size: 0.9375rem;
+  color: rgba($color-dark, 0.7);
+  line-height: 1.6;
+  margin: 0;
+}
+
+// CTA
+.warranty-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-xl;
+  padding: $spacing-xl;
+  background: $color-white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md;
+}
+
+.cta-content {
+  flex: 1;
+  
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $color-dark;
+    margin-bottom: $spacing-sm;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: rgba($color-dark, 0.7);
+    margin: 0;
+  }
+}
+
+.cta-actions {
+  display: flex;
+  gap: $spacing-md;
+  flex-shrink: 0;
+}
+
+// Адаптивность
+@media (max-width: 1024px) {
+  .warranty-main {
+    grid-template-columns: 1fr;
+  }
+  
+  .conditions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .warranty-section {
+    padding: $spacing-xl 0;
+  }
+  
+  .warranty-main {
+    padding: $spacing-lg;
+  }
+  
+  .warranty-badge {
+    padding: $spacing-md;
+  }
+  
+  .badge-icon {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .badge-title {
+    font-size: 1.75rem;
+  }
+  
+  .conditions-grid {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+  
+  .warranty-cta {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .cta-actions {
+    flex-direction: column;
+    width: 100%;
+    
+    .btn {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .warranty-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .item-icon {
+    margin: 0 auto;
+  }
+  
+  .badge-icon {
+    width: 80px;
+    height: 80px;
+    
+    svg {
+      width: 64px;
+      height: 64px;
+    }
+  }
+  
+  .badge-title {
+    font-size: 1.5rem;
+  }
+  
+  .condition-number {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
