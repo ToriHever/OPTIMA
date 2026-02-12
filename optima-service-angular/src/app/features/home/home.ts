@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Hero } from './components/hero/hero';
 import { BrandsCarousel } from './components/brands-carousel/brands-carousel';
+import { ServicesTable } from './components/services-table/services-table';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [Hero, BrandsCarousel],
+  imports: [Hero, BrandsCarousel, ServicesTable],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

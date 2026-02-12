@@ -1,0 +1,115 @@
+<section id="services" class="services-section">
+  <div class="container">
+    <!-- Заголовок -->
+    <div class="services-header">
+      <h2 class="section-title-dark">
+        <strong>Наши услуги</strong> и цены
+      </h2>
+      <p class="section-subtitle-dark">
+        Прозрачное ценообразование. Диагностика бесплатная при ремонте. 
+        Цены указаны ориентировочные, точная стоимость определяется после диагностики.
+      </p>
+    </div>
+
+    <!-- Таблица с аккордеоном -->
+    <div class="services-accordion">
+      <div class="accordion-item" 
+           *ngFor="let category of serviceCategories; let i = index"
+           [class.active]="activeCategory === i">
+        
+        <!-- Заголовок категории -->
+        <div class="accordion-header" (click)="toggleCategory(i)">
+          <div class="header-content">
+            <div class="header-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                <path [attr.d]="category.icon" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="header-text">
+              <h3 class="category-name">{{ category.name }}</h3>
+              <p class="category-description">{{ category.description }}</p>
+            </div>
+          </div>
+          <div class="header-arrow" [class.rotated]="activeCategory === i">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M6 9L12 15L18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Содержимое категории (услуги) -->
+        <div class="accordion-content" 
+             [class.open]="activeCategory === i"
+             [@slideDown]="activeCategory === i ? 'open' : 'closed'">
+          <div class="services-table">
+            <div class="table-header">
+              <div class="col-service">Услуга</div>
+              <div class="col-price">Стоимость</div>
+              <div class="col-time">Срок выполнения</div>
+            </div>
+            
+            <div class="table-body">
+              <div class="table-row" *ngFor="let service of category.services">
+                <div class="col-service">
+                  <span class="service-name">{{ service.name }}</span>
+                  <span class="service-note" *ngIf="service.note">{{ service.note }}</span>
+                </div>
+                <div class="col-price">
+                  <span class="price-value">{{ service.price }}</span>
+                </div>
+                <div class="col-time">
+                  <span class="time-value">{{ service.duration }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA блок -->
+    <div class="services-cta">
+      <div class="cta-card">
+        <div class="cta-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
+            <path d="M24 12V24L30 30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="24" r="18" stroke-width="2"/>
+          </svg>
+        </div>
+        <h3>Бесплатная диагностика</h3>
+        <p>При ремонте диагностика за наш счет. Определим точную причину поломки.</p>
+        <button class="btn btn-primary" (click)="openCallbackForm()">
+          Вызвать мастера
+        </button>
+      </div>
+
+      <div class="cta-card">
+        <div class="cta-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
+            <path d="M12 24H36M36 24L28 16M36 24L28 32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="24" r="18" stroke-width="2"/>
+          </svg>
+        </div>
+        <h3>Выезд мастера</h3>
+        <p>Приедем в удобное для вас время. Ремонт на дому или с вывозом в сервис.</p>
+        <button class="btn btn-secondary" (click)="openCallbackForm()">
+          Заказать звонок
+        </button>
+      </div>
+
+      <div class="cta-card">
+        <div class="cta-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
+            <path d="M18 24L22 28L30 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="24" r="18" stroke-width="2"/>
+          </svg>
+        </div>
+        <h3>Гарантия до 2 лет</h3>
+        <p>Официальная гарантия на все виды работ. Оригинальные запчасти.</p>
+        <button class="btn btn-secondary" (click)="scrollToWarranty()">
+          Подробнее
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
