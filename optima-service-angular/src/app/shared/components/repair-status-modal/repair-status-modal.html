@@ -35,7 +35,7 @@
             type="text" 
             id="orderNumber"
             formControlName="orderNumber"
-            placeholder="Например: ОП-2024-00123"
+            placeholder="Например: 0012"
             [class.error]="searchForm.get('orderNumber')?.invalid && searchForm.get('orderNumber')?.touched">
           <div class="error-message" 
                *ngIf="searchForm.get('orderNumber')?.invalid && searchForm.get('orderNumber')?.touched">
