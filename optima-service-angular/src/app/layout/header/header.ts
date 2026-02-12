@@ -1,6 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ModalService } from '../../core/services/modal.service';
+
 
 @Component({
   selector: 'app-header',
@@ -13,13 +15,11 @@ export class Header {
   isMenuOpen = false;
   isScrolled = false;
   
-  /**
-   * Переключение мобильного меню
-   */
+  constructor(private modalService: ModalService) {}
+  
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
     
-    // Блокируем прокрутку при открытом меню
     if (this.isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -27,30 +27,20 @@ export class Header {
     }
   }
   
-  /**
-   * Закрытие мобильного меню
-   */
   closeMenu(): void {
     this.isMenuOpen = false;
     document.body.style.overflow = '';
   }
   
-  /**
-   * Открытие модального окна проверки статуса
-   */
   openRepairStatusModal(): void {
-    // TODO: Реализовать через сервис модальных окон
-    console.log('Open repair status modal');
+    this.modalService.openRepairStatusModal();
+    this.closeMenu();
   }
   
-  /**
-   * Отслеживание скролла для изменения стилей шапки
-   */
   @HostListener('window:scroll')
   onWindowScroll(): void {
     this.isScrolled = window.scrollY > 100;
     
-    // Применяем тень к header при скролле
     const header = document.querySelector('.header') as HTMLElement;
     if (header) {
       header.style.boxShadow = this.isScrolled 
@@ -59,9 +49,6 @@ export class Header {
     }
   }
   
-  /**
-   * Закрытие меню при изменении размера окна
-   */
   @HostListener('window:resize')
   onWindowResize(): void {
     if (window.innerWidth > 768 && this.isMenuOpen) {

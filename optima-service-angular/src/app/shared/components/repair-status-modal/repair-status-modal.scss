@@ -1,0 +1,384 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+// Overlay
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba($color-dark, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+// Modal
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  background: $color-white;
+  border-radius: $radius-lg;
+  box-shadow: 0 20px 60px rgba($color-dark, 0.3);
+  z-index: 1001;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+// Header
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg;
+  border-bottom: 1px solid $color-bg-grey;
+  
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $color-dark;
+    margin: 0;
+  }
+}
+
+.modal-close {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  color: rgba($color-dark, 0.5);
+  cursor: pointer;
+  transition: all $transition-base;
+  
+  &:hover {
+    background: rgba($color-dark, 0.05);
+    color: $color-dark;
+  }
+}
+
+// Content
+.modal-content {
+  padding: $spacing-lg;
+  overflow-y: auto;
+  flex: 1;
+}
+
+// Form
+.search-form {
+  .form-description {
+    font-size: 1rem;
+    color: rgba($color-dark, 0.7);
+    margin-bottom: $spacing-lg;
+    line-height: 1.6;
+  }
+}
+
+.form-group {
+  margin-bottom: $spacing-lg;
+  
+  label {
+    display: block;
+    font-weight: 600;
+    color: $color-dark;
+    margin-bottom: $spacing-xs;
+  }
+  
+  input {
+    width: 100%;
+    padding: $spacing-md;
+    font-size: 1rem;
+    border: 2px solid $color-bg-grey;
+    border-radius: $radius-sm;
+    transition: all $transition-base;
+    
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+    }
+    
+    &.error {
+      border-color: $color-accent;
+    }
+  }
+}
+
+.error-message {
+  margin-top: $spacing-xs;
+  font-size: 0.875rem;
+  color: $color-accent;
+}
+
+.form-note {
+  display: flex;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: rgba($color-primary, 0.05);
+  border-radius: $radius-sm;
+  margin-top: $spacing-lg;
+  
+  svg {
+    flex-shrink: 0;
+    color: $color-primary;
+  }
+  
+  p {
+    font-size: 0.875rem;
+    color: rgba($color-dark, 0.7);
+    margin: 0;
+  }
+}
+
+// Loading
+.loading {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Result
+.repair-result {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-header {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $radius-full;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin-bottom: $spacing-sm;
+  
+  &.status-accepted {
+    background: rgba($color-primary, 0.1);
+    color: $color-primary;
+  }
+  
+  &.status-diagnosis {
+    background: rgba(#FFA500, 0.1);
+    color: #FFA500;
+  }
+  
+  &.status-repair {
+    background: rgba(#4169E1, 0.1);
+    color: #4169E1;
+  }
+  
+  &.status-ready {
+    background: rgba(#28A745, 0.1);
+    color: #28A745;
+  }
+}
+
+.order-number {
+  font-size: 0.9375rem;
+  color: rgba($color-dark, 0.6);
+  margin: 0;
+}
+
+.result-info {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: $color-bg-light;
+  border-radius: $radius-sm;
+  margin-bottom: $spacing-lg;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9375rem;
+  
+  .info-label {
+    color: rgba($color-dark, 0.6);
+  }
+  
+  .info-value {
+    font-weight: 600;
+    color: $color-dark;
+  }
+}
+
+// Timeline
+.status-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+  position: relative;
+  padding-left: $spacing-md;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+    background: $color-bg-grey;
+  }
+}
+
+.timeline-step {
+  display: flex;
+  gap: $spacing-md;
+  position: relative;
+  
+  &.completed {
+    .step-marker {
+      background: $color-primary;
+      color: $color-white;
+      border-color: $color-primary;
+    }
+    
+    .step-info h4 {
+      color: $color-dark;
+    }
+  }
+}
+
+.step-marker {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-white;
+  border: 2px solid $color-bg-grey;
+  border-radius: 50%;
+  font-weight: 700;
+  color: rgba($color-dark, 0.4);
+  transition: all $transition-base;
+  z-index: 2;
+}
+
+.step-info {
+  flex: 1;
+  padding-top: 4px;
+  
+  h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba($color-dark, 0.5);
+    margin-bottom: 4px;
+  }
+  
+  p {
+    font-size: 0.875rem;
+    color: rgba($color-dark, 0.6);
+    margin: 0;
+    
+    &.pending {
+      font-style: italic;
+    }
+  }
+}
+
+.result-actions {
+  display: flex;
+  gap: $spacing-md;
+  
+  .btn {
+    flex: 1;
+  }
+}
+
+// Not Found
+.not-found {
+  text-align: center;
+  padding: $spacing-xl 0;
+  
+  svg {
+    color: rgba($color-dark, 0.3);
+    margin-bottom: $spacing-md;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $color-dark;
+    margin-bottom: $spacing-sm;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: rgba($color-dark, 0.7);
+    margin-bottom: $spacing-lg;
+    line-height: 1.6;
+  }
+}
+
+.not-found-actions {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: center;
+  
+  .btn {
+    min-width: 200px;
+  }
+}
+
+// Адаптивность
+@media (max-width: 768px) {
+  .modal-container {
+    width: 95%;
+    max-height: 95vh;
+  }
+  
+  .modal-header {
+    padding: $spacing-md;
+    
+    h2 {
+      font-size: 1.25rem;
+    }
+  }
+  
+  .modal-content {
+    padding: $spacing-md;
+  }
+  
+  .result-actions,
+  .not-found-actions {
+    flex-direction: column;
+    
+    .btn {
+      width: 100%;
+    }
+  }
+}

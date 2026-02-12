@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ModalService } from '../../core/services/modal.service';
+
 
 @Component({
   selector: 'app-footer',
@@ -12,30 +14,20 @@ import { RouterModule } from '@angular/router';
 export class Footer {
   currentYear = new Date().getFullYear();
   
-  /**
-   * Открытие модального окна проверки статуса ремонта
-   */
+  constructor(private modalService: ModalService) {}
+  
   openRepairStatusModal(event: Event): void {
     event.preventDefault();
-    // TODO: Реализовать через сервис модальных окон
-    console.log('Open repair status modal');
+    this.modalService.openRepairStatusModal();
   }
   
-  /**
-   * Открытие политики конфиденциальности
-   */
   openPrivacyPolicy(event: Event): void {
     event.preventDefault();
-    // TODO: Реализовать модальное окно или отдельную страницу
     console.log('Open privacy policy');
   }
   
-  /**
-   * Открытие пользовательского соглашения
-   */
   openTerms(event: Event): void {
     event.preventDefault();
-    // TODO: Реализовать модальное окно или отдельную страницу
     console.log('Open terms');
   }
 }

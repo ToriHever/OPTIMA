@@ -1,0 +1,168 @@
+<div class="modal-overlay" 
+     *ngIf="isOpen$ | async"
+     [@fadeIn]
+     (click)="close()">
+</div>
+
+<!-- Modal -->
+<div class="modal-container" 
+     *ngIf="isOpen$ | async"
+     [@slideIn]
+     (click)="$event.stopPropagation()">
+  
+  <!-- Header -->
+  <div class="modal-header">
+    <h2>Проверить статус ремонта</h2>
+    <button class="modal-close" (click)="close()" aria-label="Закрыть">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M18 6L6 18M6 6L18 18" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="modal-content">
+    <!-- Форма поиска -->
+    <div class="search-form" *ngIf="!repairInfo">
+      <p class="form-description">
+        Введите номер заказ-наряда, который был указан при приёмке техники в ремонт
+      </p>
+      
+      <form [formGroup]="searchForm" (ngSubmit)="searchRepair()">
+        <div class="form-group">
+          <label for="orderNumber">Номер заказ-наряда</label>
+          <input 
+            type="text" 
+            id="orderNumber"
+            formControlName="orderNumber"
+            placeholder="Например: ОП-2024-00123"
+            [class.error]="searchForm.get('orderNumber')?.invalid && searchForm.get('orderNumber')?.touched">
+          <div class="error-message" 
+               *ngIf="searchForm.get('orderNumber')?.invalid && searchForm.get('orderNumber')?.touched">
+            <span *ngIf="searchForm.get('orderNumber')?.errors?.['required']">
+              Введите номер заказ-наряда
+            </span>
+            <span *ngIf="searchForm.get('orderNumber')?.errors?.['pattern']">
+              Неверный формат номера
+            </span>
+          </div>
+        </div>
+
+        <button type="submit" 
+                class="btn btn-primary btn-large"
+                [disabled]="searchForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Проверить статус</span>
+          <span *ngIf="isLoading" class="loading">
+            <svg class="spinner" width="20" height="20" viewBox="0 0 20 20">
+              <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/>
+              <path d="M10 2A8 8 0 0118 10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+            Поиск...
+          </span>
+        </button>
+      </form>
+
+      <div class="form-note">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+          <circle cx="10" cy="10" r="8" stroke-width="2"/>
+          <path d="M10 6V10M10 14H10.01" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <p>Номер заказ-наряда указан в квитанции о приёмке техники</p>
+      </div>
+    </div>
+
+    <!-- Результат -->
+    <div class="repair-result" *ngIf="repairInfo && !notFound">
+      <div class="result-header">
+        <div class="status-badge" [class]="'status-' + repairInfo.status">
+          {{ getStatusText(repairInfo.status) }}
+        </div>
+        <p class="order-number">Заказ-наряд: {{ repairInfo.orderNumber }}</p>
+      </div>
+
+      <div class="result-info">
+        <div class="info-item">
+          <span class="info-label">Тип техники:</span>
+          <span class="info-value">{{ repairInfo.deviceType }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Бренд:</span>
+          <span class="info-value">{{ repairInfo.brand }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Дата приёма:</span>
+          <span class="info-value">{{ repairInfo.acceptedDate | date:'dd.MM.yyyy' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Неисправность:</span>
+          <span class="info-value">{{ repairInfo.issue }}</span>
+        </div>
+      </div>
+
+      <!-- Timeline статусов -->
+      <div class="status-timeline">
+        <div class="timeline-step" [class.completed]="repairInfo.statusStep >= 1">
+          <div class="step-marker">1</div>
+          <div class="step-info">
+            <h4>Принято в ремонт</h4>
+            <p>{{ repairInfo.acceptedDate | date:'dd.MM.yyyy HH:mm' }}</p>
+          </div>
+        </div>
+
+        <div class="timeline-step" [class.completed]="repairInfo.statusStep >= 2">
+          <div class="step-marker">2</div>
+          <div class="step-info">
+            <h4>Диагностика</h4>
+            <p *ngIf="repairInfo.statusStep >= 2">Выполнена</p>
+            <p *ngIf="repairInfo.statusStep < 2" class="pending">В процессе...</p>
+          </div>
+        </div>
+
+        <div class="timeline-step" [class.completed]="repairInfo.statusStep >= 3">
+          <div class="step-marker">3</div>
+          <div class="step-info">
+            <h4>Ремонт</h4>
+            <p *ngIf="repairInfo.statusStep >= 3">Выполнен</p>
+            <p *ngIf="repairInfo.statusStep < 3" class="pending">Ожидание...</p>
+          </div>
+        </div>
+
+        <div class="timeline-step" [class.completed]="repairInfo.statusStep >= 4">
+          <div class="step-marker">4</div>
+          <div class="step-info">
+            <h4>Готово к выдаче</h4>
+            <p *ngIf="repairInfo.statusStep >= 4">Можно забирать</p>
+            <p *ngIf="repairInfo.statusStep < 4" class="pending">Ожидание...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn btn-secondary" (click)="resetSearch()">
+          Проверить другой заказ
+        </button>
+        <a href="tel:89885163131" class="btn btn-primary">
+          Позвонить в сервис
+        </a>
+      </div>
+    </div>
+
+    <!-- Не найдено -->
+    <div class="not-found" *ngIf="notFound">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="currentColor">
+        <circle cx="40" cy="40" r="30" stroke-width="3" opacity="0.3"/>
+        <path d="M40 28V44M40 52H40.02" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <h3>Заказ-наряд не найден</h3>
+      <p>Проверьте правильность введённого номера или свяжитесь с нами по телефону</p>
+      <div class="not-found-actions">
+        <button class="btn btn-secondary" (click)="resetSearch()">
+          Попробовать снова
+        </button>
+        <a href="tel:89885163131" class="btn btn-primary">
+          Позвонить в сервис
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
