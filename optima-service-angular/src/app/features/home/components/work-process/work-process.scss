@@ -1,0 +1,349 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.process-section {
+  padding: $spacing-xxl 0;
+  background: $color-white;
+}
+
+.process-header {
+  text-align: center;
+  margin-bottom: $spacing-xxl;
+}
+
+// Временная шкала
+.process-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xxl;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: $spacing-lg;
+  position: relative;
+  
+  &.active {
+    .step-number {
+      background: $gradient-primary;
+      color: $color-white;
+      transform: scale(1.1);
+    }
+  }
+  
+  &.completed {
+    .step-number {
+      background: $color-primary-light;
+      color: $color-white;
+      
+      &::after {
+        content: '✓';
+        position: absolute;
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
+
+// Маркер и линия
+.timeline-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.step-number {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-white;
+  border: 3px solid $color-primary-light;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $color-primary;
+  transition: all $transition-base;
+  z-index: 2;
+  position: relative;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: calc(100% + 40px);
+  background: linear-gradient(180deg, 
+    $color-primary-light 0%, 
+    rgba($color-primary-light, 0.3) 100%
+  );
+  z-index: 1;
+}
+
+// Контент шага
+.timeline-content {
+  background: $color-white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  transition: all $transition-base;
+  
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg;
+  cursor: pointer;
+  transition: all $transition-base;
+  
+  &:hover {
+    background: rgba($color-primary, 0.02);
+  }
+}
+
+.step-info {
+  flex: 1;
+}
+
+.step-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $color-dark;
+  margin-bottom: 4px;
+}
+
+.step-subtitle {
+  font-size: 1rem;
+  color: rgba($color-dark, 0.6);
+  margin: 0;
+}
+
+.step-toggle {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-primary;
+  transition: transform $transition-base;
+  
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+// Детали шага
+.step-details {
+  overflow: hidden;
+}
+
+.details-content {
+  padding: 0 $spacing-lg $spacing-lg;
+  border-top: 1px solid $color-bg-grey;
+}
+
+.details-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: $color-dark;
+  margin-bottom: $spacing-md;
+}
+
+.details-features {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: 0.9375rem;
+  color: $color-dark;
+  
+  svg {
+    flex-shrink: 0;
+    color: $color-primary-light;
+  }
+}
+
+.details-duration {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-md;
+  background: rgba($color-primary, 0.1);
+  border-radius: $radius-full;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $color-primary;
+  
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+// Преимущества
+.process-benefits {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-lg;
+}
+
+.benefit-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: $spacing-lg;
+  background: $color-bg-light;
+  border-radius: $radius-lg;
+  transition: all $transition-base;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-md;
+    background: $color-white;
+  }
+}
+
+.benefit-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-white;
+  border-radius: 50%;
+  color: $color-primary;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-sm;
+  
+  svg {
+    stroke-width: 1.5;
+  }
+}
+
+.benefit-card h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: $color-dark;
+  margin-bottom: $spacing-xs;
+}
+
+.benefit-card p {
+  font-size: 0.9375rem;
+  color: rgba($color-dark, 0.7);
+  line-height: 1.5;
+  margin: 0;
+}
+
+// Адаптивность
+@media (max-width: 1024px) {
+  .process-benefits {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .process-section {
+    padding: $spacing-xl 0;
+  }
+  
+  .timeline-item {
+    grid-template-columns: 60px 1fr;
+    gap: $spacing-md;
+  }
+  
+  .step-number {
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+  
+  .timeline-line {
+    top: 48px;
+    height: calc(100% + 24px);
+  }
+  
+  .step-header {
+    padding: $spacing-md;
+  }
+  
+  .step-title {
+    font-size: 1.25rem;
+  }
+  
+  .step-subtitle {
+    font-size: 0.875rem;
+  }
+  
+  .details-content {
+    padding: 0 $spacing-md $spacing-md;
+  }
+  
+  .process-benefits {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-item {
+    grid-template-columns: 50px 1fr;
+    gap: $spacing-sm;
+  }
+  
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    border-width: 2px;
+  }
+  
+  .timeline-line {
+    top: 40px;
+    width: 2px;
+  }
+  
+  .step-header {
+    padding: $spacing-sm;
+  }
+  
+  .step-title {
+    font-size: 1.125rem;
+  }
+  
+  .details-description {
+    font-size: 0.9375rem;
+  }
+  
+  .feature-item {
+    font-size: 0.875rem;
+  }
+  
+  .benefit-icon {
+    width: 64px;
+    height: 64px;
+    
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}

@@ -1,0 +1,120 @@
+<section id="process" class="process-section">
+  <div class="container">
+    <!-- Заголовок -->
+    <div class="process-header">
+      <h2 class="section-title-dark">
+        Как мы <strong>работаем</strong>
+      </h2>
+      <p class="section-subtitle-dark">
+        Простой и прозрачный процесс от заявки до выдачи отремонтированной техники. 
+        Каждый этап под контролем.
+      </p>
+    </div>
+
+    <!-- Временная шкала с аккордеоном -->
+    <div class="process-timeline">
+      <div class="timeline-item" 
+           *ngFor="let step of processSteps; let i = index"
+           [class.active]="activeStep === i"
+           [class.completed]="i < (activeStep || 0)">
+        
+        <!-- Номер и линия -->
+        <div class="timeline-marker">
+          <div class="step-number">{{ i + 1 }}</div>
+          <div class="timeline-line" *ngIf="i < processSteps.length - 1"></div>
+        </div>
+
+        <!-- Контент шага -->
+        <div class="timeline-content">
+          <!-- Заголовок шага -->
+          <div class="step-header" (click)="toggleStep(i)">
+            <div class="step-info">
+              <h3 class="step-title">{{ step.title }}</h3>
+              <p class="step-subtitle">{{ step.subtitle }}</p>
+            </div>
+            <div class="step-toggle" [class.rotated]="activeStep === i">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M6 9L12 15L18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Детали шага (раскрывающиеся) -->
+          <div class="step-details" 
+               [class.open]="activeStep === i"
+               [@slideDown]="activeStep === i ? 'open' : 'closed'">
+            <div class="details-content">
+              <p class="details-description">{{ step.description }}</p>
+              
+              <!-- Иконка с информацией -->
+              <div class="details-features">
+                <div class="feature-item" *ngFor="let feature of step.features">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M7 10L9 12L13 8M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z" 
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>{{ feature }}</span>
+                </div>
+              </div>
+
+              <!-- Время выполнения -->
+              <div class="details-duration">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                  <circle cx="10" cy="10" r="8" stroke-width="2"/>
+                  <path d="M10 6V10L13 13" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>{{ step.duration }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Преимущества -->
+    <div class="process-benefits">
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor">
+            <path d="M20 8V20L26 26" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="20" cy="20" r="16" stroke-width="2"/>
+          </svg>
+        </div>
+        <h4>Быстро</h4>
+        <p>Большинство ремонтов выполняем в день обращения</p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor">
+            <path d="M14 20L18 24L26 16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="20" cy="20" r="16" stroke-width="2"/>
+          </svg>
+        </div>
+        <h4>Качественно</h4>
+        <p>Используем только оригинальные запчасти</p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor">
+            <path d="M20 12V20H28" stroke-width="2" stroke-linecap="round"/>
+            <path d="M32 20C32 26.6274 26.6274 32 20 32C13.3726 32 8 26.6274 8 20C8 13.3726 13.3726 8 20 8" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h4>Прозрачно</h4>
+        <p>Фиксируем каждый этап, информируем о ходе работ</p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor">
+            <path d="M20 8L24 16H32L26 22L28 30L20 25L12 30L14 22L8 16H16L20 8Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h4>С гарантией</h4>
+        <p>До 2 лет гарантии на все виды работ</p>
+      </div>
+    </div>
+  </div>
+</section>
