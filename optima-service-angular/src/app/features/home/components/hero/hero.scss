@@ -3,7 +3,7 @@
 
 .hero {
   position: relative;
-  min-height: 100vh;
+  height: calc(100vh - 117px);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -45,7 +45,7 @@
   position: relative;
   z-index: 2;
   max-width: 800px;
-  padding: $spacing-xxl 0;
+  // padding: $spacing-xxl 0;
 }
 
 .hero-title {
