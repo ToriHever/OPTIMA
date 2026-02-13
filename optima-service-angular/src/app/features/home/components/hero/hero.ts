@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ModalService } from '../../../../core/services/modal.service';
 
 @Component({
   selector: 'app-hero',
@@ -12,18 +13,20 @@ export class Hero implements OnInit, OnDestroy {
   isVisible = false;
   parallaxOffset = 0;
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,
+    private modalService: ModalService
+  ) {}
   
   ngOnInit(): void {
-    // Анимация при загрузке - сразу показываем контент
-    if (isPlatformBrowser(this.platformId)) {
-      // Небольшая задержка (50-100мс), чтобы браузер успел отрисовать 
-      // начальное состояние перед запуском анимации
-      setTimeout(() => {
-        this.isVisible = true;
-      }, 50); 
-    }
+  // Проверяем, что код выполняется в браузере, а не на сервере (SSR)
+  if (isPlatformBrowser(this.platformId)) {
+    // Небольшой таймаут (50мс) гарантирует, что браузер успеет 
+    // запустить CSS-анимацию из начального состояния в конечное
+    setTimeout(() => {
+      this.isVisible = true;
+    }, 50);
   }
+}
   
   ngOnDestroy(): void {
     // Cleanup если нужно
@@ -45,8 +48,7 @@ export class Hero implements OnInit, OnDestroy {
    * Открытие формы вызова мастера
    */
   openRepairForm(): void {
-    // TODO: Реализовать модальное окно с формой
-    console.log('Open repair form modal');
+    this.modalService.open('callback-modal');
   }
   
   /**
