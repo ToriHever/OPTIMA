@@ -52,7 +52,7 @@ export class RepairStatusModal implements OnInit {
   // Моковые данные для демонстрации
   private mockRepairs: RepairInfo[] = [
     {
-      orderNumber: 'ОП-2024-00123',
+      orderNumber: '0123',
       deviceType: 'Холодильник',
       brand: 'Samsung',
       acceptedDate: new Date('2024-02-08'),
@@ -61,7 +61,7 @@ export class RepairStatusModal implements OnInit {
       statusStep: 4
     },
     {
-      orderNumber: 'ОП-2024-00124',
+      orderNumber: '0124',
       deviceType: 'Стиральная машина',
       brand: 'Bosch',
       acceptedDate: new Date('2024-02-10'),
@@ -70,7 +70,7 @@ export class RepairStatusModal implements OnInit {
       statusStep: 3
     },
     {
-      orderNumber: 'ОП-2024-00125',
+      orderNumber: '0125',
       deviceType: 'Посудомоечная машина',
       brand: 'Electrolux',
       acceptedDate: new Date('2024-02-12'),
@@ -85,10 +85,13 @@ export class RepairStatusModal implements OnInit {
     private fb: FormBuilder,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    this.isOpen$ = this.modalService.repairStatusModalOpen$;
+    // Используем новый API
+    this.isOpen$ = this.modalService.getState('repair-status-modal');
   }
   
   ngOnInit(): void {
+    this.modalService.register('repair-status-modal');
+    
     this.searchForm = this.fb.group({
       orderNumber: ['', [
         Validators.required,
@@ -98,7 +101,7 @@ export class RepairStatusModal implements OnInit {
   }
   
   close(): void {
-    this.modalService.closeRepairStatusModal();
+    this.modalService.close('repair-status-modal');
     this.resetSearch();
   }
   

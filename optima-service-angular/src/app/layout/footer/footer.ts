@@ -18,7 +18,7 @@ export class Footer {
   
   openRepairStatusModal(event: Event): void {
     event.preventDefault();
-    this.modalService.openRepairStatusModal();
+    this.modalService.open('repair-status-modal');
   }
   
   openPrivacyPolicy(event: Event): void {

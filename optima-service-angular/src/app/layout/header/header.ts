@@ -33,7 +33,7 @@ export class Header {
   }
   
   openRepairStatusModal(): void {
-    this.modalService.openRepairStatusModal();
+    this.modalService.open('repair-status-modal');
     this.closeMenu();
   }
   
