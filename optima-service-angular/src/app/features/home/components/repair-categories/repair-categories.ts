@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ModalService } from '../../../../core/services/modal.service';
 
 interface RepairCategory {
   name: string;
@@ -121,7 +122,8 @@ export class RepairCategories implements OnInit {
     }
   ];
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,
+  private modalService: ModalService) {}
   
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -163,8 +165,7 @@ export class RepairCategories implements OnInit {
   /**
    * Открытие формы обратного звонка
    */
-  openCallbackForm(): void {
-    // TODO: Реализовать модальное окно
-    console.log('Open callback form');
+   openQuestionForm() {
+    this.modalService.open('callback-modal', { purpose: 'question' });
   }
 }
