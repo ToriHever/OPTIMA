@@ -138,8 +138,8 @@ export class ServicesTable {
   openDiagnosticForm() {
     this.modalService.open('callback-modal', { purpose: 'diagnostic' });
   }
-    openCallbackForm() {
-    this.modalService.open('callback-modal', { purpose: 'callback' });
+    openQuestionForm() {
+    this.modalService.open('callback-modal', { purpose: 'question' });
   }
   
   /**

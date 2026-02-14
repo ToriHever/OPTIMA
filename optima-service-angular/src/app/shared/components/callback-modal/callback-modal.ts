@@ -116,7 +116,7 @@ export class CallbackModal implements OnInit, OnDestroy {
     }
     
     if (this.hasField('address')) {
-      controls.address = [''];
+      controls.address = ['', Validators.required];
     }
     
     if (this.hasField('message')) {

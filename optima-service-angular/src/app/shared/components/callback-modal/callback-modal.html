@@ -113,14 +113,18 @@
     <!-- Адрес -->
     <div class="form-group" *ngIf="hasField('address')">
       <label for="address" class="form-label">
-        Адрес выезда
+        Адрес выезда <span class="required">*</span>
       </label>
       <input 
         type="text" 
         id="address"
         class="form-control"
         formControlName="address"
-        placeholder="Ростов-на-Дону, ул. Пушкинская, 10">
+        placeholder="Ростов-на-Дону, ул. Пушкинская, 10"
+        [class.error]="isFieldInvalid('address')">
+        <div class="form-error" *ngIf="isFieldInvalid('address')">
+      <span>Адрес обязателен для заполнения</span>
+      </div>
     </div>
 
     <!-- Описание проблемы / Сообщение -->
