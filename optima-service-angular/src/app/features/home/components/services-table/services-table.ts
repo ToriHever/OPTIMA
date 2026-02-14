@@ -135,8 +135,11 @@ export class ServicesTable {
   /**
    * Открытие формы обратного звонка
    */
-  openCallbackForm(): void {
-    this.modalService.open('callback-modal');
+  openDiagnosticForm() {
+    this.modalService.open('callback-modal', { purpose: 'diagnostic' });
+  }
+    openCallbackForm() {
+    this.modalService.open('callback-modal', { purpose: 'callback' });
   }
   
   /**
