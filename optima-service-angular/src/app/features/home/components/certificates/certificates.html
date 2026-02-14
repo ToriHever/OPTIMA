@@ -1,0 +1,48 @@
+<section id="certificates" class="certificates">
+  <div class="container">
+    <h2 class="section-title-dark">
+      <strong>Авторизованный</strong> сервисный центр
+    </h2>
+    <p class="section-subtitle-dark">
+      Ремонт техники производит наша опытная команда, которая прошла сертифицированное обучение.<br>
+      Все комплектующие, используемые при ремонте имеют соответствующие сертификаты<br>
+      и являются <strong>оригинальными</strong>.
+    </p>
+
+    <div class="certificates-grid">
+      <div class="certificate-card" (click)="openCertificate(0)">
+        <img 
+          src="/assets/img/certificates/dreme.png" 
+          alt="Авторизованный сервисный центр Dreame в Ростове-на-Дону" 
+          width="300" 
+          height="400">
+      </div>
+      <div class="certificate-card" (click)="openCertificate(1)">
+        <img 
+          src="/assets/img/certificates/polaris.png" 
+          alt="Авторизованный сервисный центр Polaris в Ростове-на-Дону" 
+          width="300" 
+          height="400">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Модальное окно -->
+<div class="certificate-modal" 
+     [class.active]="isModalOpen"
+     (click)="closeModal()">
+  <div class="certificate-modal-overlay"></div>
+  <div class="certificate-modal-content" (click)="$event.stopPropagation()">
+    <button class="certificate-modal-close" 
+            (click)="closeModal()" 
+            aria-label="Закрыть">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M8 8L24 24M24 8L8 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </button>
+    <img [src]="currentImage" 
+         [alt]="currentAlt" 
+         class="certificate-modal-image">
+  </div>
+</div>

@@ -1,0 +1,235 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.certificates {
+  padding: $spacing-xxl 0;
+  background: $color-bg-light;
+}
+
+.section-title-dark {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: $color-dark;
+  margin-bottom: $spacing-sm;
+  
+  strong {
+    color: $color-primary;
+  }
+}
+
+.section-subtitle-dark {
+  text-align: center;
+  color: rgba($color-dark, 0.7);
+  margin-bottom: $spacing-xxl;
+  line-height: 1.6;
+  
+  strong {
+    color: $color-primary;
+    font-weight: 600;
+  }
+}
+
+.certificates-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 200px);
+  gap: $spacing-md;
+  justify-content: center;
+}
+
+.certificate-card {
+  background: $color-white;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-md;
+  transition: all $transition-base;
+  cursor: pointer;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 80px;
+    height: 80px;
+    background: rgba($color-primary, 0.9);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all $transition-base;
+  }
+  
+  &::before {
+    content: '🔍';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 2.5rem;
+    z-index: 2;
+    opacity: 0;
+    transition: all $transition-base;
+  }
+  
+  &:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: $shadow-xl;
+    z-index: 10;
+    
+    &::after,
+    &::before {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    
+    img {
+      filter: brightness(0.7);
+    }
+  }
+  
+  img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    transition: all $transition-base;
+  }
+}
+
+// Модальное окно
+.certificate-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity $transition-base;
+  
+  &.active {
+    opacity: 1;
+    pointer-events: auto;
+    
+    .certificate-modal-content {
+      transform: scale(1);
+    }
+  }
+}
+
+.certificate-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(4px);
+}
+
+.certificate-modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  z-index: 1;
+  transform: scale(0.8);
+  transition: transform $transition-base;
+}
+
+.certificate-modal-image {
+  max-width: 100%;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  border-radius: $radius-lg;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  display: block;
+}
+
+.certificate-modal-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: $color-white;
+  transition: all $transition-base;
+  z-index: 2;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: rotate(90deg) scale(1.1);
+  }
+}
+
+// Адаптивность
+@media (max-width: 1024px) {
+  .certificates-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .certificates {
+    padding: $spacing-xl 0;
+  }
+  
+  .section-title-dark {
+    font-size: 2rem;
+  }
+  
+  .certificates-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-sm;
+  }
+  
+  .certificate-modal-close {
+    top: -60px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title-dark {
+    font-size: 1.75rem;
+  }
+  
+  .certificates-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .certificate-modal {
+    padding: $spacing-sm;
+  }
+  
+  .certificate-modal-image {
+    border-radius: $radius-md;
+  }
+  
+  .certificate-modal-close {
+    width: 40px;
+    height: 40px;
+    top: -50px;
+    
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
