@@ -8,6 +8,7 @@ export interface EmailData {
   message?: string;
   address?: string;
   preferred_time?: string;
+  request_type?: string; // Тип заявки: "Вызов мастера", "Заказать звонок", "Задать вопрос"
 }
 
 @Injectable({
@@ -31,6 +32,7 @@ export class EmailService {
         message: data.message || 'Не указано',
         address: data.address || 'Не указан',
         preferred_time: this.getPreferredTimeText(data.preferred_time),
+        request_type: data.request_type || 'Обычная заявка',
         to_email: 'vika.miroshnikova2016@gmail.com' // Email получателя
       };
 

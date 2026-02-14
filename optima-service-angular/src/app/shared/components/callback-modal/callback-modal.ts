@@ -1,12 +1,13 @@
-import { Component, OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, PLATFORM_ID, Inject, Input } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject, takeUntil, Observable } from 'rxjs';
+
 import { ModalService } from '../../../core/services/modal.service';
 import { EmailService, EmailData } from '../../../core/services/email.service';
-import { FormPurpose, CallbackFormConfig, FormField } from './callback-form.types';
 import { CALLBACK_FORM_CONFIGS } from './callback-form.config';
+import { FormPurpose, CallbackFormConfig } from './callback-form.types';
 
 @Component({
   selector: 'app-callback-modal',
@@ -36,42 +37,41 @@ import { CALLBACK_FORM_CONFIGS } from './callback-form.config';
   ]
 })
 export class CallbackModal implements OnInit, OnDestroy {
-  isOpen$!: Observable<boolean>;
+  // Указываем тип формы. Можно будет передать извне: <app-callback-modal type="diagnostic">
+  @Input() type: FormPurpose = 'callback';
+  
+  config!: CallbackFormConfig;
+  isOpen$: Observable<boolean>;
   callbackForm!: FormGroup;
   isSubmitting = false;
   submitStatus: 'success' | 'error' | null = null;
-  
-  // Текущая конфигурация формы
-  config: CallbackFormConfig = CALLBACK_FORM_CONFIGS['diagnostic']; // по умолчанию
   
   private destroy$ = new Subject<void>();
   
   constructor(
     private modalService: ModalService,
+    private emailService: EmailService, // Инжектируем EmailService для отправки
     private fb: FormBuilder,
-    private emailService: EmailService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
+    // Решаем проблему "used before its initialization":
+    // Инициализируем Observable в конструкторе
     this.isOpen$ = this.modalService.getState('callback-modal');
   }
   
   ngOnInit(): void {
     this.modalService.register('callback-modal');
     
-    // Следим за открытием модалки
+    // Решаем проблему "Property 'config' does not exist":
+    // Берем настройки из конфига на основе переданного типа
+    this.config = CALLBACK_FORM_CONFIGS[this.type];
+    
+    this.initForm();
+    
     this.isOpen$
       .pipe(takeUntil(this.destroy$))
       .subscribe(isOpen => {
         if (isOpen) {
-          // Получаем данные из modalService
-          const data = this.modalService.getData('callback-modal');
-          const purpose: FormPurpose = data?.purpose || 'diagnostic';
-          
-          // Обновляем конфигурацию
-          this.config = CALLBACK_FORM_CONFIGS[purpose];
-          
-          // Пересоздаем форму
-          this.buildForm();
           this.resetForm();
         }
       });
@@ -82,56 +82,23 @@ export class CallbackModal implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
   
-  /**
-   * Проверяет есть ли поле в текущей конфигурации
-   */
-  hasField(field: FormField): boolean {
-    return this.config.fields.includes(field);
+  private initForm(): void {
+    this.callbackForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      phone: ['', [Validators.required, Validators.pattern(/^(\+7|8)?[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/)]],
+      deviceType: [''],
+      message: [''],
+      address: [''],
+      preferredTime: [''],
+      consent: [false, Validators.requiredTrue]
+    });
   }
   
-  /**
-   * Строит форму на основе конфигурации
-   */
-  private buildForm(): void {
-    const controls: any = {};
-    
-    // Добавляем поля в зависимости от конфигурации
-    if (this.hasField('name')) {
-      controls.name = ['', [Validators.required, Validators.minLength(2)]];
-    }
-    
-    if (this.hasField('phone')) {
-      controls.phone = ['', [
-        Validators.required,
-        Validators.pattern(/^(\+7|8)?[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/)
-      ]];
-    }
-    
-    if (this.hasField('email')) {
-      controls.email = ['', [Validators.required, Validators.email]];
-    }
-    
-    if (this.hasField('deviceType')) {
-      controls.deviceType = ['', Validators.required];
-    }
-    
-    if (this.hasField('address')) {
-      controls.address = [''];
-    }
-    
-    if (this.hasField('message')) {
-      controls.message = [''];
-    }
-    
-    // Согласие всегда обязательно
-    controls.consent = [false, Validators.requiredTrue];
-    
-    this.callbackForm = this.fb.group(controls);
+  // Метод для динамической проверки полей в HTML шаблоне
+ hasField(fieldName: string): boolean {
+  return !!(this.config && this.config.fields && this.config.fields.includes(fieldName as any));
   }
-  
-  /**
-   * Сброс формы
-   */
+
   private resetForm(): void {
     this.callbackForm.reset({
       consent: false
@@ -140,17 +107,11 @@ export class CallbackModal implements OnInit, OnDestroy {
     this.isSubmitting = false;
   }
   
-  /**
-   * Проверка валидности поля
-   */
   isFieldInvalid(fieldName: string): boolean {
     const field = this.callbackForm.get(fieldName);
     return !!(field && field.invalid && (field.dirty || field.touched));
   }
   
-  /**
-   * Отправка формы
-   */
   async onSubmit(): Promise<void> {
     if (this.callbackForm.invalid) {
       Object.keys(this.callbackForm.controls).forEach(key => {
@@ -163,14 +124,20 @@ export class CallbackModal implements OnInit, OnDestroy {
     this.submitStatus = null;
     
     try {
+      const formValue = this.callbackForm.value;
+      
+      // Формируем данные для EmailJS
       const emailData: EmailData = {
-        from_name: this.callbackForm.value.name,
-        phone: this.callbackForm.value.phone || '',
-        device_type: this.callbackForm.value.deviceType || '',
-        message: this.callbackForm.value.message || '',
-        address: this.callbackForm.value.address || ''
+        from_name: formValue.name,
+        phone: formValue.phone,
+        device_type: formValue.deviceType || '',
+        message: formValue.message || '',
+        address: formValue.address || '',
+        preferred_time: formValue.preferredTime || '',
+        request_type: this.config.title // Используем заголовок из конфига как тип заявки
       };
       
+      // ВЫЗЫВАЕМ EmailService (а не ModalService)
       await this.emailService.sendCallbackRequest(emailData);
       
       this.submitStatus = 'success';
@@ -187,16 +154,10 @@ export class CallbackModal implements OnInit, OnDestroy {
     }
   }
   
-  /**
-   * Закрытие модального окна
-   */
   close(): void {
     this.modalService.close('callback-modal');
   }
-  
-  /**
-   * Открытие политики конфиденциальности
-   */
+
   openPrivacyPolicy(event: Event): void {
     event.preventDefault();
     console.log('Open privacy policy');
