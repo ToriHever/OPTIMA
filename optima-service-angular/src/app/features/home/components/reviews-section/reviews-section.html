@@ -1,0 +1,155 @@
+<section id="reviews" class="reviews-section">
+  <div class="container-wide">
+    <h2 class="section-title">
+      Отзывы <span class="text-light">клиентов</span>
+    </h2>
+    <p class="section-subtitle">
+      Реальные отзывы наших клиентов с Яндекс.Карт
+    </p>
+    
+    <div class="reviews-container">
+      <!-- Отзывы слева -->
+      <div class="reviews-widget">
+        <div class="widget-wrapper">
+          <iframe 
+            class="reviews-iframe"
+            src="https://yandex.ru/maps-reviews-widget/228625207834?comments"
+            title="Отзывы о Сервисном центре Оптима"
+          ></iframe>
+          <a 
+            href="https://yandex.ru/maps/org/servisny_tsentr_optima/228625207834/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="reviews-link"
+          >
+            Сервисный центр Оптима на карте Ростова‑на‑Дону — Яндекс Карты
+          </a>
+        </div>
+      </div>
+      
+      <!-- Форма справа -->
+      <div class="reviews-form">
+        <div class="reviews-form-card">
+          <div class="form-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
+              <path d="M28,22v3.6c0,1.4-1,2.4-2.4,2.4,0,0,0,0-.2,0-3.8-.4-7.2-1.6-10.4-3.6-3-1.8-5.4-4.4-7.2-7.2-2-3.2-3.4-6.8-3.8-10.4,0-1.4.8-2.4,2.2-2.6,0,0,0,0,.2,0h3.6c1.2,0,2.2.8,2.4,2,0,1.2.4,2.2.8,3.4.4.8,0,1.8-.6,2.6l-1.6,1.6c1.8,3,4.2,5.6,7.2,7.2l1.6-1.6c.6-.6,1.6-.8,2.6-.6,1,.4,2.2.6,3.4.8,1.2,0,2.2,1.2,2,2.4Z" 
+                    transform="translate(6,6)"/>
+            </svg>
+          </div>
+          
+          <h3 class="reviews-form-title">Форма заявки на ремонт</h3>
+          <p class="reviews-form-subtitle">Заполните форму и мы свяжемся с вами в ближайшее время</p>
+          
+          <!-- Форма -->
+          <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()" *ngIf="!isSubmitted">
+            <!-- Имя -->
+            <div class="form-group">
+              <input
+                type="text"
+                id="contact-name"
+                formControlName="name"
+                class="form-input"
+                placeholder="Ваше имя *"
+                [class.error]="isFieldInvalid('name')"
+              />
+              <span class="form-error" *ngIf="isFieldInvalid('name')">
+                <span *ngIf="contactForm.get('name')?.errors?.['required']">Имя обязательно</span>
+                <span *ngIf="contactForm.get('name')?.errors?.['minlength']">Минимум 2 символа</span>
+              </span>
+            </div>
+
+            <!-- Телефон -->
+            <div class="form-group">
+              <input
+                type="tel"
+                id="contact-phone"
+                formControlName="phone"
+                class="form-input"
+                placeholder="+7 (___) ___-__-__"
+                [class.error]="isFieldInvalid('phone')"
+              />
+              <span class="form-error" *ngIf="isFieldInvalid('phone')">
+                <span *ngIf="contactForm.get('phone')?.errors?.['required']">Телефон обязателен</span>
+                <span *ngIf="contactForm.get('phone')?.errors?.['pattern']">Неверный формат телефона</span>
+              </span>
+            </div>
+
+            <!-- Тип техники -->
+            <div class="form-group">
+              <select
+                id="contact-device"
+                formControlName="deviceType"
+                class="form-input"
+                [class.error]="isFieldInvalid('deviceType')"
+              >
+                <option value="">Выберите тип техники *</option>
+                <option value="fridge">Холодильник</option>
+                <option value="washing">Стиральная машина</option>
+                <option value="dishwasher">Посудомоечная машина</option>
+                <option value="cooktop">Варочная панель</option>
+                <option value="oven">Духовой шкаф</option>
+                <option value="coffee">Кофемашина</option>
+                <option value="phone">Телефон</option>
+                <option value="laptop">Ноутбук</option>
+                <option value="tv">Телевизор</option>
+                <option value="other">Другое</option>
+              </select>
+              <span class="form-error" *ngIf="isFieldInvalid('deviceType')">
+                Выберите тип техники
+              </span>
+            </div>
+
+            <!-- Описание проблемы -->
+            <div class="form-group">
+              <textarea
+                id="contact-message"
+                formControlName="message"
+                class="form-textarea"
+                rows="4"
+                placeholder="Опишите проблему..."
+              ></textarea>
+              <span class="form-counter">{{messageLength}} / 15</span>
+            </div>
+
+            <!-- Статус отправки -->
+            <div class="form-status" *ngIf="submitStatus">
+              <div class="status-success" *ngIf="submitStatus === 'success'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M20 6L9 17L4 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Заявка отправлена! Мы свяжемся с вами в ближайшее время.</span>
+              </div>
+              <div class="status-error" *ngIf="submitStatus === 'error'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                  <path d="M12 8V12M12 16H12.01" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>Ошибка отправки. Попробуйте позже или позвоните нам.</span>
+              </div>
+            </div>
+
+            <!-- Кнопка отправки -->
+            <button 
+              type="submit" 
+              class="btn btn-primary btn-large"
+              [disabled]="isSubmitting || submitStatus === 'success'"
+            >
+              <span *ngIf="!isSubmitting">Отправить заявку</span>
+              <span *ngIf="isSubmitting">Отправка...</span>
+            </button>
+          </form>
+
+          <!-- Сообщение об успехе -->
+          <div class="success-message" *ngIf="isSubmitted">
+            <div class="success-icon">✓</div>
+            <h4 class="success-title">Заявка отправлена!</h4>
+            <p class="success-text">Мы свяжемся с вами в ближайшее время</p>
+            <button class="btn btn-secondary" (click)="resetForm()">
+              Отправить еще одну заявку
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
