@@ -33,7 +33,6 @@ export class EmailService {
         address: data.address || 'Не указан',
         preferred_time: this.getPreferredTimeText(data.preferred_time),
         request_type: data.request_type || 'Обычная заявка',
-        to_email: 'vika.miroshnikova2016@gmail.com' // Email получателя
       };
 
       const response = await emailjs.send(
