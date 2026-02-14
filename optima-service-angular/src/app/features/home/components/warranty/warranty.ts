@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModalService } from '../../../../core/services/modal.service';
 
 @Component({
   selector: 'app-warranty',
@@ -9,12 +10,15 @@ import { CommonModule } from '@angular/common';
   styleUrl: './warranty.scss'
 })
 export class Warranty {
-  
+  constructor(
+  @Inject(PLATFORM_ID) private platformId: Object,
+  private modalService: ModalService  // ← Новое
+) {}
   /**
    * Открытие формы обратного звонка
    */
   openCallbackForm(): void {
     // TODO: Реализовать модальное окно
-    console.log('Open callback form');
+    this.modalService.open('callback-modal');
   }
 }
