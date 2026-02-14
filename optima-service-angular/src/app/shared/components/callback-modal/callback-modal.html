@@ -17,7 +17,7 @@
     </svg>
   </button>
 
-  <!-- Заголовок -->
+  <!-- Заголовок (динамический) -->
   <div class="modal-header">
     <div class="modal-icon">
       <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
@@ -25,14 +25,15 @@
               transform="translate(6,6)"/>
       </svg>
     </div>
-    <h2 class="modal-title">Вызвать мастера</h2>
-    <p class="modal-subtitle">Оставьте заявку, и мы свяжемся с вами в течение 15 минут</p>
+    <h2 class="modal-title">{{ config.title }}</h2>
+    <p class="modal-subtitle">{{ config.subtitle }}</p>
   </div>
 
   <!-- Форма -->
   <form class="modal-form" [formGroup]="callbackForm" (ngSubmit)="onSubmit()">
-    <!-- Имя -->
-    <div class="form-group">
+    
+    <!-- Имя (всегда показываем) -->
+    <div class="form-group" *ngIf="hasField('name')">
       <label for="name" class="form-label">
         Ваше имя <span class="required">*</span>
       </label>
@@ -50,7 +51,7 @@
     </div>
 
     <!-- Телефон -->
-    <div class="form-group">
+    <div class="form-group" *ngIf="hasField('phone')">
       <label for="phone" class="form-label">
         Телефон <span class="required">*</span>
       </label>
@@ -67,8 +68,26 @@
       </div>
     </div>
 
+    <!-- Email -->
+    <div class="form-group" *ngIf="hasField('email')">
+      <label for="email" class="form-label">
+        Email <span class="required">*</span>
+      </label>
+      <input 
+        type="email" 
+        id="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="example@mail.com"
+        [class.error]="isFieldInvalid('email')">
+      <div class="form-error" *ngIf="isFieldInvalid('email')">
+        <span *ngIf="callbackForm.get('email')?.errors?.['required']">Email обязателен</span>
+        <span *ngIf="callbackForm.get('email')?.errors?.['email']">Неверный формат email</span>
+      </div>
+    </div>
+
     <!-- Тип техники -->
-    <div class="form-group">
+    <div class="form-group" *ngIf="hasField('deviceType')">
       <label for="deviceType" class="form-label">
         Тип техники <span class="required">*</span>
       </label>
@@ -91,21 +110,8 @@
       </div>
     </div>
 
-    <!-- Описание проблемы -->
-    <div class="form-group">
-      <label for="message" class="form-label">
-        Описание проблемы
-      </label>
-      <textarea 
-        id="message"
-        class="form-control"
-        formControlName="message"
-        rows="3"
-        placeholder="Опишите неисправность..."></textarea>
-    </div>
-
     <!-- Адрес -->
-    <div class="form-group">
+    <div class="form-group" *ngIf="hasField('address')">
       <label for="address" class="form-label">
         Адрес выезда
       </label>
@@ -117,20 +123,17 @@
         placeholder="Ростов-на-Дону, ул. Пушкинская, 10">
     </div>
 
-    <!-- Удобное время -->
-    <div class="form-group">
-      <label for="preferredTime" class="form-label">
-        Удобное время для визита
+    <!-- Описание проблемы / Сообщение -->
+    <div class="form-group" *ngIf="hasField('message')">
+      <label for="message" class="form-label">
+        {{ hasField('deviceType') ? 'Описание проблемы' : 'Ваше сообщение' }}
       </label>
-      <select 
-        id="preferredTime"
+      <textarea 
+        id="message"
         class="form-control"
-        formControlName="preferredTime">
-        <option value="">Любое время</option>
-        <option value="morning">Утро (9:00 - 12:00)</option>
-        <option value="afternoon">День (12:00 - 15:00)</option>
-        <option value="evening">Вечер (15:00 - 18:00)</option>
-      </select>
+        formControlName="message"
+        rows="3"
+        [placeholder]="hasField('deviceType') ? 'Опишите неисправность...' : 'Напишите ваш вопрос...'"></textarea>
     </div>
 
     <!-- Согласие на обработку данных -->
@@ -179,7 +182,7 @@
         type="submit" 
         class="btn btn-primary"
         [disabled]="isSubmitting || submitStatus === 'success'">
-        <span *ngIf="!isSubmitting">Отправить заявку</span>
+        <span *ngIf="!isSubmitting">{{ config.submitText }}</span>
         <span *ngIf="isSubmitting">Отправка...</span>
       </button>
     </div>

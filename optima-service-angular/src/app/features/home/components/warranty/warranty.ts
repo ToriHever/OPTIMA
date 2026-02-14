@@ -14,11 +14,14 @@ export class Warranty {
   @Inject(PLATFORM_ID) private platformId: Object,
   private modalService: ModalService  // ← Новое
 ) {}
-  /**
+
+
+    /**
    * Открытие формы обратного звонка
    */
-  openCallbackForm(): void {
-    // TODO: Реализовать модальное окно
-    this.modalService.open('callback-modal');
+ openCallbackForm() {
+  this.modalService.open('callback-modal', { purpose: 'callback' });
   }
+
+
 }
