@@ -32,7 +32,7 @@ export class EmailService {
         message: data.message || 'Не указано',
         address: data.address || 'Не указан',
         preferred_time: this.getPreferredTimeText(data.preferred_time),
-        request_type: data.request_type || 'Обычная заявка',
+        request_type: data.request_type || 'Заявка с сайта',
       };
 
       const response = await emailjs.send(
