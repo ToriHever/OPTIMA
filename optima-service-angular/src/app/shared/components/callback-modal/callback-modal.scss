@@ -328,3 +328,20 @@ textarea.form-control {
     font-size: 0.9375rem;
   }
 }
+
+.details-duration {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-md;
+  margin-bottom: $spacing-md;
+  background: rgba($color-primary, 0.1);
+  border-radius: $radius-sm;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $color-primary;
+  
+  svg {
+    flex-shrink: 0;
+  }
+}
