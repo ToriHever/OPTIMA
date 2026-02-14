@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject, takeUntil, Observable } from 'rxjs';
 import { ModalService } from '../../../core/services/modal.service';
+import { EmailService, EmailData } from '../../../core/services/email.service';
 
 @Component({
   selector: 'app-callback-modal',
@@ -43,9 +44,9 @@ export class CallbackModal implements OnInit, OnDestroy {
   constructor(
     private modalService: ModalService,
     private fb: FormBuilder,
+    private emailService: EmailService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    // Инициализируем isOpen$ в конструкторе после modalService
     this.isOpen$ = this.modalService.getState('callback-modal');
   }
   
@@ -53,7 +54,6 @@ export class CallbackModal implements OnInit, OnDestroy {
     this.modalService.register('callback-modal');
     this.initForm();
     
-    // Сброс формы при открытии модалки
     this.isOpen$
       .pipe(takeUntil(this.destroy$))
       .subscribe(isOpen => {
@@ -68,9 +68,6 @@ export class CallbackModal implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
   
-  /**
-   * Инициализация формы
-   */
   private initForm(): void {
     this.callbackForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -83,9 +80,6 @@ export class CallbackModal implements OnInit, OnDestroy {
     });
   }
   
-  /**
-   * Сброс формы
-   */
   private resetForm(): void {
     this.callbackForm.reset({
       consent: false
@@ -94,20 +88,13 @@ export class CallbackModal implements OnInit, OnDestroy {
     this.isSubmitting = false;
   }
   
-  /**
-   * Проверка валидности поля
-   */
   isFieldInvalid(fieldName: string): boolean {
     const field = this.callbackForm.get(fieldName);
     return !!(field && field.invalid && (field.dirty || field.touched));
   }
   
-  /**
-   * Отправка формы
-   */
   async onSubmit(): Promise<void> {
     if (this.callbackForm.invalid) {
-      // Помечаем все поля как touched для показа ошибок
       Object.keys(this.callbackForm.controls).forEach(key => {
         this.callbackForm.get(key)?.markAsTouched();
       });
@@ -118,12 +105,10 @@ export class CallbackModal implements OnInit, OnDestroy {
     this.submitStatus = null;
     
     try {
-      // TODO: Интеграция с EmailJS или backend API
       await this.sendEmail(this.callbackForm.value);
       
       this.submitStatus = 'success';
       
-      // Автозакрытие через 3 секунды
       setTimeout(() => {
         this.close();
       }, 3000);
@@ -136,32 +121,25 @@ export class CallbackModal implements OnInit, OnDestroy {
     }
   }
   
-  /**
-   * Отправка email (заглушка)
-   */
   private async sendEmail(data: any): Promise<void> {
-    // Имитация отправки
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log('Form data:', data);
-        resolve();
-      }, 1500);
-    });
+    const emailData: EmailData = {
+      from_name: data.name,
+      phone: data.phone,
+      device_type: data.deviceType,
+      message: data.message,
+      address: data.address,
+      preferred_time: data.preferredTime
+    };
+    
+    await this.emailService.sendCallbackRequest(emailData);
   }
   
-  /**
-   * Закрытие модального окна
-   */
   close(): void {
     this.modalService.close('callback-modal');
   }
   
-  /**
-   * Открытие политики конфиденциальности
-   */
   openPrivacyPolicy(event: Event): void {
     event.preventDefault();
-    // TODO: Открыть модалку с политикой
     console.log('Open privacy policy');
   }
 }
