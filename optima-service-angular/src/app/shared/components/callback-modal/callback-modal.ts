@@ -168,7 +168,8 @@ export class CallbackModal implements OnInit, OnDestroy {
         phone: this.callbackForm.value.phone || '',
         device_type: this.callbackForm.value.deviceType || '',
         message: this.callbackForm.value.message || '',
-        address: this.callbackForm.value.address || ''
+        address: this.callbackForm.value.address || '',
+        request_type: this.config.title
       };
       
       await this.emailService.sendCallbackRequest(emailData);
