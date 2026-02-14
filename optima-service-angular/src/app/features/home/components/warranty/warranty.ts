@@ -19,9 +19,7 @@ export class Warranty {
     /**
    * Открытие формы обратного звонка
    */
- openCallbackForm() {
-  this.modalService.open('callback-modal', { purpose: 'callback' });
+openQuestionForm() {
+    this.modalService.open('callback-modal', { purpose: 'question' });
   }
-
-
 }

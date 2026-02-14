@@ -108,7 +108,7 @@ export class CallbackModal implements OnInit, OnDestroy {
     }
     
     if (this.hasField('email')) {
-      controls.email = ['', [Validators.required, Validators.email]];
+      controls.email = ['', [Validators.email]];
     }
     
     if (this.hasField('deviceType')) {

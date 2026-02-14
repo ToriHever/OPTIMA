@@ -71,7 +71,7 @@
     <!-- Email -->
     <div class="form-group" *ngIf="hasField('email')">
       <label for="email" class="form-label">
-        Email <span class="required">*</span>
+        Email
       </label>
       <input 
         type="email" 
@@ -81,7 +81,6 @@
         placeholder="example@mail.com"
         [class.error]="isFieldInvalid('email')">
       <div class="form-error" *ngIf="isFieldInvalid('email')">
-        <span *ngIf="callbackForm.get('email')?.errors?.['required']">Email обязателен</span>
         <span *ngIf="callbackForm.get('email')?.errors?.['email']">Неверный формат email</span>
       </div>
     </div>
