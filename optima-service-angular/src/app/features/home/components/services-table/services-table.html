@@ -11,58 +11,67 @@
       </p>
     </div>
 
-    <!-- Таблица с аккордеоном -->
-    <div class="services-accordion">
-      <div class="accordion-item" 
-           *ngFor="let category of serviceCategories; let i = index"
-           [class.active]="activeCategory === i">
-        
-        <!-- Заголовок категории -->
-        <div class="accordion-header" (click)="toggleCategory(i)">
-          <div class="header-content">
-            <div class="header-icon">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+    <!-- Двухколоночный layout -->
+    <div class="services-layout">
+      
+      <!-- Левая колонка - список категорий -->
+      <aside class="categories-sidebar">
+        <nav class="categories-nav">
+          <button 
+            class="category-item"
+            *ngFor="let category of serviceCategories; let i = index"
+            [class.active]="activeCategory === i"
+            (click)="selectCategory(i)">
+            <div class="category-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path [attr.d]="category.icon" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <div class="header-text">
+            <div class="category-info">
               <h3 class="category-name">{{ category.name }}</h3>
-              <p class="category-description">{{ category.description }}</p>
+              <p class="category-count">{{ category.services.length }} услуг</p>
             </div>
-          </div>
-          <div class="header-arrow" [class.rotated]="activeCategory === i">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M6 9L12 15L18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+            <div class="category-arrow">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor">
+                <path d="M6 4L10 8L6 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </button>
+        </nav>
+      </aside>
+
+      <!-- Правая колонка - таблица услуг -->
+      <div class="services-content">
+        <div class="content-header">
+          <h3 class="content-title">{{ serviceCategories[activeCategory].name }}</h3>
+          <p class="content-description">{{ serviceCategories[activeCategory].description }}</p>
         </div>
 
-        <!-- Содержимое категории (услуги) -->
-        <div class="accordion-content" 
-             [class.open]="activeCategory === i"
-             [@slideDown]="activeCategory === i ? 'open' : 'closed'">
-          <div class="services-table">
-            <div class="table-header">
-              <div class="col-service">Услуга</div>
-              <div class="col-price">Стоимость</div>
-              <div class="col-time">Срок выполнения</div>
-            </div>
+        <div class="services-table-wrapper">
+          <table class="services-table">
+            <thead>
+              <tr>
+                <th class="col-service">Услуга</th>
+                <th class="col-price">Стоимость</th>
+                <th class="col-time">Срок выполнения</th>
+              </tr>
+            </thead>
             
-            <div class="table-body">
-              <div class="table-row" *ngFor="let service of category.services">
-                <div class="col-service">
+            <tbody>
+              <tr *ngFor="let service of serviceCategories[activeCategory].services">
+                <td class="col-service">
                   <span class="service-name">{{ service.name }}</span>
                   <span class="service-note" *ngIf="service.note">{{ service.note }}</span>
-                </div>
-                <div class="col-price">
+                </td>
+                <td class="col-price">
                   <span class="price-value">{{ service.price }}</span>
-                </div>
-                <div class="col-time">
+                </td>
+                <td class="col-time">
                   <span class="time-value">{{ service.duration }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -78,7 +87,7 @@
         </div>
         <h3>Бесплатная диагностика</h3>
         <p>При ремонте диагностика за наш счет. Определим точную причину поломки.</p>
-        <button class="btn btn-primary" (click)="openDiagnosticForm()">
+        <button class="btn btn-primary" (click)="openCallbackForm()">
           Вызвать мастера
         </button>
       </div>

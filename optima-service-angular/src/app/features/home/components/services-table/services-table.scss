@@ -6,138 +6,290 @@
   background: $color-bg-light;
 }
 
+// Заголовок секции
 .services-header {
   text-align: center;
-  margin-bottom: $spacing-xl;
+  margin-bottom: $spacing-xxl;
 }
 
-// Аккордеон
-.services-accordion {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-md;
-  margin-bottom: $spacing-xl;
+.section-title-dark {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: $color-dark;
+  margin-bottom: $spacing-sm;
+  
+  strong {
+    color: $color-primary;
+  }
 }
 
-.accordion-item {
+.section-subtitle-dark {
+  font-size: 1.125rem;
+  color: rgba($color-dark, 0.7);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+// Двухколоночный layout
+.services-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xxl;
+}
+
+// Левая колонка - список категорий
+.categories-sidebar {
   background: $color-white;
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
-  overflow: hidden;
-  transition: all $transition-base;
-  
-  &.active {
-    box-shadow: $shadow-md;
-  }
-}
-
-.accordion-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $spacing-lg;
-  cursor: pointer;
-  transition: all $transition-base;
-  
-  &:hover {
-    background: rgba($color-primary, 0.02);
-  }
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
-  flex: 1;
-}
-
-.header-icon {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
-  border-radius: $radius-md;
-  color: $color-white;
-}
-
-.header-text {
-  flex: 1;
-}
-
-.category-name {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: $color-dark;
-  margin-bottom: 4px;
-}
-
-.category-description {
-  font-size: 0.9375rem;
-  color: rgba($color-dark, 0.6);
-  margin: 0;
-}
-
-.header-arrow {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: $color-primary;
-  transition: transform $transition-base;
-  
-  &.rotated {
-    transform: rotate(180deg);
-  }
-}
-
-// Содержимое аккордеона
-.accordion-content {
-  overflow: hidden;
-}
-
-// Таблица услуг
-.services-table {
-  padding: 0 $spacing-lg $spacing-lg;
-}
-
-.table-header {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: $spacing-md;
   padding: $spacing-md;
-  background: $color-bg-light;
-  border-radius: $radius-sm;
-  font-weight: 700;
-  font-size: 0.875rem;
-  color: $color-dark;
-  margin-bottom: $spacing-sm;
+  height: fit-content;
+  position: sticky;
+  top: $spacing-lg;
 }
 
-.table-body {
+.categories-nav {
   display: flex;
   flex-direction: column;
   gap: $spacing-xs;
 }
 
-.table-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+.category-item {
+  display: flex;
+  align-items: center;
   gap: $spacing-md;
   padding: $spacing-md;
-  background: $color-white;
-  border: 1px solid $color-bg-grey;
-  border-radius: $radius-sm;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: $radius-md;
+  cursor: pointer;
   transition: all $transition-base;
+  text-align: left;
+  width: 100%;
   
   &:hover {
-    border-color: $color-primary-light;
-    box-shadow: $shadow-sm;
-    transform: translateX(4px);
+    background: rgba($color-primary, 0.05);
+    border-color: rgba($color-primary, 0.2);
+  }
+  
+  &.active {
+    background: linear-gradient(135deg, rgba($color-primary, 0.1) 0%, rgba($color-primary, 0.05) 100%);
+    border-color: $color-primary;
+    
+    .category-icon {
+      background: linear-gradient(135deg, $color-primary-light 0%, $color-primary 100%);
+      
+      svg {
+        stroke: $color-white;
+      }
+    }
+    
+    .category-name {
+      color: $color-primary;
+    }
+    
+    .category-arrow {
+      opacity: 1;
+    }
+  }
+}
+
+.category-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-sm;
+  background: rgba($color-primary, 0.1);
+  flex-shrink: 0;
+  transition: all $transition-base;
+  
+  svg {
+    stroke: $color-primary;
+    transition: stroke $transition-base;
+  }
+}
+
+.category-info {
+  flex: 1;
+}
+
+.category-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: $color-dark;
+  margin: 0 0 2px 0;
+  transition: color $transition-base;
+}
+
+.category-count {
+  font-size: 0.8125rem;
+  color: rgba($color-dark, 0.5);
+  margin: 0;
+}
+
+.category-arrow {
+  display: flex;
+  align-items: center;
+  opacity: 0.3;
+  transition: opacity $transition-base;
+  
+  svg {
+    stroke: $color-primary;
+  }
+}
+
+// Правая колонка - контент
+.services-content {
+  background: $color-white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  padding: $spacing-xl;
+}
+
+.content-header {
+  margin-bottom: $spacing-sm;
+  padding-bottom: $spacing-md;
+  border-bottom: 2px solid $color-bg-grey;
+}
+
+.content-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $color-dark;
+  margin: 0 0 $spacing-sm 0;
+}
+
+.content-description {
+  font-size: 1rem;
+  color: rgba($color-dark, 0.7);
+  margin: 0;
+}
+
+// Таблица услуг
+.services-table-wrapper {
+  max-height: 520px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  
+  // Кастомный scrollbar
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $color-bg-light;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba($color-primary, 0.3);
+    border-radius: 4px;
+    
+    &:hover {
+      background: rgba($color-primary, 0.5);
+    }
+  }
+}
+
+.services-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 $spacing-xs;
+  
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: $color-white;
+    box-shadow: 1px 1px 15px 2px  rgba(0, 0, 0, 0.05);
+    
+    
+    tr {
+      th {
+        padding: $spacing-sm $spacing-md;
+        text-align: left;
+        font-weight: 700;
+        font-size: 0.875rem;
+        color: $color-dark;
+        background: $color-white;
+        border: none;
+        
+        &.col-service {
+          width: 50%;
+        }
+        
+        &.col-price {
+          width: 25%;
+        }
+        
+        &.col-time {
+          width: 25%;
+        }
+        
+        // Закругление углов для sticky header
+        &:first-child {
+          border-top-left-radius: $radius-sm;
+          border-bottom-left-radius: $radius-sm;
+        }
+        
+        &:last-child {
+          border-top-right-radius: $radius-sm;
+          border-bottom-right-radius: $radius-sm;
+        }
+      }
+    }
+  }
+  
+  tbody {
+    tr {
+      background: $color-white;
+      transition: all $transition-base;
+      
+      &:hover {
+        td {
+          background: rgba($color-primary, 0.02);
+          
+          &:first-child {
+            border-left-color: $color-primary-light;
+          }
+          
+          &:last-child {
+            border-right-color: $color-primary-light;
+          }
+        }
+        
+        td:not(:first-child):not(:last-child) {
+          border-left-color: $color-primary-light;
+          border-right-color: $color-primary-light;
+        }
+      }
+      
+      td {
+        padding: $spacing-md;
+        border-top: 1px solid $color-bg-grey;
+        border-bottom: 1px solid $color-bg-grey;
+        background: $color-white;
+        transition: all $transition-base;
+        
+        &:first-child {
+          border-left: 1px solid $color-bg-grey;
+          border-top-left-radius: $radius-sm;
+          border-bottom-left-radius: $radius-sm;
+        }
+        
+        &:last-child {
+          border-right: 1px solid $color-bg-grey;
+          border-top-right-radius: $radius-sm;
+          border-bottom-right-radius: $radius-sm;
+        }
+      }
+    }
   }
 }
 
@@ -155,11 +307,12 @@
 .service-note {
   font-size: 0.8125rem;
   color: rgba($color-dark, 0.5);
+  display: block;
+  margin-top: 4px;
 }
 
 .col-price {
-  display: flex;
-  align-items: center;
+  vertical-align: middle;
 }
 
 .price-value {
@@ -169,8 +322,7 @@
 }
 
 .col-time {
-  display: flex;
-  align-items: center;
+  vertical-align: middle;
 }
 
 .time-value {
@@ -198,53 +350,89 @@
   
   &:hover {
     transform: translateY(-8px);
-    box-shadow: $shadow-lg;
+    box-shadow: $shadow-md;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $color-dark;
+    margin: $spacing-md 0 $spacing-sm;
+  }
+  
+  p {
+    font-size: 0.9375rem;
+    color: rgba($color-dark, 0.7);
+    margin-bottom: $spacing-lg;
+    line-height: 1.5;
+  }
+  
+  .btn {
+    margin-top: auto;
   }
 }
 
 .cta-icon {
-  width: 80px;
-  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba($color-primary, 0.1) 0%, rgba($color-primary-light, 0.1) 100%);
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  color: $color-primary;
-  margin-bottom: $spacing-md;
+  background: linear-gradient(135deg, $color-primary-light 0%, $color-primary 100%);
   
   svg {
-    stroke-width: 1.5;
+    stroke: $color-white;
   }
 }
 
-.cta-card h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: $color-dark;
-  margin-bottom: $spacing-sm;
-}
-
-.cta-card p {
-  font-size: 0.9375rem;
-  color: rgba($color-dark, 0.7);
-  line-height: 1.6;
-  margin-bottom: $spacing-md;
-}
-
-.cta-card .btn {
-  margin-top: auto;
-}
-
 // Адаптивность
+@media (max-width: 1200px) {
+  .services-layout {
+    grid-template-columns: 280px 1fr;
+    gap: $spacing-lg;
+  }
+  
+  .category-name {
+    font-size: 0.875rem;
+  }
+}
+
 @media (max-width: 1024px) {
-  .services-cta {
+  .services-layout {
     grid-template-columns: 1fr;
     gap: $spacing-md;
   }
   
-  .cta-card {
-    padding: $spacing-lg;
+  .categories-sidebar {
+    position: static;
+    padding: $spacing-sm;
+  }
+  
+  .categories-nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-sm;
+  }
+  
+  .category-item {
+    flex-direction: column;
+    text-align: center;
+    padding: $spacing-sm;
+  }
+  
+  .category-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .category-arrow {
+    display: none;
+  }
+  
+  .services-cta {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -253,79 +441,96 @@
     padding: $spacing-xl 0;
   }
   
-  .accordion-header {
-    padding: $spacing-md;
+  .section-title-dark {
+    font-size: 2rem;
   }
   
-  .header-icon {
-    width: 40px;
-    height: 40px;
-    
-    svg {
-      width: 24px;
-      height: 24px;
-    }
+  .section-subtitle-dark {
+    font-size: 1rem;
   }
   
-  .category-name {
-    font-size: 1.125rem;
-  }
-  
-  .category-description {
-    font-size: 0.875rem;
-  }
-  
-  .services-table {
-    padding: 0 $spacing-md $spacing-md;
-  }
-  
-  .table-header {
-    display: none; // Скрываем заголовок на мобильных
-  }
-  
-  .table-row {
+  .categories-nav {
     grid-template-columns: 1fr;
-    gap: $spacing-xs;
-    padding: $spacing-sm;
   }
   
-  .col-service,
-  .col-price,
-  .col-time {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .services-content {
+    padding: $spacing-lg;
+  }
+  
+  .content-title {
+    font-size: 1.5rem;
+  }
+  
+  .content-description {
+    font-size: 0.9375rem;
+  }
+  
+  // Мобильная таблица
+  .services-table {
+    thead {
+      display: none;
+    }
     
-    &::before {
-      content: attr(data-label);
-      font-weight: 600;
-      font-size: 0.875rem;
-      color: rgba($color-dark, 0.6);
+    tbody {
+      tr {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: $spacing-sm;
+        border: 1px solid $color-bg-grey;
+        border-radius: $radius-sm;
+        
+        td {
+          border: none !important;
+          border-radius: 0 !important;
+          padding: $spacing-sm $spacing-md;
+          
+          &:not(:last-child) {
+            border-bottom: 1px solid $color-bg-grey !important;
+          }
+          
+          &::before {
+            content: attr(data-label);
+            display: block;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: rgba($color-dark, 0.6);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+          }
+          
+          &.col-service::before {
+            content: 'Услуга';
+          }
+          
+          &.col-price::before {
+            content: 'Стоимость';
+          }
+          
+          &.col-time::before {
+            content: 'Срок';
+          }
+        }
+      }
     }
   }
 }
 
 @media (max-width: 480px) {
-  .accordion-header {
-    padding: $spacing-sm;
+  .section-title-dark {
+    font-size: 1.75rem;
   }
   
-  .header-content {
-    gap: $spacing-sm;
+  .services-content {
+    padding: $spacing-md;
   }
   
-  .header-icon {
-    width: 36px;
-    height: 36px;
-    
-    svg {
-      width: 20px;
-      height: 20px;
-    }
+  .content-header {
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-md;
   }
   
-  .category-name {
-    font-size: 1rem;
+  .content-title {
+    font-size: 1.25rem;
   }
   
   .cta-icon {
@@ -336,13 +541,5 @@
       width: 32px;
       height: 32px;
     }
-  }
-  
-  .cta-card h3 {
-    font-size: 1.125rem;
-  }
-  
-  .cta-card p {
-    font-size: 0.875rem;
   }
 }

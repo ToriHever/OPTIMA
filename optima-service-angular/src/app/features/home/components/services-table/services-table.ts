@@ -1,7 +1,6 @@
 import { Component, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { ModalService } from '../../../../core/services/modal.service';
 
 interface Service {
   name: string;
@@ -40,7 +39,7 @@ interface ServiceCategory {
   ]
 })
 export class ServicesTable {
-  activeCategory: number | null = 0;
+  activeCategory: number = 0;
   
   serviceCategories: ServiceCategory[] = [
     {
@@ -121,25 +120,21 @@ export class ServicesTable {
     }
   ];
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object,
-    private modalService: ModalService
-  ) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
   
   /**
-   * Переключение категории аккордеона
+   * Выбор категории
    */
-  toggleCategory(index: number): void {
-    this.activeCategory = this.activeCategory === index ? null : index;
+  selectCategory(index: number): void {
+    this.activeCategory = index;
   }
   
   /**
    * Открытие формы обратного звонка
    */
-  openDiagnosticForm() {
-    this.modalService.open('callback-modal', { purpose: 'diagnostic' });
-  }
-   openCallbackForm() {
-    this.modalService.open('callback-modal', { purpose: 'callback' });
+  openCallbackForm(): void {
+    // TODO: Реализовать модальное окно
+    console.log('Open callback form');
   }
   
   /**
