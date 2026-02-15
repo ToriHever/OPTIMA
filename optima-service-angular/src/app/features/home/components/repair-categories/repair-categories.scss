@@ -3,20 +3,94 @@
 
 .categories-section {
   padding: $spacing-xxl 0;
+  background: linear-gradient(180deg, $color-white 0%, $color-bg-light 100%);
+}
+
+// Двухколоночный layout
+.categories-layout {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: $spacing-xl;
+  align-items: start;
+}
+
+// Левая колонка - заголовок (sticky)
+.categories-sidebar {
+  position: sticky;
+  top: calc($spacing-xl + 117px);
+  height: fit-content;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.section-title {
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: left;
+  color: $color-dark;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-description {
+  font-size: 1.125rem;
+  color: rgba($color-dark, 0.7);
+  line-height: 1.6;
+  margin: 0;
+}
+
+// Статистика
+.sidebar-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: $spacing-md;
   background: $color-white;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
 }
 
-.categories-header {
-  text-align: center;
-  margin-bottom: $spacing-xl;
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $color-primary;
+  line-height: 1;
 }
 
-// Сетка категорий
+.stat-label {
+  font-size: 0.875rem;
+  color: rgba($color-dark, 0.6);
+  line-height: 1.3;
+}
+
+// Правая колонка - карточки
+.categories-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
 .categories-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: $spacing-lg;
-  margin-bottom: $spacing-xxl;
 }
 
 // Карточка категории
@@ -27,199 +101,231 @@
   background: $color-white;
   border: 2px solid $color-bg-grey;
   border-radius: $radius-lg;
-  transition: all $transition-base;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, $color-primary 0%, $color-primary-light 100%);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform $transition-base;
-  }
+  transition: all $transition-base;
   
   &:hover {
-    border-color: $color-primary-light;
+    border-color: $color-primary;
     box-shadow: $shadow-lg;
     transform: translateY(-8px);
     
-    &::before {
-      transform: scaleX(1);
-    }
-    
     .card-icon {
-      background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
-      color: $color-white;
-      transform: scale(1.1);
-    }
-    
-    .card-button {
-      background: $color-primary;
-      color: $color-white;
+      background: linear-gradient(135deg, $color-primary-light 0%, $color-primary 100%);
       
       svg {
-        transform: translateX(4px);
+        stroke: $color-white;
+        transform: scale(1.1);
       }
+    }
+    
+    .card-arrow {
+      opacity: 1;
+      transform: translateX(4px);
     }
   }
 }
 
-// Иконка
+// Анимация появления
+.category-card.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(40px);
+  
+  &.animated {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .card-icon {
-  width: 80px;
-  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $color-bg-light;
-  border-radius: $radius-md;
-  color: $color-primary;
+  width: 72px;
+  height: 72px;
   margin-bottom: $spacing-md;
+  border-radius: $radius-md;
+  background: rgba($color-primary, 0.1);
   transition: all $transition-base;
   
   svg {
-    stroke-width: 1.5;
+    stroke: $color-primary;
+    transition: all $transition-base;
   }
 }
 
-// Название
 .card-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: $color-dark;
-  margin-bottom: $spacing-sm;
+  margin: 0 0 $spacing-sm 0;
 }
 
-// Описание
 .card-description {
   font-size: 0.9375rem;
-  color: rgba($color-dark, 0.7);
-  line-height: 1.6;
-  margin-bottom: $spacing-md;
+  color: rgba($color-dark, 0.6);
+  line-height: 1.5;
+  margin: 0 0 $spacing-md 0;
+  flex: 1;
 }
 
-// Особенности
 .card-features {
   list-style: none;
-  margin-bottom: $spacing-md;
+  padding: 0;
+  margin: 0 0 $spacing-lg 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
   
   li {
     display: flex;
     align-items: center;
     gap: $spacing-xs;
-    font-size: 0.9375rem;
-    color: $color-dark;
-    margin-bottom: $spacing-xs;
+    font-size: 0.875rem;
+    color: rgba($color-dark, 0.7);
     
     svg {
       flex-shrink: 0;
-      color: $color-primary-light;
-      stroke-width: 2.5;
+      stroke: $color-primary;
     }
   }
 }
 
-// Цена
-.card-price {
+.card-footer {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: $spacing-md;
+  align-items: center;
+  justify-content: space-between;
   padding-top: $spacing-md;
   border-top: 1px solid $color-bg-grey;
 }
 
+.card-price {
+  display: flex;
+  align-items: baseline;
+  gap: $spacing-xs;
+}
+
 .price-label {
   font-size: 0.875rem;
-  color: rgba($color-dark, 0.6);
+  color: rgba($color-dark, 0.5);
 }
 
 .price-value {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: $color-primary;
 }
 
-// Кнопка
-.card-button {
+.card-arrow {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: $spacing-xs;
-  padding: $spacing-sm $spacing-md;
-  background: $color-bg-light;
-  border: none;
-  border-radius: $radius-md;
-  font-size: 1rem;
-  font-weight: 600;
-  color: $color-primary;
-  cursor: pointer;
+  opacity: 0.3;
   transition: all $transition-base;
-  margin-top: auto;
   
   svg {
-    stroke-width: 2.5;
-    transition: transform $transition-base;
+    stroke: $color-primary;
   }
 }
 
 // CTA блок
 .categories-cta {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: $spacing-xl;
-  padding: $spacing-xl;
-  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  flex-direction: column;
+  align-items: start;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: linear-gradient(135deg, rgba($color-primary, 0.05) 0%, rgba($color-primary, 0.02) 100%);
+  border: 2px solid rgba($color-primary, 0.2);
   border-radius: $radius-lg;
-  color: $color-white;
+}
+
+.cta-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $color-primary-light 0%, $color-primary 100%);
+  
+  svg {
+    stroke: $color-white;
+  }
 }
 
 .cta-content {
   flex: 1;
   
   h3 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: $color-white;
-    margin-bottom: $spacing-sm;
+    color: $color-dark;
+    margin: 0 0 $spacing-sm 0;
   }
   
   p {
-    font-size: 1.125rem;
-    color: rgba($color-white, 0.9);
+    font-size: 1rem;
+    color: rgba($color-dark, 0.7);
     margin: 0;
+    line-height: 1.5;
   }
-}
-
-.cta-buttons {
-  display: flex;
-  gap: $spacing-md;
-  flex-shrink: 0;
 }
 
 // Адаптивность
-@media (max-width: 1024px) {
-  .categories-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: $spacing-md;
+@media (max-width: 1200px) {
+  .categories-layout {
+    grid-template-columns: 350px 1fr;
+    gap: $spacing-xl;
   }
   
-  .categories-cta {
-    flex-direction: column;
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .categories-grid {
+    gap: $spacing-md;
+  }
+}
+
+@media (max-width: 1024px) {
+  .categories-layout {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+  
+  .categories-sidebar {
+    position: static;
+    padding: $spacing-xl;
+    background: $color-white;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-sm;
+  }
+  
+  .sidebar-content {
+    gap: $spacing-lg;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
     text-align: center;
-    
-    .cta-buttons {
-      width: 100%;
-      justify-content: center;
-    }
+  }
+  
+  .section-description {
+    text-align: center;
+  }
+  
+  .sidebar-stats {
+    justify-content: center;
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -228,9 +334,21 @@
     padding: $spacing-xl 0;
   }
   
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-description {
+    font-size: 1rem;
+  }
+  
+  .sidebar-stats {
+    grid-template-columns: 1fr;
+  }
+  
   .categories-grid {
     grid-template-columns: 1fr;
-    gap: $spacing-md;
+    gap: $spacing-sm;
   }
   
   .category-card {
@@ -247,38 +365,9 @@
     }
   }
   
-  .card-title {
-    font-size: 1.25rem;
-  }
-  
-  .cta-content {
-    h3 {
-      font-size: 1.5rem;
-    }
-    
-    p {
-      font-size: 1rem;
-    }
-  }
-  
-  .cta-buttons {
-    flex-direction: column;
-    width: 100%;
-    
-    .btn {
-      width: 100%;
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .category-card {
-    padding: $spacing-md;
-  }
-  
-  .card-icon {
-    width: 56px;
-    height: 56px;
+  .cta-icon {
+    width: 64px;
+    height: 64px;
     
     svg {
       width: 32px;
@@ -286,23 +375,35 @@
     }
   }
   
+  .categories-cta {
+    flex-direction: column;
+    text-align: center;
+    gap: $spacing-lg;
+    
+    .cta-content h3 {
+      font-size: 1.25rem;
+    }
+    
+    .cta-content p {
+      font-size: 0.9375rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .categories-sidebar {
+    padding: $spacing-lg;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
   .card-title {
     font-size: 1.125rem;
-  }
-  
-  .card-description {
-    font-size: 0.875rem;
-  }
-  
-  .card-features li {
-    font-size: 0.875rem;
-  }
-  
-  .price-value {
-    font-size: 1.25rem;
-  }
-  
-  .categories-cta {
-    padding: $spacing-lg;
   }
 }

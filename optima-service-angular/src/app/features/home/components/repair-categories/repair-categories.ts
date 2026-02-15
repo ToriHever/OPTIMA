@@ -168,4 +168,8 @@ export class RepairCategories implements OnInit {
    openQuestionForm() {
     this.modalService.open('callback-modal', { purpose: 'question' });
   }
+   
+  openCallbackForm() {
+    this.modalService.open('callback-modal', { purpose: 'callback' });
+  }
 }
