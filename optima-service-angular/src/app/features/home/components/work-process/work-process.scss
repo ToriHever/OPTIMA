@@ -220,16 +220,16 @@
 }
 
 // Детали шага
-.step-details {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
+// .step-details {
+//   max-height: 0;
+//   overflow: hidden;
+//   transition: max-height 0.3s ease-out;
   
-  &.open {
-    max-height: 1000px;
-    transition: max-height 0.5s ease-in;
-  }
-}
+//   &.open {
+//     max-height: 1000px;
+//     transition: max-height 0.5s ease-in;
+//   }
+// }
 
 .details-content {
   padding: 0 $spacing-lg $spacing-lg;

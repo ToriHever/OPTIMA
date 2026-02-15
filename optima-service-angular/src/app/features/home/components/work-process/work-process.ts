@@ -21,14 +21,28 @@ interface ProcessStep {
       state('closed', style({
         height: '0',
         opacity: '0',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        paddingTop: '0',
+        paddingBottom: '0',
+        marginTop: '0',
+        marginBottom: '0',
+        visibility: 'hidden'
       })),
       state('open', style({
         height: '*',
         opacity: '1',
-        overflow: 'visible'
+        overflow: 'visible', // После завершения анимации контент может выходить за рамки (например, тени)
+        visibility: 'visible'
       })),
-      transition('closed <=> open', animate('300ms ease-in-out'))
+      transition('closed => open', [
+        // В начале анимации принудительно ставим hidden, чтобы не было скачков
+        style({ overflow: 'hidden', visibility: 'visible' }),
+        animate('400ms cubic-bezier(0.4, 0, 0.2, 1)') // Cubic-bezier делает движение более "живым"
+      ]),
+      transition('open => closed', [
+        style({ overflow: 'hidden' }),
+        animate('300ms ease-in')
+      ])
     ])
   ]
 })
