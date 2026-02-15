@@ -55,13 +55,20 @@ export class Hero implements OnInit, OnDestroy {
    * Скролл к секции с услугами
    */
   scrollToServices(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const servicesSection = document.querySelector('#services');
-      if (servicesSection) {
-        servicesSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+  const servicesSection = document.querySelector('#services');
+  const header = document.querySelector('header'); // если у тебя фиксированный header
+
+  if (servicesSection) {
+    const headerHeight = header ? header.clientHeight : 0;
+    const top = servicesSection.getBoundingClientRect().top + window.scrollY - headerHeight;
+
+    window.scrollTo({
+      top,
+      behavior: 'smooth'
+    });
   }
+}
+
   
   /**
    * Скролл к следующей секции
