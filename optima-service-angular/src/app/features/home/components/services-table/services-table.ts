@@ -1,6 +1,7 @@
 import { Component, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { ModalService } from '../../../../core/services/modal.service';
 
 interface Service {
   name: string;
@@ -120,7 +121,8 @@ export class ServicesTable {
     }
   ];
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: ModalService
+) {}
   
   /**
    * Выбор категории
@@ -132,9 +134,11 @@ export class ServicesTable {
   /**
    * Открытие формы обратного звонка
    */
-  openCallbackForm(): void {
-    // TODO: Реализовать модальное окно
-    console.log('Open callback form');
+  openCallbackForm() {
+    this.modalService.open('callback-modal', { purpose: 'callback' });
+  }
+   openDiagnosticForm() {
+    this.modalService.open('callback-modal', { purpose: 'diagnostic' });
   }
   
   /**
