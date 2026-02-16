@@ -74,7 +74,7 @@ export class ScrollService {
     }
     
     const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - this.headerHeight - 30 - offset;
+    const offsetPosition = elementPosition + window.pageYOffset - this.headerHeight - 80 - offset;
     
     window.scrollTo({
       top: offsetPosition,
