@@ -5,8 +5,57 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class ScrollService {
+  private headerHeight: number = 0;
+  private headerElement: HTMLElement | null = null;
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.initHeaderHeight();
+  }
+  
+  /**
+   * Инициализация и кеширование высоты header
+   */
+  private initHeaderHeight(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    
+    // Ждем когда DOM загрузится
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.cacheHeader());
+    } else {
+      this.cacheHeader();
+    }
+  }
+  
+  /**
+   * Кеширование header элемента и его высоты
+   */
+  private cacheHeader(): void {
+    this.headerElement = document.querySelector('app-header');
+    this.updateHeaderHeight();
+    
+    // Подписываемся на изменение размера окна
+    if (isPlatformBrowser(this.platformId)) {
+      window.addEventListener('resize', () => this.updateHeaderHeight());
+    }
+  }
+  
+  /**
+   * Обновление высоты header (при resize)
+   */
+  private updateHeaderHeight(): void {
+    if (this.headerElement) {
+      this.headerHeight = this.headerElement.clientHeight;
+    }
+  }
+  
+  /**
+   * Получить высоту header
+   */
+  public getHeaderHeight(): number {
+    return this.headerHeight;
+  }
   
   /**
    * Плавный скролл к элементу с учетом высоты header
@@ -24,10 +73,8 @@ export class ScrollService {
       return;
     }
     
-    const header = document.querySelector('app-header');
-    const headerHeight = header ? header.clientHeight : 0;
     const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerHeight - offset;
+    const offsetPosition = elementPosition + window.pageYOffset - this.headerHeight - 30 - offset;
     
     window.scrollTo({
       top: offsetPosition,

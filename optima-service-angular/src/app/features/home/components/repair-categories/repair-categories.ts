@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../../../core/services/modal.service';
+import { ScrollService } from '../../../../core/services/scroll.service';
 
 interface RepairCategory {
   name: string;
@@ -123,7 +124,9 @@ export class RepairCategories implements OnInit {
   ];
   
   constructor(@Inject(PLATFORM_ID) private platformId: Object,
-  private modalService: ModalService) {}
+  private modalService: ModalService,
+  private scrollService: ScrollService
+) {}
   
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -154,12 +157,7 @@ export class RepairCategories implements OnInit {
    * Скролл к секции услуг
    */
   scrollToServices(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const servicesSection = document.querySelector('#services');
-      if (servicesSection) {
-        servicesSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+    this.scrollService.scrollToId('services');
   }
   
   /**

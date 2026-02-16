@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../../../core/services/modal.service';
+import { ScrollService } from '../../../../core/services/scroll.service';
 
 @Component({
   selector: 'app-hero',
@@ -14,7 +15,8 @@ export class Hero implements OnInit, OnDestroy {
   parallaxOffset = 0;
   
   constructor(@Inject(PLATFORM_ID) private platformId: Object,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private scrollService: ScrollService
   ) {}
   
   ngOnInit(): void {
@@ -52,34 +54,14 @@ export class Hero implements OnInit, OnDestroy {
   }
   
   /**
-   * Скролл к секции с услугами
+   * Скроллы
    */
-  scrollToServices(): void {
-  const servicesSection = document.querySelector('#services');
-  const header = document.querySelector('header'); // если у тебя фиксированный header
-
-  if (servicesSection) {
-    const headerHeight = header ? header.clientHeight : 0;
-    const top = servicesSection.getBoundingClientRect().top + window.scrollY - headerHeight;
-
-    window.scrollTo({
-      top,
-      behavior: 'smooth'
-    });
-  }
+ scrollToServices(): void {
+  this.scrollService.scrollToId('services');
 }
 
-  
-  /**
-   * Скролл к следующей секции
-   */
   scrollToNext(event: Event): void {
-    event.preventDefault();
-    if (isPlatformBrowser(this.platformId)) {
-      const brandsSection = document.querySelector('#brands');
-      if (brandsSection) {
-        brandsSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }
+  event.preventDefault();
+  this.scrollService.scrollToId('brands');
+}
 }

@@ -2,6 +2,7 @@ import { Component, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ModalService } from '../../../../core/services/modal.service';
+import { ScrollService } from '../../../../core/services/scroll.service';
 
 interface Service {
   name: string;
@@ -121,7 +122,9 @@ export class ServicesTable {
     }
   ];
   
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, private modalService: ModalService
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, 
+  private modalService: ModalService,
+  private scrollService: ScrollService
 ) {}
   
   /**
@@ -145,11 +148,6 @@ export class ServicesTable {
    * Скролл к секции гарантий
    */
   scrollToWarranty(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const warrantySection = document.querySelector('#warranty');
-      if (warrantySection) {
-        warrantySection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+  this.scrollService.scrollToId('warranty');
   }
 }
