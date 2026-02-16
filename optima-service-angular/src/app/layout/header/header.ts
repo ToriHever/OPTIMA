@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ModalService } from '../../core/services/modal.service';
+import { ScrollService } from '../../core/services/scroll.service';
 
 
 @Component({
@@ -15,7 +16,13 @@ export class Header {
   isMenuOpen = false;
   isScrolled = false;
   
-  constructor(private modalService: ModalService) {}
+  constructor(private modalService: ModalService,
+    private scrollService: ScrollService
+  ) {}
+
+  scrollTo(sectionId: string): void {
+    this.scrollService.scrollToId(sectionId);
+  }
   
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;

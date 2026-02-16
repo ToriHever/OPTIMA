@@ -52,16 +52,16 @@
           <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
             Главная
           </a>
-          <a [routerLink]="['#process']" fragment="process" class="nav-link">
+          <a routerLink="/" (click)="scrollTo('process')" fragment="process" class="nav-link">
             Как работаем
           </a>
-          <a [routerLink]="['/']" fragment="warranty" class="nav-link">
+          <a routerLink="/" (click)="scrollTo('warranty')" fragment="warranty" class="nav-link">
             Гарантии
           </a>
-          <a [routerLink]="['/']" fragment="services" class="nav-link">
+          <a routerLink="/" (click)="scrollTo('services')" fragment="services" class="nav-link">
             Услуги
           </a>
-          <a [routerLink]="['/']" fragment="certificates" class="nav-link">
+          <a routerLink="/" (click)="scrollTo('certificates')" fragment="certificates" class="nav-link">
             Авторизации
           </a>
           <a routerLink="/about" class="nav-link" routerLinkActive="active">
