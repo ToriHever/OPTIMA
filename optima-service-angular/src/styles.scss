@@ -37,7 +37,7 @@ body {
 
 // Контейнеры
 .container {
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -160,6 +160,7 @@ ul, ol {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
   padding: 14px 32px;
   font-size: 0.8rem;
   font-weight: 600;
@@ -245,6 +246,7 @@ ul, ol {
 @media (max-width: 768px) {
   .container {
     padding: 0 16px;
+    width: 100%;
   }
   
   .container-big {
@@ -263,6 +265,11 @@ ul, ol {
 @media (max-width: 480px) {
   html {
     font-size: 14px;
+  }
+
+  .container {
+    padding: 0 16px;
+    width: 100%;
   }
   
   .section-subtitle {

@@ -48,12 +48,14 @@
 }
 
 .header-content {
-  display: flex;
-  align-items: center;
+  @include flex-row;
   justify-content: space-between;
   gap: $spacing-lg;
-  width: max-content;
   margin: 0 auto;
+}
+.header-actions{ 
+  @include flex-row;
+  gap: $spacing-lg;
 }
 
 .logo {
@@ -146,9 +148,17 @@
 @include desktop {
   .header-contacts {
     gap: $spacing-sm;
-    font-size: 0.8125rem;
+    font-size: 0.7rem;
   }
   
+  .logo{
+    display: none;
+  }
+
+  .header-content{
+    @include flex-center;
+  }
+
   .nav {
     gap: $spacing-sm;
   }
@@ -159,19 +169,34 @@
   }
 }
 
-@include tablet {
-  .header-top {
+@media (max-width: 1120px) and (min-width: 1020px) {
+  .logo {
     display: none;
   }
   
   .header-content {
-    gap: $spacing-sm;
+    @include flex-center;
+  }
+}
+
+@include tablet {
+
+  .header-top {
+    display: none;
   }
   
+ .logo{
+    display: block;
+  }
+
+  .header-content{
+    @include flex-between;
+  }
+
   .nav {
     position: fixed;
     top: 65px;
-    left: -100%;
+    right: -100%;
     width: 100%;
     max-width: 320px;
     height: calc(100vh - 70px);
@@ -210,6 +235,7 @@
 }
 
 @include mobile {
+
   .logo img {
     max-width: 120px;
     height: auto;
