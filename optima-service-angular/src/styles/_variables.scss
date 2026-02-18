@@ -16,6 +16,7 @@ $color-text: #313131;
 
 // Градиенты
 $gradient-primary: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+$gradient-primary-light: linear-gradient(135deg, rgba(0, 68, 77, 0.05) 0%, rgba(0, 68, 77, 0.02) 100%);
 $gradient-accent: linear-gradient(135deg, $color-accent 0%, #FF4444 100%);
 $gradient-card: linear-gradient(135deg, $color-primary-light 0%, $color-primary 100%);
 
