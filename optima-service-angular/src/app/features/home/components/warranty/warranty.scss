@@ -190,11 +190,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $spacing-xl;
-  padding: $spacing-xl;
-  background: $color-white;
-  border-radius: $radius-lg;
-  box-shadow: $shadow-md;
+  gap: $spacing-md;
 }
 
 .cta-content {
@@ -229,6 +225,11 @@
   .conditions-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .cta-actions{
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 768px) {
@@ -253,23 +254,15 @@
     font-size: 1.75rem;
   }
   
-  .conditions-grid {
-    grid-template-columns: 1fr;
-    gap: $spacing-md;
-  }
-  
   .warranty-cta {
     flex-direction: column;
     text-align: center;
+    padding: $spacing-xs;
   }
   
   .cta-actions {
-    flex-direction: column;
-    width: 100%;
-    
-    .btn {
-      width: 100%;
-    }
+    flex-direction: row;
+    width: fit-content;
   }
 }
 
