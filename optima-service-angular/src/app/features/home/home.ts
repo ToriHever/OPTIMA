@@ -8,11 +8,12 @@ import { Warranty } from './components/warranty/warranty';
 import { ReviewsSection } from './components/reviews-section/reviews-section';
 import { Certificates } from './components/certificates/certificates';
 import { PageProgressNavComponent } from '../../shared/components/page-progress-nav/page-progress-nav';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [Hero, BrandsCarousel, RepairCategories, ServicesTable, WorkProcess, Warranty, ReviewsSection, Certificates, PageProgressNavComponent],
+  imports: [CommonModule, Hero, BrandsCarousel, RepairCategories, ServicesTable, WorkProcess, Warranty, ReviewsSection, Certificates, PageProgressNavComponent],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

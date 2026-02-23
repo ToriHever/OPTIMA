@@ -31,11 +31,19 @@ export class PageProgressNavComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     if (this.isBrowser) {
-      // Небольшая задержка для корректной инициализации DOM
+      // Ждем полной загрузки DOM и всех стилей
       setTimeout(() => {
         this.initNavigation();
         this.updateProgress();
-      }, 100);
+      }, 500);
+      
+      // Дополнительная инициализация после загрузки изображений
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          this.initNavigation();
+          this.updateProgress();
+        }, 100);
+      });
     }
   }
   
@@ -47,30 +55,34 @@ export class PageProgressNavComponent implements OnInit, OnDestroy {
    * Инициализация навигации - сканирование заголовков на странице
    */
   private initNavigation(): void {
-    // Ищем все заголовки h2 с id (можно настроить селектор)
-    const headings = document.querySelectorAll('h2[id], h3[id], section[id] > .section-title-dark, section[id] > .container > .section-title-dark');
+    // Приоритет: ищем section с data-nav-title (это основной способ)
+    const sections = document.querySelectorAll('section[data-nav-title]');
     
-    this.navItems = Array.from(headings).map((heading: Element) => {
-      const element = heading as HTMLElement;
-      const section = heading.closest('section') || element;
-      const id = section.id || element.id;
+    this.navItems = Array.from(sections).map((section: Element) => {
+      const sectionElement = section as HTMLElement;
+      const id = sectionElement.id;
       
-      // Проверяем наличие data-nav-title для альтернативного названия
-      const altTitle = element.getAttribute('data-nav-title') || 
-                       section.getAttribute('data-nav-title');
+      // Получаем альтернативное название из data-nav-title на section
+      const altTitle = sectionElement.getAttribute('data-nav-title');
+      
+      // Пытаемся найти заголовок внутри для основного названия
+      const heading = sectionElement.querySelector('h2, h3, .section-title');
+      const title = heading?.textContent?.trim() || altTitle || '';
       
       return {
-        id: id,
-        title: element.textContent?.trim() || '',
+        id: id || `section-${Math.random().toString(36).substr(2, 9)}`,
+        title: title,
         altTitle: altTitle || undefined,
-        element: section as HTMLElement,
-        offsetTop: (section as HTMLElement).offsetTop,
+        element: sectionElement,
+        offsetTop: sectionElement.offsetTop,
         progress: 0
       };
     });
     
     // Показываем меню только если есть хотя бы 2 секции
     this.isVisible = this.navItems.length >= 2;
+    
+    console.log('Navigation initialized:', this.navItems.length, 'sections found');
   }
   
   /**
@@ -113,28 +125,44 @@ export class PageProgressNavComponent implements OnInit, OnDestroy {
       (scrollTop / (documentHeight - windowHeight)) * 100
     );
     
+    // Пересчитываем offsetTop для всех элементов (на случай динамического контента)
+    // this.navItems.forEach(item => {
+    //   if (item.element) {
+    //     const rect = item.element.getBoundingClientRect();
+    //     item.offsetTop = rect.top + scrollTop;
+    //   }
+    // });
+    
     // Определяем текущую секцию и прогресс каждой
+    let currentFound = false;
+    
     this.navItems.forEach((item, index) => {
       if (!item.element) return;
       
       const nextItem = this.navItems[index + 1];
-      const sectionTop = item.offsetTop - 100; // Отступ для активации
-      const sectionBottom = nextItem ? nextItem.offsetTop - 100 : documentHeight;
+      const sectionTop = item.offsetTop - 170; // Отступ для активации
+      const sectionBottom = nextItem ? nextItem.offsetTop - 170 : documentHeight;
       const sectionHeight = sectionBottom - sectionTop;
       
       // Проверяем, находимся ли мы в этой секции
-      if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
+      if (!currentFound && scrollTop >= sectionTop && scrollTop < sectionBottom) {
         this.currentSection = index;
+        currentFound = true;
         
         // Прогресс текущей секции
         const progressInSection = scrollTop - sectionTop;
-        item.progress = Math.min(100, (progressInSection / sectionHeight) * 100);
+        item.progress = Math.min(100, Math.max(0, (progressInSection / sectionHeight) * 100));
       } else if (scrollTop >= sectionBottom) {
         item.progress = 100;
       } else {
         item.progress = 0;
       }
     });
+    
+    // Если ничего не нашли (в самом начале страницы)
+    if (!currentFound && scrollTop < 150) {
+      this.currentSection = 0;
+    }
   }
   
   /**
@@ -142,14 +170,22 @@ export class PageProgressNavComponent implements OnInit, OnDestroy {
    */
   scrollToSection(index: number): void {
     const item = this.navItems[index];
-    if (item.element) {
-      const offsetTop = item.element.offsetTop - 80; // Отступ для fixed header
-      
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-      });
-    }
+    if (!item.element) return;
+    
+    // Пересчитываем offsetTop перед скроллом (на случай динамического контента)
+    const element = document.getElementById(item.id);
+    if (!element) return;
+    
+    const rect = element.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const offsetTop = rect.top + scrollTop - 100; // Отступ для fixed header (настройте под свой header)
+    
+    console.log('Scrolling to section:', item.id, 'offset:', offsetTop);
+    
+    window.scrollTo({
+      top: offsetTop,
+      behavior: 'smooth'
+    });
   }
   
   /**
