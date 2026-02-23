@@ -45,7 +45,6 @@
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
   padding: $spacing-md;
-  height: fit-content;
   position: sticky;
   top: $spacing-lg;
 }
@@ -60,7 +59,7 @@
   display: flex;
   align-items: center;
   gap: $spacing-md;
-  padding: $spacing-md;
+  padding: $spacing-sm $spacing-xs;
   background: transparent;
   border: 2px solid transparent;
   border-radius: $radius-md;
@@ -147,7 +146,7 @@
   background: $color-white;
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
-  padding: $spacing-xl;
+  padding: $spacing-xs $spacing-lg;
 }
 
 .content-header {
@@ -160,7 +159,7 @@
   font-size: 1.75rem;
   font-weight: 700;
   color: $color-dark;
-  margin: 0 0 $spacing-sm 0;
+  margin: $spacing-sm 0;
 }
 
 .content-description {
