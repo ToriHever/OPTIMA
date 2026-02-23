@@ -32,12 +32,12 @@
         <div class="footer-col">
           <h3 class="footer-title">Услуги</h3>
           <ul class="footer-list">
-            <li><a [routerLink]="['/']" fragment="services">Ремонт холодильников</a></li>
-            <li><a [routerLink]="['/']" fragment="services">Ремонт стиральных машин</a></li>
-            <li><a [routerLink]="['/']" fragment="services">Ремонт посудомоечных машин</a></li>
-            <li><a [routerLink]="['/']" fragment="services">Ремонт варочных панелей</a></li>
-            <li><a [routerLink]="['/']" fragment="services">Ремонт духовых шкафов</a></li>
-            <li><a [routerLink]="['/']" fragment="services">Ремонт кофемашин</a></li>
+            <li><a [routerLink]="['/']" (click)="scrollTo('services')" fragment="services">Ремонт холодильников</a></li>
+            <li><a [routerLink]="['/']" (click)="scrollTo('services')" fragment="services">Ремонт стиральных машин</a></li>
+            <li><a [routerLink]="['/']" (click)="scrollTo('services')" fragment="services">Ремонт посудомоечных машин</a></li>
+            <li><a [routerLink]="['/']" (click)="scrollTo('services')" fragment="services">Ремонт варочных панелей</a></li>
+            <li><a [routerLink]="['/']" (click)="scrollTo('services')" fragment="services">Ремонт духовых шкафов</a></li>
+            <li><a [routerLink]="['/']" (click)="scrollTo('services')" fragment="services">Ремонт кофемашин</a></li>
           </ul>
         </div>
 
@@ -46,10 +46,10 @@
           <h3 class="footer-title">Информация</h3>
           <ul class="footer-list">
             <li><a routerLink="/about">О компании</a></li>
-            <li><a [routerLink]="['/']" fragment="process">Как мы работаем</a></li>
-            <li><a [routerLink]="['/']" fragment="warranty">Гарантии</a></li>
-            <li><a [routerLink]="['/']" fragment="certificates">Авторизации</a></li>
-            <li><a [routerLink]="['/']" fragment="reviews">Отзывы</a></li>
+            <li><a [routerLink]="['/']" (click)="scrollTo('process')" fragment="process">Как мы работаем</a></li>
+            <li><a [routerLink]="['/']" (click)="scrollTo('warranty')" fragment="warranty">Гарантии</a></li>
+            <li><a [routerLink]="['/']" (click)="scrollTo('certificates')" fragment="certificates">Авторизации</a></li>
+            <li><a [routerLink]="['/']" (click)="scrollTo('reviews')" fragment="reviews">Отзывы</a></li>
             <li><a href="#" (click)="openRepairStatusModal($event)">Проверить статус ремонта</a></li>
           </ul>
         </div>
