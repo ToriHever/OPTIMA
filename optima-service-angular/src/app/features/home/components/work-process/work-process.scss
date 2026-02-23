@@ -284,6 +284,9 @@
 }
 
 @media (max-width: 1024px) {
+  .process-section {
+    padding: 0;
+  }
   .process-layout {
     display: flex;
     flex-direction: column-reverse;
@@ -322,9 +325,6 @@
 }
 
 @media (max-width: 768px) {
-  .process-section {
-    padding: $spacing-xl 0;
-  }
   
   .section-title {
     font-size: 2rem;
