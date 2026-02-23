@@ -36,7 +36,7 @@
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: $spacing-sm;
-  margin-bottom: $spacing-xxl;
+  margin-bottom: $spacing-lg;
 }
 
 // Левая колонка - список категорий
@@ -329,7 +329,6 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: $spacing-lg;
-  margin-top: $spacing-xxl;
 }
 
 .cta-card {
@@ -430,6 +429,7 @@
     width: -webkit-fill-available;
     overflow: scroll;
     scrollbar-width: none;
+    padding: $spacing-xl 0;
   }
 }
 
@@ -456,6 +456,10 @@
   
   .content-description {
     font-size: 0.9375rem;
+  }
+
+  .cta-card {
+    padding: $spacing-lg;
   }
   
   // Мобильная таблица
