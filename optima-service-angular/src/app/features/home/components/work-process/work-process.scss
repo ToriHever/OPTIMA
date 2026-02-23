@@ -233,7 +233,7 @@
 
 .details-content {
   padding: 0 $spacing-lg $spacing-lg;
-  padding-left: calc($spacing-lg + 40px + $spacing-lg); // Выравнивание с заголовком
+  padding-left: calc($spacing-md + 45px + $spacing-md); // Выравнивание с заголовком
   border-top: 1px solid $color-bg-grey;
   margin-top: $spacing-md;
   padding-top: $spacing-md;
@@ -279,12 +279,15 @@
   
   .section-title {
     font-size: 2rem;
+    width: 50%;
   }
 }
 
 @media (max-width: 1024px) {
   .process-layout {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
     gap: $spacing-lg;
   }
   
@@ -298,6 +301,8 @@
   
   .section-title {
     font-size: 2.5rem;
+    width: 100%;
+    text-align: center;
   }
   
   .section-description {
@@ -310,6 +315,9 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: $spacing-md;
+  }
+    .sidebar-stats {
+    display: none;
   }
 }
 
@@ -329,17 +337,7 @@
   .sidebar-content {
     padding: $spacing-lg;
   }
-  
-  .sidebar-features {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .sidebar-stats {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  
+
   .step-header {
     padding: $spacing-md;
     gap: $spacing-md;
@@ -361,7 +359,7 @@
 
   
   .details-content {
-    padding-left: $spacing-md;
+    padding-left: $spacing-xxl;
   }
   
   .details-description {
