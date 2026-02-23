@@ -220,15 +220,15 @@
         border: none;
         
         &.col-service {
-          width: 50%;
+          width: 30%;
         }
         
         &.col-price {
-          width: 25%;
+          width: 20%;
         }
         
         &.col-time {
-          width: 25%;
+          width: 50%;
         }
         
         // Закругление углов для sticky header
@@ -311,12 +311,13 @@
 
 .price-value {
   font-weight: 700;
-  font-size: 1.125rem;
+  font-size: 0.995rem;
   color: $color-primary;
 }
 
 .col-time {
   vertical-align: middle;
+  font-size: 0.955rem;
 }
 
 .time-value {
@@ -503,7 +504,7 @@
           }
           
           &.col-time::before {
-            content: 'Срок';
+            content: 'Описание';
           }
         }
       }
@@ -536,6 +537,61 @@
     svg {
       width: 32px;
       height: 32px;
+    }
+  }
+}
+
+// Tooltip стили
+.tooltip-trigger {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dashed currentColor;
+  
+  &::before,
+  &::after {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+  }
+  
+  // Текст тултипа
+  &::before {
+    content: attr(data-tooltip);
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: #2d3748;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.4;
+    width: max-content;
+    max-width: 280px;
+    white-space: normal;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+  }
+  
+  // Стрелочка
+  &::after {
+    content: '';
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-2px);
+    border: 6px solid transparent;
+    border-top-color: #2d3748;
+    z-index: 1001;
+  }
+  
+  &:hover {
+    &::before,
+    &::after {
+      opacity: 1;
+      visibility: visible;
     }
   }
 }
