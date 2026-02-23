@@ -1,0 +1,316 @@
+// Переменные (можно адаптировать под ваш проект)
+$color-primary: #2563eb;
+$color-primary-light: #60a5fa;
+$color-white: #ffffff;
+$color-dark: #1e293b;
+$color-bg-grey: #f1f5f9;
+$color-text-muted: #64748b;
+
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-full: 9999px;
+
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+$transition-base: 0.3s ease;
+$transition-fast: 0.15s ease;
+
+// Основной контейнер
+.page-progress-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  z-index: 999;
+  
+  background: $color-white;
+  border-radius: $radius-md $radius-md 0 0;
+  box-shadow: $shadow-lg;
+  
+  padding: $spacing-md $spacing-lg $spacing-sm;
+  max-width: 90vw;
+  width: fit-content;
+  
+  opacity: 0;
+  visibility: hidden;
+  transition: all $transition-base;
+  
+  // Показываем меню
+  &.visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  // Анимация появления при скролле
+  animation: slideUp 0.5s ease-out 1s forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Общий прогресс-бар
+.progress-bar-wrapper {
+  margin-bottom: $spacing-md;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: $color-bg-grey;
+  border-radius: $radius-full;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, $color-primary-light 0%, $color-primary 100%);
+  border-radius: $radius-full;
+  transition: width $transition-fast;
+}
+
+// Навигационные элементы
+.nav-items {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  
+  padding: $spacing-sm;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  
+  transition: all $transition-base;
+  border-radius: $radius-sm;
+  
+  // Hover эффект
+  &:hover {
+    background: rgba($color-primary, 0.05);
+    
+    .item-title {
+      color: $color-primary;
+    }
+    
+    .progress-circle {
+      transform: scale(1.1);
+    }
+  }
+  
+  // Активная секция
+  &.active {
+    .item-title {
+      color: $color-primary;
+      font-weight: 600;
+    }
+    
+    .progress-ring {
+      stroke: $color-primary;
+    }
+    
+    .center-dot {
+      fill: $color-primary;
+    }
+  }
+  
+  // Завершенная секция
+  &.completed {
+    .progress-ring {
+      stroke: #10b981; // Зеленый цвет
+    }
+    
+    .check-icon {
+      stroke: #10b981;
+    }
+  }
+}
+
+// Прогресс круг
+.item-progress {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.progress-circle {
+  transform-origin: center;
+  transition: transform $transition-base;
+}
+
+.progress-bg {
+  stroke: $color-bg-grey;
+}
+
+.progress-ring {
+  stroke: $color-text-muted;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset $transition-fast, stroke $transition-base;
+}
+
+.center-dot {
+  fill: $color-text-muted;
+  transition: fill $transition-base;
+}
+
+.check-icon {
+  opacity: 0;
+  animation: checkFadeIn 0.3s ease forwards;
+}
+
+@keyframes checkFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Название секции
+.item-title {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $color-text-muted;
+  text-align: center;
+  max-width: 80px;
+  
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  transition: color $transition-base;
+}
+
+// Подсказка для мобильных
+.mobile-hint {
+  display: none;
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  color: $color-text-muted;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-4px);
+  }
+}
+
+// Адаптивность
+@media (max-width: 1024px) {
+  .page-progress-nav {
+    max-width: 95vw;
+    padding: $spacing-sm $spacing-md;
+  }
+  
+  .nav-items {
+    gap: $spacing-xs;
+  }
+  
+  .nav-item {
+    padding: $spacing-xs;
+  }
+  
+  .item-title {
+    font-size: 0.7rem;
+    max-width: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-progress-nav {
+    border-radius: $radius-sm $radius-sm 0 0;
+  }
+  
+  .nav-items {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  .item-progress {
+    width: 32px;
+    height: 32px;
+    
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  
+  .progress-ring,
+  .progress-bg {
+    r: 12;
+  }
+  
+  .center-dot {
+    r: 3;
+  }
+  
+  .item-title {
+    font-size: 0.65rem;
+    max-width: 60px;
+  }
+  
+  .mobile-hint {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-progress-nav {
+    padding: $spacing-xs $spacing-sm;
+  }
+  
+  .progress-bar-wrapper {
+    margin-bottom: $spacing-sm;
+  }
+  
+  .progress-bar {
+    height: 3px;
+  }
+  
+  .nav-item {
+    min-width: 56px;
+  }
+  
+  .item-title {
+    display: none; // Скрываем текст на маленьких экранах
+  }
+}

@@ -7,11 +7,12 @@ import { WorkProcess } from './components/work-process/work-process';
 import { Warranty } from './components/warranty/warranty';
 import { ReviewsSection } from './components/reviews-section/reviews-section';
 import { Certificates } from './components/certificates/certificates';
+import { PageProgressNavComponent } from '../../shared/components/page-progress-nav/page-progress-nav';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [Hero, BrandsCarousel, RepairCategories, ServicesTable, WorkProcess, Warranty, ReviewsSection, Certificates],
+  imports: [Hero, BrandsCarousel, RepairCategories, ServicesTable, WorkProcess, Warranty, ReviewsSection, Certificates, PageProgressNavComponent],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
