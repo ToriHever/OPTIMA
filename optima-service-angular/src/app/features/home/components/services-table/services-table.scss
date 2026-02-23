@@ -406,7 +406,7 @@
   
   .categories-nav {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: $spacing-sm;
   }
   
@@ -427,7 +427,9 @@
   }
   
   .services-cta {
-    grid-template-columns: 1fr;
+    width: -webkit-fill-available;
+    overflow: scroll;
+    scrollbar-width: none;
   }
 }
 
@@ -442,10 +444,6 @@
   
   .section-subtitle-dark {
     font-size: 1rem;
-  }
-  
-  .categories-nav {
-    grid-template-columns: 1fr;
   }
   
   .services-content {
