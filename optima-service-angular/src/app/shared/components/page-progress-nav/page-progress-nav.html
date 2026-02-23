@@ -1,11 +1,4 @@
 <nav class="page-progress-nav" [class.visible]="isVisible" *ngIf="isVisible">
-  <!-- Общий прогресс страницы -->
-  <div class="progress-bar-wrapper">
-    <div class="progress-bar">
-      <div class="progress-fill" [style.width.%]="totalProgress"></div>
-    </div>
-  </div>
-  
   <!-- Навигационные элементы -->
   <div class="nav-items">
     <button 
@@ -16,53 +9,23 @@
       (click)="scrollToSection(i)"
       [attr.aria-label]="'Перейти к разделу: ' + getDisplayTitle(item)">
       
-      <!-- Индикатор прогресса секции -->
-      <div class="item-progress">
-        <svg class="progress-circle" width="40" height="40" viewBox="0 0 40 40">
-          <!-- Фоновый круг -->
-          <circle 
-            class="progress-bg" 
-            cx="20" 
-            cy="20" 
-            r="16" 
-            fill="none" 
-            stroke-width="3"/>
-          
-          <!-- Прогресс круг -->
-          <circle 
-            class="progress-ring" 
-            cx="20" 
-            cy="20" 
-            r="16" 
-            fill="none" 
-            stroke-width="3"
-            [style.stroke-dasharray]="100.53"
-            [style.stroke-dashoffset]="100.53 - (item.progress * 100.53 / 100)"/>
-          
-          <!-- Иконка галочки при завершении -->
-          <g *ngIf="item.progress === 100" class="check-icon">
-            <path d="M14 20L18 24L26 16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
-          
-          <!-- Точка в центре для текущей секции -->
-          <circle 
-            *ngIf="currentSection === i && item.progress < 100" 
-            class="center-dot" 
-            cx="20" 
-            cy="20" 
-            r="4"/>
-        </svg>
+      <!-- Прогресс-бар как фон -->
+      <div class="item-background">
+        <div class="progress-fill" [style.width.%]="item.progress"></div>
       </div>
       
       <!-- Название секции -->
       <span class="item-title">{{ getDisplayTitle(item) }}</span>
+      
+      <!-- Индикатор завершения -->
+      <!-- <svg *ngIf="item.progress === 100" class="check-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M4 8L7 11L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg> -->
     </button>
   </div>
   
-  <!-- Подсказка для мобильных -->
-  <div class="mobile-hint">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor">
-      <path d="M4 6L8 10L12 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+  <!-- Общий прогресс страницы (тонкая линия сверху) -->
+  <div class="total-progress">
+    <div class="total-progress-fill" [style.width.%]="totalProgress"></div>
   </div>
 </nav>

@@ -118,49 +118,58 @@ export class PageProgressNavComponent implements OnInit, OnDestroy {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
-    
-    // Общий прогресс страницы (0-100)
-    this.totalProgress = Math.min(
-      100,
-      (scrollTop / (documentHeight - windowHeight)) * 100
-    );
+    const maxScroll = documentHeight - windowHeight;
+
+    // 1. Общий прогресс страницы (0-100)
+    this.totalProgress = Math.min(100, (scrollTop / maxScroll) * 100);
+
+    // Проверка: если мы в самом низу, принудительно завершаем прогресс всех секций
+    const isAtBottom = Math.abs(scrollTop - maxScroll) < 5; // запас в 5px
     
     // Пересчитываем offsetTop для всех элементов (на случай динамического контента)
-    // this.navItems.forEach(item => {
-    //   if (item.element) {
-    //     const rect = item.element.getBoundingClientRect();
-    //     item.offsetTop = rect.top + scrollTop;
-    //   }
-    // });
-    
-    // Определяем текущую секцию и прогресс каждой
-    let currentFound = false;
-    
+    this.navItems.forEach(item => {
+      if (item.element) {
+        const rect = item.element.getBoundingClientRect();
+        item.offsetTop = rect.top + scrollTop;
+      }
+    });
+
     this.navItems.forEach((item, index) => {
       if (!item.element) return;
-      
+
       const nextItem = this.navItems[index + 1];
-      const sectionTop = item.offsetTop - 170; // Отступ для активации
-      const sectionBottom = nextItem ? nextItem.offsetTop - 170 : documentHeight;
-      const sectionHeight = sectionBottom - sectionTop;
+      const sectionTop = item.offsetTop - 170;
       
-      // Проверяем, находимся ли мы в этой секции
-      if (!currentFound && scrollTop >= sectionTop && scrollTop < sectionBottom) {
+      // Для последней секции ограничиваем низ максимально возможным скроллом
+      let sectionBottom = nextItem ? nextItem.offsetTop - 170 : maxScroll;
+
+      // Если это последняя секция, она должна заканчиваться там, где заканчивается скролл
+      if (!nextItem) {
+        sectionBottom = maxScroll;
+      }
+
+      const sectionHeight = sectionBottom - sectionTop;
+
+      if (isAtBottom) {
+        // Если внизу страницы - завершаем все секции
+        item.progress = 100;
+        this.currentSection = this.navItems.length - 1;
+      } else if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
+        // Текущая активная секция
         this.currentSection = index;
-        currentFound = true;
-        
-        // Прогресс текущей секции
         const progressInSection = scrollTop - sectionTop;
         item.progress = Math.min(100, Math.max(0, (progressInSection / sectionHeight) * 100));
       } else if (scrollTop >= sectionBottom) {
+        // Секция уже пройдена
         item.progress = 100;
       } else {
+        // Секция еще не достигнута
         item.progress = 0;
       }
     });
     
-    // Если ничего не нашли (в самом начале страницы)
-    if (!currentFound && scrollTop < 150) {
+    // Если в самом начале страницы (до первой секции)
+    if (scrollTop < 150 && this.navItems.length > 0) {
       this.currentSection = 0;
     }
   }
