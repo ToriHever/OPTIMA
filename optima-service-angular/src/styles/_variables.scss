@@ -2,6 +2,8 @@
 // VARIABLES.SCSS - CSS переменные и SCSS переменные
 // ========================================
 
+@use 'sass:math';
+
 // Цвета бренда
 $color-primary: #00444D;
 $color-primary-light: #30676E;
@@ -90,6 +92,69 @@ $spacing-md: 24px;
 $spacing-lg: 40px;
 $spacing-xl: 64px;
 $spacing-xxl: 96px;
+
+// ========================================
+// FLUID SPACING — добавить в _variables.scss
+// после блока со старыми $spacing-* переменными
+// ========================================
+//
+// Диапазон: 480px (мобайл) → 1200px (десктоп)
+// Старые $spacing-* НЕ трогаем — они остаются.
+// Новые $space-* используй везде, где сейчас
+// прописан отступ + медиазапрос на уменьшение.
+//
+// Таблица соответствий:
+// $space-xs   →  6px  .. 8px   (было $spacing-xs:  8px)
+// $space-sm   →  10px .. 16px  (было $spacing-sm: 16px)
+// $space-md   →  16px .. 24px  (было $spacing-md: 24px)
+// $space-lg   →  24px .. 40px  (было $spacing-lg: 40px)
+// $space-xl   →  32px .. 64px  (было $spacing-xl: 64px)
+// $space-xxl  →  40px .. 96px  (было $spacing-xxl: 96px)
+//
+// ========================================
+
+// Функция fluid() — точный линейный переход
+// между двумя значениями на двух breakpoint'ах.
+// fluid(мин, макс, от-ширины, до-ширины)
+@function fluid($min, $max, $from: 480px, $to: 1200px) {
+  $slope: math.div($max - $min, $to - $from);
+  $intercept: $min - $slope * $from;
+  @return clamp(#{$min}, #{$intercept} + #{$slope * 100}vw, #{$max});
+}
+
+// Чтобы math.div работал — добавь в начало файла:
+// @use 'sass:math';
+// (или используй версию ниже без math.div — совместима со старым Sass)
+
+// ── Версия без @use (совместима с любым Sass) ────────────────
+// Раскомментируй эту функцию и закомментируй fluid() выше
+// если получаешь ошибку "math.div not found"
+//
+// @function fluid($min, $max, $from: 480px, $to: 1200px) {
+//   $slope: ($max - $min) / ($to - $from);
+//   $intercept: $min - $slope * $from;
+//   @return clamp(#{$min}, #{$intercept} + #{$slope * 100}vw, #{$max});
+// }
+
+// ── Fluid spacing переменные ─────────────────────────────────
+// Используются вместо фиксированных значений + медиазапросов
+
+$space-xs:  fluid(6px,  8px);    //  6px  @ 480px →  8px  @ 1200px
+$space-sm:  fluid(10px, 16px);   // 10px  @ 480px → 16px  @ 1200px
+$space-md:  fluid(16px, 24px);   // 16px  @ 480px → 24px  @ 1200px
+$space-lg:  fluid(24px, 40px);   // 24px  @ 480px → 40px  @ 1200px
+$space-xl:  fluid(32px, 64px);   // 32px  @ 480px → 64px  @ 1200px
+$space-xxl: fluid(40px, 96px);   // 40px  @ 480px → 96px  @ 1200px
+
+// ── CSS Custom Properties (опционально) ──────────────────────
+// Добавь в блок :root {} если нужны переменные в CSS/JS
+//
+//   --space-xs:  #{$space-xs};
+//   --space-sm:  #{$space-sm};
+//   --space-md:  #{$space-md};
+//   --space-lg:  #{$space-lg};
+//   --space-xl:  #{$space-xl};
+//   --space-xxl: #{$space-xxl};
 
 // Радиусы
 $radius-sm: 8px;

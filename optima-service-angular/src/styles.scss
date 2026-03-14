@@ -58,17 +58,17 @@ body {
 
 h1 {
   @include text-h1;
-  margin-bottom: $spacing-md;
+  margin-bottom: $space-md;
 }
 
 h2 {
   @include text-h2;
-  margin-bottom: $spacing-md;
+  margin-bottom: $space-md;
 }
 
 h3 {
   @include text-h3;
-  margin-bottom: $spacing-sm;
+  margin-bottom: $space-md;
 }
 
 h4 {
@@ -176,7 +176,7 @@ ul, ol {
 .section-title {
   @include text-h2;
   text-align: center;
-  margin-bottom: $spacing-lg;
+  margin-bottom: $space-lg;
 }
 
 // Заголовок секции с вариантом тёмного веса
@@ -196,7 +196,7 @@ ul, ol {
   @include text-subtitle-1;
   color: $color-primary-light;
   text-align: center;
-  margin-bottom: $spacing-xl;
+  margin-bottom: $space-xl;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
@@ -207,7 +207,7 @@ ul, ol {
   @include text-subtitle-1;
   color: $color-dark;
   text-align: center;
-  margin-bottom: $spacing-xl;
+  margin-bottom: $space-xl;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
@@ -261,7 +261,7 @@ ul, ol {
 }
 
 .btn-large {
-  padding: 14px 32px;
+  padding: $space-sm $space-lg;
   @include text-btn-lg;
 }
 

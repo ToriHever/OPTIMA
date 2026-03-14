@@ -45,7 +45,7 @@
   position: relative;
   z-index: 2;
   max-width: 800px;
-  // padding: $spacing-xxl 0;
+  padding: $space-xl 0;
 }
 
 .hero-title {
@@ -53,7 +53,7 @@
   font-weight: 700;
   color: $color-white;
   line-height: 1.2;
-  margin-bottom: $spacing-md;
+  margin-bottom: $space-md;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
   
   .text-accent {
@@ -66,7 +66,7 @@
   @include text-subtitle-1;
   color: rgba($color-white, 0.95);
   line-height: 1.6;
-  margin-bottom: $spacing-lg;
+  margin-bottom: $space-lg;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -75,7 +75,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: $spacing-md;
-  margin-bottom: $spacing-lg;
+  margin-bottom: $space-lg;
 }
 
 .hero-feature {
@@ -106,8 +106,8 @@
 .hero-cta {
   display: flex;
   flex-wrap: wrap;
-  gap: $spacing-md;
-  margin-bottom: $spacing-xl;
+  gap: $space-md;
+  margin-bottom: $space-xl;
   
   .btn {
     display: inline-flex;
@@ -265,10 +265,6 @@
 @media (max-width: 768px) {
   .hero {
     min-height: 90vh;
-  }
-  
-  .hero-content {
-    padding: $spacing-xl 0;
   }
   
   .hero-features {
