@@ -2,39 +2,37 @@
 @import '../../../../../styles/mixins';
 
 .warranty-section {
-  padding: $spacing-xxl 0;
-  background: linear-gradient(135deg, 
-    rgba($color-primary, 0.02) 0%, 
+  padding: $space-xxl 0;
+  background: linear-gradient(135deg,
+    rgba($color-primary, 0.02) 0%,
     rgba($color-primary-light, 0.05) 100%
   );
 }
 
 .warranty-header {
   text-align: center;
-  margin-bottom: $spacing-xxl;
+  margin-bottom: $space-xxl;
 }
 
-// Основной блок
 .warranty-main {
   display: grid;
   grid-template-columns: 300px 1fr;
-  gap: $spacing-xl;
-  margin-bottom: $spacing-xxl;
+  gap: $space-xl;
+  margin-bottom: $space-xxl;
   background: $color-white;
   border-radius: $radius-lg;
-  padding: $spacing-xl;
+  padding: $space-xl;
   box-shadow: $shadow-md;
 }
 
-// Бейдж гарантии
 .warranty-badge {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: $spacing-lg;
-  background: linear-gradient(135deg, 
-    rgba($color-primary, 0.05) 0%, 
+  padding: $space-lg;
+  background: linear-gradient(135deg,
+    rgba($color-primary, 0.05) 0%,
     rgba($color-primary-light, 0.1) 100%
   );
   border-radius: $radius-lg;
@@ -47,12 +45,12 @@
   align-items: center;
   justify-content: center;
   color: $color-primary;
-  margin-bottom: $spacing-md;
+  margin-bottom: $space-md;
 }
 
 .badge-title {
   font-size: $font-size-h2;
-  font-weight: 700;
+  font-weight: $font-weight-bold;
   color: $color-primary;
   margin-bottom: $spacing-xs;
   line-height: 1.2;
@@ -64,22 +62,21 @@
   margin: 0;
 }
 
-// Список преимуществ
 .warranty-content {
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
+  gap: $space-md;
 }
 
 .warranty-item {
   display: flex;
-  gap: $spacing-md;
-  padding: $spacing-md;
+  gap: $space-md;
+  padding: $space-md;
   background: $color-white;
   border: 1px solid $color-bg-grey;
   border-radius: $radius-md;
   transition: all $transition-base;
-  
+
   &:hover {
     border-color: $color-primary-light;
     box-shadow: $shadow-sm;
@@ -94,8 +91,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, 
-    rgba($color-primary, 0.1) 0%, 
+  background: linear-gradient(135deg,
+    rgba($color-primary, 0.1) 0%,
     rgba($color-primary-light, 0.15) 100%
   );
   border-radius: $radius-md;
@@ -104,64 +101,57 @@
 
 .item-content {
   flex: 1;
-  
+
   h4 {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: $color-dark;
+    @include text-h4;
     margin-bottom: $spacing-xs;
   }
-  
+
   p {
-    font-size: 0.9375rem;
+    @include text-body;
     color: rgba($color-dark, 0.7);
     line-height: 1.6;
     margin: 0;
   }
 }
 
-// Условия
 .warranty-conditions {
-  margin-bottom: $spacing-xxl;
-  
+  margin-bottom: $space-xxl;
+
   h3 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: $color-dark;
+    @include text-h3;
     text-align: center;
-    margin-bottom: $spacing-lg;
+    margin-bottom: $space-lg;
   }
 }
 
 .conditions-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: $spacing-md;
+  gap: $space-md;
 }
 
 .condition-card {
   position: relative;
-  padding: $spacing-sm;
+  padding: $space-sm;
   background: $color-white;
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
   transition: all $transition-base;
-  
+
   &:hover {
     transform: translateY(-8px);
     box-shadow: $shadow-lg;
   }
 
-  & h4 {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: $color-dark;
-    margin-bottom: $spacing-sm;
-    margin-top: $spacing-sm;
+  h4 {
+    @include text-h4;
+    margin-bottom: $space-sm;
+    margin-top: $space-sm;
   }
 
-  & p {
-    font-size: 0.9375rem;
+  p {
+    @include text-body;
     color: rgba($color-dark, 0.7);
     line-height: 1.6;
     margin: 0;
@@ -180,33 +170,29 @@
   background: $gradient-primary;
   color: $color-white;
   border-radius: 50%;
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: $font-size-h4;
+  font-weight: $font-weight-bold;
   box-shadow: 0 4px 12px rgba($color-primary, 0.3);
 }
 
-
-// CTA
 .warranty-cta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $spacing-md;
+  gap: $space-md;
   padding: 0 $spacing-sm;
 }
 
 .cta-content {
   flex: 1;
-  
+
   h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $color-dark;
-    margin-bottom: $spacing-sm;
+    @include text-h3;
+    margin-bottom: $space-sm;
   }
-  
+
   p {
-    font-size: 1rem;
+    @include text-body;
     color: rgba($color-dark, 0.7);
     margin: 0;
   }
@@ -214,47 +200,23 @@
 
 .cta-actions {
   display: flex;
-  gap: $spacing-md;
+  gap: $space-md;
   flex-shrink: 0;
 }
 
-// Адаптивность
-@media (max-width: 1024px) {
-  .warranty-main {
-    grid-template-columns: 1fr;
-  }
-  .conditions-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+// ── Адаптивность ─────────────────────────────────────────────
 
-  .cta-actions{
-    display: flex;
-    flex-direction: column;
-  }
+@media (max-width: 1024px) {
+  .warranty-main { grid-template-columns: 1fr; }
+  .conditions-grid { grid-template-columns: repeat(2, 1fr); }
+  .cta-actions { flex-direction: column; }
 }
 
 @media (max-width: 768px) {
-  .warranty-section {
-    padding: $spacing-xl 0;
-  }
-  
-  .warranty-main {
-    padding: $spacing-lg;
-  }
-  
-  .warranty-badge {
-    padding: $spacing-md;
-  }
-  
-  .badge-icon {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .badge-title {
-    font-size: 1.75rem;
-  }
-  
+  // padding .warranty-section  — удалён, clamp справляется
+  // padding .warranty-main     — удалён, clamp справляется
+  // padding .warranty-badge    — удалён, clamp справляется
+
   .warranty-cta {
     flex-direction: column;
     text-align: center;
@@ -263,40 +225,21 @@
 }
 
 @media (max-width: 480px) {
-  .warranty-item {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .item-icon {
-    margin: 0 auto;
-  }
-  
+  .warranty-item { flex-direction: column; text-align: center; }
+  .item-icon { margin: 0 auto; }
+
   .badge-icon {
     width: 80px;
     height: 80px;
-    
-    svg {
-      width: 64px;
-      height: 64px;
-    }
-  }
-  
-  .badge-title {
-    font-size: 1.5rem;
+    svg { width: 64px; height: 64px; }
   }
 
-  .conditions-grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  
+  .conditions-grid { grid-template-columns: 1fr; }
+
   .condition-number {
     left: 50%;
     transform: translateX(-50%);
   }
 
-    .cta-actions {
-    flex-direction: column;
-    width: fit-content;
-  }
+  .cta-actions { flex-direction: column; width: fit-content; }
 }

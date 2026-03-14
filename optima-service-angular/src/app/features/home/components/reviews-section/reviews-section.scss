@@ -2,35 +2,34 @@
 @import '../../../../../styles/mixins';
 
 .reviews-section {
-  padding: $spacing-xxl 0;
+  padding: $space-xxl 0;
   background: $color-bg-light;
 }
 
 .container-wide {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 $spacing-lg;
+  padding: 0 $space-lg;
 }
 
 .section-title {
   text-align: center;
-  margin-bottom: $spacing-sm;
+  margin-bottom: $space-sm;
 }
 
 .section-subtitle {
   text-align: center;
   color: rgba($color-dark, 0.7);
-  margin-bottom: $spacing-xxl;
+  margin-bottom: $space-xxl;
 }
 
-// Контейнер с отзывами и формой
 .reviews-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: $spacing-xl;
+  gap: $space-xl;
 }
 
-// Виджет отзывов (слева)
+// ── Виджет отзывов ────────────────────────────────────────────
 .reviews-widget {
   background: $color-white;
   border-radius: $radius-lg;
@@ -69,13 +68,11 @@
   display: block;
   max-height: 14px;
   white-space: nowrap;
-  
-  &:hover {
-    color: $color-primary;
-  }
+
+  &:hover { color: $color-primary; }
 }
 
-// Форма (справа)
+// ── Форма отзыва ──────────────────────────────────────────────
 .reviews-form {
   background: $color-white;
   border-radius: $radius-lg;
@@ -84,76 +81,63 @@
 }
 
 .reviews-form-card {
-  padding: $spacing-xl;
+  padding: $space-xl;
 }
 
 .form-icon {
   width: 80px;
   height: 80px;
-  margin: 0 auto $spacing-md;
+  margin: 0 auto $space-md;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgba($color-primary, 0.1) 0%, rgba($color-primary-light, 0.1) 100%);
   border-radius: 50%;
   color: $color-primary;
-  
-  svg {
-    stroke-width: 1.5;
-  }
+  svg { stroke-width: 1.5; }
 }
 
 .reviews-form-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: $color-dark;
+  @include text-h3;
   text-align: center;
   margin-bottom: $spacing-xs;
 }
 
 .reviews-form-subtitle {
-  font-size: 1rem;
+  @include text-subtitle-2;
   color: rgba($color-dark, 0.7);
   text-align: center;
-  margin-bottom: $spacing-lg;
+  margin-bottom: $space-lg;
 }
 
-// Форма
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
+  gap: $space-md;
 }
 
-.form-group {
-  position: relative;
-}
+.form-group { position: relative; }
 
 .form-input,
 .form-textarea {
   width: 100%;
   padding: 12px 16px;
-  font-size: 1rem;
+  @include text-body;
   font-family: 'Open Sans', sans-serif;
   color: $color-dark;
   background: $color-white;
   border: 2px solid $color-bg-grey;
   border-radius: $radius-sm;
   transition: all $transition-base;
-  
+
   &:focus {
     outline: none;
     border-color: $color-primary-light;
     box-shadow: 0 0 0 3px rgba($color-primary-light, 0.1);
   }
-  
-  &.error {
-    border-color: $color-accent;
-  }
-  
-  &::placeholder {
-    color: rgba($color-dark, 0.4);
-  }
+
+  &.error { border-color: $color-accent; }
+  &::placeholder { color: rgba($color-dark, 0.4); }
 }
 
 select.form-input {
@@ -165,162 +149,103 @@ select.form-input {
   padding-right: 40px;
 }
 
-.form-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
+.form-textarea { resize: vertical; min-height: 100px; }
 
 .form-error {
   display: block;
   margin-top: $spacing-xs;
-  font-size: 0.875rem;
+  @include text-list;
   color: $color-accent;
 }
 
 .form-counter {
   display: block;
   margin-top: $spacing-xs;
-  font-size: 0.875rem;
+  @include text-list;
   color: rgba($color-dark, 0.5);
   text-align: right;
 }
 
-// Статус отправки
-.form-status {
-  margin-bottom: $spacing-md;
-}
+.form-status { margin-bottom: $space-md; }
 
 .status-success,
 .status-error {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
-  padding: $spacing-md;
+  padding: $space-md;
   border-radius: $radius-sm;
-  font-size: 0.9375rem;
-  
-  svg {
-    flex-shrink: 0;
-  }
+  @include text-body;
+  svg { flex-shrink: 0; }
 }
 
 .status-success {
   background: rgba(#10b981, 0.1);
   color: #047857;
   border: 1px solid rgba(#10b981, 0.3);
-  
-  svg {
-    stroke: #047857;
-  }
+  svg { stroke: #047857; }
 }
 
 .status-error {
   background: rgba($color-accent, 0.1);
   color: darken($color-accent, 10%);
   border: 1px solid rgba($color-accent, 0.3);
-  
-  svg {
-    stroke: darken($color-accent, 10%);
-  }
+  svg { stroke: darken($color-accent, 10%); }
 }
 
-// Сообщение об успехе
 .success-message {
   text-align: center;
-  padding: $spacing-xl 0;
+  padding: $space-xl 0;
 }
 
 .success-icon {
   width: 80px;
   height: 80px;
-  margin: 0 auto $spacing-md;
+  margin: 0 auto $space-md;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgba(#10b981, 0.1) 0%, rgba(#10b981, 0.2) 100%);
   border-radius: 50%;
   color: #047857;
-  font-size: 3rem;
-  font-weight: 700;
+  font-size: $font-size-h2;
+  font-weight: $font-weight-bold;
 }
 
 .success-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: $color-dark;
-  margin-bottom: $spacing-sm;
+  @include text-h3;
+  margin-bottom: $space-sm;
 }
 
 .success-text {
-  font-size: 1rem;
+  @include text-body;
   color: rgba($color-dark, 0.7);
-  margin-bottom: $spacing-lg;
+  margin-bottom: $space-lg;
 }
 
-// Адаптивность
+// ── Адаптивность ─────────────────────────────────────────────
+
 @media (max-width: 1024px) {
-  .reviews-container {
-    grid-template-columns: 1fr;
-  }
-  
-  .widget-wrapper {
-    height: 600px;
-  }
+  .reviews-container { grid-template-columns: 1fr; }
+  .widget-wrapper { height: 600px; }
 }
 
 @media (max-width: 768px) {
-  .reviews-section {
-    padding: $spacing-xl 0;
-  }
-  
-  .container-wide {
-    padding: 0 $spacing-md;
-  }
-  
-  .reviews-form-card {
-    padding: $spacing-lg;
-  }
-  
+  // padding .reviews-section  — удалён, clamp справляется
+  // padding .reviews-form-card — удалён, clamp справляется
+
+  .container-wide { padding: 0 $space-md; }
+
   .form-icon {
     width: 64px;
     height: 64px;
-    
-    svg {
-      width: 32px;
-      height: 32px;
-    }
+    svg { width: 32px; height: 32px; }
   }
-  
-  .reviews-form-title {
-    font-size: 1.5rem;
-  }
-  
-  .widget-wrapper {
-    height: 500px;
-  }
+
+  .widget-wrapper { height: 500px; }
 }
 
 @media (max-width: 480px) {
-  .reviews-form-card {
-    padding: $spacing-md;
-  }
-  
-  .form-icon {
-    width: 56px;
-    height: 56px;
-  }
-  
-  .reviews-form-title {
-    font-size: 1.25rem;
-  }
-  
-  .widget-wrapper {
-    height: 400px;
-  }
-  
-  .form-input,
-  .form-textarea {
-    padding: 10px 14px;
-    font-size: 0.9375rem;
-  }
+  .form-icon { width: 56px; height: 56px; }
+  .widget-wrapper { height: 400px; }
 }

@@ -2,19 +2,17 @@
 @import '../../../../../styles/mixins';
 
 .categories-section {
-  padding: $spacing-xxl 0;
+  padding: $space-xxl 0;
   background: linear-gradient(180deg, $color-white 0%, $color-bg-light 100%);
 }
 
-// Двухколоночный layout
 .categories-layout {
   display: grid;
   grid-template-columns: 400px 1fr;
-  gap: $spacing-xl;
+  gap: $space-xl;
   align-items: start;
 }
 
-// Левая колонка - заголовок (sticky)
 .categories-sidebar {
   position: sticky;
   top: calc($spacing-xl + 117px);
@@ -24,7 +22,7 @@
 .sidebar-content {
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
+  gap: $space-md;
 }
 
 .section-title {
@@ -50,26 +48,25 @@
   margin: 0;
 }
 
-// Статистика
 .sidebar-stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: $spacing-md;
+  gap: $space-md;
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: $spacing-md;
+  padding: $space-md;
   background: $color-white;
   border-radius: $radius-md;
   box-shadow: $shadow-sm;
 }
 
 .stat-number {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: $font-size-h2;
+  font-weight: $font-weight-bold;
   color: $color-primary;
   line-height: 1;
 }
@@ -80,44 +77,41 @@
   line-height: 1.3;
 }
 
-// Правая колонка - карточки
 .categories-content {
   display: flex;
   flex-direction: column;
-  gap: $spacing-xl;
+  gap: $space-xl;
 }
 
 .categories-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: $spacing-lg;
+  gap: $space-lg;
 }
 
-// Карточка категории
 .category-card {
   display: flex;
   flex-direction: column;
-  padding: $spacing-md;
+  padding: $space-md;
   background: $color-white;
   border: 2px solid $color-bg-grey;
   border-radius: $radius-lg;
   cursor: pointer;
   transition: all $transition-base;
-  
+
   &:hover {
     border-color: $color-primary;
     box-shadow: $shadow-lg;
     transform: translateY(-8px);
-    
+
     .card-icon {
       background: linear-gradient(135deg, $color-primary-light 0%, $color-primary 100%);
-      
       svg {
         stroke: $color-white;
         transform: scale(1.1);
       }
     }
-    
+
     .card-arrow {
       opacity: 1;
       transform: translateX(4px);
@@ -125,21 +119,14 @@
   }
 }
 
-// Анимация появления
 .category-card.animate-on-scroll {
   opacity: 0;
   transform: translateY(40px);
-  
-  &.animated {
-    animation: fadeInUp 0.6s ease-out forwards;
-  }
+  &.animated { animation: fadeInUp 0.6s ease-out forwards; }
 }
 
 @keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .card-icon {
@@ -148,51 +135,41 @@
   justify-content: center;
   width: 72px;
   height: 72px;
-  margin-bottom: $spacing-md;
+  margin-bottom: $space-md;
   border-radius: $radius-md;
   background: rgba($color-primary, 0.1);
   transition: all $transition-base;
-  
-  svg {
-    stroke: $color-primary;
-    transition: all $transition-base;
-  }
+  svg { stroke: $color-primary; transition: all $transition-base; }
 }
 
 .card-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: $color-dark;
-  margin: 0 0 $spacing-sm 0;
+  @include text-h4;
+  margin: 0 0 $space-sm 0;
 }
 
 .card-description {
-  font-size: 0.9375rem;
+  @include text-subtitle-2;
   color: rgba($color-dark, 0.6);
   line-height: 1.5;
-  margin: 0 0 $spacing-md 0;
+  margin: 0 0 $space-md 0;
   flex: 1;
 }
 
 .card-features {
   list-style: none;
   padding: 0;
-  margin: 0 0 $spacing-lg 0;
+  margin: 0 0 $space-lg 0;
   display: flex;
   flex-direction: column;
   gap: $spacing-xs;
-  
+
   li {
     display: flex;
     align-items: center;
     gap: $spacing-xs;
-    font-size: 0.875rem;
+    @include text-list;
     color: rgba($color-dark, 0.7);
-    
-    svg {
-      flex-shrink: 0;
-      stroke: $color-primary;
-    }
+    svg { flex-shrink: 0; stroke: $color-primary; }
   }
 }
 
@@ -200,7 +177,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: $spacing-md;
+  padding-top: $space-md;
   border-top: 1px solid $color-bg-grey;
 }
 
@@ -211,13 +188,12 @@
 }
 
 .price-label {
-  font-size: 0.875rem;
+  @include text-list;
   color: rgba($color-dark, 0.5);
 }
 
 .price-value {
-  font-size: 1.25rem;
-  font-weight: 700;
+  @include text-h4;
   color: $color-primary;
 }
 
@@ -226,19 +202,15 @@
   align-items: center;
   opacity: 0.3;
   transition: all $transition-base;
-  
-  svg {
-    stroke: $color-primary;
-  }
+  svg { stroke: $color-primary; }
 }
 
-// CTA блок
 .categories-cta {
   display: flex;
   flex-direction: column;
   align-items: start;
-  gap: $spacing-sm;
-  padding: $spacing-md;
+  gap: $space-sm;
+  padding: $space-md;
   background: linear-gradient(135deg, rgba($color-primary, 0.05) 0%, rgba($color-primary, 0.02) 100%);
   border: 2px solid rgba($color-primary, 0.2);
   border-radius: $radius-lg;
@@ -253,137 +225,66 @@
   flex-shrink: 0;
   border-radius: 50%;
   background: linear-gradient(135deg, $color-primary-light 0%, $color-primary 100%);
-  
-  svg {
-    stroke: $color-white;
-  }
+  svg { stroke: $color-white; }
 }
 
 .cta-content {
   flex: 1;
-  
+
   h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $color-dark;
-    margin: 0 0 $spacing-sm 0;
+    @include text-h3;
+    margin: 0 0 $space-sm 0;
   }
-  
+
   p {
-    font-size: 1rem;
+    @include text-body;
     color: rgba($color-dark, 0.7);
     margin: 0;
     line-height: 1.5;
   }
 }
 
-// Адаптивность
+// ── Адаптивность ─────────────────────────────────────────────
+// padding и gap секции удалены из медиазапросов — fluid справляется
+
 @media (max-width: 1200px) {
-  .categories-layout {
-    grid-template-columns: 350px 1fr;
-    gap: $spacing-xl;
-  }
-  
-  .section-title {
-    font-size: 2.5rem;
-  }
-  
-  .categories-grid {
-    gap: $spacing-md;
-  }
+  .categories-layout { grid-template-columns: 350px 1fr; }
 }
 
 @media (max-width: 1024px) {
-  .categories-layout {
-    grid-template-columns: 1fr;
-    gap: $spacing-lg;
-  }
-  
+  .categories-layout { grid-template-columns: 1fr; }
+
   .categories-sidebar {
     position: static;
-    padding: $spacing-xl;
+    padding: $space-xl;
     background: $color-white;
     border-radius: $radius-lg;
     box-shadow: $shadow-sm;
   }
-  
-  .sidebar-content {
-    gap: $spacing-lg;
-  }
-  
-  .section-title {
-    font-size: 2.5rem;
-    text-align: center;
-  }
-  
-  .section-description {
-    text-align: center;
-  }
-  
-  .sidebar-stats {
-    text-align: center;
-  }
+
+  .sidebar-content { gap: $space-lg; }
+  .section-title { text-align: center; }
+  .section-description { text-align: center; }
+  .sidebar-stats { text-align: center; }
 }
 
 @media (max-width: 768px) {
-  .categories-section {
-    padding: $spacing-xl 0;
-  }
-  
-  .section-title {
-    font-size: 2rem;
-  }
-  
-  .section-description {
-    font-size: 1rem;
-  }
-  
-  .categories-grid {
-    gap: $spacing-sm;
-  }
-  
+  // padding .categories-section — удалён, clamp справляется
+
+  .categories-grid { grid-template-columns: 1fr; }
+
   .category-card {
-    padding: $spacing-md;
-    
-    .card-icon, .card-features {
-    display: none;
-    }
+    padding: $space-md;
+    .card-icon, .card-features { display: none; }
   }
-  
+
   .categories-cta {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: $spacing-lg;
-    
-    .cta-content h3 {
-      font-size: 1.25rem;
-    }
-    
-    .cta-content p {
-      font-size: 0.9375rem;
-    }
   }
 }
 
 @media (max-width: 480px) {
-  .categories-sidebar {
-    padding: $spacing-lg;
-  }
-  
-  .section-title {
-    font-size: 1.75rem;
-  }
-  
-  .stat-number {
-    font-size: 1.5rem;
-  }
-  
-  .card-title {
-    font-size: 1.125rem;
-  }
-
-    .categories-grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
+  .categories-sidebar { padding: $space-lg; }
 }

@@ -8,29 +8,29 @@
 }
 
 .footer-main {
-  padding: $spacing-xl 0;
+  padding: $space-xl 0;
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: $spacing-lg;
+  gap: $space-lg;
 }
 
 .footer-col {
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
+  gap: $space-md;
 }
 
 .footer-title {
   @include text-h5;
-  font-weight: 700;
+  font-weight: $font-weight-bold;
   color: $color-white;
   margin-bottom: $spacing-sm;
   position: relative;
   padding-bottom: $spacing-sm;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -45,7 +45,7 @@
 
 .footer-text {
   @include text-subtitle-2;
-  line-height: 1.6;
+  line-height: $line-height-body;
   color: rgba($color-white, 0.8);
 }
 
@@ -65,17 +65,14 @@
   background: rgba($color-white, 0.1);
   color: $color-white;
   transition: all $transition-base;
-  
+
   &:hover {
     background: $color-primary-light;
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba($color-primary-light, 0.3);
   }
-  
-  svg {
-    width: 20px;
-    height: 20px;
-  }
+
+  svg { width: 20px; height: 20px; }
 }
 
 .footer-list {
@@ -83,13 +80,13 @@
   flex-direction: column;
   gap: $spacing-xs;
   list-style: none;
-  
+
   a {
-    font-size: 0.9375rem;
+    @include text-list;
     color: rgba($color-white, 0.7);
     transition: all $transition-fast;
     display: inline-block;
-    
+
     &:hover {
       color: $color-primary-lighter;
       padding-left: 8px;
@@ -100,7 +97,7 @@
 .footer-contacts {
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
+  gap: $space-md;
   list-style: none;
 }
 
@@ -108,28 +105,16 @@
   display: flex;
   gap: $spacing-sm;
   color: rgba($color-white, 0.8);
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  
-  svg {
-    flex-shrink: 0;
-    margin-top: 2px;
-    color: $color-primary-lighter;
-  }
-  
-  strong {
-    color: $color-white;
-    display: block;
-    margin-bottom: 4px;
-  }
-  
+  @include text-list;
+  line-height: $line-height-body;
+
+  svg { flex-shrink: 0; margin-top: 2px; color: $color-primary-lighter; }
+
+  strong { color: $color-white; display: block; margin-bottom: 4px; }
+
   a {
     color: $color-primary-lighter;
-    
-    &:hover {
-      color: $color-primary-lightest;
-      text-decoration: underline;
-    }
+    &:hover { color: $color-primary-lightest; text-decoration: underline; }
   }
 }
 
@@ -155,33 +140,27 @@
   display: flex;
   align-items: center;
   gap: $spacing-sm;
-  font-size: 0.875rem;
-  
+  @include text-mini;
+
   a {
     color: rgba($color-white, 0.6);
-    
-    &:hover {
-      color: $color-primary-lighter;
-    }
+    &:hover { color: $color-primary-lighter; }
   }
-  
-  .separator {
-    color: rgba($color-white, 0.3);
-  }
+
+  .separator { color: rgba($color-white, 0.3); }
 }
 
-// Карта
+// ── Карта ─────────────────────────────────────────────────────
 .footer-map {
   background: $color-dark;
-  padding: $spacing-xl 0;
+  padding: $space-xl 0;
   border-top: 1px solid rgba($color-white, 0.1);
 }
 
 .footer-map-title {
-  font-size: 1.5rem;
-  font-weight: 700;
+  @include text-h3;
   color: $color-white;
-  margin: 0 0 $spacing-lg 0;
+  margin: 0 0 $space-lg 0;
   text-align: center;
 }
 
@@ -193,7 +172,7 @@
   border-radius: $radius-lg;
   overflow: hidden;
   box-shadow: $shadow-lg;
-  
+
   iframe {
     display: block;
     width: 100%;
@@ -202,71 +181,33 @@
   }
 }
 
+// ── Адаптивность ─────────────────────────────────────────────
+
 @media (max-width: 1200px) {
-  .footer-grid {
-    gap: $spacing-md;
-  }
+  .footer-grid { gap: $space-md; }
 }
 
 @media (max-width: 1024px) {
-  .footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: $spacing-lg;
-  }
-  
-  .footer-main {
-    padding: $spacing-lg 0;
-  }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  // padding .footer-main — удалён, clamp справляется
 }
 
 @media (max-width: 768px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: $spacing-lg;
-  }
-  
-  .footer-col {
-    gap: $spacing-sm;
-  }
-  
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-col { gap: $space-sm; }
+
   .footer-bottom-content {
     flex-direction: column;
     text-align: center;
   }
-  
-  .footer-links {
-    justify-content: center;
-  }
-  
-  .footer-map {
-    padding: $spacing-lg 0;
-  }
-  
-  .footer-map-title {
-    font-size: 1.25rem;
-  }
-  
-  .footer-map-container iframe {
-    height: 300px;
-  }
+
+  .footer-links { justify-content: center; }
+
+  // padding .footer-map — удалён, clamp справляется
+  .footer-map-container iframe { height: 300px; }
 }
 
 @media (max-width: 480px) {
-  .footer-main {
-    padding: $spacing-md 0;
-  }
-  
-  .footer-title {
-    font-size: 1.125rem;
-  }
-  
-  .footer-text,
-  .footer-list a,
-  .footer-contact {
-    @include text-list;
-  }
-  
-  .footer-social {
-    justify-content: flex-start;
-  }
+  // padding .footer-main — удалён, clamp справляется
+  .footer-social { justify-content: flex-start; }
 }
