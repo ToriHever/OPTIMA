@@ -260,11 +260,6 @@
     text-align: center;
     padding: $spacing-xs;
   }
-  
-  .cta-actions {
-    flex-direction: row;
-    width: fit-content;
-  }
 }
 
 @media (max-width: 480px) {
@@ -290,9 +285,18 @@
   .badge-title {
     font-size: 1.5rem;
   }
+
+  .conditions-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
   
   .condition-number {
     left: 50%;
     transform: translateX(-50%);
+  }
+
+    .cta-actions {
+    flex-direction: column;
+    width: fit-content;
   }
 }

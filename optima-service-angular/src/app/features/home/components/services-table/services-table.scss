@@ -532,6 +532,18 @@
   .content-title {
     font-size: 1.25rem;
   }
+
+.categories-nav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-xs;
+  }
+
+  .category-item {
+    
+    .category-icon{
+      display: none;
+    }
+  }
   
   .cta-icon {
     width: 64px;

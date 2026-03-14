@@ -184,13 +184,16 @@
   .header-top {
     display: none;
   }
-  
- .logo{
-    display: block;
-  }
 
   .header-content{
-    @include flex-between;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 $spacing-xs;
+  }
+
+  .header-actions{ 
+    @include flex-row;
+    gap: $spacing-sm;
   }
 
   .nav {

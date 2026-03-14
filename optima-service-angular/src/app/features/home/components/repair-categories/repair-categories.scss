@@ -323,10 +323,6 @@
   .sidebar-stats {
     text-align: center;
   }
-  
-  .categories-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @media (max-width: 768px) {
@@ -385,5 +381,9 @@
   
   .card-title {
     font-size: 1.125rem;
+  }
+
+    .categories-grid {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
