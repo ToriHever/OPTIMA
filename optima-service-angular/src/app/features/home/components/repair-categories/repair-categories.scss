@@ -97,7 +97,7 @@
 .category-card {
   display: flex;
   flex-direction: column;
-  padding: $spacing-xl;
+  padding: $spacing-md;
   background: $color-white;
   border: 2px solid $color-bg-grey;
   border-radius: $radius-lg;
@@ -343,31 +343,14 @@
   }
   
   .categories-grid {
-    grid-template-columns: 1fr;
     gap: $spacing-sm;
   }
   
   .category-card {
-    padding: $spacing-lg;
-  }
-  
-  .card-icon {
-    width: 64px;
-    height: 64px;
+    padding: $spacing-md;
     
-    svg {
-      width: 40px;
-      height: 40px;
-    }
-  }
-  
-  .cta-icon {
-    width: 64px;
-    height: 64px;
-    
-    svg {
-      width: 32px;
-      height: 32px;
+    .card-icon, .card-features {
+    display: none;
     }
   }
   
