@@ -52,31 +52,13 @@ export class RepairStatusModal implements OnInit {
   // Моковые данные для демонстрации
   private mockRepairs: RepairInfo[] = [
     {
-      orderNumber: '0123',
+      orderNumber: '012345',
       deviceType: 'Холодильник',
       brand: 'Samsung',
       acceptedDate: new Date('2024-02-08'),
       issue: 'Не морозит',
       status: 'ready',
       statusStep: 4
-    },
-    {
-      orderNumber: '0124',
-      deviceType: 'Стиральная машина',
-      brand: 'Bosch',
-      acceptedDate: new Date('2024-02-10'),
-      issue: 'Не сливает воду',
-      status: 'repair',
-      statusStep: 3
-    },
-    {
-      orderNumber: '0125',
-      deviceType: 'Посудомоечная машина',
-      brand: 'Electrolux',
-      acceptedDate: new Date('2024-02-12'),
-      issue: 'Не греет воду',
-      status: 'diagnosis',
-      statusStep: 2
     }
   ];
   
@@ -95,7 +77,7 @@ export class RepairStatusModal implements OnInit {
     this.searchForm = this.fb.group({
       orderNumber: ['', [
         Validators.required,
-        Validators.pattern(/^\d{4}$/)
+        Validators.pattern(/^\d{6}$/)
       ]]
     });
   }
