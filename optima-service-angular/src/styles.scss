@@ -289,14 +289,14 @@ ul, ol {
 }
 
 .btn-secondary {
-  background: transparent;
-  color: $color-white;
-  border: 2px solid rgba($color-white, 0.6);
+  background: rgba($color-primary-light, 0.15);
+  color: $color-primary-light;
+  border: 2px solid rgba($color-primary-light, 0.6);
   backdrop-filter: blur(10px);
 
   &:hover {
-    background: rgba($color-white, 0.15);
-    border-color: $color-white;
+    background: $color-primary;
+    color: $color-white;
     transform: translateY(-2px);
     color: $color-white;
   }
