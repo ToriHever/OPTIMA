@@ -24,7 +24,7 @@
 }
 
 .footer-title {
-  font-size: 1.25rem;
+  @include text-h5;
   font-weight: 700;
   color: $color-white;
   margin-bottom: $spacing-sm;
@@ -44,7 +44,7 @@
 }
 
 .footer-text {
-  font-size: 0.9375rem;
+  @include text-subtitle-2;
   line-height: 1.6;
   color: rgba($color-white, 0.8);
 }
@@ -147,7 +147,7 @@
 }
 
 .footer-copyright {
-  font-size: 0.875rem;
+  @include text-mini;
   color: rgba($color-white, 0.6);
 }
 
@@ -263,7 +263,7 @@
   .footer-text,
   .footer-list a,
   .footer-contact {
-    font-size: 0.875rem;
+    @include text-list;
   }
   
   .footer-social {

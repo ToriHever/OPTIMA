@@ -63,6 +63,116 @@
   justify-content: space-between;
 }
 
+// ========================================
+// ТИПОГРАФИЧЕСКИЕ МИКСИНЫ
+// Используй эти миксины вместо прямого
+// указания font-size во всех компонентах
+// ========================================
+
+// Заголовки
+@mixin text-h1 {
+  font-size: $font-size-h1;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-heading;
+  color: $color-dark;
+}
+
+@mixin text-h2 {
+  font-size: $font-size-h2;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-heading;
+  color: $color-dark;
+}
+
+@mixin text-h3 {
+  font-size: $font-size-h3;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-heading;
+  color: $color-dark;
+}
+
+@mixin text-h4 {
+  font-size: $font-size-h4;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  color: $color-dark;
+}
+
+@mixin text-h5 {
+  font-size: $font-size-h5;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: $color-dark;
+}
+
+// Навигация
+@mixin text-nav {
+  font-size: $font-size-nav;
+  font-weight: $font-weight-semibold;
+  line-height: 1;
+}
+
+// Подзаголовки
+@mixin text-subtitle-1 {
+  font-size: $font-size-subtitle-1;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-loose;
+  color: rgba($color-dark, 0.7);
+}
+
+@mixin text-subtitle-2 {
+  font-size: $font-size-subtitle-2;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-body;
+  color: rgba($color-dark, 0.65);
+}
+
+// Тело текста / абзацы
+@mixin text-body {
+  font-size: $font-size-body;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-body;
+  color: $color-text;
+}
+
+// Кнопки
+@mixin text-btn {
+  font-size: $font-size-btn;
+  font-weight: $font-weight-semibold;
+  line-height: 1;
+  font-family: $font-primary;
+}
+
+@mixin text-btn-lg {
+  font-size: $font-size-btn-lg;
+  font-weight: $font-weight-semibold;
+  line-height: 1;
+  font-family: $font-primary;
+}
+
+// Списки
+@mixin text-list {
+  font-size: $font-size-list;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-body;
+  color: $color-text;
+}
+
+// Мини-текст
+@mixin text-mini {
+  font-size: $font-size-mini;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-tight;
+}
+
+@mixin text-micro {
+  font-size: $font-size-micro;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-tight;
+}
+
+// ========================================
+
 // Текст
 @mixin text-ellipsis {
   overflow: hidden;
@@ -85,7 +195,7 @@
 // Тени
 @mixin card-shadow {
   box-shadow: $shadow-md;
-  
+
   &:hover {
     box-shadow: $shadow-lg;
   }
@@ -96,10 +206,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 32px;
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: $font-primary;
+  padding: 12px 28px;
+  @include text-btn;
   border: none;
   border-radius: $radius-full;
   cursor: pointer;
@@ -108,7 +216,7 @@
   position: relative;
   overflow: hidden;
   text-decoration: none;
-  
+
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -118,7 +226,7 @@
 // Градиентный оверлей
 @mixin gradient-overlay($opacity: 0.7) {
   position: relative;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -140,7 +248,7 @@
 @mixin hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -151,16 +259,16 @@
   &::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: $color-bg-light;
     border-radius: 4px;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background: $color-primary-light;
     border-radius: 4px;
-    
+
     &:hover {
       background: $color-primary;
     }
@@ -170,13 +278,13 @@
 // Aspect Ratio
 @mixin aspect-ratio($width, $height) {
   position: relative;
-  
+
   &::before {
     content: '';
     display: block;
     padding-top: calc(#{$height} / #{$width} * 100%);
   }
-  
+
   > * {
     position: absolute;
     top: 0;

@@ -79,7 +79,7 @@
 }
 
 .nav-link {
-  font-size: 0.877rem;
+  @include text-nav;
   font-weight: 600;
   color: $color-dark;
   padding: $spacing-xs $spacing-sm;
@@ -148,7 +148,7 @@
 @include desktop {
   .header-contacts {
     gap: $spacing-sm;
-    font-size: 0.7rem;
+    @include text-mini;
   }
   
   .logo{

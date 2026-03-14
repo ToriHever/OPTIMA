@@ -51,7 +51,7 @@
 }
 
 .badge-title {
-  font-size: 2rem;
+  font-size: $font-size-h2;
   font-weight: 700;
   color: $color-primary;
   margin-bottom: $spacing-xs;
@@ -59,7 +59,7 @@
 }
 
 .badge-text {
-  font-size: 1rem;
+  @include text-subtitle-2;
   color: rgba($color-dark, 0.7);
   margin: 0;
 }

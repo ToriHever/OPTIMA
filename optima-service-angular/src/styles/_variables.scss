@@ -27,10 +27,59 @@ $shadow-lg: 0 8px 32px rgba(0, 68, 77, 0.16);
 $shadow-xl: 0 12px 48px rgba(0, 68, 77, 0.2);
 $shadow-floating: 0 12px 40px rgba(0, 0, 0, 0.15);
 
-// Типография
+// ========================================
+// ТИПОГРАФИКА - Единая система размеров
+// ========================================
+
 $font-primary: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 $font-size-base: 16px;
 $line-height-base: 1.6;
+
+// --- Заголовки ---
+// H1: главные заголовки страниц / hero
+$font-size-h1:       clamp(1.75rem, 4vw, 2.625rem);    // 28px → 42px (было 32→48)
+// H2: заголовки секций
+$font-size-h2:       clamp(1.5rem, 3.5vw, 2.25rem);    // 24px → 36px (было 28→40)
+// H3: подзаголовки блоков / карточек
+$font-size-h3:       clamp(1.125rem, 2.5vw, 1.5rem);   // 18px → 24px (было 20→28)
+// H4: заголовки карточек / таблиц
+$font-size-h4:       clamp(1rem, 2vw, 1.25rem);        // 16px → 20px
+// H5: мелкие подзаголовки
+$font-size-h5:       clamp(0.9rem, 1.5vw, 1.0625rem);  // 14.4px → 17px
+
+// --- Навигационные ссылки ---
+$font-size-nav:      0.875rem;   // 14px — навбар, меню
+
+// --- Подзаголовки (subtitle) ---
+// Subtitle Lvl.1: подпись под h1–h2 (крупные секции)
+$font-size-subtitle-1: clamp(0.9375rem, 1.5vw, 1.0625rem);  // 15px → 17px
+// Subtitle Lvl.2: подпись под h3–h5 (карточки, блоки)
+$font-size-subtitle-2: clamp(0.875rem, 1.2vw, 0.9375rem);   // 14px → 15px
+
+// --- Основной текст ---
+$font-size-body:     0.9375rem;  // 15px — абзацы (было 16px)
+
+// --- Кнопки ---
+$font-size-btn:      0.8125rem;  // 13px — текст кнопок (было 0.8rem/12.8px)
+$font-size-btn-lg:   0.875rem;   // 14px — большие кнопки
+
+// --- Списки ---
+$font-size-list:     0.9rem;     // 14.4px — элементы ul/ol
+
+// --- Мини-текст ---
+$font-size-mini:     0.75rem;    // 12px — метки, подписи, копирайт (было 0.700rem)
+$font-size-micro:    0.6875rem;  // 11px — совсем мелкий текст
+
+// --- Веса ---
+$font-weight-regular: 400;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// --- Межстрочные интервалы ---
+$line-height-heading: 1.2;
+$line-height-body:    1.6;
+$line-height-loose:   1.8;
+$line-height-tight:   1.35;
 
 // Размеры
 $container-width: 1200px;
@@ -73,20 +122,36 @@ $breakpoint-xl: 1400px;
   --color-bg-light: #{$color-bg-light};
   --color-bg-grey: #{$color-bg-grey};
   --color-text: #{$color-text};
-  
+
   --gradient-primary: #{$gradient-primary};
   --gradient-accent: #{$gradient-accent};
   --gradient-card: #{$gradient-card};
-  
+
   --shadow-sm: #{$shadow-sm};
   --shadow-md: #{$shadow-md};
   --shadow-lg: #{$shadow-lg};
   --shadow-xl: #{$shadow-xl};
-  
+
   --font-primary: #{$font-primary};
   --font-size-base: #{$font-size-base};
   --line-height-base: #{$line-height-base};
-  
+
+  // Типографические переменные в CSS
+  --font-size-h1: #{$font-size-h1};
+  --font-size-h2: #{$font-size-h2};
+  --font-size-h3: #{$font-size-h3};
+  --font-size-h4: #{$font-size-h4};
+  --font-size-h5: #{$font-size-h5};
+  --font-size-nav: #{$font-size-nav};
+  --font-size-subtitle-1: #{$font-size-subtitle-1};
+  --font-size-subtitle-2: #{$font-size-subtitle-2};
+  --font-size-body: #{$font-size-body};
+  --font-size-btn: #{$font-size-btn};
+  --font-size-btn-lg: #{$font-size-btn-lg};
+  --font-size-list: #{$font-size-list};
+  --font-size-mini: #{$font-size-mini};
+  --font-size-micro: #{$font-size-micro};
+
   --container-width: #{$container-width};
   --container-big-width: #{$container-big-width};
   --spacing-xs: #{$spacing-xs};
@@ -95,13 +160,13 @@ $breakpoint-xl: 1400px;
   --spacing-lg: #{$spacing-lg};
   --spacing-xl: #{$spacing-xl};
   --spacing-xxl: #{$spacing-xxl};
-  
+
   --radius-sm: #{$radius-sm};
   --radius-md: #{$radius-md};
   --radius-lg: #{$radius-lg};
   --radius-xl: #{$radius-xl};
   --radius-full: #{$radius-full};
-  
+
   --transition-base: #{$transition-base};
   --transition-slow: #{$transition-slow};
   --transition-fast: #{$transition-fast};

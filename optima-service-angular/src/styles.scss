@@ -26,63 +26,73 @@ html {
 
 body {
   position: relative;
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-weight: 400;
-  line-height: 1.6;
-  color: #313131;
-  background-color: #FFFFFF;
+  font-family: $font-primary;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-body;
+  color: $color-text;
+  background-color: $color-white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 // Контейнеры
 .container {
-  max-width: 1200px;
+  max-width: $container-width;
   width: 100%;
   margin: 0 auto;
   padding: 0 24px;
 }
 
 .container-big {
-  max-width: 1400px;
+  max-width: $container-big-width;
   width: 100%;
   margin: 0 auto;
   padding: 0 24px;
 }
 
-// Типография
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  line-height: 1.2;
-  color: #313131;
-}
+// ========================================
+// ТИПОГРАФИЯ — единая система
+// Все теги h1–h5 используют переменные
+// из _variables.scss через миксины
+// ========================================
 
 h1 {
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin-bottom: 24px;
+  @include text-h1;
+  margin-bottom: $spacing-md;
 }
 
 h2 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  margin-bottom: 24px;
+  @include text-h2;
+  margin-bottom: $spacing-md;
 }
 
 h3 {
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  margin-bottom: 16px;
+  @include text-h3;
+  margin-bottom: $spacing-sm;
+}
+
+h4 {
+  @include text-h4;
+  margin-bottom: $spacing-xs;
+}
+
+h5 {
+  @include text-h5;
+  margin-bottom: $spacing-xs;
 }
 
 p {
-  margin-bottom: 16px;
+  @include text-body;
+  margin-bottom: $spacing-sm;
 }
 
 a {
-  color: #88d4dd;
+  color: $color-primary-lighter;
   text-decoration: none;
-  transition: color 0.3s ease;
-  
+  transition: color $transition-base;
+
   &:hover {
-    color: #85f3ff;
+    color: $color-primary-lightest;
   }
 }
 
@@ -96,18 +106,59 @@ ul, ol {
   list-style: none;
 }
 
-// Утилитарные классы
+// ========================================
+// УТИЛИТАРНЫЕ КЛАССЫ ТИПОГРАФИКИ
+// Используй эти классы в шаблонах вместо
+// прямых стилей font-size
+// ========================================
+
+// --- Заголовки ---
+.t-h1 { @include text-h1; }
+.t-h2 { @include text-h2; }
+.t-h3 { @include text-h3; }
+.t-h4 { @include text-h4; }
+.t-h5 { @include text-h5; }
+
+// --- Навигация ---
+.t-nav { @include text-nav; }
+
+// --- Подзаголовки ---
+// Подпись под h1–h2 (крупные секции)
+.t-subtitle-1 { @include text-subtitle-1; }
+// Подпись под h3–h5 (карточки, блоки)
+.t-subtitle-2 { @include text-subtitle-2; }
+
+// --- Тело текста ---
+.t-body { @include text-body; }
+
+// --- Кнопки ---
+.t-btn    { @include text-btn; }
+.t-btn-lg { @include text-btn-lg; }
+
+// --- Списки ---
+.t-list { @include text-list; }
+
+// --- Мини-текст ---
+.t-mini  { @include text-mini; }
+.t-micro { @include text-micro; }
+
+// ========================================
+// УСТАРЕВШИЕ УТИЛИТЫ (для совместимости,
+// постепенно заменяй на t-* классы выше)
+// ========================================
+
 .text-accent {
-  color: #30676E;
+  color: $color-primary-light;
 }
 
 .text-light {
-  font-weight: 300;
+  font-weight: $font-weight-regular;
 }
 
+// Используй .t-mini вместо .text-small
 .text-small {
-  font-size: 0.700rem;
-  color: #E8E8E8;
+  @include text-mini;
+  color: $color-bg-grey;
   opacity: 0.7;
 }
 
@@ -115,170 +166,230 @@ ul, ol {
   text-align: center;
 }
 
-// Заголовки секций
+// ========================================
+// ЗАГОЛОВКИ СЕКЦИЙ (section-level)
+// Используй t-* классы + отдельные классы
+// для выравнивания/отступов
+// ========================================
+
+// Центрированный заголовок секции (светлый фон)
 .section-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  color: #313131;
+  @include text-h2;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: $spacing-lg;
 }
 
+// Заголовок секции с вариантом тёмного веса
 .section-title-dark {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 400;
-  color: #313131;
+  @include text-h2;
+  font-weight: $font-weight-regular;
   text-align: center;
-  margin: 16px 0;
-  
+  margin: $spacing-sm 0;
+
   strong {
-    font-weight: 700;
+    font-weight: $font-weight-bold;
   }
 }
 
+// Подзаголовок под section-title (Lvl.1)
 .section-subtitle {
-  font-size: 1.125rem;
-  color: #30676E;
+  @include text-subtitle-1;
+  color: $color-primary-light;
   text-align: center;
-  margin-bottom: 64px;
+  margin-bottom: $spacing-xl;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 }
 
+// Подзаголовок тёмный под section-title (Lvl.1)
 .section-subtitle-dark {
-  font-size: 1rem;
-  color: #313131;
+  @include text-subtitle-1;
+  color: $color-dark;
   text-align: center;
-  margin-bottom: 64px;
+  margin-bottom: $spacing-xl;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.8;
+  line-height: $line-height-loose;
 }
 
-// Кнопки
+// ========================================
+// КНОПКИ — глобальные стили
+// ========================================
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  padding: 14px 32px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  font-family: 'Open Sans', sans-serif;
+  padding: 12px 28px;
+  @include text-btn;
   border: none;
-  border-radius: 9999px;
+  border-radius: $radius-full;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all $transition-base;
   text-align: center;
   position: relative;
   overflow: hidden;
   text-decoration: none;
-  
+
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
-  
+
   &::before {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.15),
+      transparent
+    );
+    transition: left $transition-slow;
   }
-  
+
   &:hover::before {
-    width: 300px;
-    height: 300px;
-  }
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #00444D 0%, #30676E 100%);
-  color: #FFFFFF;
-  box-shadow: 0 4px 16px rgba(0, 68, 77, 0.3);
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0, 68, 77, 0.4);
-  }
-  
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-.btn-secondary {
-  background: #FFFFFF;
-  color: #00444D;
-  border: 2px solid #00444D;
-  box-shadow: 0 2px 8px rgba(0, 68, 77, 0.1);
-  
-  &:hover {
-    background: #00444D;
-    color: #FFFFFF;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 68, 77, 0.2);
+    left: 100%;
   }
 }
 
 .btn-large {
-  padding: 18px 48px;
-  font-size: 0.9rem;
+  padding: 14px 32px;
+  @include text-btn-lg;
 }
 
-// Адаптивность
-@media (max-width: 1200px) {
-  .container {
-    padding: 0 16px;
-  }
-  
-  .container-big {
-    padding: 0 16px;
-  }
+.btn-small {
+  padding: 8px 20px;
+  @include text-mini;
+  font-weight: $font-weight-semibold;
 }
 
-@media (max-width: 768px) {
-  .container {
-    padding: 0 16px;
-    width: 100%;
+.btn-primary {
+  background: $gradient-primary;
+  color: $color-white;
+  box-shadow: $shadow-md;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+    color: $color-white;
   }
-  
-  .container-big {
-    padding: 0 16px;
-  }
-  
-  .section-subtitle {
-    margin-bottom: 40px;
-  }
-  
-  .section-subtitle-dark {
-    margin-bottom: 40px;
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: $shadow-sm;
   }
 }
 
-@media (max-width: 480px) {
-  html {
-    font-size: 14px;
+.btn-secondary {
+  background: transparent;
+  color: $color-white;
+  border: 2px solid rgba($color-white, 0.6);
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background: rgba($color-white, 0.15);
+    border-color: $color-white;
+    transform: translateY(-2px);
+    color: $color-white;
+  }
+}
+
+.btn-outline {
+  background: transparent;
+  color: $color-primary;
+  border: 2px solid $color-primary;
+
+  &:hover {
+    background: $color-primary;
+    color: $color-white;
+    transform: translateY(-2px);
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  color: $color-primary;
+  padding: 10px 20px;
+
+  &:hover {
+    background: rgba($color-primary, 0.08);
+    color: $color-primary;
+  }
+}
+
+// ========================================
+// ФОРМЫ — глобальные стили
+// ========================================
+
+.form-label {
+  display: block;
+  @include text-mini;
+  font-weight: $font-weight-semibold;
+  color: $color-dark;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px $spacing-sm;
+  @include text-body;
+  font-family: $font-primary;
+  color: $color-dark;
+  background: $color-white;
+  border: 1.5px solid $color-bg-grey;
+  border-radius: $radius-md;
+  transition: border-color $transition-base, box-shadow $transition-base;
+  outline: none;
+  appearance: none;
+
+  &::placeholder {
+    color: rgba($color-dark, 0.4);
   }
 
-  .container {
-    padding: 0 16px;
-    width: 100%;
+  &:focus {
+    border-color: $color-primary-light;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.08);
   }
-  
-  .section-subtitle {
-    margin-bottom: 32px;
+
+  &.error {
+    border-color: $color-accent;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($color-accent, 0.1);
+    }
   }
-  
-  .section-subtitle-dark {
-    margin-bottom: 32px;
-  }
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+  line-height: $line-height-body;
+}
+
+select.form-control {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23313131' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.form-error {
+  @include text-mini;
+  color: $color-accent;
+  margin-top: 4px;
+}
+
+.required {
+  color: $color-accent;
 }

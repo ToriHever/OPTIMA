@@ -49,7 +49,7 @@
 }
 
 .hero-title {
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  @include text-h1;
   font-weight: 700;
   color: $color-white;
   line-height: 1.2;
@@ -63,7 +63,7 @@
 }
 
 .hero-subtitle {
-  font-size: clamp(0.925rem, 1vw, 0.999rem);
+  @include text-subtitle-1;
   color: rgba($color-white, 0.95);
   line-height: 1.6;
   margin-bottom: $spacing-lg;
@@ -87,7 +87,7 @@
   border-radius: $radius-full;
   backdrop-filter: blur(10px);
   color: $color-white;
-  font-size: 0.755rem;
+  @include text-mini;
   font-weight: 600;
   transition: all $transition-base;
   
@@ -157,12 +157,12 @@
 
 .phone-label,
 .schedule-label {
-  font-size: 0.755rem;
+  @include text-mini;
   color: rgba($color-white, 0.8);
 }
 
 .phone-number, .schedule-time{
-  font-size: 0.87rem;
+  font-size: $font-size-h4;
   font-weight: 600;
   color: $color-white;
 }
