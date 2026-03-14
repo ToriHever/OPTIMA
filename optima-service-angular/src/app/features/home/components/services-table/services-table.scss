@@ -358,9 +358,13 @@
   .categories-sidebar { position: static; padding: $spacing-sm; }
 
   .categories-nav {
+    width: calc(88vw - 40px); 
+    overflow-x: scroll;
+    scrollbar-width: none;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: $spacing-sm;
+    flex-direction: row;
+    grid-auto-flow: column;
+    gap: $spacing-xs;
   }
 
   .category-item {
@@ -369,7 +373,7 @@
     padding: $spacing-sm;
   }
 
-  .category-info { display: flex; flex-direction: column; align-items: center; }
+  .category-info { display: flex; flex-direction: column; align-items: center; justify-content: center;}
   .category-arrow { display: none; }
 
   .services-cta {
@@ -384,6 +388,17 @@
   .services-section { padding: $spacing-xl 0; }
   .services-content { padding: $spacing-lg; }
   .cta-card { padding: $spacing-lg; }
+  
+  .category-item {
+    min-width: 100px;
+    flex-direction: column;
+    text-align: center;
+    padding: $spacing-xs;
+      
+    & .category-icon{
+        display: none;
+      }
+    }
 
   .services-table {
     thead { display: none; }
