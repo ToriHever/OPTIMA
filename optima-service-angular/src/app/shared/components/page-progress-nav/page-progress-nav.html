@@ -1,24 +1,24 @@
-<nav class="page-progress-nav" [class.visible]="isVisible" *ngIf="isVisible">
+<nav class="page-progress-nav" [class.visible]="isVisible" [class.initialized]="isInitialized">
   <!-- Навигационные элементы -->
   <div class="nav-items">
-    <button 
+    <button
       *ngFor="let item of navItems; let i = index"
       class="nav-item"
       [class.active]="currentSection === i"
       [class.completed]="item.progress === 100"
       (click)="scrollToSection(i)"
       [attr.aria-label]="'Перейти к разделу: ' + getDisplayTitle(item)">
-      
+
       <!-- Прогресс-бар как фон -->
       <div class="item-background">
         <div class="progress-fill" [style.width.%]="item.progress"></div>
       </div>
-      
+
       <!-- Название секции -->
       <span class="item-title">{{ getDisplayTitle(item) }}</span>
     </button>
   </div>
-  
+
   <!-- Общий прогресс страницы (тонкая линия сверху) -->
   <div class="total-progress">
     <div class="total-progress-fill" [style.width.%]="totalProgress"></div>

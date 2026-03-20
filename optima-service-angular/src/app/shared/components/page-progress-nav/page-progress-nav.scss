@@ -1,54 +1,51 @@
 @import '../../../../styles/variables';
 @import '../../../../styles/mixins';
 
-
 // ============================================
-// ОСНОВНОЙ КОНТЕЙНЕР - КОМПАКТНЫЙ И ПАРЯЩИЙ
+// ОСНОВНОЙ КОНТЕЙНЕР
 // ============================================
 
 .page-progress-nav {
   position: fixed;
   bottom: 24px;
   left: 50%;
-  transform: translateX(-50%) translateY(150%);
   z-index: 999;
-  
+
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
   border-radius: $radius-md;
   box-shadow: $shadow-floating;
-  
+
   padding: $spacing-xs;
   max-width: min(90vw, 800px);
   width: fit-content;
-  
+
+  // Начальное состояние — скрыт и смещён вниз
+  // pointer-events: none чтобы не перехватывал клики когда невидим
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  // Тонкая рамка для эффекта глубины
-  // border: 1px solid rgba(0, 0, 0, 0.06);
-  
-  // Показываем меню
-  &.visible {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  // Анимация появления при загрузке
-  animation: floatUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 1s forwards;
-}
+  transform: translateX(-50%) translateY(20px);
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    visibility 0s linear 0.35s;
 
-@keyframes floatUp {
-  from {
-    transform: translateX(-50%) translateY(150%);
-    opacity: 0;
+  // Элемент добавлен в DOM, но ещё не показан
+  &.initialized {
+    // nothing — просто маркер что готов к показу
   }
-  to {
-    transform: translateX(-50%) translateY(0);
+
+  // Видимое состояние
+  &.visible {
     opacity: 1;
     visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease,
+      visibility 0s linear 0s;
   }
 }
 
@@ -76,79 +73,57 @@
 }
 
 // ============================================
-// НАВИГАЦИОННЫЕ ЭЛЕМЕНТЫ (КОМПАКТНЫЕ ПЛАШКИ)
+// НАВИГАЦИОННЫЕ ЭЛЕМЕНТЫ
 // ============================================
 
 .nav-items {
   display: flex;
   align-items: stretch;
-  padding-top: 2px; // Отступ от линии прогресса
+  padding-top: 2px;
 }
 
 .nav-item {
   position: relative;
   display: flex;
   align-items: center;
-  
+
   padding: 12px $spacing-xs;
   min-height: 44px;
-  
+
   border: none;
   background: transparent;
   cursor: pointer;
-  
-  // border-radius: $radius-sm;
+
   overflow: hidden;
   transition: all $transition-base;
 
-  &:first-child{
-    border-radius: $radius-sm 0 0 $radius-sm;
-  }
-   &:last-child{
-    border-radius: 0 $radius-sm $radius-sm 0;
-  }
-  
+  &:first-child { border-radius: $radius-sm 0 0 $radius-sm; }
+  &:last-child  { border-radius: 0 $radius-sm $radius-sm 0; }
 
-  // Hover эффект
   &:hover {
     box-shadow: $shadow-sm;
     transform: translateY(-2px);
-    
-    .item-title {
-      color: $color-dark;
-    }
-    
-    .item-background {
-      opacity: 0.15;
-    }
+
+    .item-title { color: $color-dark; }
+    .item-background { opacity: 0.15; }
   }
 
-
-  
-  // Активная секция
   &.active {
     box-shadow: $shadow-md;
-    
+
     .item-background .progress-fill {
       background: $color-primary-lighter;
       opacity: 0.5;
     }
   }
-  
-  // Завершенная секция
+
   &.completed {
     .item-background .progress-fill {
       background: $color-primary-lighter;
       opacity: 0.5;
     }
-    
-    .check-icon {
-      color: $color-primary-lighter;
-      opacity: 0.5;
-    }
   }
-  
-  // Анимация клика
+
   &:active {
     transform: translateY(0) scale(0.98);
   }
@@ -165,9 +140,8 @@
   right: 0;
   bottom: 0;
   z-index: -1;
-  
+
   background: rgba($color-primary, 0.03);
-  // border-radius: $radius-sm;
   overflow: hidden;
   opacity: 0.5;
   transition: opacity $transition-base;
@@ -177,10 +151,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;  
+  bottom: 0;
   transition: width 0.1s linear, background $transition-base, opacity $transition-base;
   opacity: 0.8;
-
 }
 
 // ============================================
@@ -190,12 +163,11 @@
 .item-title {
   position: relative;
   z-index: 1;
-  
+
   font-size: 0.875rem;
   color: $color-primary-light;
-  
   white-space: nowrap;
-  
+
   transition: color $transition-base;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
@@ -205,18 +177,14 @@
 // ============================================
 
 @media (max-width: 1200px) {
-  .page-progress-nav {
-    max-width: 95vw;
-  }
-  
+  .page-progress-nav { max-width: 95vw; }
+
   .nav-item {
     padding: $spacing-xs 12px;
     min-height: 40px;
   }
-  
-  .item-title {
-    font-size: 0.8125rem;
-  }
+
+  .item-title { font-size: 0.8125rem; }
 }
 
 @media (max-width: 1024px) {
@@ -224,60 +192,44 @@
     bottom: 16px;
     padding: 4px;
   }
-  
-  .nav-item {
-    padding: $spacing-xs;
-  }
+
+  .nav-item { padding: $spacing-xs; }
 }
 
 @media (max-width: 768px) {
   .page-progress-nav {
     bottom: 12px;
-    transform: translateX(0) translateY(150%);
+    left: 0;
     max-width: 90vw;
 
+    // На мобиле нет центрирования через left:50% + translateX(-50%)
+    // поэтому переопределяем трансформы
+    transform: translateY(20px);
+
+    &.visible {
+      transform: translateY(0);
+    }
+
     .nav-item {
-    &:nth-last-child(-n+2) {
-      display: none; // Скрывает 2 последних элемента
+      &:nth-last-child(-n+2) { display: none; }
     }
   }
 
-    
-    &.visible {
-      transform: translateX(0) translateY(0);
-    }
-  }
-  
-  @keyframes floatUp {
-    from {
-      transform: translateX(0) translateY(150%);
-    }
-    to {
-      transform: translateX(0) translateY(0);
-    }
-  }
-  
   .nav-items {
     overflow-x: auto;
     overflow-y: hidden;
-    
-    // Скрываем скроллбар
     scrollbar-width: none;
     -ms-overflow-style: none;
-    
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    
-    // Padding для прокрутки
     padding-right: $spacing-xs;
+
+    &::-webkit-scrollbar { display: none; }
   }
-  
+
   .nav-item {
     padding: $spacing-xs 12px;
     min-width: fit-content;
   }
-  
+
   .item-title {
     font-size: 0.8125rem;
     max-width: 120px;
@@ -291,57 +243,14 @@
     bottom: 8px;
     padding: 4px;
   }
-  
+
   .nav-item {
     padding: 4px $spacing-xs;
     min-height: 36px;
   }
-  
+
   .item-title {
     font-size: 0.75rem;
     max-width: 100px;
   }
-  
-  .check-icon {
-    width: 14px;
-    height: 14px;
-  }
 }
-
-// ============================================
-// ТЕМНАЯ ТЕМА (ОПЦИОНАЛЬНО)
-// ============================================
-
-// @media (prefers-color-scheme: dark) {
-//   .page-progress-nav {
-//     background: rgba(30, 41, 59, 0.95);
-//     border-color: rgba(255, 255, 255, 0.1);
-//   }
-  
-//   .total-progress {
-//     background: rgba(255, 255, 255, 0.1);
-//   }
-  
-//   .nav-item {
-//     &:hover {
-//       .item-title {
-//         color: $color-white;
-//       }
-//     }
-    
-//     &.active {
-//       .item-title {
-//         color: $color-white;
-//       }
-//     }
-//   }
-  
-//   .item-background {
-//     background: rgba($color-primary, 0.08);
-//   }
-  
-//   .item-title {
-//     color: rgba(255, 255, 255, 0.7);
-//     text-shadow: none;
-//   }
-// }
