@@ -289,14 +289,15 @@ ul, ol {
 }
 
 .btn-secondary {
-  background: rgba($color-primary-light, 0.15);
-  color: $color-primary-light;
-  border: 2px solid rgba($color-primary-light, 0.6);
+  background: transparent;
+  color: $color-primary;
+  border: 2px solid $color-primary;
   backdrop-filter: blur(10px);
 
   &:hover {
     background: $color-primary;
     color: $color-white;
+    border: 2px solid $color-primary;
     transform: translateY(-2px);
     color: $color-white;
   }
@@ -304,24 +305,13 @@ ul, ol {
 
 .btn-outline {
   background: transparent;
-  color: $color-primary;
-  border: 2px solid $color-primary;
+  color: $color-white;
+  border: 2px solid $color-white;
 
   &:hover {
     background: $color-primary;
     color: $color-white;
     transform: translateY(-2px);
-  }
-}
-
-.btn-ghost {
-  background: transparent;
-  color: $color-primary;
-  padding: 10px 20px;
-
-  &:hover {
-    background: rgba($color-primary, 0.08);
-    color: $color-primary;
   }
 }
 
