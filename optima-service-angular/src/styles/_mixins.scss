@@ -192,37 +192,6 @@
   transition: $properties $transition-base;
 }
 
-// Тени
-@mixin card-shadow {
-  box-shadow: $shadow-md;
-
-  &:hover {
-    box-shadow: $shadow-lg;
-  }
-}
-
-// Кнопка
-@mixin button-base {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 28px;
-  @include text-btn;
-  border: none;
-  border-radius: $radius-full;
-  cursor: pointer;
-  transition: all $transition-base;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
-
 // Градиентный оверлей
 @mixin gradient-overlay($opacity: 0.7) {
   position: relative;
