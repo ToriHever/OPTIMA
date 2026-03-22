@@ -81,48 +81,60 @@
     </div>
 
     <!-- CTA блок -->
-    <div class="services-cta">
-      <div class="cta-card">
-        <div class="cta-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
-            <path d="M24 12V24L30 30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="24" cy="24" r="18" stroke-width="2"/>
-          </svg>
-        </div>
-        <h3>Бесплатная диагностика</h3>
-        <p>При ремонте диагностика за наш счет. Определим точную причину поломки.</p>
-        <button class="btn btn-primary" (click)="openDiagnosticForm()">
-          Вызвать мастера
-        </button>
-      </div>
+    <div
+      class="services-cta-wrapper"
+      [class.fade-left]="ctaFadeLeft"
+      [class.fade-right]="ctaFadeRight"
+      #ctaWrapper>
+      <div
+        class="services-cta"
+        #ctaScroll
+        (scroll)="onCtaScroll()">
 
-      <div class="cta-card">
-        <div class="cta-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
-            <path d="M12 24H36M36 24L28 16M36 24L28 32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="24" cy="24" r="18" stroke-width="2"/>
-          </svg>
+        <div class="cta-card">
+          <div class="cta-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
+              <path d="M24 12V24L30 30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="24" cy="24" r="18" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>Бесплатная диагностика</h3>
+          <p>При ремонте диагностика за наш счет. Определим точную причину поломки.</p>
+          <button class="btn btn-primary" (click)="openDiagnosticForm()">
+            Вызвать мастера
+          </button>
         </div>
-        <h3>Выезд мастера</h3>
-        <p>Приедем в удобное для вас время. Ремонт на дому или с вывозом в сервис.</p>
-        <button class="btn btn-secondary btn-large" (click)="openCallbackForm()">
-          Заказать звонок
-        </button>
-      </div>
 
-      <div class="cta-card">
-        <div class="cta-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
-            <path d="M18 24L22 28L30 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="24" cy="24" r="18" stroke-width="2"/>
-          </svg>
+        <div class="cta-card">
+          <div class="cta-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
+              <path d="M12 24H36M36 24L28 16M36 24L28 32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="24" cy="24" r="18" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>Выезд мастера</h3>
+          <p>Приедем в удобное для вас время. Ремонт на дому или с вывозом в сервис.</p>
+          <button class="btn btn-secondary btn-large" (click)="openCallbackForm()">
+            Заказать звонок
+          </button>
         </div>
-        <h3>Гарантия до 2 лет</h3>
-        <p>Официальная гарантия на все виды работ. Оригинальные запчасти.</p>
-        <button class="btn btn-secondary btn-large" (click)="scrollToWarranty()">
-          Подробнее
-        </button>
+
+        <div class="cta-card">
+          <div class="cta-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor">
+              <path d="M18 24L22 28L30 20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="24" cy="24" r="18" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>Гарантия до 2 лет</h3>
+          <p>Официальная гарантия на все виды работ. Оригинальные запчасти.</p>
+          <button class="btn btn-secondary btn-large" (click)="scrollToWarranty()">
+            Подробнее
+          </button>
+        </div>
+
       </div>
     </div>
+
   </div>
 </section>

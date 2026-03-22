@@ -247,11 +247,49 @@
   color: rgba($color-dark, 0.7);
 }
 
-// ── CTA ───────────────────────────────────────────────────────
+// ── CTA wrapper (горизонтальный скролл + fade-маски) ──────────
+
+.services-cta-wrapper {
+  position: relative;
+
+  // Градиент слева
+  &::before,
+  // Градиент справа
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 72px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity $transition-base;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, $color-bg-light, transparent);
+    border-radius: $radius-lg 0 0 $radius-lg;
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, $color-bg-light, transparent);
+    border-radius: 0 $radius-lg $radius-lg 0;
+  }
+
+  // Активируем градиенты через классы, которые ставит TypeScript
+  &.fade-left::before  { opacity: 1; }
+  &.fade-right::after  { opacity: 1; }
+}
+
+// ── CTA сам скроллируемый ряд ─────────────────────────────────
 .services-cta {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: $spacing-lg;
+  // Скролл включается только на мобилке (см. медиа ниже)
 }
 
 .cta-card {
@@ -358,7 +396,7 @@
   .categories-sidebar { position: static; padding: $spacing-sm; }
 
   .categories-nav {
-    width: calc(88vw - 40px); 
+    width: calc(88vw - 40px);
     overflow-x: scroll;
     scrollbar-width: none;
     display: grid;
@@ -376,28 +414,42 @@
   .category-info { display: flex; flex-direction: column; align-items: center; justify-content: center;}
   .category-arrow { display: none; }
 
+  // На планшете/мобиле включаем горизонтальный скролл CTA
   .services-cta {
     width: -webkit-fill-available;
-    overflow: scroll;
+    overflow-x: auto;
+    overflow-y: visible;
     scrollbar-width: none;
+    -ms-overflow-style: none;
     padding: $spacing-xl 0;
+    // Сохраняем фиксированную ширину карточек, чтобы было что скроллить
+    grid-template-columns: repeat(3, min(72vw, 280px));
+    // Небольшой отступ от краёв, чтобы fade-маска не перекрывала контент полностью
+    padding-left: 4px;
+    padding-right: 4px;
+
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  // Wrapper: подгоняем border-radius маски под наличие паддинга
+  .services-cta-wrapper {
+    &::before { border-radius: 0; }
+    &::after  { border-radius: 0; }
   }
 }
 
 @media (max-width: 768px) {
   .services-content { padding: $spacing-lg; }
   .cta-card { padding: $spacing-lg; }
-  
+
   .category-item {
     min-width: 100px;
     flex-direction: column;
     text-align: center;
     padding: $spacing-xs;
-      
-    & .category-icon{
-        display: none;
-      }
-    }
+
+    & .category-icon { display: none; }
+  }
 
   .services-table {
     thead { display: none; }
@@ -434,4 +486,8 @@
   .services-content { padding: $spacing-md; }
   .content-header { margin-bottom: $spacing-lg; padding-bottom: $spacing-md; }
   .cta-icon { width: 64px; height: 64px; }
+
+  .services-cta {
+    grid-template-columns: repeat(3, min(80vw, 260px));
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, PLATFORM_ID, Inject, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ModalService } from '../../../../core/services/modal.service';
@@ -40,9 +40,15 @@ interface ServiceCategory {
     ])
   ]
 })
-export class ServicesTable {
+export class ServicesTable implements AfterViewInit {
+  @ViewChild('ctaScroll') ctaScrollRef!: ElementRef<HTMLElement>;
+
   activeCategory: number = 0;
-  
+
+  // Состояние градиентов по краям CTA
+  ctaFadeLeft = false;
+  ctaFadeRight = false;
+
   serviceCategories: ServiceCategory[] = [
   {
     name: 'Диагностика и ПО',
@@ -113,33 +119,63 @@ export class ServicesTable {
     ]
   }
   ];
-  
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, 
-  private modalService: ModalService,
-  private scrollService: ScrollService
-) {}
-  
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private modalService: ModalService,
+    private scrollService: ScrollService
+  ) {}
+
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      // Небольшая задержка, чтобы браузер успел отрисовать layout
+      setTimeout(() => this.updateCtaFades(), 100);
+    }
+  }
+
+  /**
+   * Обновляет видимость градиентов при скролле CTA
+   */
+  onCtaScroll(): void {
+    this.updateCtaFades();
+  }
+
+  private updateCtaFades(): void {
+    const el = this.ctaScrollRef?.nativeElement;
+    if (!el) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    const maxScroll = scrollWidth - clientWidth;
+
+    // Левый градиент — показываем, если проскроллили хоть немного
+    this.ctaFadeLeft = scrollLeft > 4;
+
+    // Правый градиент — показываем, если ещё есть что скроллить
+    this.ctaFadeRight = maxScroll > 4 && scrollLeft < maxScroll - 4;
+  }
+
   /**
    * Выбор категории
    */
   selectCategory(index: number): void {
     this.activeCategory = index;
   }
-  
+
   /**
    * Открытие формы обратного звонка
    */
   openCallbackForm() {
     this.modalService.open('callback-modal', { purpose: 'callback' });
   }
-   openDiagnosticForm() {
+
+  openDiagnosticForm() {
     this.modalService.open('callback-modal', { purpose: 'diagnostic' });
   }
-  
+
   /**
    * Скролл к секции гарантий
    */
   scrollToWarranty(): void {
-  this.scrollService.scrollToId('warranty');
+    this.scrollService.scrollToId('warranty');
   }
 }
