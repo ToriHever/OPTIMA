@@ -1,7 +1,6 @@
 @import '../../../../../styles/variables';
 @import '../../../../../styles/mixins';
 
-// ── Секция ──────────────────────────────────────────────────
 .services-section {
   padding: $space-xl 0;
   background: $color-bg-light;
@@ -28,7 +27,6 @@
   line-height: $line-height-body;
 }
 
-// ── Layout ───────────────────────────────────────────────────
 .services-layout {
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -36,7 +34,6 @@
   margin-bottom: $spacing-lg;
 }
 
-// ── Сайдбар категорий ────────────────────────────────────────
 .categories-sidebar {
   background: $color-white;
   border-radius: $radius-lg;
@@ -46,20 +43,14 @@
   top: $spacing-lg;
 }
 
-// ── Wrapper для nav + стрелки ─────────────────────────────────
-// На десктопе стрелки скрыты и wrapper — просто проходной div.
-// На ≤1024px становится flex-контейнером с кнопками по бокам.
 .categories-nav-wrapper {
   display: flex;
   align-items: center;
-  gap: 0;
   position: relative;
 }
 
-// ── Стрелки (скрыты по умолчанию, видны только на ≤1024px) ───
 .cat-arrow {
-  display: none; // скрыто на десктопе
-
+  display: none;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
@@ -72,31 +63,15 @@
   color: $color-primary;
   cursor: pointer;
   transition: all $transition-base;
-  // Скрыт, пока нет контента для прокрутки
   opacity: 0;
   pointer-events: none;
   z-index: 2;
 
-  svg { flex-shrink: 0; }
-
-  &.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  &:hover {
-    background: $color-primary;
-    color: $color-white;
-    box-shadow: $shadow-lg;
-    transform: scale(1.1);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
+  &.visible { opacity: 1; pointer-events: auto; }
+  &:hover { background: $color-primary; color: $color-white; box-shadow: $shadow-lg; transform: scale(1.1); }
+  &:active { transform: scale(0.95); }
 }
 
-// ── Вертикальный список (десктоп) ─────────────────────────────
 .categories-nav {
   display: flex;
   flex-direction: column;
@@ -116,20 +91,12 @@
   transition: all $transition-base;
   text-align: left;
 
-  &:hover {
-    background: rgba($color-primary, 0.05);
-    border-color: rgba($color-primary, 0.2);
-  }
+  &:hover { background: rgba($color-primary, 0.05); border-color: rgba($color-primary, 0.2); }
 
   &.active {
     background: linear-gradient(135deg, rgba($color-primary, 0.1), rgba($color-primary, 0.05));
     border-color: $color-primary;
-
-    .category-icon {
-      background: linear-gradient(135deg, $color-primary-light, $color-primary);
-      svg { stroke: $color-white; }
-    }
-
+    .category-icon { background: linear-gradient(135deg, $color-primary-light, $color-primary); svg { stroke: $color-white; } }
     .category-name { color: $color-primary; }
     .category-arrow { opacity: 1; }
   }
@@ -158,11 +125,7 @@
   transition: color $transition-base;
 }
 
-.category-count {
-  font-size: $font-size-mini;
-  color: rgba($color-dark, 0.5);
-  margin: 0;
-}
+.category-count { font-size: $font-size-mini; color: rgba($color-dark, 0.5); margin: 0; }
 
 .category-arrow {
   display: flex;
@@ -172,7 +135,6 @@
   svg { stroke: $color-primary; }
 }
 
-// ── Правая колонка ────────────────────────────────────────────
 .services-content {
   background: $color-white;
   border-radius: $radius-lg;
@@ -186,20 +148,9 @@
   border-bottom: 2px solid $color-bg-grey;
 }
 
-.content-title {
-  font-size: $font-size-h3;
-  font-weight: $font-weight-bold;
-  color: $color-dark;
-  margin: $spacing-sm 0;
-}
+.content-title { font-size: $font-size-h3; font-weight: $font-weight-bold; color: $color-dark; margin: $spacing-sm 0; }
+.content-description { font-size: $font-size-body; color: rgba($color-dark, 0.7); margin: 0; }
 
-.content-description {
-  font-size: $font-size-body;
-  color: rgba($color-dark, 0.7);
-  margin: 0;
-}
-
-// ── Таблица ───────────────────────────────────────────────────
 .services-table-wrapper {
   max-height: 520px;
   overflow-y: auto;
@@ -235,7 +186,6 @@
       color: $color-dark;
       background: transparent;
       border: none;
-
       &.col-service { width: 30%; }
       &.col-price   { width: 20%; }
       &.col-time    { width: 50%; }
@@ -247,11 +197,7 @@
   tbody tr {
     background: $color-white;
     transition: all $transition-base;
-
-    &:hover td {
-      background: rgba($color-primary, 0.02);
-      border-color: $color-primary-light;
-    }
+    &:hover td { background: rgba($color-primary, 0.02); border-color: $color-primary-light; }
 
     td {
       padding: $spacing-md;
@@ -259,51 +205,21 @@
       border-bottom: 1px solid $color-bg-grey;
       background: $color-white;
       transition: all $transition-base;
-
-      &:first-child {
-        border-left: 1px solid $color-bg-grey;
-        border-radius: $radius-sm 0 0 $radius-sm;
-      }
-
-      &:last-child {
-        border-right: 1px solid $color-bg-grey;
-        border-radius: 0 $radius-sm $radius-sm 0;
-      }
+      &:first-child { border-left: 1px solid $color-bg-grey; border-radius: $radius-sm 0 0 $radius-sm; }
+      &:last-child  { border-right: 1px solid $color-bg-grey; border-radius: 0 $radius-sm $radius-sm 0; }
     }
   }
 }
 
-.service-name {
-  font-weight: $font-weight-semibold;
-  color: $color-dark;
-}
-
-.service-note {
-  font-size: $font-size-mini;
-  color: rgba($color-dark, 0.5);
-  display: block;
-  margin-top: 4px;
-}
-
+.service-name { font-weight: $font-weight-semibold; color: $color-dark; }
+.service-note { font-size: $font-size-mini; color: rgba($color-dark, 0.5); display: block; margin-top: 4px; }
 .col-price, .col-time { vertical-align: middle; }
+.price-value { font-weight: $font-weight-bold; font-size: $font-size-body; color: $color-primary; }
+.time-value { font-size: $font-size-body; color: rgba($color-dark, 0.7); }
 
-.price-value {
-  font-weight: $font-weight-bold;
-  font-size: $font-size-body;
-  color: $color-primary;
-}
-
-.time-value {
-  font-size: $font-size-body;
-  color: rgba($color-dark, 0.7);
-}
-
-// ── CTA wrapper (горизонтальный скролл + fade-маски) ──────────
 .services-cta-wrapper {
   position: relative;
-
-  &::before,
-  &::after {
+  &::before, &::after {
     content: '';
     position: absolute;
     top: 0;
@@ -314,19 +230,8 @@
     opacity: 0;
     transition: opacity $transition-base;
   }
-
-  &::before {
-    left: 0;
-    background: linear-gradient(to right, $color-bg-light, transparent);
-    border-radius: $radius-lg 0 0 $radius-lg;
-  }
-
-  &::after {
-    right: 0;
-    background: linear-gradient(to left, $color-bg-light, transparent);
-    border-radius: 0 $radius-lg $radius-lg 0;
-  }
-
+  &::before { left: 0; background: linear-gradient(to right, $color-bg-light, transparent); border-radius: $radius-lg 0 0 $radius-lg; }
+  &::after  { right: 0; background: linear-gradient(to left, $color-bg-light, transparent); border-radius: 0 $radius-lg $radius-lg 0; }
   &.fade-left::before  { opacity: 1; }
   &.fade-right::after  { opacity: 1; }
 }
@@ -347,26 +252,9 @@
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
   transition: all $transition-base;
-
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: $shadow-md;
-  }
-
-  h3 {
-    font-size: $font-size-h4;
-    font-weight: $font-weight-bold;
-    color: $color-dark;
-    margin: $spacing-md 0 $spacing-sm;
-  }
-
-  p {
-    font-size: $font-size-subtitle-2;
-    color: rgba($color-dark, 0.7);
-    margin-bottom: $spacing-lg;
-    line-height: $line-height-body;
-  }
-
+  &:hover { transform: translateY(-8px); box-shadow: $shadow-md; }
+  h3 { font-size: $font-size-h4; font-weight: $font-weight-bold; color: $color-dark; margin: $spacing-md 0 $spacing-sm; }
+  p  { font-size: $font-size-subtitle-2; color: rgba($color-dark, 0.7); margin-bottom: $spacing-lg; line-height: $line-height-body; }
   .btn { margin-top: auto; }
 }
 
@@ -381,7 +269,6 @@
   svg { stroke: $color-white; }
 }
 
-// ── Tooltip ───────────────────────────────────────────────────
 .tooltip-trigger {
   position: relative;
   cursor: help;
@@ -394,7 +281,6 @@
     pointer-events: none;
     transition: opacity 0.2s ease, visibility 0.2s ease;
   }
-
   &::before {
     content: attr(data-tooltip);
     bottom: 100%;
@@ -412,7 +298,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     z-index: 1000;
   }
-
   &::after {
     content: '';
     bottom: 100%;
@@ -422,14 +307,9 @@
     border-top-color: #2d3748;
     z-index: 1001;
   }
-
-  &:hover::before, &:hover::after {
-    opacity: 1;
-    visibility: visible;
-  }
+  &:hover::before, &:hover::after { opacity: 1; visibility: visible; }
 }
 
-// ── Адаптивность ──────────────────────────────────────────────
 @media (max-width: 1200px) {
   .services-layout { grid-template-columns: 280px 1fr; gap: $spacing-lg; }
   .category-name { font-size: $font-size-mini; }
@@ -437,30 +317,22 @@
 
 @media (max-width: 1024px) {
   .services-layout { grid-template-columns: 1fr; gap: $spacing-md; }
+  .categories-sidebar { position: static; padding: $spacing-sm; width: 89vw; }
 
-  .categories-sidebar { position: static; padding: $spacing-sm; width: 89vw;}
-
-  // Включаем горизонтальный скролл
   .categories-nav {
     flex-direction: row;
     overflow-y: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
     gap: $spacing-xs;
-    // Убираем ограничение ширины — wrapper управляет шириной
     width: auto;
     flex: 1;
-    min-width: 0; // важно для flex-сжатия
-
+    min-width: 0;
     &::-webkit-scrollbar { display: none; }
   }
 
-  // Показываем стрелки на мобильном layout
-  .cat-arrow {
-    display: flex;
-  }
+  .cat-arrow { display: flex; }
 
-  // Карточка категории — компактная вертикальная форма
   .category-item {
     flex-direction: column;
     align-items: center;
@@ -470,17 +342,10 @@
     min-width: 90px;
   }
 
-  .category-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
+  .category-info { display: flex; flex-direction: column; align-items: center; }
   .category-arrow { display: none; }
+  .services-content { width: 89vw; }
 
-  .services-content{ width: 89vw;}
-
-  // CTA горизонтальный скролл
   .services-cta {
     overflow-x: auto;
     overflow-y: visible;
@@ -490,14 +355,11 @@
     grid-template-columns: repeat(3, min(72vw, 280px));
     padding-left: 4px;
     padding-right: 4px;
-
     &::-webkit-scrollbar { display: none; }
   }
 
-  .services-cta-wrapper {
-    &::before { border-radius: 0; }
-    &::after  { border-radius: 0; }
-  }
+  .services-cta-wrapper::before,
+  .services-cta-wrapper::after { border-radius: 0; }
 }
 
 @media (max-width: 768px) {
@@ -524,18 +386,8 @@
         border: none !important;
         border-radius: 0 !important;
         padding: $spacing-sm $spacing-md;
-
         &:not(:last-child) { border-bottom: 1px solid $color-bg-grey !important; }
-
-        &::before {
-          content: attr(data-label);
-          display: block;
-          font-weight: $font-weight-bold;
-          font-size: $font-size-micro;
-          color: rgba($color-dark, 0.6);
-          margin-bottom: 4px;
-          text-transform: uppercase;
-        }
+        &::before { content: attr(data-label); display: block; font-weight: $font-weight-bold; font-size: $font-size-micro; color: rgba($color-dark, 0.6); margin-bottom: 4px; text-transform: uppercase; }
       }
     }
   }
@@ -545,8 +397,5 @@
   .services-content { padding: $spacing-md; }
   .content-header { margin-bottom: $spacing-lg; padding-bottom: $spacing-md; }
   .cta-icon { width: 64px; height: 64px; }
-
-  .services-cta {
-    grid-template-columns: repeat(3, min(80vw, 260px));
-  }
+  .services-cta { grid-template-columns: repeat(3, min(80vw, 260px)); }
 }
