@@ -1,7 +1,8 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, Inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';  // ← добавить
 import { ModalService } from '../../../core/services/modal.service';
 import { Observable } from 'rxjs';
 
@@ -74,6 +75,8 @@ export class RepairStatusModal implements OnInit {
   constructor(
     private modalService: ModalService,
     private fb: FormBuilder,
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isOpen$ = this.modalService.getState('repair-status-modal');
@@ -99,28 +102,22 @@ export class RepairStatusModal implements OnInit {
   }
 
   searchRepair(): void {
-    if (this.searchForm.invalid) {
-      this.searchForm.markAllAsTouched();
-      return;
-    }
+  if (this.searchForm.invalid) {
+    this.searchForm.markAllAsTouched();
+    return;
+  }
 
-    const orderNumber: string = this.searchForm.get('orderNumber')!.value.trim();
+  const orderNumber: string = this.searchForm.get('orderNumber')!.value.trim();
 
-    this.isLoading = true;
-    this.notFound = false;
-    this.repairInfo = null;
-    this.errorMessage = '';
+  this.isLoading = true;
+  this.notFound = false;
+  this.repairInfo = null;
+  this.errorMessage = '';
 
-    fetch(this.API_BASE + encodeURIComponent(orderNumber))
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
-        }
-        return res.json() as Promise<ApiResponse>;
-      })
-      .then((json: ApiResponse) => {
+  this.http.get<ApiResponse>(this.API_BASE + encodeURIComponent(orderNumber))
+    .subscribe({
+      next: (json) => {
         if (json.Status === 'ExternalRequestFailed') {
-          // API нашло номер, но вернуло бизнес-ошибку (например, «заказ не найден»)
           this.notFound = true;
           this.errorMessage = (json as ApiErrorResponse).UserMessage || 'Заказ-наряд не найден';
         } else {
@@ -133,16 +130,18 @@ export class RepairStatusModal implements OnInit {
           };
           this.notFound = false;
         }
-      })
-      .catch((err: unknown) => {
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
         console.error('Repair status API error:', err);
         this.notFound = true;
         this.errorMessage = 'Не удалось подключиться к серверу. Попробуйте позже.';
-      })
-      .finally(() => {
         this.isLoading = false;
-      });
-  }
+        this.cdr.detectChanges();
+      }
+    });
+}
 
   resetSearch(): void {
     this.searchForm.reset();
