@@ -1,0 +1,14 @@
+{
+  "/repair-api": {
+    "target": "https://devicedoctors.ru",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/repair-api": ""
+    },
+    "headers": {
+      "signature": "DeviceDoctors"
+    },
+    "logLevel": "debug"
+  }
+}
