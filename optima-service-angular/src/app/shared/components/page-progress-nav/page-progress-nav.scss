@@ -31,10 +31,6 @@
     transform 0.35s ease,
     visibility 0s linear 0.35s;
 
-  // Элемент добавлен в DOM, но ещё не показан
-  &.initialized {
-    // nothing — просто маркер что готов к показу
-  }
 
   // Видимое состояние
   &.visible {
