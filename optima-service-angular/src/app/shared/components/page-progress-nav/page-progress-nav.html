@@ -1,6 +1,6 @@
 <nav class="page-progress-nav" [class.visible]="isVisible" [class.initialized]="isInitialized">
   <!-- Навигационные элементы -->
-  <div class="nav-items">
+  <div class="nav-items" #navItemsRef>
     <button
       *ngFor="let item of navItems; let i = index"
       class="nav-item"

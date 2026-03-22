@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, PLATFORM_ID, Inject, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 interface NavItem {
@@ -17,18 +17,19 @@ interface NavItem {
   templateUrl: './page-progress-nav.html',
   styleUrl: './page-progress-nav.scss'
 })
-export class PageProgressNavComponent implements OnInit, OnDestroy {
+export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('navItemsRef') navItemsRef!: ElementRef<HTMLElement>;
+
   navItems: NavItem[] = [];
   currentSection: number = 0;
   totalProgress: number = 0;
 
-  // isInitialized — элемент присутствует в DOM (никогда не убираем)
   isInitialized: boolean = false;
-  // isVisible — управляет CSS-классом .visible для плавной анимации
   isVisible: boolean = false;
 
   private isBrowser: boolean;
   private footerElement: HTMLElement | null = null;
+  private scrollAnimationId: number | null = null;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -52,7 +53,13 @@ export class PageProgressNavComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {}
+  ngAfterViewInit(): void {}
+
+  ngOnDestroy(): void {
+    if (this.scrollAnimationId !== null) {
+      cancelAnimationFrame(this.scrollAnimationId);
+    }
+  }
 
   private cacheFooter(): void {
     this.footerElement = document.querySelector('footer');
@@ -86,8 +93,6 @@ export class PageProgressNavComponent implements OnInit, OnDestroy {
 
     if (this.navItems.length >= 2) {
       this.isInitialized = true;
-      // Небольшая задержка чтобы браузер успел отрисовать элемент
-      // перед запуском CSS-перехода
       setTimeout(() => {
         this.isVisible = !this.isFooterVisible();
       }, 50);
@@ -134,6 +139,8 @@ export class PageProgressNavComponent implements OnInit, OnDestroy {
       }
     });
 
+    const prevSection = this.currentSection;
+
     this.navItems.forEach((item, index) => {
       if (!item.element) return;
 
@@ -164,6 +171,97 @@ export class PageProgressNavComponent implements OnInit, OnDestroy {
     if (scrollTop < 150 && this.navItems.length > 0) {
       this.currentSection = 0;
     }
+
+    // Auto-scroll nav bar when active section changes
+    if (prevSection !== this.currentSection) {
+      this.scrollNavToShowCurrent();
+    }
+  }
+
+  /**
+   * Прокручивает панель навигации так, чтобы были видны:
+   * - текущий активный элемент
+   * - следующий элемент (превью)
+   * Анимация через requestAnimationFrame для плавности.
+   */
+  private scrollNavToShowCurrent(): void {
+    if (!this.isBrowser) return;
+
+    // Небольшая задержка, чтобы Angular успел отрисовать изменения
+    requestAnimationFrame(() => {
+      const container = this.navItemsRef?.nativeElement
+        ?? document.querySelector('.nav-items') as HTMLElement;
+
+      if (!container) return;
+
+      const buttons = container.querySelectorAll<HTMLElement>('.nav-item');
+      if (!buttons.length) return;
+
+      const current = buttons[this.currentSection];
+      if (!current) return;
+
+      // Целевой элемент для скролла — следующий, если есть, иначе текущий
+      const targetIndex = Math.min(this.currentSection + 1, buttons.length - 1);
+      const target = buttons[targetIndex];
+
+      // Вычисляем позицию скролла так, чтобы target был полностью виден
+      // и при этом current тоже оставался в зоне видимости
+      const containerScrollLeft = container.scrollLeft;
+      const containerWidth = container.clientWidth;
+
+      const currentLeft = current.offsetLeft;
+      const targetRight = target.offsetLeft + target.offsetWidth;
+
+      let desiredScrollLeft: number;
+
+      if (targetRight > containerScrollLeft + containerWidth) {
+        // target уходит за правый край — прокручиваем вправо
+        // Оставляем небольшой отступ (16px), чтобы следующий элемент был "подглядывающим"
+        desiredScrollLeft = targetRight - containerWidth + 16;
+      } else if (currentLeft < containerScrollLeft) {
+        // current уходит за левый край — прокручиваем влево
+        desiredScrollLeft = currentLeft - 16;
+      } else {
+        // Уже всё видно, ничего не делаем
+        return;
+      }
+
+      desiredScrollLeft = Math.max(0, desiredScrollLeft);
+
+      this.smoothScrollNav(container, desiredScrollLeft);
+    });
+  }
+
+  /**
+   * Плавный скролл контейнера навигации через requestAnimationFrame
+   */
+  private smoothScrollNav(container: HTMLElement, targetScrollLeft: number): void {
+    if (this.scrollAnimationId !== null) {
+      cancelAnimationFrame(this.scrollAnimationId);
+    }
+
+    const startScrollLeft = container.scrollLeft;
+    const distance = targetScrollLeft - startScrollLeft;
+    const duration = 300; // мс
+    let startTime: number | null = null;
+
+    const easeInOut = (t: number): number =>
+      t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      container.scrollLeft = startScrollLeft + distance * easeInOut(progress);
+
+      if (progress < 1) {
+        this.scrollAnimationId = requestAnimationFrame(step);
+      } else {
+        this.scrollAnimationId = null;
+      }
+    };
+
+    this.scrollAnimationId = requestAnimationFrame(step);
   }
 
   scrollToSection(index: number): void {
