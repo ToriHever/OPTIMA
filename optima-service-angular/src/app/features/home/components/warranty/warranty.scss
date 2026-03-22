@@ -213,15 +213,18 @@
 }
 
 @media (max-width: 768px) {
-  // padding .warranty-section  — удалён, clamp справляется
-  // padding .warranty-main     — удалён, clamp справляется
-  // padding .warranty-badge    — удалён, clamp справляется
-
-  .warranty-cta {
+   .warranty-cta {
     flex-direction: column;
     text-align: center;
     padding: $spacing-xs;
   }
+
+  .condition-number {
+  position: absolute;
+  top: -21px;
+  width: 38px;
+  height: 38px;
+}
 }
 
 @media (max-width: 480px) {
