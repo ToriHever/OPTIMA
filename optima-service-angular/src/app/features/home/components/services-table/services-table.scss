@@ -36,7 +36,7 @@
   margin-bottom: $spacing-lg;
 }
 
-// ── Сайдбар категорий ─────────────────────────────────────────
+// ── Сайдбар категорий ────────────────────────────────────────
 .categories-sidebar {
   background: $color-white;
   border-radius: $radius-lg;
@@ -46,10 +46,62 @@
   top: $spacing-lg;
 }
 
+// ── Wrapper для nav + стрелки ─────────────────────────────────
+// На десктопе стрелки скрыты и wrapper — просто проходной div.
+// На ≤1024px становится flex-контейнером с кнопками по бокам.
+.categories-nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+// ── Стрелки (скрыты по умолчанию, видны только на ≤1024px) ───
+.cat-arrow {
+  display: none; // скрыто на десктопе
+
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: $color-white;
+  box-shadow: $shadow-md;
+  color: $color-primary;
+  cursor: pointer;
+  transition: all $transition-base;
+  // Скрыт, пока нет контента для прокрутки
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  svg { flex-shrink: 0; }
+
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  &:hover {
+    background: $color-primary;
+    color: $color-white;
+    box-shadow: $shadow-lg;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// ── Вертикальный список (десктоп) ─────────────────────────────
 .categories-nav {
   display: flex;
   flex-direction: column;
   gap: $spacing-xs;
+  flex: 1;
 }
 
 .category-item {
@@ -63,7 +115,6 @@
   cursor: pointer;
   transition: all $transition-base;
   text-align: left;
-  width: 100%;
 
   &:hover {
     background: rgba($color-primary, 0.05);
@@ -248,13 +299,10 @@
 }
 
 // ── CTA wrapper (горизонтальный скролл + fade-маски) ──────────
-
 .services-cta-wrapper {
   position: relative;
 
-  // Градиент слева
   &::before,
-  // Градиент справа
   &::after {
     content: '';
     position: absolute;
@@ -279,17 +327,14 @@
     border-radius: 0 $radius-lg $radius-lg 0;
   }
 
-  // Активируем градиенты через классы, которые ставит TypeScript
   &.fade-left::before  { opacity: 1; }
   &.fade-right::after  { opacity: 1; }
 }
 
-// ── CTA сам скроллируемый ряд ─────────────────────────────────
 .services-cta {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: $spacing-lg;
-  // Скролл включается только на мобилке (см. медиа ниже)
 }
 
 .cta-card {
@@ -393,45 +438,62 @@
 @media (max-width: 1024px) {
   .services-layout { grid-template-columns: 1fr; gap: $spacing-md; }
 
-  .categories-sidebar { position: static; padding: $spacing-sm; }
+  .categories-sidebar { position: static; padding: $spacing-sm; width: 89vw;}
 
+  // Включаем горизонтальный скролл
   .categories-nav {
-    width: calc(88vw - 40px);
-    overflow-x: scroll;
-    scrollbar-width: none;
-    display: grid;
     flex-direction: row;
-    grid-auto-flow: column;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     gap: $spacing-xs;
+    // Убираем ограничение ширины — wrapper управляет шириной
+    width: auto;
+    flex: 1;
+    min-width: 0; // важно для flex-сжатия
+
+    &::-webkit-scrollbar { display: none; }
   }
 
+  // Показываем стрелки на мобильном layout
+  .cat-arrow {
+    display: flex;
+  }
+
+  // Карточка категории — компактная вертикальная форма
   .category-item {
     flex-direction: column;
+    align-items: center;
     text-align: center;
     padding: $spacing-sm;
+    flex-shrink: 0;
+    min-width: 90px;
   }
 
-  .category-info { display: flex; flex-direction: column; align-items: center; justify-content: center;}
+  .category-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .category-arrow { display: none; }
 
-  // На планшете/мобиле включаем горизонтальный скролл CTA
+  .services-content{ width: 89vw;}
+
+  // CTA горизонтальный скролл
   .services-cta {
-    width: -webkit-fill-available;
     overflow-x: auto;
     overflow-y: visible;
     scrollbar-width: none;
     -ms-overflow-style: none;
     padding: $spacing-xl 0;
-    // Сохраняем фиксированную ширину карточек, чтобы было что скроллить
     grid-template-columns: repeat(3, min(72vw, 280px));
-    // Небольшой отступ от краёв, чтобы fade-маска не перекрывала контент полностью
     padding-left: 4px;
     padding-right: 4px;
 
     &::-webkit-scrollbar { display: none; }
   }
 
-  // Wrapper: подгоняем border-radius маски под наличие паддинга
   .services-cta-wrapper {
     &::before { border-radius: 0; }
     &::after  { border-radius: 0; }
@@ -443,12 +505,9 @@
   .cta-card { padding: $spacing-lg; }
 
   .category-item {
-    min-width: 100px;
-    flex-direction: column;
-    text-align: center;
+    min-width: 80px;
     padding: $spacing-xs;
-
-    & .category-icon { display: none; }
+    .category-icon { display: none; }
   }
 
   .services-table {
