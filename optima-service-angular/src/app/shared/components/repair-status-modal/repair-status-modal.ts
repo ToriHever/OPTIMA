@@ -87,7 +87,7 @@ export class RepairStatusModal implements OnInit {
     this.searchForm = this.fb.group({
       orderNumber: ['', [
         Validators.required,
-        Validators.minLength(1),
+        Validators.minLength(6),
         Validators.pattern(/^\d+$/)
       ]]
     });
