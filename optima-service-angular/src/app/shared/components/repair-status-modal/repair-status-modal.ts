@@ -2,7 +2,7 @@ import { Component, OnInit, PLATFORM_ID, Inject, ChangeDetectorRef } from '@angu
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { HttpClient } from '@angular/common/http';  // ← добавить
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ModalService } from '../../../core/services/modal.service';
 import { Observable } from 'rxjs';
 
@@ -68,9 +68,8 @@ export class RepairStatusModal implements OnInit {
   notFound = false;
   errorMessage = '';
 
-  // Относительный путь — и dev-proxy (proxy.conf.json), и Express-proxy (server.ts)
-  // слушают /repair-api и проксируют на devicedoctors.ru
-  private readonly API_BASE = '/repair-api/api/ExternalAccess/';
+  // Прямой запрос на API — как в оригинальном checker.js
+  private readonly API_BASE = 'https://devicedoctors.ru/api/ExternalAccess/';
 
   constructor(
     private modalService: ModalService,
@@ -85,13 +84,11 @@ export class RepairStatusModal implements OnInit {
   ngOnInit(): void {
     this.modalService.register('repair-status-modal');
 
-    // Валидатор: произвольная непустая строка (номер заказ-наряда из API может
-    // быть любой длины — не ограничиваем ровно 6 цифрами как было раньше)
     this.searchForm = this.fb.group({
       orderNumber: ['', [
         Validators.required,
         Validators.minLength(1),
-        Validators.pattern(/^\d+$/)   // только цифры, любое количество
+        Validators.pattern(/^\d+$/)
       ]]
     });
   }
@@ -102,46 +99,49 @@ export class RepairStatusModal implements OnInit {
   }
 
   searchRepair(): void {
-  if (this.searchForm.invalid) {
-    this.searchForm.markAllAsTouched();
-    return;
-  }
+    if (this.searchForm.invalid) {
+      this.searchForm.markAllAsTouched();
+      return;
+    }
 
-  const orderNumber: string = this.searchForm.get('orderNumber')!.value.trim();
+    const orderNumber: string = this.searchForm.get('orderNumber')!.value.trim();
 
-  this.isLoading = true;
-  this.notFound = false;
-  this.repairInfo = null;
-  this.errorMessage = '';
+    this.isLoading = true;
+    this.notFound = false;
+    this.repairInfo = null;
+    this.errorMessage = '';
 
-  this.http.get<ApiResponse>(this.API_BASE + encodeURIComponent(orderNumber))
-    .subscribe({
-      next: (json) => {
-        if (json.Status === 'ExternalRequestFailed') {
+    // Заголовок signature — как в оригинальном checker.js
+    const headers = new HttpHeaders({ 'signature': 'DeviceDoctors' });
+
+    this.http.get<ApiResponse>(this.API_BASE + encodeURIComponent(orderNumber), { headers })
+      .subscribe({
+        next: (json) => {
+          if (json.Status === 'ExternalRequestFailed') {
+            this.notFound = true;
+            this.errorMessage = (json as ApiErrorResponse).UserMessage || 'Заказ-наряд не найден';
+          } else {
+            const data = (json as ApiSuccessResponse).data;
+            this.repairInfo = {
+              orderNumber: data.id,
+              deviceFullName: data.deviceFullName,
+              status: data.status,
+              state: data.state
+            };
+            this.notFound = false;
+          }
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Repair status API error:', err);
           this.notFound = true;
-          this.errorMessage = (json as ApiErrorResponse).UserMessage || 'Заказ-наряд не найден';
-        } else {
-          const data = (json as ApiSuccessResponse).data;
-          this.repairInfo = {
-            orderNumber: data.id,
-            deviceFullName: data.deviceFullName,
-            status: data.status,
-            state: data.state
-          };
-          this.notFound = false;
+          this.errorMessage = 'Не удалось подключиться к серверу. Попробуйте позже.';
+          this.isLoading = false;
+          this.cdr.detectChanges();
         }
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error('Repair status API error:', err);
-        this.notFound = true;
-        this.errorMessage = 'Не удалось подключиться к серверу. Попробуйте позже.';
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      }
-    });
-}
+      });
+  }
 
   resetSearch(): void {
     this.searchForm.reset();
