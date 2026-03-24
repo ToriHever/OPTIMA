@@ -1,0 +1,105 @@
+<div class="about-values-page">
+
+  <!-- ── Секция «Наши ценности» ─────────────────────────────── -->
+  <section class="values-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title-dark">
+          Почему нам <strong>доверяют</strong>
+        </h2>
+        <p class="section-subtitle-dark">
+          Четыре принципа, которым мы следуем с первого дня работы
+        </p>
+      </div>
+
+      <div class="values-grid">
+        <div class="value-card" *ngFor="let value of values; let i = index">
+          <div class="value-card__number">{{ (i + 1).toString().padStart(2, '0') }}</div>
+          <div class="value-card__icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+              <path [attr.d]="value.icon" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="value-card__title">{{ value.title }}</h3>
+          <p class="value-card__desc">{{ value.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Секция «Наша команда» ──────────────────────────────── -->
+  <section class="team-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title-dark">
+          Люди, которые <strong>ремонтируют</strong>
+        </h2>
+        <p class="section-subtitle-dark">
+          Опытные мастера с многолетней практикой и официальными сертификатами
+        </p>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card" *ngFor="let member of team">
+          <!-- Аватар-плейсхолдер с инициалами -->
+          <div class="team-card__avatar" [style.background]="member.bg">
+            <span class="team-card__initials">{{ member.initials }}</span>
+            <div class="team-card__avatar-ring"></div>
+          </div>
+
+          <div class="team-card__body">
+            <h3 class="team-card__name">{{ member.name }}</h3>
+            <span class="team-card__role">{{ member.role }}</span>
+            <p class="team-card__exp">{{ member.experience }}</p>
+
+            <ul class="team-card__skills">
+              <li *ngFor="let skill of member.skills">{{ skill }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA под командой -->
+      <div class="team-cta">
+        <div class="team-cta__text">
+          <h3>Хотите работать в нашей команде?</h3>
+          <p>Мы всегда рады опытным специалистам. Пришлите резюме или позвоните нам.</p>
+        </div>
+        <a href="mailto:larina@optima-sc.ru" class="btn btn-primary btn-large">
+          Написать нам
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Секция «История» ─────────────────────────────────── -->
+  <section class="history-section">
+    <div class="container">
+      <div class="history-layout">
+
+        <div class="history-content">
+          <h2 class="section-title" style="text-align: left;">
+            История <span class="text-accent">компании</span>
+          </h2>
+          <p class="history-lead">
+            Сервисный центр «Оптима» основали — инженеры-электронщики, которые решили открыть 
+            прозрачный и честный сервис.
+          </p>
+        </div>
+
+        <div class="history-timeline">
+          <div class="timeline-item" *ngFor="let event of timeline">
+            <div class="timeline-year">{{ event.year }}</div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-body">
+              <h4 class="timeline-title">{{ event.title }}</h4>
+              <p class="timeline-desc">{{ event.desc }}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>

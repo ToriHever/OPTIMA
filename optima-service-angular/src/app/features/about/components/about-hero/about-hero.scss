@@ -1,0 +1,275 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+// ────────────────────────────────────────────
+// ABOUT HERO
+// ────────────────────────────────────────────
+
+.about-hero {
+  position: relative;
+  padding: $space-xxl 0;
+  background: linear-gradient(160deg, $color-primary 0%, $color-primary-light 60%, #1e8a8a 100%);
+  overflow: hidden;
+  color: $color-white;
+}
+
+// Декоративный фон
+.about-hero__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.about-hero__bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.08;
+  background: $color-white;
+
+  &--1 {
+    width: 600px;
+    height: 600px;
+    top: -200px;
+    right: -100px;
+    animation: float 8s ease-in-out infinite;
+  }
+
+  &--2 {
+    width: 300px;
+    height: 300px;
+    bottom: -80px;
+    left: 5%;
+    animation: float 6s ease-in-out infinite reverse;
+  }
+}
+
+.about-hero__bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+// Макет
+.about-hero__layout {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: $space-xxl;
+  align-items: center;
+}
+
+// Бейдж
+.about-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 6px $spacing-md;
+  border: 1px solid rgba($color-white, 0.3);
+  border-radius: $radius-full;
+  background: rgba($color-white, 0.1);
+  backdrop-filter: blur(8px);
+  @include text-mini;
+  font-weight: $font-weight-semibold;
+  color: $color-white;
+  margin-bottom: $space-md;
+
+  svg { flex-shrink: 0; color: $color-primary-lightest; }
+}
+
+// Заголовок
+.about-hero__title {
+  @include text-h1;
+  color: $color-white;
+  line-height: 1.15;
+  margin-bottom: $space-md;
+  font-weight: $font-weight-bold;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+}
+
+.about-hero__title-accent {
+  color: $color-primary-lightest;
+}
+
+// Описание
+.about-hero__desc {
+  @include text-subtitle-1;
+  color: rgba($color-white, 0.88);
+  line-height: 1.7;
+  margin-bottom: $space-lg;
+
+  strong { color: $color-primary-lightest; font-weight: $font-weight-semibold; }
+}
+
+// Преимущества (иконки)
+.about-hero__highlights {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-bottom: $space-lg;
+}
+
+.about-hero__highlight {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  @include text-body;
+  color: rgba($color-white, 0.9);
+
+  svg { flex-shrink: 0; color: $color-primary-lightest; }
+}
+
+// Кнопки
+.about-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  flex-wrap: wrap;
+}
+
+.about-hero__phone {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  color: $color-white;
+  text-decoration: none;
+  transition: all $transition-base;
+
+  &:hover {
+    color: $color-primary-lightest;
+    transform: translateY(-2px);
+  }
+
+  span {
+    display: flex;
+    flex-direction: column;
+    @include text-body;
+    font-weight: $font-weight-semibold;
+    line-height: 1.3;
+    color: inherit;
+
+    small {
+      @include text-mini;
+      font-weight: $font-weight-regular;
+      opacity: 0.75;
+    }
+  }
+}
+
+.about-hero__phone-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba($color-white, 0.15);
+  flex-shrink: 0;
+}
+
+// ── Карточка со статистикой ──────────────────
+
+.about-hero__stats-card {
+  background: rgba($color-white, 0.07);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba($color-white, 0.15);
+  border-radius: $radius-xl;
+  padding: $space-xl;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.2);
+}
+
+.about-hero__stat--primary {
+  text-align: center;
+  padding-bottom: $space-lg;
+  margin-bottom: $space-lg;
+  border-bottom: 1px solid rgba($color-white, 0.15);
+
+  .about-hero__stat-value {
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: $color-primary-lightest;
+    text-shadow: 0 0 40px rgba($color-primary-lightest, 0.5);
+  }
+
+  .about-hero__stat-label {
+    font-size: $font-size-subtitle-1;
+  }
+}
+
+.about-hero__stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-md;
+  margin-bottom: $space-lg;
+}
+
+.about-hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.about-hero__stat-value {
+  font-size: $font-size-h3;
+  font-weight: $font-weight-bold;
+  color: $color-white;
+  line-height: 1;
+  background: linear-gradient(135deg, $color-white 0%, $color-primary-lighter 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-hero__stat-label {
+  @include text-mini;
+  color: rgba($color-white, 0.65);
+  line-height: 1.4;
+}
+
+// Цитата
+.about-hero__quote {
+  padding: $space-md;
+  background: rgba($color-white, 0.06);
+  border-left: 3px solid $color-primary-lightest;
+  border-radius: 0 $radius-sm $radius-sm 0;
+  margin: 0;
+
+  p {
+    @include text-body;
+    color: rgba($color-white, 0.85);
+    font-style: italic;
+    margin: 0 0 $spacing-xs;
+    line-height: 1.5;
+  }
+
+  cite {
+    @include text-mini;
+    color: rgba($color-white, 0.5);
+    font-style: normal;
+  }
+}
+
+// ── Адаптивность ─────────────────────────────
+
+@media (max-width: 1200px) {
+  .about-hero__layout { grid-template-columns: 1fr 380px; gap: $space-xl; }
+}
+
+@media (max-width: 1024px) {
+  .about-hero__layout { grid-template-columns: 1fr; }
+  .about-hero__stats { order: -1; }
+  .about-hero__stats-card { max-width: 540px; margin: 0 auto; }
+  .about-hero__stat--primary { display: none; }
+  .about-hero__stats-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .about-hero__stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-hero__actions { flex-direction: column; align-items: flex-start; }
+  .about-hero__bg-circle--1 { width: 300px; height: 300px; }
+}
+
+@media (max-width: 480px) {
+  .about-hero__stats-grid { grid-template-columns: 1fr 1fr; }
+  .about-hero__quote { display: none; }
+}

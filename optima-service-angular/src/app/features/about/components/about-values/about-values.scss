@@ -1,0 +1,367 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+// ═══════════════════════════════════════════════
+// ABOUT VALUES PAGE — ценности, команда, история
+// ═══════════════════════════════════════════════
+
+
+
+.section-header {
+  text-align: center;
+  margin-bottom: $space-xxl;
+}
+
+// ────────────────────────────────────────────
+// ЦЕННОСТИ
+// ────────────────────────────────────────────
+
+.values-section {
+  padding: $space-xxl 0;
+  background: $color-white;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-lg;
+}
+
+.value-card {
+  position: relative;
+  padding: $space-xl $space-md $space-md;
+  background: $color-bg-light;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: all $transition-base;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: $gradient-primary;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform $transition-base;
+  }
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: $shadow-lg;
+    background: $color-white;
+
+    &::before { transform: scaleX(1); }
+
+    .value-card__icon-wrap {
+      background: $gradient-primary;
+      svg { stroke: $color-white; }
+    }
+
+    .value-card__number { opacity: 0.08; }
+  }
+}
+
+.value-card__number {
+  position: absolute;
+  top: $space-sm;
+  right: $space-md;
+  font-size: 4rem;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  line-height: 1;
+  opacity: 0.05;
+  transition: opacity $transition-base;
+  pointer-events: none;
+  user-select: none;
+}
+
+.value-card__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: $radius-md;
+  background: rgba($color-primary, 0.1);
+  margin-bottom: $space-md;
+  transition: all $transition-base;
+
+  svg { stroke: $color-primary; }
+}
+
+.value-card__title {
+  @include text-h4;
+  margin-bottom: $spacing-sm;
+}
+
+.value-card__desc {
+  @include text-body;
+  color: rgba($color-dark, 0.65);
+  line-height: 1.6;
+  margin: 0;
+}
+
+// ────────────────────────────────────────────
+// КОМАНДА
+// ────────────────────────────────────────────
+
+.team-section {
+  padding: $space-xxl 0;
+  background: $color-bg-light;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-xl;
+  margin-bottom: $space-xxl;
+}
+
+.team-card {
+  background: $color-white;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  transition: all $transition-base;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-lg;
+
+    .team-card__avatar-ring {
+      transform: scale(1.08);
+      opacity: 0.6;
+    }
+  }
+}
+
+// Аватар
+.team-card__avatar {
+  position: relative;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.team-card__initials {
+  position: relative;
+  z-index: 1;
+  font-size: 3rem;
+  font-weight: $font-weight-bold;
+  color: $color-white;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.team-card__avatar-ring {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid rgba($color-white, 0.3);
+  opacity: 0.4;
+  transition: all $transition-slow;
+}
+
+// Контент карточки
+.team-card__body {
+  padding: $space-lg;
+}
+
+.team-card__name {
+  @include text-h4;
+  margin-bottom: 4px;
+}
+
+.team-card__role {
+  display: inline-block;
+  padding: 4px $spacing-md;
+  background: rgba($color-primary, 0.1);
+  color: $color-primary;
+  @include text-mini;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-full;
+  margin-bottom: $spacing-sm;
+}
+
+.team-card__exp {
+  @include text-body;
+  color: rgba($color-dark, 0.6);
+  margin-bottom: $space-sm;
+}
+
+.team-card__skills {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+
+  li {
+    @include text-mini;
+    padding: 3px $spacing-sm;
+    background: $color-bg-grey;
+    border-radius: $radius-full;
+    color: rgba($color-dark, 0.7);
+  }
+}
+
+// CTA под командой
+.team-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-lg;
+  padding: $space-xl;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-xl;
+  box-shadow: $shadow-lg;
+
+  h3 {
+    @include text-h3;
+    color: $color-white;
+    margin-bottom: $spacing-xs;
+  }
+
+  p {
+    @include text-body;
+    color: rgba($color-white, 0.8);
+    margin: 0;
+  }
+
+  .btn { flex-shrink: 0; }
+}
+
+// ────────────────────────────────────────────
+// ИСТОРИЯ
+// ────────────────────────────────────────────
+
+.history-section {
+  padding: $space-xxl 0;
+  background: $color-white;
+}
+
+.history-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: $space-xxl;
+  align-items: start;
+}
+
+.history-content {
+  position: sticky;
+  top: calc($spacing-xl + 120px);
+}
+
+.history-lead {
+  @include text-subtitle-1;
+  color: rgba($color-dark, 0.7);
+  line-height: 1.7;
+  margin: 0;
+}
+
+// Таймлайн
+.history-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 72px 24px 1fr;
+  gap: 0 $space-md;
+  align-items: start;
+  position: relative;
+
+  // Вертикальная линия
+  &::after {
+    content: '';
+    position: absolute;
+    left: calc(72px + $space-md + 11px);
+    top: 36px;
+    bottom: -16px;
+    width: 2px;
+    background: $color-bg-grey;
+  }
+
+  &:last-child::after { display: none; }
+
+  padding-bottom: $space-xl;
+}
+
+.timeline-year {
+  padding-top: 6px;
+  @include text-body;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  text-align: right;
+  line-height: 1;
+}
+
+.timeline-dot {
+  position: relative;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: $gradient-primary;
+  box-shadow: 0 0 0 4px rgba($color-primary, 0.15);
+  flex-shrink: 0;
+  margin-top: 3px;
+  align-self: start;
+}
+
+.timeline-title {
+  @include text-h4;
+  margin: 0 0 $spacing-xs;
+  padding-top: 2px;
+}
+
+.timeline-desc {
+  @include text-body;
+  color: rgba($color-dark, 0.65);
+  line-height: 1.6;
+  margin: 0;
+}
+
+// ── Адаптивность ─────────────────────────────
+
+@media (max-width: 1200px) {
+  .values-grid { grid-template-columns: repeat(2, 1fr); }
+  .history-layout { grid-template-columns: 300px 1fr; }
+}
+
+@media (max-width: 1024px) {
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .history-layout { grid-template-columns: 1fr; }
+  .history-content { position: static; margin-bottom: $space-xl; }
+}
+
+@media (max-width: 768px) {
+  .values-grid { grid-template-columns: 1fr; gap: $space-md; }
+  .team-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto $space-xxl; }
+  .team-cta {
+    flex-direction: column;
+    text-align: center;
+    .btn { width: 100%; }
+  }
+  .timeline-item {
+    grid-template-columns: 56px 20px 1fr;
+    &::after { left: calc(56px + $space-md + 9px); }
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-item {
+    grid-template-columns: 48px 16px 1fr;
+    gap: 0 $spacing-sm;
+    &::after { left: calc(48px + $spacing-sm + 7px); }
+  }
+  .timeline-dot { width: 16px; height: 16px; }
+}
