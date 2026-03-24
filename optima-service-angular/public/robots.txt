@@ -1,0 +1,4 @@
+# robots.txt для larina.optima-sc.ru
+User-agent: *
+Disallow: /admin
+Sitemap: https://larina.optima-sc.ru/sitemap.xml
