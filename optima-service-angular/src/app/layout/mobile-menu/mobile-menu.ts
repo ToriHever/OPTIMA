@@ -1,9 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ModalService } from '../../core/services/modal.service';
 import { ScrollService } from '../../core/services/scroll.service';
+import { NavigationService } from '../../core/services/navigation.service';
 
 @Component({
   selector: 'app-mobile-menu',
@@ -39,6 +40,8 @@ export class MobileMenu implements OnChanges {
   constructor(
     private modalService: ModalService,
     private scrollService: ScrollService,
+    private navigationService: NavigationService,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -54,8 +57,13 @@ export class MobileMenu implements OnChanges {
   }
 
   scrollTo(sectionId: string): void {
-    this.scrollService.scrollToId(sectionId);
     this.onClose();
+    if (this.router.url === '/' || this.router.url.startsWith('/#')) {
+      this.scrollService.scrollToId(sectionId);
+    } else {
+      this.navigationService.setPendingScroll(sectionId);
+      this.router.navigate(['/']);
+    }
   }
 
   openRepairStatusModal(): void {

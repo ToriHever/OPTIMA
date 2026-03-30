@@ -1,8 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ModalService } from '../../core/services/modal.service';
 import { ScrollService } from '../../core/services/scroll.service';
+import { NavigationService } from '../../core/services/navigation.service';
 import { MobileMenu } from '../mobile-menu/mobile-menu';
 
 @Component({
@@ -18,11 +19,23 @@ export class Header {
 
   constructor(
     private modalService: ModalService,
-    private scrollService: ScrollService
+    private scrollService: ScrollService,
+    private navigationService: NavigationService,
+    private router: Router
   ) {}
 
+  /**
+   * Навигация к секции с учётом текущего маршрута.
+   * Если уже на главной — скроллим сразу.
+   * Если на другой странице — сохраняем цель и переходим на главную.
+   */
   scrollTo(sectionId: string): void {
-    this.scrollService.scrollToId(sectionId);
+    if (this.router.url === '/' || this.router.url.startsWith('/#')) {
+      this.scrollService.scrollToId(sectionId);
+    } else {
+      this.navigationService.setPendingScroll(sectionId);
+      this.router.navigate(['/']);
+    }
   }
 
   toggleMenu(): void {
