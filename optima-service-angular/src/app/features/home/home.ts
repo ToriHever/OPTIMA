@@ -11,6 +11,7 @@ import { PageProgressNavComponent } from '../../shared/components/page-progress-
 import { CommonModule } from '@angular/common';
 import { NavigationService } from '../../core/services/navigation.service';
 import { ScrollService } from '../../core/services/scroll.service';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -23,10 +24,13 @@ export class Home implements OnInit {
 
   constructor(
     private navigationService: NavigationService,
-    private scrollService: ScrollService
+    private scrollService: ScrollService,
+    private title: Title,
+    private meta: Meta
   ) {}
 
   ngOnInit(): void {
+    
     const pendingId = this.navigationService.getPendingScroll();
     if (pendingId) {
       this.navigationService.clearPendingScroll();
@@ -35,5 +39,13 @@ export class Home implements OnInit {
         this.scrollService.scrollToId(pendingId);
       }, 400);
     }
+
+    this.title.setTitle('Ремонт техники в центре — Optima');
+
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Сервисный центр в городе Ростов-на-Дону. Ремонт телефонов, ноутбуков, бытовой техники. Адрес: Ларина 18 Кировский район (Центр)'
+    });
+
   }
 }
