@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { AboutHero } from './components/about-hero/about-hero';
 import { AboutValues } from './components/about-values/about-values';
 
@@ -10,4 +10,11 @@ import { AboutValues } from './components/about-values/about-values';
   templateUrl: './about.html',
   styleUrl: './about.scss'
 })
-export class About {}
+export class About {
+
+constructor(private scroller: ViewportScroller) {}
+
+ngOnInit() {
+  this.scroller.scrollToPosition([0, 0]);}
+
+}
