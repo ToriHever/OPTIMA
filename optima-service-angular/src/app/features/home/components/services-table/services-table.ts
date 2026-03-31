@@ -26,7 +26,6 @@ interface ServiceCategory {
   services: Service[];
 }
 
-/** Ширина прокрутки за один клик стрелки (px) */
 const CAT_SCROLL_STEP = 200;
 
 @Component({
@@ -44,19 +43,16 @@ const CAT_SCROLL_STEP = 200;
   ],
 })
 export class ServicesTable implements AfterViewInit {
-  // ── ViewChild refs ────────────────────────────────────────
   @ViewChild('catNavRef')  catNavRef!:  ElementRef<HTMLElement>;
   @ViewChild('ctaScroll')  ctaScrollRef!: ElementRef<HTMLElement>;
 
   activeCategory = 0;
 
-  // Флаги видимости стрелок и fade-масок CTA
   catArrowLeft  = false;
   catArrowRight = false;
   ctaFadeLeft   = false;
   ctaFadeRight  = false;
 
-  // Показывать ли стрелки вообще (только на ≤1024px)
   private isMobileNav = false;
 
   serviceCategories: ServiceCategory[] = [
@@ -146,7 +142,6 @@ export class ServicesTable implements AfterViewInit {
     }
   }
 
-  // ── Resize: обновляем флаги при смене ширины экрана ──────
   @HostListener('window:resize')
   onResize(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -155,29 +150,21 @@ export class ServicesTable implements AfterViewInit {
     }
   }
 
-  /** Определяем, активен ли мобильный режим (≤1024px) */
   private checkMobileNav(): void {
     this.isMobileNav = window.innerWidth <= 1024;
   }
 
-  // ── Категории: скролл по клику на стрелку ────────────────
-
-  /**
-   * direction: -1 = влево, 1 = вправо
-   */
   scrollCatNav(direction: -1 | 1): void {
     const el = this.catNavRef?.nativeElement;
     if (!el) return;
     el.scrollBy({ left: direction * CAT_SCROLL_STEP, behavior: 'smooth' });
   }
 
-  /** Вызывается при нативном скролле nav */
   onCatNavScroll(): void {
     this.updateCatArrows();
   }
 
   private updateCatArrows(): void {
-    // Стрелки показываем только когда nav горизонтальный
     if (!this.isMobileNav) {
       this.catArrowLeft  = false;
       this.catArrowRight = false;
@@ -194,8 +181,6 @@ export class ServicesTable implements AfterViewInit {
     this.catArrowRight = maxScroll > 4 && scrollLeft < maxScroll - 4;
   }
 
-  // ── CTA: fade-маски ───────────────────────────────────────
-
   onCtaScroll(): void {
     this.updateCtaFades();
   }
@@ -211,10 +196,28 @@ export class ServicesTable implements AfterViewInit {
     this.ctaFadeRight = maxScroll > 4 && scrollLeft < maxScroll - 4;
   }
 
-  // ── Прочие методы ────────────────────────────────────────
-
   selectCategory(index: number): void {
     this.activeCategory = index;
+  }
+
+  /**
+   * Склонение слова «услуга» по количеству.
+   * 1 услуга, 2 услуги, 5 услуг
+   */
+  getServiceLabel(count: number): string {
+    const mod10  = count % 10;
+    const mod100 = count % 100;
+
+    if (mod100 >= 11 && mod100 <= 19) {
+      return `${count} услуг`;
+    }
+    if (mod10 === 1) {
+      return `${count} услуга`;
+    }
+    if (mod10 >= 2 && mod10 <= 4) {
+      return `${count} услуги`;
+    }
+    return `${count} услуг`;
   }
 
   openCallbackForm(): void {
