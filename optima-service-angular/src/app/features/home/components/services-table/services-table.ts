@@ -47,6 +47,7 @@ export class ServicesTable implements AfterViewInit {
   @ViewChild('ctaScroll')  ctaScrollRef!: ElementRef<HTMLElement>;
 
   activeCategory = 0;
+  activeTooltip: string | null = null;
 
   catArrowLeft  = false;
   catArrowRight = false;
@@ -77,8 +78,8 @@ export class ServicesTable implements AfterViewInit {
         { name: 'Ремонт после залития',          price: 'от 1 500 ₽', duration: 'Чистка платы от коррозии и восстановление после контакта с жидкостью' },
         { name: 'Ремонт плат (Замена чипов)',    price: 'от 2 000 ₽', duration: 'Сложная пайка: замена видеочипов, мостов, процессоров' },
         { name: 'Восстановление дорожек',        price: 'от 2 000 ₽', duration: 'Ремонт поврежденных токопроводящих соединений на плате' },
-        { name: 'Ремонт системы охлаждения',    price: 'от 1 500 ₽', duration: 'Чистка от пыли, замена термопасты, ремонт или замена кулеров' },
-        { name: 'Замена корпуса и кнопок',       price: 'от ТЗ',      duration: 'Ремонт петель, замена крышек или неисправных кнопок/шлейфов' },
+        { name: 'Ремонт системы охлаждения',     price: 'от 1 500 ₽', duration: 'Чистка от пыли, замена термопасты, ремонт или замена кулеров' },
+        { name: 'Замена корпуса и кнопок',       price: 'от сложности',      duration: 'Ремонт петель, замена крышек или неисправных кнопок/шлейфов' },
       ],
     },
     {
@@ -87,7 +88,7 @@ export class ServicesTable implements AfterViewInit {
       icon: 'M4 7h16v10H4V7zm2 2v6h12V9H6zm2 2h8v2H8v-2z',
       services: [
         { name: 'Ремонт подсветки телевизора', price: 'от 3 000 ₽', duration: 'Замена светодиодных лент в LED, OLED и QLED панелях' },
-        { name: 'Ремонт аудиосистем',          price: 'от ТЗ',      duration: 'Восстановление колонок, саундбаров и портативной акустики' },
+        { name: 'Ремонт аудиосистем',          price: 'от сложности',      duration: 'Восстановление колонок, саундбаров и портативной акустики' },
       ],
     },
     {
@@ -95,9 +96,9 @@ export class ServicesTable implements AfterViewInit {
       description: 'Ремонт крупной и мелкой бытовой техники',
       icon: 'M19 6h-4V4c0-1.1-.9-2-2-2h-2c-1.1 0-2 .9-2 2v2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8-2h2v2h-2V4zm0 12h-2v-2h2v2zm0-4h-2v-2h2v2zm4 4h-2v-2h2v2zm0-4h-2v-2h2v2zm4 0h-2v-2h2v2z',
       services: [
-        { name: 'Ремонт модулей управления',      price: 'от 3 000 ₽', duration: 'Ремонт электроники стиральных машин, холодильников и др' },
-        { name: 'Заправка фреоном',               price: 'от ТЗ',      duration: 'Обслуживание и заправка хладагентом холодильного оборудования' },
-        { name: 'Замена механики (Моторы, помпы)', price: 'от ТЗ',     duration: 'Установка новых двигателей, насосов и компрессоров' },
+        { name: 'Ремонт модулей управления',       price: 'от 3 000 ₽', duration: 'Ремонт электроники стиральных машин, холодильников и др' },
+        { name: 'Заправка фреоном',                price: 'от сложности',      duration: 'Обслуживание и заправка хладагентом холодильного оборудования' },
+        { name: 'Замена механики (Моторы, помпы)', price: 'от сложности',      duration: 'Установка новых двигателей, насосов и компрессоров' },
       ],
     },
     {
@@ -121,7 +122,7 @@ export class ServicesTable implements AfterViewInit {
       description: 'Ремонт и обслуживание роботов-пылесосов',
       icon: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z',
       services: [
-        { name: 'Ремонт навигации (Лидар)', price: 'от ТЗ', duration: 'Замена лазерных датчиков и моторов системы навигации' },
+        { name: 'Ремонт навигации (Лидар)', price: 'от сложности', duration: 'Замена лазерных датчиков и моторов системы навигации' },
       ],
     },
   ];
@@ -160,9 +161,7 @@ export class ServicesTable implements AfterViewInit {
     el.scrollBy({ left: direction * CAT_SCROLL_STEP, behavior: 'smooth' });
   }
 
-  onCatNavScroll(): void {
-    this.updateCatArrows();
-  }
+  onCatNavScroll(): void { this.updateCatArrows(); }
 
   private updateCatArrows(): void {
     if (!this.isMobileNav) {
@@ -170,53 +169,41 @@ export class ServicesTable implements AfterViewInit {
       this.catArrowRight = false;
       return;
     }
-
     const el = this.catNavRef?.nativeElement;
     if (!el) return;
-
     const { scrollLeft, scrollWidth, clientWidth } = el;
     const maxScroll = scrollWidth - clientWidth;
-
     this.catArrowLeft  = scrollLeft > 4;
     this.catArrowRight = maxScroll > 4 && scrollLeft < maxScroll - 4;
   }
 
-  onCtaScroll(): void {
-    this.updateCtaFades();
-  }
+  onCtaScroll(): void { this.updateCtaFades(); }
 
   private updateCtaFades(): void {
     const el = this.ctaScrollRef?.nativeElement;
     if (!el) return;
-
     const { scrollLeft, scrollWidth, clientWidth } = el;
     const maxScroll = scrollWidth - clientWidth;
-
     this.ctaFadeLeft  = scrollLeft > 4;
     this.ctaFadeRight = maxScroll > 4 && scrollLeft < maxScroll - 4;
   }
 
   selectCategory(index: number): void {
     this.activeCategory = index;
+    this.activeTooltip = null;
   }
 
-  /**
-   * Склонение слова «услуга» по количеству.
-   * 1 услуга, 2 услуги, 5 услуг
-   */
+  hasTooltip(price: string): boolean {
+    return price === 'от сложности';
+  }
+
+  /** Склонение: 1 услуга, 2 услуги, 5 услуг */
   getServiceLabel(count: number): string {
     const mod10  = count % 10;
     const mod100 = count % 100;
-
-    if (mod100 >= 11 && mod100 <= 19) {
-      return `${count} услуг`;
-    }
-    if (mod10 === 1) {
-      return `${count} услуга`;
-    }
-    if (mod10 >= 2 && mod10 <= 4) {
-      return `${count} услуги`;
-    }
+    if (mod100 >= 11 && mod100 <= 19) return `${count} услуг`;
+    if (mod10 === 1)                   return `${count} услуга`;
+    if (mod10 >= 2 && mod10 <= 4)      return `${count} услуги`;
     return `${count} услуг`;
   }
 

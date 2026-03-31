@@ -1,28 +1,25 @@
 <section id="services" class="services-section" data-nav-title="Цены">
   <div class="container">
-    <!-- Заголовок -->
+
     <div class="services-header">
       <h2 class="section-title-dark">
         <strong>Наши услуги</strong> и цены
       </h2>
       <p class="section-subtitle-dark">
-        Прозрачное ценообразование. Диагностика бесплатная при ремонте. 
+        Прозрачное ценообразование. Диагностика бесплатная при ремонте.
         Цены указаны ориентировочные, точная стоимость определяется после диагностики.
       </p>
     </div>
 
-    <!-- Двухколоночный layout -->
     <div class="services-layout">
 
-      <!-- Левая колонка - список категорий -->
+      <!-- Левая колонка — категории -->
       <aside class="categories-sidebar">
-
         <div
           class="categories-nav-wrapper"
           [class.arrow-left]="catArrowLeft"
           [class.arrow-right]="catArrowRight">
 
-          <!-- Стрелка влево -->
           <button
             class="cat-arrow cat-arrow--left"
             [class.visible]="catArrowLeft"
@@ -33,10 +30,7 @@
             </svg>
           </button>
 
-          <nav
-            class="categories-nav"
-            #catNavRef
-            (scroll)="onCatNavScroll()">
+          <nav class="categories-nav" #catNavRef (scroll)="onCatNavScroll()">
             <button
               class="category-item"
               *ngFor="let category of serviceCategories; let i = index"
@@ -59,7 +53,6 @@
             </button>
           </nav>
 
-          <!-- Стрелка вправо -->
           <button
             class="cat-arrow cat-arrow--right"
             [class.visible]="catArrowRight"
@@ -73,7 +66,7 @@
         </div>
       </aside>
 
-      <!-- Правая колонка - таблица услуг -->
+      <!-- Правая колонка — таблица -->
       <div class="services-content">
         <div class="content-header">
           <h3 class="content-title">{{ serviceCategories[activeCategory].name }}</h3>
@@ -89,23 +82,46 @@
                 <th class="col-time">Описание</th>
               </tr>
             </thead>
-
             <tbody>
               <tr *ngFor="let service of serviceCategories[activeCategory].services">
-                <td class="col-service">
+
+                <td class="col-service" [attr.data-label]="'Услуга'">
                   <span class="service-name">{{ service.name }}</span>
                   <span class="service-note" *ngIf="service.note">{{ service.note }}</span>
                 </td>
-                <td class="col-price">
-                  <span class="price-value"
-                        [class.tooltip-trigger]="service.price === 'от сложности'"
-                        [attr.data-tooltip]="service.price === 'от сложности' ? 'Стоимость формируется индивидуально.' : null">
+
+                <td class="col-price" [attr.data-label]="'Стоимость'">
+                  <!-- Цена без тултипа -->
+                  <span *ngIf="!hasTooltip(service.price)" class="price-value">
                     {{ service.price }}
                   </span>
+
+                  <!-- Цена «от сложности» — кликабельная с тултипом -->
+                  <span
+                    *ngIf="hasTooltip(service.price)"
+                    class="price-value price-tz-wrapper"
+                    (mouseenter)="activeTooltip = service.name"
+                    (mouseleave)="activeTooltip = null">
+                    <span class="price-tz">
+                      {{ service.price }}
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor">
+                        <circle cx="8" cy="8" r="7" stroke-width="1.5"/>
+                        <path d="M8 7v4M8 5h.01" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </span>
+                    <!-- Тултип — рендерится в потоке документа, не выходит за экран -->
+                    <span class="tz-tooltip" *ngIf="activeTooltip === service.name">
+                      Стоимость формируется индивидуально и зависит от сложности,
+                      объёма работ и ваших требований. Это гарантирует, что вы
+                      платите только за нужные вам услуги.
+                    </span>
+                  </span>
                 </td>
-                <td class="col-time">
+
+                <td class="col-time" [attr.data-label]="'Описание'">
                   <span class="time-value">{{ service.duration }}</span>
                 </td>
+
               </tr>
             </tbody>
           </table>
@@ -113,15 +129,12 @@
       </div>
     </div>
 
-    <!-- CTA блок -->
+    <!-- CTA -->
     <div
       class="services-cta-wrapper"
       [class.fade-left]="ctaFadeLeft"
       [class.fade-right]="ctaFadeRight">
-      <div
-        class="services-cta"
-        #ctaScroll
-        (scroll)="onCtaScroll()">
+      <div class="services-cta" #ctaScroll (scroll)="onCtaScroll()">
 
         <div class="cta-card">
           <div class="cta-icon">
@@ -132,9 +145,7 @@
           </div>
           <h3>Бесплатная диагностика</h3>
           <p>При ремонте диагностика за наш счет. Определим точную причину поломки.</p>
-          <button class="btn btn-primary" (click)="openDiagnosticForm()">
-            Вызвать мастера
-          </button>
+          <button class="btn btn-primary" (click)="openDiagnosticForm()">Вызвать мастера</button>
         </div>
 
         <div class="cta-card">
@@ -146,9 +157,7 @@
           </div>
           <h3>Выезд мастера</h3>
           <p>Приедем в удобное для вас время. Ремонт на дому или с вывозом в сервис.</p>
-          <button class="btn btn-secondary btn-large" (click)="openCallbackForm()">
-            Заказать звонок
-          </button>
+          <button class="btn btn-secondary btn-large" (click)="openCallbackForm()">Заказать звонок</button>
         </div>
 
         <div class="cta-card">
@@ -160,9 +169,7 @@
           </div>
           <h3>Гарантия до 90 дней</h3>
           <p>Официальная гарантия на все виды работ. Оригинальные запчасти.</p>
-          <button class="btn btn-secondary btn-large" (click)="scrollToWarranty()">
-            Подробнее
-          </button>
+          <button class="btn btn-secondary btn-large" (click)="scrollToWarranty()">Подробнее</button>
         </div>
 
       </div>
