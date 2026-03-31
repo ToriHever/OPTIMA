@@ -1,5 +1,17 @@
-import { Component, OnInit, OnDestroy, HostListener, PLATFORM_ID, Inject, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  PLATFORM_ID,
+  Inject,
+  ElementRef,
+  ViewChild,
+  AfterViewInit
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
 
 interface NavItem {
   id: string;
@@ -13,7 +25,7 @@ interface NavItem {
 @Component({
   selector: 'app-page-progress-nav',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './page-progress-nav.html',
   styleUrl: './page-progress-nav.scss'
 })
@@ -30,27 +42,39 @@ export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewIni
   private isBrowser: boolean;
   private footerElement: HTMLElement | null = null;
   private scrollAnimationId: number | null = null;
+  private routerSub!: Subscription;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router
+  ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   ngOnInit(): void {
-    if (this.isBrowser) {
-      setTimeout(() => {
-        this.initNavigation();
-        this.cacheFooter();
-        this.updateProgress();
-      }, 500);
+    if (!this.isBrowser) return;
 
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          this.initNavigation();
-          this.cacheFooter();
-          this.updateProgress();
-        }, 100);
+    // Инициализация при старте
+    setTimeout(() => this.reinit(), 500);
+
+    // Переинициализация при каждой смене маршрута
+    this.routerSub = this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe(() => {
+        // Сбрасываем состояние
+        this.navItems = [];
+        this.isInitialized = false;
+        this.isVisible = false;
+        this.currentSection = 0;
+        this.totalProgress = 0;
+
+        // Ждём отрисовки нового контента
+        setTimeout(() => this.reinit(), 500);
       });
-    }
+
+    window.addEventListener('load', () => {
+      setTimeout(() => this.reinit(), 100);
+    });
   }
 
   ngAfterViewInit(): void {}
@@ -59,6 +83,15 @@ export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewIni
     if (this.scrollAnimationId !== null) {
       cancelAnimationFrame(this.scrollAnimationId);
     }
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
+  }
+
+  private reinit(): void {
+    this.cacheFooter();
+    this.initNavigation();
+    this.updateProgress();
   }
 
   private cacheFooter(): void {
@@ -83,7 +116,7 @@ export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewIni
 
       return {
         id: id || `section-${Math.random().toString(36).substr(2, 9)}`,
-        title: title,
+        title,
         altTitle: altTitle || undefined,
         element: sectionElement,
         offsetTop: sectionElement.offsetTop,
@@ -91,11 +124,15 @@ export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewIni
       };
     });
 
-    if (this.navItems.length >= 2) {
+    // Показываем меню только если секций БОЛЬШЕ 3
+    if (this.navItems.length > 3) {
       this.isInitialized = true;
       setTimeout(() => {
         this.isVisible = !this.isFooterVisible();
       }, 50);
+    } else {
+      this.isInitialized = false;
+      this.isVisible = false;
     }
   }
 
@@ -146,12 +183,7 @@ export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewIni
 
       const nextItem = this.navItems[index + 1];
       const sectionTop = item.offsetTop - 170;
-      let sectionBottom = nextItem ? nextItem.offsetTop - 170 : maxScroll;
-
-      if (!nextItem) {
-        sectionBottom = maxScroll;
-      }
-
+      const sectionBottom = nextItem ? nextItem.offsetTop - 170 : maxScroll;
       const sectionHeight = sectionBottom - sectionTop;
 
       if (isAtBottom) {
@@ -172,22 +204,14 @@ export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewIni
       this.currentSection = 0;
     }
 
-    // Auto-scroll nav bar when active section changes
     if (prevSection !== this.currentSection) {
       this.scrollNavToShowCurrent();
     }
   }
 
-  /**
-   * Прокручивает панель навигации так, чтобы были видны:
-   * - текущий активный элемент
-   * - следующий элемент (превью)
-   * Анимация через requestAnimationFrame для плавности.
-   */
   private scrollNavToShowCurrent(): void {
     if (!this.isBrowser) return;
 
-    // Небольшая задержка, чтобы Angular успел отрисовать изменения
     requestAnimationFrame(() => {
       const container = this.navItemsRef?.nativeElement
         ?? document.querySelector('.nav-items') as HTMLElement;
@@ -200,41 +224,29 @@ export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewIni
       const current = buttons[this.currentSection];
       if (!current) return;
 
-      // Целевой элемент для скролла — следующий, если есть, иначе текущий
       const targetIndex = Math.min(this.currentSection + 1, buttons.length - 1);
       const target = buttons[targetIndex];
 
-      // Вычисляем позицию скролла так, чтобы target был полностью виден
-      // и при этом current тоже оставался в зоне видимости
       const containerScrollLeft = container.scrollLeft;
       const containerWidth = container.clientWidth;
-
       const currentLeft = current.offsetLeft;
       const targetRight = target.offsetLeft + target.offsetWidth;
 
       let desiredScrollLeft: number;
 
       if (targetRight > containerScrollLeft + containerWidth) {
-        // target уходит за правый край — прокручиваем вправо
-        // Оставляем небольшой отступ (16px), чтобы следующий элемент был "подглядывающим"
         desiredScrollLeft = targetRight - containerWidth + 16;
       } else if (currentLeft < containerScrollLeft) {
-        // current уходит за левый край — прокручиваем влево
         desiredScrollLeft = currentLeft - 16;
       } else {
-        // Уже всё видно, ничего не делаем
         return;
       }
 
       desiredScrollLeft = Math.max(0, desiredScrollLeft);
-
       this.smoothScrollNav(container, desiredScrollLeft);
     });
   }
 
-  /**
-   * Плавный скролл контейнера навигации через requestAnimationFrame
-   */
   private smoothScrollNav(container: HTMLElement, targetScrollLeft: number): void {
     if (this.scrollAnimationId !== null) {
       cancelAnimationFrame(this.scrollAnimationId);
@@ -242,7 +254,7 @@ export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewIni
 
     const startScrollLeft = container.scrollLeft;
     const distance = targetScrollLeft - startScrollLeft;
-    const duration = 300; // мс
+    const duration = 300;
     let startTime: number | null = null;
 
     const easeInOut = (t: number): number =>
@@ -275,10 +287,7 @@ export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewIni
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const offsetTop = rect.top + scrollTop - 100;
 
-    window.scrollTo({
-      top: offsetTop,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
   }
 
   getDisplayTitle(item: NavItem): string {
