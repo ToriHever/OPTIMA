@@ -25,7 +25,7 @@
     <!-- Форма поиска (скрываем только когда уже есть результат) -->
     <div class="search-form" *ngIf="!repairInfo">
       <p class="form-description">
-        Введите номер заказ-наряда, который был указан при приёмке техники в ремонт
+        Введите номер заказ-наряда, который был указан при приёмке техники в ремонт. Обычно это номер минимум из 6 цифр
       </p>
 
       <form [formGroup]="searchForm" (ngSubmit)="searchRepair()">
@@ -35,7 +35,7 @@
             type="text"
             id="orderNumber"
             formControlName="orderNumber"
-            placeholder="Например: 12345"
+            placeholder="Например: 123456"
             [class.error]="searchForm.get('orderNumber')?.invalid && searchForm.get('orderNumber')?.touched">
           <div class="error-message"
                *ngIf="searchForm.get('orderNumber')?.invalid && searchForm.get('orderNumber')?.touched">
