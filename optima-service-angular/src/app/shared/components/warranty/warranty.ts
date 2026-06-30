@@ -1,6 +1,6 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalService } from '../../../../core/services/modal.service';
+import { ModalService } from '../../../core/services/modal.service';
 
 @Component({
   selector: 'app-warranty',
@@ -11,15 +11,11 @@ import { ModalService } from '../../../../core/services/modal.service';
 })
 export class Warranty {
   constructor(
-  @Inject(PLATFORM_ID) private platformId: Object,
-  private modalService: ModalService  // ← Новое
-) {}
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private modalService: ModalService
+  ) {}
 
-
-    /**
-   * Открытие формы обратного звонка
-   */
-openQuestionForm() {
+  openQuestionForm() {
     this.modalService.open('callback-modal', { purpose: 'question' });
   }
 }

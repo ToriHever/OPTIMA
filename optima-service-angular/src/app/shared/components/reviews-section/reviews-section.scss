@@ -1,5 +1,5 @@
-@import '../../../../../styles/variables';
-@import '../../../../../styles/mixins';
+﻿@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
 
 .reviews-section {
   padding: $space-xxl 0;
@@ -29,7 +29,7 @@
   gap: $space-xl;
 }
 
-// ── Виджет отзывов ────────────────────────────────────────────
+// в”Ђв”Ђ Р’РёРґР¶РµС‚ РѕС‚Р·С‹РІРѕРІ в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 .reviews-widget {
   background: $color-white;
   border-radius: $radius-lg;
@@ -72,7 +72,7 @@
   &:hover { color: $color-primary; }
 }
 
-// ── Форма отзыва ──────────────────────────────────────────────
+// в”Ђв”Ђ Р¤РѕСЂРјР° РѕС‚Р·С‹РІР° в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 .reviews-form {
   background: $color-white;
   border-radius: $radius-lg;
@@ -223,7 +223,7 @@ select.form-input {
   margin-bottom: $space-lg;
 }
 
-// ── Адаптивность ─────────────────────────────────────────────
+// в”Ђв”Ђ РђРґР°РїС‚РёРІРЅРѕСЃС‚СЊ в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 
 @media (max-width: 1024px) {
   .reviews-container { grid-template-columns: 1fr; }
@@ -231,8 +231,8 @@ select.form-input {
 }
 
 @media (max-width: 768px) {
-  // padding .reviews-section  — удалён, clamp справляется
-  // padding .reviews-form-card — удалён, clamp справляется
+  // padding .reviews-section  вЂ” СѓРґР°Р»С‘РЅ, clamp СЃРїСЂР°РІР»СЏРµС‚СЃСЏ
+  // padding .reviews-form-card вЂ” СѓРґР°Р»С‘РЅ, clamp СЃРїСЂР°РІР»СЏРµС‚СЃСЏ
 
   .container-wide { padding: 0 $space-md; }
 

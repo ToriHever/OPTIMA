@@ -6,11 +6,11 @@ import { ScrollService } from '../../core/services/scroll.service';
 import { HeroSection } from '../../shared/components/hero-section/hero-section';
 import { CategoriesGrid, CategoryItem, SidebarStat } from '../../shared/components/categories-grid/categories-grid';
 import { ProcessAccordion, ProcessStep } from '../../shared/components/process-accordion/process-accordion';
-import { BrandsCarousel } from './components/brands-carousel/brands-carousel';
-import { ServicesTable } from './components/services-table/services-table';
-import { Warranty } from './components/warranty/warranty';
-import { ReviewsSection } from './components/reviews-section/reviews-section';
-import { Certificates } from './components/certificates/certificates';
+import { BrandsCarousel } from '../../shared/components/brands-carousel/brands-carousel';
+import { ServicesTable } from '../../shared/components/services-table/services-table';
+import { Warranty } from '../../shared/components/warranty/warranty';
+import { ReviewsSection } from '../../shared/components/reviews-section/reviews-section';
+import { Certificates } from '../../shared/components/certificates/certificates';
 import { PageProgressNavComponent } from '../../shared/components/page-progress-nav/page-progress-nav';
 
 @Component({

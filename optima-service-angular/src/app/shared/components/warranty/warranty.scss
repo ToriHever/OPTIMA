@@ -1,5 +1,5 @@
-@import '../../../../../styles/variables';
-@import '../../../../../styles/mixins';
+﻿@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
 
 .warranty-section {
   padding: $space-xxl 0;
@@ -204,7 +204,7 @@
   flex-shrink: 0;
 }
 
-// ── Адаптивность ─────────────────────────────────────────────
+// в”Ђв”Ђ РђРґР°РїС‚РёРІРЅРѕСЃС‚СЊ в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 
 @media (max-width: 1024px) {
   .warranty-main { grid-template-columns: 1fr; }

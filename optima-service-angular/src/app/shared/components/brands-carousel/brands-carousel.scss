@@ -1,5 +1,5 @@
-@import '../../../../../styles/variables';
-@import '../../../../../styles/mixins';
+﻿@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
 
 .brands-section {
   padding: $spacing-xxl 0;
@@ -12,14 +12,14 @@
   margin-bottom: $spacing-xl;
 }
 
-// Карусель
+// РљР°СЂСѓСЃРµР»СЊ
 .brands-carousel-wrapper {
   position: relative;
   width: 100%;
   overflow: hidden;
   margin-bottom: $spacing-xl;
   
-  // Градиентные fade по краям
+  // Р“СЂР°РґРёРµРЅС‚РЅС‹Рµ fade РїРѕ РєСЂР°СЏРј
   &::before,
   &::after {
     content: '';
@@ -103,7 +103,7 @@
   }
 }
 
-// Анимация прокрутки
+// РђРЅРёРјР°С†РёСЏ РїСЂРѕРєСЂСѓС‚РєРё
 @keyframes scroll {
   0% {
     transform: translateX(0);
@@ -113,7 +113,7 @@
   }
 }
 
-// Статистика
+// РЎС‚Р°С‚РёСЃС‚РёРєР°
 .brands-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -145,7 +145,7 @@
   font-weight: 500;
 }
 
-// Адаптивность
+// РђРґР°РїС‚РёРІРЅРѕСЃС‚СЊ
 @media (max-width: 1024px) {
   .brand-item {
     width: 150px;

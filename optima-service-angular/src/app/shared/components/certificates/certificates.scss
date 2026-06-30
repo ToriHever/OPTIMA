@@ -1,5 +1,5 @@
-@import '../../../../../styles/variables';
-@import '../../../../../styles/mixins';
+﻿@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
 
 .certificates {
   padding: $spacing-xxl 0;
@@ -61,7 +61,7 @@
   }
   
   &::before {
-    content: '🔍';
+    content: 'рџ”Ќ';
     position: absolute;
     top: 50%;
     left: 50%;
@@ -97,7 +97,7 @@
   }
 }
 
-// Модальное окно
+// РњРѕРґР°Р»СЊРЅРѕРµ РѕРєРЅРѕ
 .certificate-modal {
   position: fixed;
   top: 0;
@@ -177,7 +177,7 @@
   }
 }
 
-// Адаптивность
+// РђРґР°РїС‚РёРІРЅРѕСЃС‚СЊ
 @media (max-width: 1024px) {
   .certificates-grid {
     grid-template-columns: repeat(3, 1fr);
