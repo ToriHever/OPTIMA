@@ -1,8 +1,35 @@
-<app-hero></app-hero>
+<app-hero-section
+  titleLine1="Ремонт техники"
+  titleAccent="в центре города"
+  subtitle="Сервисный центр «Optima» — авторизованный сервис DREAME и POLARIS. Ремонт смартфонов, ноутбуков и бытовой техники с гарантией."
+  [features]="heroFeatures"
+></app-hero-section>
+
 <app-brands-carousel></app-brands-carousel>
-<app-repair-categories></app-repair-categories> 
+
+<app-categories-grid
+  sectionId="technique"
+  navTitle="Техника"
+  sectionTitle="Что мы"
+  sectionTitleAccent="ремонтируем"
+  sectionDescription="Специализируемся на ремонте всех видов бытовой и цифровой техники. Используем только оригинальные запчасти."
+  [stats]="categoryStats"
+  ctaTitle="Не нашли свою технику?"
+  ctaDescription="Ремонтируем любую технику. Напишите — поможем."
+  [categories]="categories"
+></app-categories-grid>
+
 <app-services-table></app-services-table>
-<app-work-process></app-work-process>
+
+<app-process-accordion
+  sectionTitle="Как мы"
+  sectionTitleAccent="работаем"
+  sectionDescription="Прозрачный процесс ремонта от первого звонка до выдачи готового устройства с гарантией."
+  navTitle="Как работаем"
+  [stats]="processStats"
+  [steps]="processSteps"
+></app-process-accordion>
+
 <app-warranty></app-warranty>
 <app-certificates></app-certificates>
 <app-reviews-section></app-reviews-section>

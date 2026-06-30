@@ -124,8 +124,8 @@ export class PageProgressNavComponent implements OnInit, OnDestroy, AfterViewIni
       };
     });
 
-    // Показываем меню только если секций БОЛЬШЕ 3
-    if (this.navItems.length > 3) {
+    // Показываем меню только если секций БОЛЬШЕ 2
+    if (this.navItems.length > 2) {
       this.isInitialized = true;
       setTimeout(() => {
         this.isVisible = !this.isFooterVisible();

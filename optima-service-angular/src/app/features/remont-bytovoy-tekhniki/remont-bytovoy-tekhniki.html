@@ -1,0 +1,32 @@
+<app-hero-section
+  titleLine1="Ремонт бытовой"
+  titleAccent="техники"
+  subtitle="Сервисный центр «Optima» — профессиональный ремонт стиральных машин, холодильников, кофемашин и другой бытовой техники с гарантией."
+  [features]="heroFeatures"
+  ctaPrimaryText="Вызвать мастера"
+  ctaSecondaryText="Узнать стоимость"
+  ctaSecondaryScrollTarget="services-remont"
+></app-hero-section>
+
+<app-categories-grid
+  sectionId="services-remont"
+  navTitle="Виды техники"
+  sectionTitle="Что мы"
+  sectionTitleAccent="ремонтируем"
+  sectionDescription="Ремонтируем все виды крупной и малой бытовой техники. Выезд на дом или приём в сервисном центре."
+  [stats]="categoryStats"
+  ctaTitle="Не нашли свою технику?"
+  ctaDescription="Ремонтируем любую бытовую технику. Напишите — разберёмся."
+  [categories]="categories"
+></app-categories-grid>
+
+<app-process-accordion
+  sectionTitle="Как проходит"
+  sectionTitleAccent="ремонт"
+  sectionDescription="Простой и прозрачный процесс — от заявки до получения техники с гарантией."
+  navTitle="Процесс ремонта"
+  [stats]="processStats"
+  [steps]="processSteps"
+></app-process-accordion>
+
+<app-page-progress-nav></app-page-progress-nav>

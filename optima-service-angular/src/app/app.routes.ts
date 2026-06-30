@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/about/about').then(m => m.About)
   },
   {
+    path: 'remont-bytovoy-tekhniki',
+    loadComponent: () => import('./features/remont-bytovoy-tekhniki/remont-bytovoy-tekhniki').then(m => m.RemontBytovoyTekhniki)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

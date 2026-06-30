@@ -1,0 +1,58 @@
+<section id="hero" class="hero" [class.animate]="isVisible">
+  <div class="hero-background" [style.transform]="'translateY(' + parallaxOffset + 'px)'">
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title" [class.animated]="isVisible">
+        {{ titleLine1 }}<br>
+        <span class="text-accent">{{ titleAccent }}</span>
+      </h1>
+
+      <p class="hero-subtitle delay-1" [class.animated]="isVisible">{{ subtitle }}</p>
+
+      <div class="hero-features delay-2" [class.animated]="isVisible">
+        <div class="hero-feature" *ngFor="let feature of features">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>{{ feature }}</span>
+        </div>
+      </div>
+
+      <div class="hero-cta delay-3" [class.animated]="isVisible">
+        <button class="btn btn-primary btn-large" (click)="openRepairForm()">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+            <path d="M14,11v1.8c0,.7-.5,1.2-1.2,1.2,0,0,0,0-.1,0-1.9-.2-3.6-.8-5.2-1.8-1.5-.9-2.7-2.2-3.6-3.6-1-1.6-1.7-3.4-1.9-5.2,0-.7.4-1.2,1.1-1.3,0,0,0,0,.1,0h1.8c.6,0,1.1.4,1.2,1,0,.6.2,1.1.4,1.7.2.4,0,.9-.3,1.3l-.8.8c.9,1.5,2.1,2.8,3.6,3.6l.8-.8c.3-.3.8-.4,1.3-.3.5.2,1.1.3,1.7.4.6,0,1.1.6,1,1.2Z"
+                  transform="translate(3,3)"/>
+          </svg>
+          {{ ctaPrimaryText }}
+        </button>
+        <button class="btn btn-secondary btn-outline" (click)="scrollToNext()">
+          {{ ctaSecondaryText }}
+        </button>
+      </div>
+
+      <div class="hero-contacts delay-4" [class.animated]="isVisible">
+        <a [href]="phoneHref" class="hero-phone">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M14,11v1.8c0,.7-.5,1.2-1.2,1.2,0,0,0,0-.1,0-1.9-.2-3.6-.8-5.2-1.8-1.5-.9-2.7-2.2-3.6-3.6-1-1.6-1.7-3.4-1.9-5.2,0-.7.4-1.2,1.1-1.3,0,0,0,0,.1,0h1.8c.6,0,1.1.4,1.2,1,0,.6.2,1.1.4,1.7.2.4,0,.9-.3,1.3l-.8.8c.9,1.5,2.1,2.8,3.6,3.6l.8-.8c.3-.3.8-.4,1.3-.3.5.2,1.1.3,1.7.4.6,0,1.1.6,1,1.2Z"
+                  transform="translate(5,5)"/>
+          </svg>
+          <div>
+            <span class="phone-label">Звоните сейчас</span>
+            <span class="phone-number">{{ phone }}</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-decoration">
+      <div class="decoration-circle decoration-circle-1"></div>
+      <div class="decoration-circle decoration-circle-2"></div>
+      <div class="decoration-circle decoration-circle-3"></div>
+    </div>
+  </div>
+</section>
