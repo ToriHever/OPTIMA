@@ -1,0 +1,34 @@
+<ng-container *ngIf="brandData && deviceData">
+  <app-hero-section
+    [titleLine1]="brandData.hero.titleLine1"
+    [titleAccent]="brandData.hero.titleAccent"
+    [subtitle]="brandData.hero.subtitle"
+    [features]="brandData.hero.features"
+    ctaPrimaryText="Вызвать мастера"
+    ctaSecondaryText="Узнать стоимость"
+    [ctaSecondaryScrollTarget]="'services-' + deviceData.slug + '-' + brandData.slug"
+  ></app-hero-section>
+
+  <app-categories-grid
+    [sectionId]="'services-' + deviceData.slug + '-' + brandData.slug"
+    navTitle="Неисправности"
+    [sectionTitle]="deviceData.categories.sectionTitle"
+    [sectionTitleAccent]="deviceData.categories.sectionTitleAccent"
+    [sectionDescription]="deviceData.categories.sectionDescription"
+    [stats]="deviceData.categories.stats"
+    [ctaTitle]="deviceData.categories.ctaTitle"
+    [ctaDescription]="deviceData.categories.ctaDescription"
+    [categories]="deviceData.categories.items"
+  ></app-categories-grid>
+
+  <app-process-accordion
+    [sectionTitle]="deviceData.process.sectionTitle"
+    [sectionTitleAccent]="deviceData.process.sectionTitleAccent"
+    [sectionDescription]="deviceData.process.sectionDescription"
+    navTitle="Процесс ремонта"
+    [stats]="deviceData.process.stats"
+    [steps]="deviceData.process.steps"
+  ></app-process-accordion>
+
+  <app-page-progress-nav></app-page-progress-nav>
+</ng-container>
