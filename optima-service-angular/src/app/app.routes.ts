@@ -11,7 +11,16 @@ export const routes: Routes = [
   },
   {
     path: 'remont-bytovoy-tekhniki',
-    loadComponent: () => import('./features/remont-bytovoy-tekhniki/remont-bytovoy-tekhniki').then(m => m.RemontBytovoyTekhniki)
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/remont-bytovoy-tekhniki/remont-bytovoy-tekhniki').then(m => m.RemontBytovoyTekhniki)
+      },
+      {
+        path: ':slug',
+        loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
+      }
+    ]
   },
   {
     path: '**',
