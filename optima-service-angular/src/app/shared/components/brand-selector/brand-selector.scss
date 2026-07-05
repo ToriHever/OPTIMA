@@ -2,8 +2,8 @@
 @import '../../../../styles/mixins';
 
 .brand-selector {
-  padding: $section-padding-y 0;
-  background: $color-surface;
+  padding: $spacing-xl 0;
+  background: $color-bg-light;
 
   &__header {
     margin-bottom: 2.5rem;
@@ -15,9 +15,10 @@
 
   &__subtitle {
     margin-top: 1rem;
-    color: $color-text-secondary;
+    color: $color-text;
     font-size: 1rem;
     line-height: 1.6;
+    opacity: 0.75;
   }
 
   &__grid {
@@ -25,11 +26,11 @@
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1rem;
 
-    @include respond-to(md) {
+    @include tablet {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    @include respond-to(sm) {
+    @include mobile {
       grid-template-columns: 1fr;
     }
   }
@@ -40,9 +41,9 @@
   align-items: center;
   gap: 1rem;
   padding: 1.25rem 1.5rem;
-  background: $color-background;
-  border: 1px solid $color-border;
-  border-radius: $border-radius-lg;
+  background: $color-white;
+  border: 1px solid $color-bg-grey;
+  border-radius: $radius-lg;
   text-decoration: none;
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
   cursor: pointer;
@@ -61,25 +62,26 @@
   &__name {
     font-size: 1.1rem;
     font-weight: 600;
-    color: $color-text-primary;
+    color: $color-dark;
     flex: 1;
   }
 
   &__hint {
     font-size: 0.8rem;
-    color: $color-text-secondary;
+    color: $color-text;
+    opacity: 0.65;
     flex: 2;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
-    @include respond-to(md) {
+    @include tablet {
       display: none;
     }
   }
 
   &__arrow {
-    color: $color-text-muted;
+    color: $color-bg-grey;
     transition: color 0.2s, transform 0.2s;
     flex-shrink: 0;
   }

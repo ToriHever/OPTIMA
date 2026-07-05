@@ -1,0 +1,51 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.cta-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  margin-top: 2rem;
+  padding: 1.5rem 2rem;
+  background: $color-white;
+  border: 1px solid $color-bg-grey;
+  border-radius: $radius-lg;
+
+  @include tablet {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: $color-dark;
+    margin-bottom: 0.35rem;
+  }
+
+  &__desc {
+    font-size: 0.875rem;
+    color: $color-text;
+    opacity: 0.75;
+    margin: 0;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    gap: $spacing-sm;
+    flex-shrink: 0;
+    align-items: center;
+
+    @include tablet {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+}

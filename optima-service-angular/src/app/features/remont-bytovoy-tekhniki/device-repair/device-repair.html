@@ -20,7 +20,11 @@
     [ctaDescription]="data.categories.ctaDescription"
     [categories]="data.categories.items"
   ></app-categories-grid>
-
+<app-brand-selector
+    [brands]="brands"
+    [basePath]="brandBasePath"
+    [deviceName]="data.hero.titleAccent"
+  ></app-brand-selector>
   <app-process-accordion
     [sectionTitle]="data.process.sectionTitle"
     [sectionTitleAccent]="data.process.sectionTitleAccent"
@@ -34,12 +38,6 @@
     [questions]="data.faq"
     navTitle="FAQ"
   ></app-faq-section>
-
-  <app-brand-selector
-    [brands]="brands"
-    [basePath]="brandBasePath"
-    [deviceName]="data.hero.titleAccent"
-  ></app-brand-selector>
 
   <app-reviews-section></app-reviews-section>
   <app-page-progress-nav></app-page-progress-nav>
