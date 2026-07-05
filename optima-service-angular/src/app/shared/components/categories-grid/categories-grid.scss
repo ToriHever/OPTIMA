@@ -1,4 +1,4 @@
-﻿@import '../../../../styles/variables';
+@import '../../../../styles/variables';
 @import '../../../../styles/mixins';
 
 .categories-section {
@@ -8,10 +8,12 @@
 
 .categories-layout {
   display: grid;
-  grid-template-columns: 400px 1fr;
+  grid-template-columns: 360px 1fr;
   gap: $space-xl;
   align-items: start;
 }
+
+// ── Sidebar ───────────────────────────────────────────────
 
 .categories-sidebar {
   position: sticky;
@@ -77,134 +79,6 @@
   line-height: 1.3;
 }
 
-.categories-content {
-  display: flex;
-  flex-direction: column;
-  gap: $space-xl;
-}
-
-.categories-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: $space-lg;
-}
-
-.category-card {
-  display: flex;
-  flex-direction: column;
-  padding: $space-md;
-  background: $color-white;
-  border: 2px solid $color-bg-grey;
-  border-radius: $radius-lg;
-  cursor: pointer;
-  transition: all $transition-base;
-
-  &:hover {
-    border-color: $color-primary;
-    box-shadow: $shadow-lg;
-    transform: translateY(-8px);
-
-    .card-icon {
-      background: linear-gradient(135deg, $color-primary-light 0%, $color-primary 100%);
-      svg {
-        stroke: $color-white;
-        transform: scale(1.1);
-      }
-    }
-
-    .card-arrow {
-      opacity: 1;
-      transform: translateX(4px);
-    }
-  }
-}
-
-.category-card.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(40px);
-  &.animated { animation: fadeInUp 0.6s ease-out forwards; }
-}
-
-@keyframes fadeInUp {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.card-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 72px;
-  margin-bottom: $space-md;
-  border-radius: $radius-md;
-  background: rgba($color-primary, 0.1);
-  transition: all $transition-base;
-  svg { stroke: $color-primary; transition: all $transition-base; }
-}
-
-.card-title {
-  @include text-h4;
-  margin: 0 0 $space-sm 0;
-}
-
-.card-description {
-  @include text-subtitle-2;
-  color: rgba($color-dark, 0.6);
-  line-height: 1.5;
-  margin: 0 0 $space-md 0;
-  flex: 1;
-}
-
-.card-features {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 $space-lg 0;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-xs;
-
-  li {
-    display: flex;
-    align-items: center;
-    gap: $spacing-xs;
-    @include text-list;
-    color: rgba($color-dark, 0.7);
-    svg { flex-shrink: 0; stroke: $color-primary; }
-  }
-}
-
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: $space-md;
-  border-top: 1px solid $color-bg-grey;
-}
-
-.card-price {
-  display: flex;
-  align-items: baseline;
-  gap: $spacing-xs;
-}
-
-.price-label {
-  @include text-list;
-  color: rgba($color-dark, 0.5);
-}
-
-.price-value {
-  @include text-h4;
-  color: $color-primary;
-}
-
-.card-arrow {
-  display: flex;
-  align-items: center;
-  opacity: 0.3;
-  transition: all $transition-base;
-  svg { stroke: $color-primary; }
-}
-
 .categories-cta {
   display: flex;
   flex-direction: column;
@@ -214,41 +88,182 @@
   background: linear-gradient(135deg, rgba($color-primary, 0.05) 0%, rgba($color-primary, 0.02) 100%);
   border: 2px solid rgba($color-primary, 0.2);
   border-radius: $radius-lg;
+
+  .cta-content {
+    h3 { @include text-h4; margin: 0 0 4px 0; }
+    p  { @include text-body; color: rgba($color-dark, 0.7); margin: 0; line-height: 1.5; }
+  }
 }
 
-.cta-icon {
+// ── Grid ─────────────────────────────────────────────────
+
+.categories-content {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: linear-gradient(135deg, $color-primary-light 0%, $color-primary 100%);
-  svg { stroke: $color-white; }
+  flex-direction: column;
+  gap: $space-xl;
 }
 
-.cta-content {
-  flex: 1;
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
 
-  h3 {
-    @include text-h3;
-    margin: 0 0 $space-sm 0;
+// ── Card ─────────────────────────────────────────────────
+
+.category-card {
+  position: relative;
+  height: 160px;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  cursor: default;
+  background: $color-white;
+  border: 1.5px solid rgba($color-dark, 0.08);
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+
+  &.has-link { cursor: pointer; }
+
+  // Большая SVG-иллюстрация как фоновый элемент
+  .card-bg-icon {
+    position: absolute;
+    right: -16px;
+    bottom: -16px;
+    width: 110px;
+    height: 110px;
+    opacity: 0.06;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      stroke: $color-primary;
+    }
   }
 
-  p {
-    @include text-body;
-    color: rgba($color-dark, 0.7);
-    margin: 0;
-    line-height: 1.5;
+  // Лицевая сторона: заголовок + цена
+  .card-front {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 14px 16px;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 1;
+  }
+
+  .card-title {
+    @include text-subtitle-1;
+    font-weight: 700;
+    color: $color-dark;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+  }
+
+  .card-price {
+    @include text-mini;
+    color: $color-primary;
+    font-weight: 600;
+  }
+
+  // Обратная сторона: список работ
+  .card-back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 2;
+  }
+
+  .card-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba($color-white, 0.95);
+      line-height: 1.3;
+
+      svg { flex-shrink: 0; stroke: rgba($color-white, 0.8); }
+    }
+  }
+
+  .card-price-back {
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba($color-white, 0.7);
+    margin-top: auto;
+  }
+
+  // Ссылка для мобилки — невидимая поверх всей карточки
+  .card-mobile-link {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: none;
+  }
+
+  // ── Hover (только устройства с мышью) ────────────────
+  @media (hover: hover) {
+    &:hover {
+      border-color: $color-primary;
+      box-shadow: 0 8px 24px rgba($color-primary, 0.18);
+      transform: translateY(-4px);
+
+      .card-bg-icon {
+        opacity: 0.12;
+        transform: scale(1.08) rotate(-5deg);
+      }
+
+      .card-front {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+
+      .card-back {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   }
 }
 
-// в”Ђв”Ђ РђРґР°РїС‚РёРІРЅРѕСЃС‚СЊ в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
-// padding Рё gap СЃРµРєС†РёРё СѓРґР°Р»РµРЅС‹ РёР· РјРµРґРёР°Р·Р°РїСЂРѕСЃРѕРІ вЂ” fluid СЃРїСЂР°РІР»СЏРµС‚СЃСЏ
+.category-card.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.categories-grid.animated .category-card.animate-on-scroll {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// ── Адаптивность ──────────────────────────────────────────
+
+@media (max-width: 1400px) {
+  .categories-grid { grid-template-columns: repeat(3, 1fr); }
+}
 
 @media (max-width: 1200px) {
-  .categories-layout { grid-template-columns: 350px 1fr; }
+  .categories-layout { grid-template-columns: 320px 1fr; }
 }
 
 @media (max-width: 1024px) {
@@ -263,28 +278,46 @@
   }
 
   .sidebar-content { gap: $space-lg; }
-  .section-title { text-align: center; }
-  .section-description { text-align: center; }
-  .sidebar-stats { text-align: center; }
+  .section-title, .section-description, .sidebar-stats { text-align: center; }
+
+  .categories-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 768px) {
-  // padding .categories-section вЂ” СѓРґР°Р»С‘РЅ, clamp СЃРїСЂР°РІР»СЏРµС‚СЃСЏ
-
-  .categories-grid { grid-template-columns: 1fr; }
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
 
   .category-card {
-    padding: $space-md;
-    .card-icon, .card-features { display: none; }
-  }
+    height: 130px;
 
-  .categories-cta {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    .card-back { display: none; }
+    .card-mobile-link { display: block; }
   }
 }
 
 @media (max-width: 480px) {
   .categories-sidebar { padding: $space-lg; }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .category-card {
+    height: 88px;
+
+    .card-bg-icon {
+      width: 70px;
+      height: 70px;
+      right: -8px;
+      bottom: -8px;
+    }
+
+    .card-title {
+      font-size: 13px;
+    }
+
+    .card-price {
+      font-size: 10px;
+    }
+  }
 }

@@ -34,49 +34,56 @@ export class RemontBytovoyTekhniki implements OnInit {
       description: 'Ремонт стиральных и сушильных машин всех марок',
       icon: 'M6 4H22V20H6V4Z M10 8H18V10H10V8Z M14 14C14 15.1 13.1 16 12 16C10.9 16 10 15.1 10 14C10 12.9 10.9 12 12 12C13.1 12 14 12.9 14 14Z',
       features: ['Замена подшипников и ТЭНа', 'Ремонт двигателя', 'Замена помпы', 'Ремонт модуля управления'],
-      priceFrom: '1 500 ₽'
+      priceFrom: '1 500 ₽',
+      link: '/remont-bytovoy-tekhniki/stiralnye-mashiny'
     },
     {
       name: 'Холодильники',
       description: 'Ремонт холодильников и морозильных камер',
       icon: 'M8 3H16V21H8V3Z M8 10H16 M10 6H10.01 M10 14H10.01',
       features: ['Замена компрессора', 'Заправка фреоном', 'Ремонт электроники', 'Устранение утечек'],
-      priceFrom: '1 500 ₽'
+      priceFrom: '1 500 ₽',
+      link: '/remont-bytovoy-tekhniki/kholodilniki'
     },
     {
       name: 'Посудомоечные машины',
       description: 'Ремонт посудомоечных машин любых брендов',
       icon: 'M4 6H20V18H4V6Z M8 10H16 M8 14H12',
       features: ['Замена помпы', 'Ремонт нагревательного элемента', 'Устранение протечек', 'Ремонт электронного блока'],
-      priceFrom: '1 500 ₽'
+      priceFrom: '1 500 ₽',
+      link: '/remont-bytovoy-tekhniki/posudomoechnye-mashiny'
     },
     {
       name: 'Кофемашины',
       description: 'Ремонт автоматических и рожковых кофемашин',
       icon: 'M20 20H4V16H20V20Z M6 10H18V14H6V10Z M8 4H16V8H8V4Z',
       features: ['Ремонт заварочного блока', 'Чистка и декальцинация', 'Замена помпы', 'Ремонт кофемолки'],
-      priceFrom: '2 000 ₽'
+      priceFrom: '2 000 ₽',
+      link: '/remont-bytovoy-tekhniki/kofemashiny'
     },
     {
       name: 'Пылесосы',
       description: 'Ремонт вертикальных, традиционных и роботов-пылесосов',
       icon: 'M8 4H20V12H8V4Z M6 12H22V16H6V12Z M10 16H18V20H10V16Z',
       features: ['Замена аккумулятора', 'Ремонт двигателя', 'Чистка фильтров', 'Ремонт щёток'],
-      priceFrom: '1 000 ₽'
+      priceFrom: '1 000 ₽',
+      link: '/remont-bytovoy-tekhniki/pylesosy'
     },
     {
       name: 'Микроволновые печи',
       description: 'Ремонт микроволновок всех производителей',
       icon: 'M4 6H22V18H4V6Z M18 10V14 M15 12H21',
       features: ['Замена магнетрона', 'Ремонт блока питания', 'Замена тарелки привода', 'Ремонт дверцы'],
-      priceFrom: '1 000 ₽'
+      priceFrom: '1 000 ₽',
+      link: '/remont-bytovoy-tekhniki/mikrovolnovye-pechi'
     },
     {
       name: 'Утюги и парогенераторы',
       description: 'Ремонт утюгов и паровых станций',
       icon: 'M4 14H20V18H4V14Z M6 10H18V14H6V10Z M10 6H14V10H10V6Z',
       features: ['Замена нагревательного элемента', 'Чистка от накипи', 'Ремонт парогенератора', 'Замена шнура'],
-      priceFrom: '800 ₽'
+      priceFrom: '800 ₽',
+      link: '/remont-bytovoy-tekhniki/utyugi-i-parogeneratory'
     }
   ];
 

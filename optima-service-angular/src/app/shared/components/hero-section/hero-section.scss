@@ -3,7 +3,7 @@
 
 .hero {
   position: relative;
-  height: calc(100vh - 117px);
+  min-height: calc(100svh - 117px);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -46,6 +46,12 @@
   z-index: 2;
   max-width: 800px;
   padding: $space-xl 0;
+
+  // На маленьких экранах по высоте — не центрируем, а прижимаем к верху с отступом
+  @media (max-height: 700px) {
+    padding-top: clamp(16px, 4vh, 40px);
+    padding-bottom: clamp(24px, 4vh, 48px);
+  }
 }
 
 .hero-title {
@@ -252,9 +258,59 @@
   }
 }
 
+@media (max-height: 700px) {
+  .hero {
+    align-items: flex-start;
+    padding-top: 32px;
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 190px;
+    grid-template-rows: auto auto auto auto;
+    column-gap: 32px;
+    padding-top: 16px;
+    padding-bottom: 24px;
+  }
+
+  .hero-title    { grid-column: 1; grid-row: 1; margin-bottom: $space-sm; }
+  .hero-subtitle { grid-column: 1; grid-row: 2; margin-bottom: $space-md;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .hero-cta      { grid-column: 1; grid-row: 3; margin-bottom: $space-sm; }
+  .hero-contacts { grid-column: 1; grid-row: 4; }
+
+  .hero-features {
+    grid-column: 2;
+    grid-row: 1 / 5;
+    align-self: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-bottom: 0;
+
+    .hero-feature {
+      width: 100%;
+      font-size: 13px;
+      padding: 6px 10px;
+
+      svg { width: 20px; height: 16px; }
+
+      &:hover { transform: none; }
+    }
+  }
+
+  .hero-contacts {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
-    min-height: 90vh;
+    min-height: 85svh;
   }
   
   .hero-features {
