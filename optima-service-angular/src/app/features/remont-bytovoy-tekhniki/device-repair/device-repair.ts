@@ -7,12 +7,13 @@ import { CategoriesGrid } from '../../../shared/components/categories-grid/categ
 import { ProcessAccordion } from '../../../shared/components/process-accordion/process-accordion';
 import { PageProgressNavComponent } from '../../../shared/components/page-progress-nav/page-progress-nav';
 import { ReviewsSection } from '../../../shared/components/reviews-section/reviews-section';
+import { FaqSection } from '../../../shared/components/faq-section/faq-section';
 import { DEVICE_REPAIR_DATA, DeviceRepairData } from './device-repair-data';
 
 @Component({
   selector: 'app-device-repair',
   standalone: true,
-  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection],
+  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection],
   templateUrl: './device-repair.html',
   styleUrl: './device-repair.scss'
 })

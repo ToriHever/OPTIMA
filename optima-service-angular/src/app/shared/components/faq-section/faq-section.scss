@@ -1,0 +1,155 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.faq-section {
+  padding: $space-xxl 0;
+  background: $color-white;
+}
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: $space-xxl;
+  align-items: start;
+}
+
+// ── Sidebar ───────────────────────────────────────────────
+
+.faq-sidebar {
+  position: sticky;
+  top: calc($spacing-xl + 117px);
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.section-title {
+  @include text-h2;
+  font-weight: 700;
+  color: $color-dark;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sidebar-hint {
+  @include text-body;
+  color: rgba($color-dark, 0.55);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.sidebar-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba($color-primary, 0.08);
+  border-radius: $radius-full;
+  @include text-mini;
+  font-weight: 600;
+  color: $color-primary;
+  width: fit-content;
+
+  svg { stroke: $color-primary; flex-shrink: 0; }
+}
+
+// ── Список вопросов ────────────────────────────────────────
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faq-item {
+  background: $color-bg-light;
+  border-radius: $radius-lg;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  overflow: hidden;
+
+  &:hover {
+    border-color: rgba($color-primary, 0.25);
+    background: $color-white;
+    box-shadow: $shadow-sm;
+  }
+
+  &.active {
+    border-color: rgba($color-primary, 0.4);
+    background: $color-white;
+    box-shadow: $shadow-md;
+  }
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-md;
+  padding: $space-md $space-lg;
+  user-select: none;
+}
+
+.faq-question-text {
+  @include text-subtitle-1;
+  font-weight: 600;
+  color: $color-dark;
+  line-height: 1.4;
+
+  .active & { color: $color-primary; }
+}
+
+.faq-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba($color-primary, 0.08);
+  flex-shrink: 0;
+  transition: transform 0.3s ease, background 0.2s;
+
+  svg { stroke: $color-primary; }
+  &.rotated { transform: rotate(180deg); background: rgba($color-primary, 0.15); }
+}
+
+.faq-answer {
+  p {
+    @include text-body;
+    color: rgba($color-dark, 0.75);
+    line-height: 1.7;
+    margin: 0;
+    padding: 0 $space-lg $space-md;
+  }
+}
+
+// ── Адаптивность ──────────────────────────────────────────
+
+@media (max-width: 1024px) {
+  .faq-layout {
+    grid-template-columns: 1fr;
+    gap: $space-xl;
+  }
+
+  .faq-sidebar {
+    position: static;
+    text-align: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .faq-section { padding: $space-xl 0; }
+
+  .faq-question { padding: $space-md; }
+  .faq-answer p { padding: 0 $space-md $space-md; }
+}

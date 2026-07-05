@@ -1,0 +1,45 @@
+<section id="faq" class="faq-section" [attr.data-nav-title]="navTitle">
+  <div class="container">
+    <div class="faq-layout">
+
+      <aside class="faq-sidebar">
+        <h2 class="section-title">
+          {{ sectionTitle }}<br>
+          <span class="text-gradient">{{ sectionTitleAccent }}</span>
+        </h2>
+        <p class="sidebar-hint">Нажмите на вопрос, чтобы увидеть ответ</p>
+        <div class="sidebar-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10" stroke-width="2"/>
+            <path d="M12 8v4M12 16h.01" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>{{ questions.length }} вопросов</span>
+        </div>
+      </aside>
+
+      <div class="faq-list">
+        <div class="faq-item"
+             *ngFor="let item of questions; let i = index"
+             [class.active]="activeIndex === i"
+             (click)="toggle(i)">
+
+          <div class="faq-question">
+            <span class="faq-question-text">{{ item.question }}</span>
+            <div class="faq-icon" [class.rotated]="activeIndex === i">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="faq-answer"
+               [@slideDown]="activeIndex === i ? 'open' : 'closed'">
+            <p>{{ item.answer }}</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

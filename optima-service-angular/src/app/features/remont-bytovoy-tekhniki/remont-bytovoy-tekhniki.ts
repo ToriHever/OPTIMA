@@ -6,10 +6,11 @@ import { CategoriesGrid, CategoryItem, SidebarStat } from '../../shared/componen
 import { ProcessAccordion, ProcessStep } from '../../shared/components/process-accordion/process-accordion';
 import { PageProgressNavComponent } from '../../shared/components/page-progress-nav/page-progress-nav';
 import { ReviewsSection } from '../../shared/components/reviews-section/reviews-section';
+import { FaqSection, FaqItem } from '../../shared/components/faq-section/faq-section';
 
 @Component({
   selector: 'app-remont-bytovoy-tekhniki',
-  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection],
+  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection],
   templateUrl: './remont-bytovoy-tekhniki.html',
   styleUrl: './remont-bytovoy-tekhniki.scss'
 })
@@ -128,6 +129,15 @@ export class RemontBytovoyTekhniki implements OnInit {
       features: ['Акт выполненных работ', 'Гарантия до 90 дней', 'Консультация по эксплуатации'],
       duration: '10 минут'
     }
+  ];
+
+  faqItems: FaqItem[] = [
+    { question: 'Сколько стоит диагностика бытовой техники?', answer: 'Диагностика бесплатна при последующем ремонте. Если вы решите не ремонтировать — диагно��тика стоит от 500 ₽ в зависимости от вида техники.' },
+    { question: 'Мастер приедет на дом или нужно привезти технику?', answer: 'Крупная техника (стиральные машины, холодильники, посудомойки) ремонтируется на дому. Малую технику (кофемашины, пылес��сы, утюги) удобнее привезти в сервис — ремонт занимает 30–60 минут, можно подождать.' },
+    { question: 'Сколько времени занимает ремонт?', answer: 'Большинство ремонтов крупной техники — 1–2 часа на дому. Малая техника — 30–60 минут в сервисе. Сложные случаи (замена компрессора, ремонт электроники) — до 2 дней.' },
+    { question: 'Даёте ли вы гарантию на ремонт?', answer: 'Да, гарантия до 90 дней на все виды работ и запчасти. При гарантийном случае — бесплатный повторный выезд и устранение неисправности.' },
+    { question: 'Используете ли оригинальные запчасти?', answer: 'Да, используем оригинальные или сертифицированные аналоги. Для Dreame и Polaris — только оригинальные запчасти как авторизованный сервисный центр.' },
+    { question: 'Что если не смогли починить технику?', answer: 'Если ремонт технически невозможен или нецелесообразен — честно скажем об этом. Плату за диаг��остику в таких случаях не берём.' }
   ];
 
   constructor(
