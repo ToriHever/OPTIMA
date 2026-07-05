@@ -1,0 +1,7 @@
+<nav class="breadcrumb" [class.breadcrumb--light]="light" aria-label="Хлебные крошки">
+  <ng-container *ngFor="let item of items; let last = last">
+    <a *ngIf="item.path && !last" [routerLink]="item.path" class="breadcrumb__item">{{ item.label }}</a>
+    <span *ngIf="!item.path || last" class="breadcrumb__item breadcrumb__item--current">{{ item.label }}</span>
+    <span *ngIf="!last" class="breadcrumb__sep" aria-hidden="true">/</span>
+  </ng-container>
+</nav>

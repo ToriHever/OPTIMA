@@ -28,6 +28,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'noutbuki': {
     slug: 'noutbuki',
+    name: 'Ноутбуки',
     meta: {
       title: 'Ремонт ноутбуков в Ростове-на-Дону — Optima Сервис',
       description: 'Профессиональный ремонт ноутбуков в Ростове-на-Дону. Замена матрицы, ремонт видеокарты, чистка системы охлаждения. Диагностика бесплатно при ремонте.'
@@ -58,6 +59,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'smartfony': {
     slug: 'smartfony',
+    name: 'Смартфоны',
     meta: {
       title: 'Ремонт смартфонов в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт смартфонов iPhone и Android в Ростове-на-Дону. Замена дисплея, аккумулятора, ремонт после залития. Гарантия до 90 дней.'
@@ -88,6 +90,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'planshety': {
     slug: 'planshety',
+    name: 'Планшеты',
     meta: {
       title: 'Ремонт планшетов в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт планшетов iPad, Samsung Galaxy Tab, Huawei MatePad в Ростове-на-Дону. Замена экрана, аккумулятора. Гарантия до 90 дней.'
@@ -118,6 +121,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'pk-i-komputery': {
     slug: 'pk-i-komputery',
+    name: 'Компьютеры и ПК',
     meta: {
       title: 'Ремонт компьютеров и ПК в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт настольных компьютеров и ПК в Ростове-на-Дону. Диагностика, замена видеокарты, ОЗУ, блока питания, сборка ПК. Выезд мастера, гарантия до 90 дней.'
@@ -148,6 +152,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'monitory': {
     slug: 'monitory',
+    name: 'Мониторы',
     meta: {
       title: 'Ремонт мониторов в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт мониторов всех марок в Ростове-на-Дону. Замена подсветки, матрицы, ремонт блока питания. Диагностика бесплатно при ремонте, гарантия до 90 дней.'
@@ -178,6 +183,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'printeryi-i-mfu': {
     slug: 'printeryi-i-mfu',
+    name: 'Принтеры и МФУ',
     meta: {
       title: 'Ремонт принтеров и МФУ в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт принтеров и МФУ в Ростове-на-Дону. HP, Canon, Epson, Brother. Заправка, замена головки, ремонт тракта. Гарантия до 90 дней.'
@@ -208,6 +214,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'umnye-chasy': {
     slug: 'umnye-chasy',
+    name: 'Умные часы',
     meta: {
       title: 'Ремонт умных часов и смарт-часов в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт Apple Watch, Samsung Galaxy Watch, Garmin в Ростове-на-Дону. Замена дисплея, аккумулятора. Гарантия до 90 дней.'

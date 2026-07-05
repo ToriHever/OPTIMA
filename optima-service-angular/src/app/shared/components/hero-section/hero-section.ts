@@ -2,11 +2,12 @@ import { Component, Input, OnInit, OnDestroy, HostListener, PLATFORM_ID, Inject 
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../../core/services/modal.service';
 import { ScrollService } from '../../../core/services/scroll.service';
+import { Breadcrumb, BreadcrumbItem } from '../breadcrumb/breadcrumb';
 
 @Component({
   selector: 'app-hero-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Breadcrumb],
   templateUrl: './hero-section.html',
   styleUrl: './hero-section.scss'
 })
@@ -20,6 +21,7 @@ export class HeroSection implements OnInit, OnDestroy {
   @Input() ctaSecondaryScrollTarget: string = 'services';
   @Input() phone: string = '8 (988) 516-31-31';
   @Input() phoneHref: string = 'tel:89885163131';
+  @Input() breadcrumbs: BreadcrumbItem[] = [];
 
   isVisible = false;
   parallaxOffset = 0;

@@ -13,6 +13,7 @@ import { DEVICE_REPAIR_DATA, DeviceRepairData } from './device-repair-data';
 import { IT_REPAIR_DATA } from '../../remont-kompyuterov/it-repair-data';
 import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
 import { BRAND_REPAIR_DATA, BrandRepairData } from '../brand-repair/brand-repair-data';
+import { BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb';
 import { IT_BRAND_REPAIR_DATA } from '../../remont-kompyuterov/it-brand-repair-data';
 import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-data';
 
@@ -27,6 +28,7 @@ export class DeviceRepairPage implements OnInit {
   data: DeviceRepairData | null = null;
   brands: BrandRepairData[] = [];
   brandBasePath: string = '';
+  breadcrumbs: BreadcrumbItem[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -59,6 +61,15 @@ export class DeviceRepairPage implements OnInit {
                    : BRAND_REPAIR_DATA;
     this.brands = Object.values((brandMap as Record<string, Record<string, BrandRepairData>>)[slug] ?? {});
     this.brandBasePath = `${backPath}/${slug}`;
+
+    const sectionLabel = section === 'computers' ? 'Компьютеры'
+                       : section === 'av' ? 'Аудио и видео'
+                       : 'Бытовая техника';
+    this.breadcrumbs = [
+      { label: 'Главная', path: '/' },
+      { label: sectionLabel, path: backPath },
+      { label: this.data.name }
+    ];
 
     this.title.setTitle(this.data.meta.title);
     this.meta.updateTag({ name: 'description', content: this.data.meta.description });

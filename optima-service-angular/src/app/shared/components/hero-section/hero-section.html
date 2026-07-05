@@ -4,6 +4,7 @@
   </div>
 
   <div class="container">
+    <app-breadcrumb *ngIf="breadcrumbs.length" [items]="breadcrumbs" [light]="true"></app-breadcrumb>
     <div class="hero-content">
       <h1 class="hero-title" [class.animated]="isVisible">
         {{ titleLine1 }}<br>

@@ -1,0 +1,41 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  margin: 1.5rem;
+
+  &__item {
+    color: $color-text;
+    opacity: 0.55;
+    text-decoration: none;
+    transition: opacity 0.2s;
+
+    &:hover { opacity: 0.9; }
+
+    &--current {
+      opacity: 0.85;
+      font-weight: 500;
+      pointer-events: none;
+    }
+  }
+
+  &__sep {
+    color: $color-text;
+    opacity: 0.3;
+  }
+
+  // Светлый вариант для тёмных фонов
+  &--light {
+    .breadcrumb__item {
+      color: rgba(255,255,255,0.55);
+      &:hover { color: rgba(255,255,255,0.9); opacity: 1; }
+      &--current { color: rgba(255,255,255,0.85); opacity: 1; }
+    }
+    .breadcrumb__sep { color: rgba(255,255,255,0.3); opacity: 1; }
+  }
+}

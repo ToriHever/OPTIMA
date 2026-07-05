@@ -1,0 +1,61 @@
+<section class="brand-hero">
+  <div class="brand-hero__bg"></div>
+
+  <div class="container brand-hero__inner">
+
+    <app-breadcrumb *ngIf="breadcrumbs.length" [items]="breadcrumbs" [light]="true"></app-breadcrumb>
+
+    <div class="brand-hero__layout">
+
+      <!-- Левая колонка: текст -->
+      <div class="brand-hero__content">
+
+        <div class="brand-hero__badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke-width="2"/>
+          </svg>
+          Специализированный сервис
+        </div>
+
+        <h1 class="brand-hero__title">
+          Ремонт {{ deviceLabel }}<br>
+          <span class="brand-hero__brand">{{ brandName }}</span><br>
+          <span class="brand-hero__city">в {{ city }}</span>
+        </h1>
+
+        <p class="brand-hero__sub">
+          Знаем особенности каждой серии. Оригинальные запчасти со склада, выезд мастера за 30 минут. Гарантия до 90 дней на все работы.
+        </p>
+
+        <ul class="brand-hero__features" *ngIf="features.length">
+          <li *ngFor="let f of features">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M5 13l4 4L19 7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            {{ f }}
+          </li>
+        </ul>
+
+        <div class="brand-hero__actions">
+          <button class="btn btn-white" (click)="openCallback()">Вызвать мастера</button>
+          <button class="btn btn-outline-white" (click)="scrollToPrice()">Узнать стоимость ↓</button>
+        </div>
+
+      </div>
+
+      <!-- Правая колонка: лого бренда -->
+      <div class="brand-hero__logo-wrap">
+        <div class="brand-hero__logo-card">
+          <img [src]="logoPath" [alt]="brandName" class="brand-hero__logo-img">
+        </div>
+        <div class="brand-hero__logo-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-width="2"/>
+          </svg>
+          Гарантия до 90 дней
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

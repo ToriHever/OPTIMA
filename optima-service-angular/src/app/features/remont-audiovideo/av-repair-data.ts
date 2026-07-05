@@ -28,6 +28,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'televizory': {
     slug: 'televizory',
+    name: 'Телевизоры',
     meta: {
       title: 'Ремонт телевизоров в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт телевизоров LED, OLED, QLED всех марок в Ростове-на-Дону. Замена подсветки, матрицы, ремонт блока питания. Выезд мастера на дом, гарантия до 90 дней.'
@@ -58,6 +59,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'akustika': {
     slug: 'akustika',
+    name: 'Акустика',
     meta: {
       title: 'Ремонт акустики и колонок в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт акустических систем, колонок, сабвуферов, домашних кинотеатров в Ростове-на-Дону. Замена динамиков, ремонт усилителя. Гарантия до 90 дней.'
@@ -88,6 +90,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'naushniki': {
     slug: 'naushniki',
+    name: 'Наушники',
     meta: {
       title: 'Ремонт наушников в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт наушников Sony, Bose, Sennheiser, AirPods в Ростове-на-Дону. Замена чашки, кабеля, динамиков, ремонт шумоподавления. Гарантия до 90 дней.'
@@ -118,6 +121,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'konsoli': {
     slug: 'konsoli',
+    name: 'Игровые консоли',
     meta: {
       title: 'Ремонт игровых консолей в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт PlayStation 4/5, Xbox, Nintendo Switch в Ростове-на-Дону. Замена дисковода, чистка, ремонт HDMI, перепайка GPU. Гарантия до 90 дней.'
@@ -148,6 +152,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'proektory': {
     slug: 'proektory',
+    name: 'Проекторы',
     meta: {
       title: 'Ремонт проекторов в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт проекторов Epson, BenQ, Optoma, Sony в Ростове-на-Дону. Замена лампы, ремонт оптики, цветового колеса, лазерного источника. Гарантия до 90 дней.'

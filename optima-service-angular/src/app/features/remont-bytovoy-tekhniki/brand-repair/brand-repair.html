@@ -1,14 +1,19 @@
 <ng-container *ngIf="brandData && deviceData">
-  <app-hero-section
-    [titleLine1]="brandData.hero.titleLine1"
-    [titleAccent]="brandData.hero.titleAccent"
-    [subtitle]="brandData.hero.subtitle"
-    [features]="brandData.hero.features"
-    ctaPrimaryText="Вызвать мастера"
-    ctaSecondaryText="Узнать стоимость"
-    [ctaSecondaryScrollTarget]="'services-' + deviceData.slug + '-' + brandData.slug"
-  ></app-hero-section>
 
+  <!-- 1. Брендовый Hero -->
+  <app-brand-hero
+    [brandName]="brandData.brandName"
+    [deviceName]="brandData.hero.titleAccent"
+    [deviceLabel]="deviceData.hero.titleAccent"
+    [features]="brandData.hero.features"
+    [backPath]="backPath"
+    [backLabel]="sectionLabel"
+    [devicePath]="backPath + '/' + deviceData.slug"
+    priceScrollTarget="brand-price"
+    [breadcrumbs]="breadcrumbs"
+  ></app-brand-hero>
+
+  <!-- 2. Виды неисправностей -->
   <app-categories-grid
     [sectionId]="'services-' + deviceData.slug + '-' + brandData.slug"
     navTitle="Неисправности"
@@ -21,6 +26,115 @@
     [categories]="deviceData.categories.items"
   ></app-categories-grid>
 
+  <!-- 3. Прайс-лист -->
+  <section class="brand-price" id="brand-price" data-nav-title="Цены">
+    <div class="container">
+      <h2 class="section-title">
+        Стоимость ремонта<br>
+        <span class="text-gradient">{{ brandData.brandName }}</span>
+      </h2>
+      <p class="brand-price__sub">
+        Точная стоимость — после бесплатной диагностики. Диагностика <strong>бесплатна при ремонте</strong>, 500 ₽ если решите не ремонтировать.
+      </p>
+      <div class="brand-price__table-wrap">
+        <table class="brand-price__table">
+          <thead>
+            <tr>
+              <th>Неисправность</th>
+              <th>Стоимость</th>
+              <th>Срок</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of deviceData.categories.items">
+              <td>{{ item.name }}</td>
+              <td class="brand-price__price">от {{ item.priceFrom }}</td>
+              <td class="brand-price__time">1 день</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="brand-price__note">
+        * Цены ориентировочные. Окончательная стоимость определяется после диагностики.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. Почему мы -->
+  <section class="brand-why" data-nav-title="О нас">
+    <div class="container">
+      <h2 class="section-title">
+        Почему выбирают нас<br>
+        <span class="text-gradient">для ремонта {{ brandData.brandName }}</span>
+      </h2>
+      <div class="brand-why__grid">
+        <div class="brand-why__card">
+          <div class="brand-why__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>Специализация на {{ brandData.brandName }}</h3>
+          <p>Работаем с техникой {{ brandData.brandName }} с 2015 года. Знаем все типовые поломки и особенности каждой серии.</p>
+        </div>
+        <div class="brand-why__card">
+          <div class="brand-why__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-width="2"/>
+              <circle cx="12" cy="12" r="3" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>Профессиональное оборудование</h3>
+          <p>Используем специализированные стенды для диагностики, паяльные станции и программаторы для прошивки плат {{ brandData.brandName }}.</p>
+        </div>
+        <div class="brand-why__card">
+          <div class="brand-why__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>Аттестованные мастера</h3>
+          <p>Наши мастера регулярно проходят обучение и аттестацию по стандартам ремонта {{ brandData.brandName }}.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Политика запчастей -->
+  <section class="brand-parts" data-nav-title="Запчасти">
+    <div class="container">
+      <h2 class="section-title">
+        Запчасти для<br>
+        <span class="text-gradient">{{ brandData.brandName }}</span>
+      </h2>
+      <div class="brand-parts__grid">
+        <div class="brand-parts__card brand-parts__card--oem">
+          <div class="brand-parts__badge">Рекомендуем</div>
+          <h3>Оригинальные (OEM)</h3>
+          <p>Запчасти с заводов-изготовителей. Полное соответствие стандартам {{ brandData.brandName }}, максимальный срок службы.</p>
+          <ul>
+            <li>Заводское качество</li>
+            <li>Гарантия до 12 месяцев</li>
+            <li>90% ходовых позиций в наличии на складе</li>
+          </ul>
+        </div>
+        <div class="brand-parts__card">
+          <h3>Качественные аналоги (AAA)</h3>
+          <p>Сертифицированные аналоги для тех, кто хочет сэкономить без потери качества.</p>
+          <ul>
+            <li>Проверенные поставщики</li>
+            <li>Гарантия до 6 месяцев</li>
+            <li>Экономия 20–40% от стоимости оригинала</li>
+          </ul>
+        </div>
+      </div>
+      <p class="brand-parts__note">
+        Тип запчасти всегда согласовываем с клиентом до начала ремонта. Никаких скрытых замен.
+      </p>
+    </div>
+  </section>
+
+  <!-- 6. Процесс ремонта -->
   <app-process-accordion
     [sectionTitle]="deviceData.process.sectionTitle"
     [sectionTitleAccent]="deviceData.process.sectionTitleAccent"
@@ -30,11 +144,14 @@
     [steps]="deviceData.process.steps"
   ></app-process-accordion>
 
+  <!-- 7. Отзывы -->
+  <app-reviews-section></app-reviews-section>
+
+  <!-- 8. FAQ -->
   <app-faq-section
     [questions]="deviceData.faq"
     navTitle="FAQ"
   ></app-faq-section>
 
-  <app-reviews-section></app-reviews-section>
   <app-page-progress-nav></app-page-progress-nav>
 </ng-container>

@@ -4,6 +4,7 @@ import { FaqItem } from '../../../shared/components/faq-section/faq-section';
 
 export interface DeviceRepairData {
   slug: string;
+  name: string;
   meta: { title: string; description: string };
   hero: {
     titleLine1: string;
@@ -34,6 +35,7 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'kholodilniki': {
     slug: 'kholodilniki',
+    name: 'Холодильники',
     meta: {
       title: 'Ремонт холодильников в Ростове-на-Дону — Optima Сервис',
       description: 'Профессиональный ремонт холодильников всех марок в Ростове-на-Дону. Замена компрессора, заправка фреоном, ремонт электроники. Гарантия до 90 дней. Выезд на дом.'
@@ -84,13 +86,14 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'stiralnye-mashiny': {
     slug: 'stiralnye-mashiny',
+    name: 'Стиральные машины',
     meta: {
       title: 'Ремонт стиральных машин в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт стиральных и сушильных машин всех марок в Ростове-на-Дону. Замена подшипников, ТЭНа, помпы. Выезд на дом, гарантия до 90 дней.'
     },
     hero: {
-      titleLine1: 'Ремонт стиральных',
-      titleAccent: 'машин',
+      titleLine1: 'Ремонт',
+      titleAccent: 'Стиральных машин',
       subtitle: 'Ремонтируем стиральные и сушильные машины всех марок. Выезд мастера на дом, бесплатная диагностика, гарантия до 90 дней.',
       features: ['Выезд на дом', 'Бесплатная диагностика', 'Оригинальные запчасти', 'Гарантия до 90 дней', 'Ремонт за 1–2 часа']
     },
@@ -134,13 +137,14 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'posudomoechnye-mashiny': {
     slug: 'posudomoechnye-mashiny',
+    name: 'Посудомоечные машины',
     meta: {
       title: 'Ремонт посудомоечных машин в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт посудомоечных машин всех марок в Ростове-на-Дону. Замена помпы, ТЭНа, устранение протечек. Выезд на дом, гарантия до 90 дней.'
     },
     hero: {
-      titleLine1: 'Ремонт посудомоечных',
-      titleAccent: 'машин',
+      titleLine1: 'Ремонт',
+      titleAccent: 'Посудомоечных машин',
       subtitle: 'Ремонт посудомоечных машин Bosch, Siemens, Electrolux и других марок. Выезд мастера, диагностика бесплатно.',
       features: ['Выезд на дом', 'Бесплатная диагностика', 'Все марки', 'Гарантия до 90 дней', 'Быстрый ремонт']
     },
@@ -184,6 +188,7 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'kofemashiny': {
     slug: 'kofemashiny',
+    name: 'Кофемашины',
     meta: {
       title: 'Ремонт кофемашин в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт автоматических и рожковых кофемашин в Ростове-на-Дону. Чистка, замена помпы, ремонт заварочного блока. Все марки, гарантия до 90 дней.'
@@ -234,6 +239,7 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'pylesosy': {
     slug: 'pylesosy',
+    name: 'Пылесосы',
     meta: {
       title: 'Ремонт пылесосов в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт пылесосов Dyson, Dreame, Xiaomi, Roborock и других марок в Ростове-на-Дону. Замена аккумулятора, ремонт двигателя. Гарантия до 90 дней.'
@@ -284,13 +290,14 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'mikrovolnovye-pechi': {
     slug: 'mikrovolnovye-pechi',
+    name: 'Микроволновые печи',
     meta: {
       title: 'Ремонт микроволновых печей в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт микроволновок всех марок в Ростове-на-Дону. Замена магнетрона, блока питания, дверцы. Гарантия до 90 дней.'
     },
     hero: {
-      titleLine1: 'Ремонт микроволновых',
-      titleAccent: 'печей',
+      titleLine1: 'Ремонт',
+      titleAccent: 'микроволновых печей',
       subtitle: 'Ремонт микроволновых печей Samsung, LG, Bosch, Panasonic и других марок. Быстрая диагностика, ремонт в день обращения.',
       features: ['Все марки', 'Ремонт в день обращения', 'Оригинальные запчасти', 'Гарантия до 90 дней', 'Бесплатная диагностика']
     },
@@ -334,13 +341,14 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
 
   'utyugi-i-parogeneratory': {
     slug: 'utyugi-i-parogeneratory',
+    name: 'Утюги и парогенераторы',
     meta: {
       title: 'Ремонт утюгов и парогенераторов в Ростове-на-Дону — Optima Сервис',
       description: 'Ремонт утюгов и паровых станций Philips, Tefal, Braun и других марок в Ростове-на-Дону. Замена ТЭНа, чистка, ремонт парогенератора. Гарантия до 90 дней.'
     },
     hero: {
-      titleLine1: 'Ремонт утюгов и',
-      titleAccent: 'парогенераторов',
+      titleLine1: 'Ремонт',
+      titleAccent: 'утюгов и парогенераторов',
       subtitle: 'Ремонт утюгов и паровых станций Philips, Tefal, Braun, Rowenta и других. Чистка от накипи, замена ТЭНа, ремонт парогенератора.',
       features: ['Все марки', 'Чистка от накипи', 'Замена ТЭНа', 'Гарантия до 90 дней', 'Быстрый ремонт']
     },
