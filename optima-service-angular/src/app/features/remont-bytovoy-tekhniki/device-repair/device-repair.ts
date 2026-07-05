@@ -8,19 +8,25 @@ import { ProcessAccordion } from '../../../shared/components/process-accordion/p
 import { PageProgressNavComponent } from '../../../shared/components/page-progress-nav/page-progress-nav';
 import { ReviewsSection } from '../../../shared/components/reviews-section/reviews-section';
 import { FaqSection } from '../../../shared/components/faq-section/faq-section';
+import { BrandSelector } from '../../../shared/components/brand-selector/brand-selector';
 import { DEVICE_REPAIR_DATA, DeviceRepairData } from './device-repair-data';
 import { IT_REPAIR_DATA } from '../../remont-kompyuterov/it-repair-data';
 import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
+import { BRAND_REPAIR_DATA, BrandRepairData } from '../brand-repair/brand-repair-data';
+import { IT_BRAND_REPAIR_DATA } from '../../remont-kompyuterov/it-brand-repair-data';
+import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-data';
 
 @Component({
   selector: 'app-device-repair',
   standalone: true,
-  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection],
+  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, BrandSelector],
   templateUrl: './device-repair.html',
   styleUrl: './device-repair.scss'
 })
 export class DeviceRepairPage implements OnInit {
   data: DeviceRepairData | null = null;
+  brands: BrandRepairData[] = [];
+  brandBasePath: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -47,6 +53,12 @@ export class DeviceRepairPage implements OnInit {
       this.router.navigate([backPath]);
       return;
     }
+
+    const brandMap = section === 'computers' ? IT_BRAND_REPAIR_DATA
+                   : section === 'av' ? AV_BRAND_REPAIR_DATA
+                   : BRAND_REPAIR_DATA;
+    this.brands = Object.values((brandMap as Record<string, Record<string, BrandRepairData>>)[slug] ?? {});
+    this.brandBasePath = `${backPath}/${slug}`;
 
     this.title.setTitle(this.data.meta.title);
     this.meta.updateTag({ name: 'description', content: this.data.meta.description });

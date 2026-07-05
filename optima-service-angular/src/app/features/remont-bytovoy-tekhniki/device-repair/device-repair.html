@@ -35,6 +35,12 @@
     navTitle="FAQ"
   ></app-faq-section>
 
+  <app-brand-selector
+    [brands]="brands"
+    [basePath]="brandBasePath"
+    [deviceName]="data.hero.titleAccent"
+  ></app-brand-selector>
+
   <app-reviews-section></app-reviews-section>
   <app-page-progress-nav></app-page-progress-nav>
 </ng-container>

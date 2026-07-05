@@ -1,0 +1,84 @@
+<section class="service-sections" id="sections" data-nav-title="Категории">
+  <div class="container">
+    <h2 class="section-title service-sections__title">
+      Три направления<br>
+      <span class="text-gradient">ремонта</span>
+    </h2>
+    <div class="service-sections__grid">
+
+      <a routerLink="/remont-bytovoy-tekhniki" class="sections-card">
+        <div class="sections-card__icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+            <path d="M8 10h8M8 14h5" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="sections-card__body">
+          <div class="sections-card__name">Бытовая техника</div>
+          <div class="sections-card__desc">Стиральные машины, холодильники, кофемашины, пылесосы и другая бытовая техника</div>
+          <ul class="sections-card__list">
+            <li><a routerLink="/remont-bytovoy-tekhniki/stiralnye-mashiny" (click)="$event.stopPropagation()">Стиральные машины</a></li>
+            <li><a routerLink="/remont-bytovoy-tekhniki/kholodilniki" (click)="$event.stopPropagation()">Холодильники</a></li>
+            <li><a routerLink="/remont-bytovoy-tekhniki/kofemashiny" (click)="$event.stopPropagation()">Кофемашины</a></li>
+            <li><a routerLink="/remont-bytovoy-tekhniki/pylesosy" (click)="$event.stopPropagation()">Пылесосы</a></li>
+          </ul>
+        </div>
+        <div class="sections-card__arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+
+      <a routerLink="/remont-kompyuterov" class="sections-card">
+        <div class="sections-card__icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="2" y="3" width="20" height="14" rx="2" stroke-width="1.5"/>
+            <path d="M8 21h8M12 17v4" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="sections-card__body">
+          <div class="sections-card__name">Компьютеры и гаджеты</div>
+          <div class="sections-card__desc">Ноутбуки, смартфоны, планшеты, ПК, мониторы, принтеры, умные часы</div>
+          <ul class="sections-card__list">
+            <li><a routerLink="/remont-kompyuterov/noutbuki" (click)="$event.stopPropagation()">Ноутбуки</a></li>
+            <li><a routerLink="/remont-kompyuterov/smartfony" (click)="$event.stopPropagation()">Смартфоны</a></li>
+            <li><a routerLink="/remont-kompyuterov/planshety" (click)="$event.stopPropagation()">Планшеты</a></li>
+            <li><a routerLink="/remont-kompyuterov/pk-i-komputery" (click)="$event.stopPropagation()">Компьютеры</a></li>
+          </ul>
+        </div>
+        <div class="sections-card__arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+
+      <a routerLink="/remont-audiovideo" class="sections-card">
+        <div class="sections-card__icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="2" y="4" width="20" height="12" rx="2" stroke-width="1.5"/>
+            <path d="M8 20h8M12 16v4" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="12" cy="10" r="2" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="sections-card__body">
+          <div class="sections-card__name">Аудио и видео</div>
+          <div class="sections-card__desc">Телевизоры, акустика, наушники, игровые консоли, проекторы</div>
+          <ul class="sections-card__list">
+            <li><a routerLink="/remont-audiovideo/televizory" (click)="$event.stopPropagation()">Телевизоры</a></li>
+            <li><a routerLink="/remont-audiovideo/igrovye-konsoli" (click)="$event.stopPropagation()">Игровые консоли</a></li>
+            <li><a routerLink="/remont-audiovideo/naushniki" (click)="$event.stopPropagation()">Наушники</a></li>
+            <li><a routerLink="/remont-audiovideo/akusticheskie-sistemy" (click)="$event.stopPropagation()">Акустика</a></li>
+          </ul>
+        </div>
+        <div class="sections-card__arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>

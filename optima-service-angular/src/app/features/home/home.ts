@@ -13,6 +13,7 @@ import { ReviewsSection } from '../../shared/components/reviews-section/reviews-
 import { Certificates } from '../../shared/components/certificates/certificates';
 import { PageProgressNavComponent } from '../../shared/components/page-progress-nav/page-progress-nav';
 import { FaqSection, FaqItem } from '../../shared/components/faq-section/faq-section';
+import { ServiceSections } from '../../shared/components/service-sections/service-sections';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +29,8 @@ import { FaqSection, FaqItem } from '../../shared/components/faq-section/faq-sec
     ReviewsSection,
     Certificates,
     PageProgressNavComponent,
-    FaqSection
+    FaqSection,
+    ServiceSections
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss'
@@ -53,29 +55,41 @@ export class Home implements OnInit {
       name: 'Смартфоны',
       description: 'Ремонт смартфонов iPhone и Android любых моделей',
       icon: 'M12 2C10 2 8 4 8 6V18C8 20 10 22 12 22H16C18 22 20 20 20 18V6C20 4 18 2 16 2H12Z M14 18H14.01',
-      features: ['Замена дисплея и стекла', 'Замена аккумулятора', 'Ремонт после залития', 'Ремонт разъемов зарядки'],
-      priceFrom: '1 000 ₽'
-    },
-    {
-      name: 'Планшеты',
-      description: 'Ремонт планшетов iPad, Galaxy Tab и других брендов',
-      icon: 'M6 4H22V20H6V4Z M10 8H18V10H10V8Z M10 12H18V14H10V12Z',
-      features: ['Замена экрана', 'Замена аккумулятора', 'Ремонт корпуса', 'Восстановление после залития'],
-      priceFrom: '1 500 ₽'
+      features: ['Замена дисплея и стекла', 'Замена аккумулятора', 'Ремонт после залития', 'Ремонт разъёма зарядки'],
+      priceFrom: '800 ₽',
+      link: '/remont-kompyuterov/smartfony'
     },
     {
       name: 'Ноутбуки',
       description: 'Ремонт ноутбуков всех моделей и марок',
       icon: 'M6 6H22V18H2V8H6V6Z M8 14H20 M12 18H16',
-      features: ['Замена матрицы', 'Ремонт видеокарты', 'Чистка системы охлаждения', 'Замена клавиатуры'],
-      priceFrom: '1 500 ₽'
+      features: ['Замена матрицы', 'Чистка от пыли', 'Ремонт материнской платы', 'Замена клавиатуры'],
+      priceFrom: '1 200 ₽',
+      link: '/remont-kompyuterov/noutbuki'
+    },
+    {
+      name: 'Планшеты',
+      description: 'Ремонт планшетов iPad, Galaxy Tab и других брендов',
+      icon: 'M6 4H22V20H6V4Z M10 8H18V10H10V8Z M10 12H18V14H10V12Z',
+      features: ['Замена экрана', 'Замена аккумулятора', 'Ремонт разъёма', 'Восстановление после залития'],
+      priceFrom: '1 500 ₽',
+      link: '/remont-kompyuterov/planshety'
     },
     {
       name: 'Телевизоры',
       description: 'Ремонт телевизоров LED, OLED, QLED любых марок',
       icon: 'M4 6H24V16H4V6Z M10 18H18',
-      features: ['Замена подсветки', 'Ремонт матрицы', 'Ремонт блока питания'],
-      priceFrom: '2 000 ₽'
+      features: ['Замена подсветки', 'Ремонт матрицы', 'Ремонт блока питания', 'Выезд мастера'],
+      priceFrom: '2 000 ₽',
+      link: '/remont-audiovideo/televizory'
+    },
+    {
+      name: 'Игровые консоли',
+      description: 'Ремонт PlayStation, Xbox, Nintendo Switch',
+      icon: 'M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z',
+      features: ['Ремонт HDMI и привода', 'Устранение перегрева', 'Drift джойстика', 'PS4/PS5, Xbox, Switch'],
+      priceFrom: '1 500 ₽',
+      link: '/remont-audiovideo/igrovye-konsoli'
     },
     {
       name: 'Кофемашины',
@@ -94,18 +108,10 @@ export class Home implements OnInit {
       link: '/remont-bytovoy-tekhniki/stiralnye-mashiny'
     },
     {
-      name: 'Пылесосы',
-      description: 'Ремонт пылесосов, вертикальных и роботов-пылесосов',
-      icon: 'M8 4H20V12H8V4Z M6 12H22V16H6V12Z M10 16H18V20H10V16Z',
-      features: ['Замена аккумулятора', 'Ремонт двигателя', 'Чистка и обслуживание'],
-      priceFrom: '1 500 ₽',
-      link: '/remont-bytovoy-tekhniki/pylesosy'
-    },
-    {
       name: 'Холодильники',
       description: 'Ремонт холодильников и морозильных камер любых марок',
       icon: 'M8 3H16V21H8V3Z M8 10H16 M10 6H10.01 M10 14H10.01',
-      features: ['Замена компрессора', 'Заправка фреоном', 'Ремонт электроники'],
+      features: ['Замена компрессора', 'Заправка фреоном', 'Ремонт электроники', 'Выезд мастера'],
       priceFrom: '1 500 ₽',
       link: '/remont-bytovoy-tekhniki/kholodilniki'
     }
