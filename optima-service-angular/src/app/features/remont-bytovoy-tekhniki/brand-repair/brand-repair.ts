@@ -6,13 +6,14 @@ import { HeroSection } from '../../../shared/components/hero-section/hero-sectio
 import { CategoriesGrid } from '../../../shared/components/categories-grid/categories-grid';
 import { ProcessAccordion } from '../../../shared/components/process-accordion/process-accordion';
 import { PageProgressNavComponent } from '../../../shared/components/page-progress-nav/page-progress-nav';
+import { ReviewsSection } from '../../../shared/components/reviews-section/reviews-section';
 import { DEVICE_REPAIR_DATA, DeviceRepairData } from '../device-repair/device-repair-data';
 import { BRAND_REPAIR_DATA, BrandRepairData } from './brand-repair-data';
 
 @Component({
   selector: 'app-brand-repair',
   standalone: true,
-  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent],
+  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection],
   templateUrl: './brand-repair.html',
   styleUrl: './brand-repair.scss'
 })

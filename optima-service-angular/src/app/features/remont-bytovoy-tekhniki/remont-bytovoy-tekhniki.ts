@@ -5,11 +5,12 @@ import { HeroSection } from '../../shared/components/hero-section/hero-section';
 import { CategoriesGrid, CategoryItem, SidebarStat } from '../../shared/components/categories-grid/categories-grid';
 import { ProcessAccordion, ProcessStep } from '../../shared/components/process-accordion/process-accordion';
 import { PageProgressNavComponent } from '../../shared/components/page-progress-nav/page-progress-nav';
+import { ReviewsSection } from '../../shared/components/reviews-section/reviews-section';
 
 @Component({
   selector: 'app-remont-bytovoy-tekhniki',
   standalone: true,
-  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent],
+  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection],
   templateUrl: './remont-bytovoy-tekhniki.html',
   styleUrl: './remont-bytovoy-tekhniki.scss'
 })
