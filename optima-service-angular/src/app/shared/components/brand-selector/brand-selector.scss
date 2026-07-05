@@ -2,87 +2,43 @@
 @import '../../../../styles/mixins';
 
 .brand-selector {
-  padding: $spacing-xl 0;
+  padding: $spacing-lg 0;
+  border-top: 1px solid $color-bg-grey;
   background: $color-bg-light;
-
-  &__header {
-    margin-bottom: 2.5rem;
-  }
-
-  &__title-block {
-    max-width: 640px;
-  }
-
-  &__subtitle {
-    margin-top: 1rem;
-    color: $color-text;
-    font-size: 1rem;
-    line-height: 1.6;
-    opacity: 0.75;
-  }
-
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1rem;
-
-    @include tablet {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    @include mobile {
-      grid-template-columns: 1fr;
-    }
-  }
 }
 
-.brand-card {
+.brand-selector__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $color-text;
+  opacity: 0.5;
+  margin: 0 0 0.75rem;
+}
+
+.brand-selector__chips {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.brand-chip {
+  display: inline-flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1.25rem 1.5rem;
+  padding: 0.4rem 1rem;
   background: $color-white;
   border: 1px solid $color-bg-grey;
-  border-radius: $radius-lg;
+  border-radius: $radius-full;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $color-dark;
   text-decoration: none;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
 
   &:hover {
     border-color: $color-primary;
-    box-shadow: 0 4px 16px rgba($color-primary, 0.12);
-    transform: translateY(-2px);
-
-    .brand-card__arrow {
-      color: $color-primary;
-      transform: translateX(4px);
-    }
-  }
-
-  &__name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: $color-dark;
-    flex: 1;
-  }
-
-  &__hint {
-    font-size: 0.8rem;
-    color: $color-text;
-    opacity: 0.65;
-    flex: 2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    @include tablet {
-      display: none;
-    }
-  }
-
-  &__arrow {
-    color: $color-bg-grey;
-    transition: color 0.2s, transform 0.2s;
-    flex-shrink: 0;
+    background: $color-primary;
+    color: $color-white;
   }
 }
