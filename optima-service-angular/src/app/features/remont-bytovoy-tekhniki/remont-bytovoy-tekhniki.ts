@@ -9,7 +9,6 @@ import { ReviewsSection } from '../../shared/components/reviews-section/reviews-
 
 @Component({
   selector: 'app-remont-bytovoy-tekhniki',
-  standalone: true,
   imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection],
   templateUrl: './remont-bytovoy-tekhniki.html',
   styleUrl: './remont-bytovoy-tekhniki.scss'

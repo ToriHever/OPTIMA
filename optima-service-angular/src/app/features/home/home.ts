@@ -80,28 +80,32 @@ export class Home implements OnInit {
       description: 'Ремонт автоматических и рожковых кофемашин',
       icon: 'M20 20H4V16H20V20Z M6 10H18V14H6V10Z M8 4H16V8H8V4Z',
       features: ['Ремонт заварочного блока', 'Чистка и декальцинация', 'Замена помпы', 'Ремонт кофемолки'],
-      priceFrom: '2 000 ₽'
+      priceFrom: '2 000 ₽',
+      link: '/remont-bytovoy-tekhniki/kofemashiny'
     },
     {
       name: 'Стиральные машины',
       description: 'Ремонт стиральных и сушильных машин',
       icon: 'M6 4H22V20H6V4Z M10 8H18V10H10V8Z M14 14C14 15.1 13.1 16 12 16C10.9 16 10 15.1 10 14C10 12.9 10.9 12 12 12C13.1 12 14 12.9 14 14Z',
       features: ['Замена подшипников', 'Ремонт двигателя', 'Замена ТЭНа', 'Ремонт модуля управления'],
-      priceFrom: '2 000 ₽'
+      priceFrom: '2 000 ₽',
+      link: '/remont-bytovoy-tekhniki/stiralnye-mashiny'
     },
     {
       name: 'Пылесосы',
       description: 'Ремонт пылесосов, вертикальных и роботов-пылесосов',
       icon: 'M8 4H20V12H8V4Z M6 12H22V16H6V12Z M10 16H18V20H10V16Z',
       features: ['Замена аккумулятора', 'Ремонт двигателя', 'Чистка и обслуживание'],
-      priceFrom: '1 500 ₽'
+      priceFrom: '1 500 ₽',
+      link: '/remont-bytovoy-tekhniki/pylesosy'
     },
     {
       name: 'Холодильники',
       description: 'Ремонт холодильников и морозильных камер любых марок',
       icon: 'M8 3H16V21H8V3Z M8 10H16 M10 6H10.01 M10 14H10.01',
       features: ['Замена компрессора', 'Заправка фреоном', 'Ремонт электроники'],
-      priceFrom: '1 500 ₽'
+      priceFrom: '1 500 ₽',
+      link: '/remont-bytovoy-tekhniki/kholodilniki'
     }
   ];
 

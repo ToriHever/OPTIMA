@@ -64,7 +64,7 @@ export class CategoriesGrid implements OnInit {
   onCardClick(category: CategoryItem): void {
     if (category.link && isPlatformBrowser(this.platformId)) {
       const isMobile = window.matchMedia('(hover: none)').matches;
-      if (isMobile) {
+      if (!isMobile) {
         this.router.navigateByUrl(category.link);
       }
     }

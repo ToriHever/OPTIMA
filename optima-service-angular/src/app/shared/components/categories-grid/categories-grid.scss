@@ -221,6 +221,8 @@
   // ── Hover (только устройства с мышью) ────────────────
   @media (hover: hover) {
     &:hover {
+      animation: none;  // сбрасываем forwards-fill, чтобы transition работал
+      opacity: 1;
       border-color: $color-primary;
       box-shadow: 0 8px 24px rgba($color-primary, 0.18);
       transform: translateY(-4px);
