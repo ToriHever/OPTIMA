@@ -10,6 +10,10 @@ import { ReviewsSection } from '../../../shared/components/reviews-section/revie
 import { FaqSection } from '../../../shared/components/faq-section/faq-section';
 import { DEVICE_REPAIR_DATA, DeviceRepairData } from '../device-repair/device-repair-data';
 import { BRAND_REPAIR_DATA, BrandRepairData } from './brand-repair-data';
+import { IT_REPAIR_DATA } from '../../remont-kompyuterov/it-repair-data';
+import { IT_BRAND_REPAIR_DATA } from '../../remont-kompyuterov/it-brand-repair-data';
+import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
+import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-data';
 
 @Component({
   selector: 'app-brand-repair',
@@ -35,12 +39,21 @@ export class BrandRepairPage implements OnInit {
 
     const slug = this.route.snapshot.paramMap.get('slug') ?? '';
     const brand = this.route.snapshot.paramMap.get('brand') ?? '';
+    const section = this.route.snapshot.data['section'] ?? 'appliances';
+    const backPath = this.route.snapshot.data['backPath'] ?? '/remont-bytovoy-tekhniki';
 
-    this.deviceData = DEVICE_REPAIR_DATA[slug] ?? null;
-    this.brandData = BRAND_REPAIR_DATA[slug]?.[brand] ?? null;
+    const deviceMap = section === 'computers' ? IT_REPAIR_DATA
+                    : section === 'av' ? AV_REPAIR_DATA
+                    : DEVICE_REPAIR_DATA;
+    const brandMap = section === 'computers' ? IT_BRAND_REPAIR_DATA
+                   : section === 'av' ? AV_BRAND_REPAIR_DATA
+                   : BRAND_REPAIR_DATA;
+
+    this.deviceData = (deviceMap as Record<string, DeviceRepairData>)[slug] ?? null;
+    this.brandData = (brandMap as Record<string, Record<string, BrandRepairData>>)[slug]?.[brand] ?? null;
 
     if (!this.brandData || !this.deviceData) {
-      this.router.navigate(['/remont-bytovoy-tekhniki', slug]);
+      this.router.navigate([backPath, slug]);
       return;
     }
 

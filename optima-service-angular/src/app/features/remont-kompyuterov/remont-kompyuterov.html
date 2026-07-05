@@ -1,0 +1,38 @@
+<app-hero-section
+  titleLine1="Ремонт компьютеров"
+  titleAccent="и гаджетов"
+  subtitle="Сервисный центр «Optima» — профессиональный ремонт ноутбуков, смартфонов, планшетов, ПК, мониторов и принтеров. Диагностика бесплатно, гарантия до 90 дней."
+  [features]="heroFeatures"
+  ctaPrimaryText="Вызвать мастера"
+  ctaSecondaryText="Узнать стоимость"
+  ctaSecondaryScrollTarget="services-kompyutery"
+></app-hero-section>
+
+<app-categories-grid
+  sectionId="services-kompyutery"
+  navTitle="Виды техники"
+  sectionTitle="Что мы"
+  sectionTitleAccent="ремонтируем"
+  sectionDescription="Ремонтируем все виды компьютерной и цифровой техники. Ноутбуки, смартфоны, планшеты, ПК, мониторы, принтеры, умные часы."
+  [stats]="categoryStats"
+  ctaTitle="Не нашли свою технику?"
+  ctaDescription="Ремонтируем любую цифровую технику. Напишите — разберёмся."
+  [categories]="categories"
+></app-categories-grid>
+
+<app-process-accordion
+  sectionTitle="Как проходит"
+  sectionTitleAccent="ремонт"
+  sectionDescription="Простой и прозрачный процесс — от заявки до получения техники с гарантией."
+  navTitle="Процесс ремонта"
+  [stats]="processStats"
+  [steps]="processSteps"
+></app-process-accordion>
+
+<app-faq-section
+  [questions]="faqItems"
+  navTitle="FAQ"
+></app-faq-section>
+
+<app-reviews-section></app-reviews-section>
+<app-page-progress-nav></app-page-progress-nav>

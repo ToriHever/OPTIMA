@@ -9,6 +9,8 @@ import { PageProgressNavComponent } from '../../../shared/components/page-progre
 import { ReviewsSection } from '../../../shared/components/reviews-section/reviews-section';
 import { FaqSection } from '../../../shared/components/faq-section/faq-section';
 import { DEVICE_REPAIR_DATA, DeviceRepairData } from './device-repair-data';
+import { IT_REPAIR_DATA } from '../../remont-kompyuterov/it-repair-data';
+import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
 
 @Component({
   selector: 'app-device-repair',
@@ -32,10 +34,17 @@ export class DeviceRepairPage implements OnInit {
     this.scroller.scrollToPosition([0, 0]);
 
     const slug = this.route.snapshot.paramMap.get('slug') ?? '';
-    this.data = DEVICE_REPAIR_DATA[slug] ?? null;
+    const section = this.route.snapshot.data['section'] ?? 'appliances';
+    const backPath = this.route.snapshot.data['backPath'] ?? '/remont-bytovoy-tekhniki';
+
+    const dataMap = section === 'computers' ? IT_REPAIR_DATA
+                  : section === 'av' ? AV_REPAIR_DATA
+                  : DEVICE_REPAIR_DATA;
+
+    this.data = (dataMap as Record<string, DeviceRepairData>)[slug] ?? null;
 
     if (!this.data) {
-      this.router.navigate(['/remont-bytovoy-tekhniki']);
+      this.router.navigate([backPath]);
       return;
     }
 

@@ -1,0 +1,38 @@
+<app-hero-section
+  titleLine1="Ремонт аудио и"
+  titleAccent="видео техники"
+  subtitle="Сервисный центр «Optima» — профессиональный ремонт телевизоров, акустических систем, наушников, игровых консолей и проекторов. Гарантия до 90 дней."
+  [features]="heroFeatures"
+  ctaPrimaryText="Вызвать мастера"
+  ctaSecondaryText="Узнать стоимость"
+  ctaSecondaryScrollTarget="services-audiovideo"
+></app-hero-section>
+
+<app-categories-grid
+  sectionId="services-audiovideo"
+  navTitle="Виды техники"
+  sectionTitle="Что мы"
+  sectionTitleAccent="ремонтируем"
+  sectionDescription="Ремонтируем всё, что воспроизводит звук и видео. Телевизоры, колонки, наушники, игровые консоли, проекторы."
+  [stats]="categoryStats"
+  ctaTitle="Не нашли свою технику?"
+  ctaDescription="Ремонтируем любую AV-технику. Напишите — разберёмся."
+  [categories]="categories"
+></app-categories-grid>
+
+<app-process-accordion
+  sectionTitle="Как проходит"
+  sectionTitleAccent="ремонт"
+  sectionDescription="Простой и прозрачный процесс — от заявки до получения техники с гарантией."
+  navTitle="Процесс ремонта"
+  [stats]="processStats"
+  [steps]="processSteps"
+></app-process-accordion>
+
+<app-faq-section
+  [questions]="faqItems"
+  navTitle="FAQ"
+></app-faq-section>
+
+<app-reviews-section></app-reviews-section>
+<app-page-progress-nav></app-page-progress-nav>
