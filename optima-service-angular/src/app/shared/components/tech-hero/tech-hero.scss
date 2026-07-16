@@ -1,0 +1,178 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.tech-hero {
+  position: relative;
+  background: $color-white;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.tech-hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xl;
+  width: 100%;
+  padding: $space-xl 0;
+}
+
+.tech-hero-content {
+  max-width: 620px;
+}
+
+.tech-hero-title {
+  @include text-h1;
+  font-weight: 700;
+  color: $color-dark;
+  line-height: 1.2;
+  margin-bottom: $space-md;
+
+  .text-accent {
+    color: $color-primary;
+    display: block;
+  }
+}
+
+.tech-hero-subtitle {
+  @include text-subtitle-1;
+  color: rgba($color-dark, 0.7);
+  line-height: 1.6;
+  margin-bottom: $space-lg;
+}
+
+.tech-hero-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: $space-lg;
+}
+
+.tech-hero-feature {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  background: rgba($color-primary, 0.06);
+  border-radius: $radius-full;
+  color: $color-primary;
+  @include text-mini;
+  font-weight: 600;
+
+  svg {
+    color: $color-primary;
+    flex-shrink: 0;
+  }
+}
+
+.tech-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-md;
+  margin-bottom: $space-lg;
+}
+
+.tech-hero-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  color: $color-dark;
+  font-weight: 600;
+  font-size: $font-size-h5;
+  transition: color $transition-base;
+
+  svg {
+    color: $color-primary;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+// Визуал: органичный блоб + фото + плашка-callout
+.tech-hero-visual {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 560px;
+  max-width: 52%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.tech-hero-blob {
+  position: absolute;
+  inset: -4%;
+  border-radius: 63% 37% 54% 46% / 41% 44% 56% 59%;
+  background: linear-gradient(135deg, $color-primary-lighter 0%, $color-primary-lightest 100%);
+  z-index: 0;
+  animation: tech-hero-blob-morph 10s ease-in-out infinite;
+}
+
+@keyframes tech-hero-blob-morph {
+  0%, 100% {
+    border-radius: 63% 37% 54% 46% / 41% 44% 56% 59%;
+  }
+  50% {
+    border-radius: 42% 58% 63% 37% / 55% 41% 59% 45%;
+  }
+}
+
+.tech-hero-image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 94%;
+  height: auto;
+  max-height: 98%;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.18));
+}
+
+.tech-hero-callout {
+  position: absolute;
+  top: 2%;
+  right: -6%;
+  z-index: 2;
+  display: inline-block;
+  background: $color-dark;
+  color: $color-white;
+  font-weight: 700;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-full;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform $transition-base, background $transition-base;
+  box-shadow: $shadow-md;
+  white-space: nowrap;
+  @include text-mini;
+
+  &:hover {
+    background: $color-primary;
+    color: $color-white;
+    transform: scale(1.05);
+  }
+}
+
+@media (max-width: 768px) {
+  .tech-hero-cta {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

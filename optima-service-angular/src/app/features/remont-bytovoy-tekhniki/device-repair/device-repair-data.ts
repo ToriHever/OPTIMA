@@ -11,6 +11,7 @@ export interface DeviceRepairData {
     titleAccent: string;
     subtitle: string;
     features: string[];
+    image?: string;
   };
   categories: {
     sectionTitle: string;
@@ -44,7 +45,8 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт',
       titleAccent: 'холодильников в Ростове‑на‑Дону',
       subtitle: 'Ремонтируем холодильники и морозильные камеры всех марок. Диагностика бесплатно, выезд мастера на дом, гарантия до 90 дней.',
-      features: ['Бесплатная диагностика', 'Выезд на дом', 'Оригинальные запчасти', 'Гарантия до 90 дней', 'Ремонт в день обращения']
+      features: ['Бесплатная диагностика', 'Выезд на дом', 'Оригинальные запчасти', 'Гарантия до 90 дней', 'Ремонт в день обращения'],
+      image: '/assets/img/hero/kholodilniki.jpg'
     },
     categories: {
       sectionTitle: 'Что мы',
@@ -95,7 +97,8 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт',
       titleAccent: 'Стиральных машин в Ростове‑на‑Дону',
       subtitle: 'Ремонтируем стиральные и сушильные машины всех марок. Выезд мастера на дом, бесплатная диагностика, гарантия до 90 дней.',
-      features: ['Выезд на дом', 'Бесплатная диагностика', 'Оригинальные запчасти', 'Гарантия до 90 дней', 'Ремонт за 1–2 часа']
+      features: ['Выезд на дом', 'Бесплатная диагностика', 'Оригинальные запчасти', 'Гарантия до 90 дней', 'Ремонт за 1–2 часа'],
+      image: '/assets/img/hero/stiralnye-mashiny.webp'
     },
     categories: {
       sectionTitle: 'Что мы',
@@ -146,7 +149,8 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт',
       titleAccent: 'Посудомоечных машин в Ростове‑на‑Дону',
       subtitle: 'Ремонт посудомоечных машин Bosch, Siemens, Electrolux и других марок. Выезд мастера, диагностика бесплатно.',
-      features: ['Выезд на дом', 'Бесплатная диагностика', 'Все марки', 'Гарантия до 90 дней', 'Быстрый ремонт']
+      features: ['Выезд на дом', 'Бесплатная диагностика', 'Все марки', 'Гарантия до 90 дней', 'Быстрый ремонт'],
+      image: '/assets/img/hero/posudomoechnye-mashiny.jpg'
     },
     categories: {
       sectionTitle: 'Что мы',
@@ -197,7 +201,8 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт',
       titleAccent: 'кофемашин в Ростове‑на‑Дону',
       subtitle: 'Ремонт автоматических, капсульных и рожковых кофемашин DeLonghi, Jura, Bosch, Philips и других марок.',
-      features: ['Все марки кофемашин', 'Ремонт заварочного блока', 'Профессиональная чистка', 'Гарантия до 90 дней', 'Быстрая диагностика']
+      features: ['Все марки кофемашин', 'Ремонт заварочного блока', 'Профессиональная чистка', 'Гарантия до 90 дней', 'Быстрая диагностика'],
+      image: '/assets/img/hero/kofemashiny.jpg'
     },
     categories: {
       sectionTitle: 'Что мы',
@@ -248,7 +253,8 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт',
       titleAccent: 'пылесосов в Ростове‑на‑Дону',
       subtitle: 'Ремонт вертикальных, традиционных и роботов-пылесосов Dyson, Dreame, Xiaomi, Roborock. Авторизованный сервис Dreame.',
-      features: ['Авторизованный сервис Dreame', 'Ремонт роботов-пылесосов', 'Замена аккумулятора', 'Гарантия до 90 дней', 'Оригинальные запчасти']
+      features: ['Авторизованный сервис Dreame', 'Ремонт роботов-пылесосов', 'Замена аккумулятора', 'Гарантия до 90 дней', 'Оригинальные запчасти'],
+      image: '/assets/img/hero/pylesosy.jpg'
     },
     categories: {
       sectionTitle: 'Что мы',
@@ -299,7 +305,8 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт',
       titleAccent: 'микроволновых печей в Ростове‑на‑Дону',
       subtitle: 'Ремонт микроволновых печей Samsung, LG, Bosch, Panasonic и других марок. Быстрая диагностика, ремонт в день обращения.',
-      features: ['Все марки', 'Ремонт в день обращения', 'Оригинальные запчасти', 'Гарантия до 90 дней', 'Бесплатная диагностика']
+      features: ['Все марки', 'Ремонт в день обращения', 'Оригинальные запчасти', 'Гарантия до 90 дней', 'Бесплатная диагностика'],
+      image: '/assets/img/hero/mikrovolnovye-pechi.jpg'
     },
     categories: {
       sectionTitle: 'Что мы',
@@ -350,7 +357,8 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт',
       titleAccent: 'утюгов и парогенераторов в Ростове‑на‑Дону',
       subtitle: 'Ремонт утюгов и паровых станций Philips, Tefal, Braun, Rowenta и других. Чистка от накипи, замена ТЭНа, ремонт парогенератора.',
-      features: ['Все марки', 'Чистка от накипи', 'Замена ТЭНа', 'Гарантия до 90 дней', 'Быстрый ремонт']
+      features: ['Все марки', 'Чистка от накипи', 'Замена ТЭНа', 'Гарантия до 90 дней', 'Быстрый ремонт'],
+      image: '/assets/img/hero/utyugi-i-parogeneratory.jpg'
     },
     categories: {
       sectionTitle: 'Что мы',

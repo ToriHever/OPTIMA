@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
-import { HeroSection } from '../../../shared/components/hero-section/hero-section';
+import { TechHero } from '../../../shared/components/tech-hero/tech-hero';
 import { CategoriesGrid } from '../../../shared/components/categories-grid/categories-grid';
 import { ProcessAccordion } from '../../../shared/components/process-accordion/process-accordion';
 import { PageProgressNavComponent } from '../../../shared/components/page-progress-nav/page-progress-nav';
@@ -20,7 +20,7 @@ import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-da
 @Component({
   selector: 'app-device-repair',
   standalone: true,
-  imports: [CommonModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, BrandSelector],
+  imports: [CommonModule, TechHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, BrandSelector],
   templateUrl: './device-repair.html',
   styleUrl: './device-repair.scss'
 })

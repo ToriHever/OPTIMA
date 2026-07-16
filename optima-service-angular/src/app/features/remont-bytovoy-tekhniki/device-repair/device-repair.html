@@ -1,14 +1,15 @@
 <ng-container *ngIf="data">
-  <app-hero-section
+  <app-tech-hero
     [titleLine1]="data.hero.titleLine1"
     [titleAccent]="data.hero.titleAccent"
     [subtitle]="data.hero.subtitle"
     [features]="data.hero.features"
+    [imageUrl]="data.hero.image"
     ctaPrimaryText="Вызвать мастера"
     ctaSecondaryText="Узнать стоимость"
     [ctaSecondaryScrollTarget]="'services-' + data.slug"
     [breadcrumbs]="breadcrumbs"
-  ></app-hero-section>
+  ></app-tech-hero>
 <app-brand-selector
     [brands]="brands"
     [basePath]="brandBasePath"

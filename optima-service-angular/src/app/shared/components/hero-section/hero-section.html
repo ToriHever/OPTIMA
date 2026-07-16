@@ -5,6 +5,8 @@
 
   <div class="container">
     <app-breadcrumb *ngIf="breadcrumbs.length" [items]="breadcrumbs" [light]="true"></app-breadcrumb>
+
+    <div class="hero-row">
     <div class="hero-content">
       <h1 class="hero-title" [class.animated]="isVisible">
         {{ titleLine1 }}<br>
@@ -48,6 +50,12 @@
           </div>
         </a>
       </div>
+    </div>
+
+    <div class="hero-visual animate-right delay-2" *ngIf="imageUrl && !imageFailed" [class.animated]="isVisible">
+      <div class="hero-image-bg"></div>
+      <img [src]="imageUrl" [alt]="titleAccent || titleLine1" class="hero-image" loading="eager" (error)="onImageError()">
+    </div>
     </div>
 
     <div class="hero-decoration">

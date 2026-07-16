@@ -1,0 +1,54 @@
+<section class="tech-hero">
+  <div class="container">
+    <app-breadcrumb *ngIf="breadcrumbs.length" [items]="breadcrumbs"></app-breadcrumb>
+
+    <div class="tech-hero-row">
+      <div class="tech-hero-content">
+        <h1 class="tech-hero-title" [class.animated]="isVisible">
+          {{ titleLine1 }}<br>
+          <span class="text-accent">{{ titleAccent }}</span>
+        </h1>
+
+        <p class="tech-hero-subtitle delay-1" [class.animated]="isVisible">{{ subtitle }}</p>
+
+        <div class="tech-hero-features delay-2" [class.animated]="isVisible">
+          <div class="tech-hero-feature" *ngFor="let feature of features">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>{{ feature }}</span>
+          </div>
+        </div>
+
+        <div class="tech-hero-cta delay-3" [class.animated]="isVisible">
+          <button class="btn btn-primary btn-large" (click)="openRepairForm()">
+            {{ ctaPrimaryText }}
+          </button>
+          <button class="btn btn-secondary" (click)="scrollToNext()">
+            {{ ctaSecondaryText }}
+          </button>
+        </div>
+
+        <a [href]="phoneHref" class="tech-hero-phone delay-4" [class.animated]="isVisible">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M14,11v1.8c0,.7-.5,1.2-1.2,1.2,0,0,0,0-.1,0-1.9-.2-3.6-.8-5.2-1.8-1.5-.9-2.7-2.2-3.6-3.6-1-1.6-1.7-3.4-1.9-5.2,0-.7.4-1.2,1.1-1.3,0,0,0,0,.1,0h1.8c.6,0,1.1.4,1.2,1,0,.6.2,1.1.4,1.7.2.4,0,.9-.3,1.3l-.8.8c.9,1.5,2.1,2.8,3.6,3.6l.8-.8c.3-.3.8-.4,1.3-.3.5.2,1.1.3,1.7.4.6,0,1.1.6,1,1.2Z"
+                  transform="translate(5,5)"/>
+          </svg>
+          <span>{{ phone }}</span>
+        </a>
+      </div>
+
+      <div class="tech-hero-visual" *ngIf="imageUrl && !imageFailed" [class.animated]="isVisible">
+        <div class="tech-hero-blob"></div>
+        <img [src]="imageUrl" [alt]="titleAccent || titleLine1" class="tech-hero-image" loading="eager" (error)="onImageError()">
+        <a
+          class="tech-hero-callout"
+          *ngIf="calloutText"
+          [href]="'#' + ctaSecondaryScrollTarget"
+          (click)="onCalloutClick($event)"
+        >{{ calloutText }}</a>
+      </div>
+    </div>
+  </div>
+</section>

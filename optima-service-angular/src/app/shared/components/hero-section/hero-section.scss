@@ -40,6 +40,19 @@
   );
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xl;
+  width: 100%;
+}
+
 // РљРѕРЅС‚РµРЅС‚
 .hero-content {
   position: relative;
@@ -52,6 +65,53 @@
     padding-top: clamp(16px, 4vh, 40px);
     padding-bottom: clamp(24px, 4vh, 48px);
   }
+}
+
+// Картинка техники/людей — своя под каждую страницу
+.hero-visual {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: 380px;
+  max-width: 38%;
+  aspect-ratio: 1 / 1;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+
+  @media (max-height: 700px) {
+    display: none;
+  }
+}
+
+// Круглая подложка — картинка вписана в неё тремя углами,
+// а верхний левый угол намеренно выходит за пределы круга
+.hero-image-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: rgba($color-white, 0.14);
+  border: 1px solid rgba($color-white, 0.2);
+  backdrop-filter: blur(6px);
+  z-index: 0;
+}
+
+.hero-image {
+  position: absolute;
+  top: 18%;
+  left: 18%;
+  z-index: 1;
+  display: block;
+  width: 48%;
+  height: 48%;
+  border-radius: $radius-lg;
+  object-fit: cover;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.25));
 }
 
 .hero-title {
