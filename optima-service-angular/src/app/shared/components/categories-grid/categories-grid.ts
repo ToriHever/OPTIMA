@@ -10,6 +10,7 @@ export interface CategoryItem {
   features: string[];
   priceFrom: string;
   link?: string;
+  image?: string;
 }
 
 export interface SidebarStat {
@@ -34,8 +35,10 @@ export class CategoriesGrid implements OnInit {
   @Input() ctaTitle: string = 'Не нашли свою технику?';
   @Input() ctaDescription: string = 'Ремонтируем любую технику. Напишите — поможем.';
   @Input() categories: CategoryItem[] = [];
+  @Input() cardStyle: 'flip' | 'photo' | 'photo-overlay' = 'flip';
 
   isVisible = false;
+  failedImages = new Set<string>();
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -72,6 +75,10 @@ export class CategoriesGrid implements OnInit {
 
   openCallbackForm(): void {
     this.modalService.open('callback-modal', { purpose: 'callback' });
+  }
+
+  onImageError(category: CategoryItem): void {
+    this.failedImages.add(category.name);
   }
 
   openQuestionForm(): void {

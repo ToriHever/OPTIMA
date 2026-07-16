@@ -38,39 +38,103 @@
       </aside>
 
       <div class="categories-content">
-        <div class="categories-grid" [class.animated]="isVisible">
+        <div class="categories-grid"
+             [class.categories-grid--photo]="cardStyle !== 'flip'"
+             [class.categories-grid--overlay]="cardStyle === 'photo-overlay'"
+             [class.animated]="isVisible">
 
-          <div class="category-card animate-on-scroll"
-               *ngFor="let category of categories; let i = index"
-               [class.has-link]="!!category.link"
-               [style.animation-delay]="(i * 0.05) + 's'"
-               (click)="onCardClick(category)">
+          <ng-container *ngFor="let category of categories; let i = index">
 
-            <div class="card-bg-icon">
-              <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" preserveAspectRatio="xMidYMid meet">
-                <path [attr.d]="category.icon" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+            <!-- Флип-карта (списки типов техники) -->
+            <div class="category-card animate-on-scroll"
+                 *ngIf="cardStyle === 'flip'"
+                 [class.has-link]="!!category.link"
+                 [style.animation-delay]="(i * 0.05) + 's'"
+                 (click)="onCardClick(category)">
+
+              <div class="card-bg-icon">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" preserveAspectRatio="xMidYMid meet">
+                  <path [attr.d]="category.icon" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+
+              <div class="card-front">
+                <h3 class="card-title">{{ category.name }}</h3>
+                <span class="card-price">от {{ category.priceFrom }}</span>
+              </div>
+
+              <div class="card-back">
+                <ul class="card-features">
+                  <li *ngFor="let feature of category.features">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <path d="M5 8L7 10L11 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    {{ feature }}
+                  </li>
+                </ul>
+                <span class="card-price-back">от {{ category.priceFrom }}</span>
+              </div>
+
+              <a *ngIf="category.link" class="card-mobile-link" [routerLink]="category.link" aria-label="{{ category.name }}"></a>
             </div>
 
-            <div class="card-front">
-              <h3 class="card-title">{{ category.name }}</h3>
-              <span class="card-price">от {{ category.priceFrom }}</span>
-            </div>
-
-            <div class="card-back">
-              <ul class="card-features">
-                <li *ngFor="let feature of category.features">
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <path d="M5 8L7 10L11 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Фото-карточка: подпись+цена+кнопка под фото (неисправности) или ссылка на раздел техники -->
+            <div class="category-card--photo animate-on-scroll"
+                 *ngIf="cardStyle === 'photo'"
+                 [class.has-link]="!!category.link"
+                 [style.animation-delay]="(i * 0.05) + 's'"
+                 (click)="onCardClick(category)">
+              <div class="category-photo">
+                <img
+                  *ngIf="category.image && !failedImages.has(category.name)"
+                  [src]="category.image"
+                  [alt]="category.name"
+                  loading="lazy"
+                  (error)="onImageError(category)">
+                <div class="category-photo__icon" *ngIf="!category.image || failedImages.has(category.name)">
+                  <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" preserveAspectRatio="xMidYMid meet">
+                    <path [attr.d]="category.icon" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  {{ feature }}
-                </li>
-              </ul>
-              <span class="card-price-back">от {{ category.priceFrom }}</span>
+                </div>
+              </div>
+              <div class="category-photo__body">
+                <h3 class="card-title">{{ category.name }}</h3>
+                <p class="category-photo__desc">{{ category.description }}</p>
+                <div class="category-photo__footer">
+                  <span class="card-price">от {{ category.priceFrom }}</span>
+                  <button *ngIf="!category.link" class="btn btn-primary btn-small" (click)="openCallbackForm()">Заказать звонок</button>
+                  <span *ngIf="category.link" class="category-photo__more">Подробнее →</span>
+                </div>
+              </div>
+              <a *ngIf="category.link" class="card-mobile-link" [routerLink]="category.link" aria-label="{{ category.name }}"></a>
             </div>
 
-            <a *ngIf="category.link" class="card-mobile-link" [routerLink]="category.link" aria-label="{{ category.name }}"></a>
-          </div>
+            <!-- Фото-карточка с оверлеем: заголовок поверх фото (списки типов техники) -->
+            <div class="category-card--photo category-card--overlay animate-on-scroll"
+                 *ngIf="cardStyle === 'photo-overlay'"
+                 [class.has-link]="!!category.link"
+                 [style.animation-delay]="(i * 0.05) + 's'"
+                 (click)="onCardClick(category)">
+              <div class="category-photo">
+                <img
+                  *ngIf="category.image && !failedImages.has(category.name)"
+                  [src]="category.image"
+                  [alt]="category.name"
+                  loading="lazy"
+                  (error)="onImageError(category)">
+                <div class="category-photo__icon" *ngIf="!category.image || failedImages.has(category.name)">
+                  <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" preserveAspectRatio="xMidYMid meet">
+                    <path [attr.d]="category.icon" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="category-photo__scrim">
+                  <h3 class="card-title">{{ category.name }}</h3>
+                </div>
+              </div>
+              <a *ngIf="category.link" class="card-mobile-link" [routerLink]="category.link" aria-label="{{ category.name }}"></a>
+            </div>
+
+          </ng-container>
 
         </div>
       </div>

@@ -109,6 +109,16 @@
   gap: 12px;
 }
 
+.categories-grid--photo {
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-md;
+}
+
+.categories-grid--overlay {
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-md;
+}
+
 // ── Card ─────────────────────────────────────────────────
 
 .category-card {
@@ -258,10 +268,158 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+// ── Фото-карточка (неисправность конкретного устройства + цена) ──
+
+.category-card--photo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: $color-white;
+  border: 1.5px solid rgba($color-dark, 0.08);
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+
+  &.has-link {
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-4px);
+      border-color: $color-primary;
+      box-shadow: 0 8px 24px rgba($color-primary, 0.18);
+    }
+  }
+
+  &.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  // Ссылка для мобилки — невидимая поверх всей карточки
+  .card-mobile-link {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    &.has-link .card-mobile-link {
+      display: block;
+    }
+  }
+}
+
+.category-photo__more {
+  @include text-mini;
+  color: $color-primary;
+  font-weight: 700;
+}
+
+.categories-grid.animated .category-card--photo.animate-on-scroll {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.category-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, rgba($color-primary, 0.06) 0%, rgba($color-primary, 0.02) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.category-photo__icon {
+  width: 38%;
+  height: 38%;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    stroke: $color-primary;
+    opacity: 0.5;
+  }
+}
+
+.category-photo__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: $space-md;
+}
+
+.category-photo__desc {
+  @include text-mini;
+  color: rgba($color-dark, 0.65);
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.category-photo__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: $spacing-xs;
+  margin-top: $spacing-xs;
+
+  .card-price {
+    white-space: nowrap;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+// ── Фото-карточка с оверлеем (заголовок+цена поверх фото) ──
+
+.category-card--overlay {
+  .category-photo {
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, $color-bg-light 0%, $color-bg-grey 100%);
+  }
+
+  .category-photo__icon svg {
+    stroke: $color-primary;
+    opacity: 0.25;
+  }
+}
+
+.category-photo__scrim {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: $space-md;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 60%, transparent 100%);
+
+  .card-title {
+    color: $color-white;
+    margin: 0;
+  }
+}
+
 // ── Адаптивность ──────────────────────────────────────────
 
 @media (max-width: 1400px) {
   .categories-grid { grid-template-columns: repeat(3, 1fr); }
+  .categories-grid--overlay { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 1200px) {
@@ -283,6 +441,7 @@
   .section-title, .section-description, .sidebar-stats { text-align: center; }
 
   .categories-grid { grid-template-columns: repeat(3, 1fr); }
+  .categories-grid--overlay { grid-template-columns: repeat(4, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -294,6 +453,14 @@
     .card-back { display: none; }
     .card-mobile-link { display: block; }
   }
+
+  .categories-grid--photo {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .categories-grid--overlay {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 480px) {
@@ -302,6 +469,11 @@
   .categories-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+  }
+
+  .categories-grid--overlay {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
   }
 
   .category-card {
@@ -321,5 +493,10 @@
     .card-price {
       font-size: 10px;
     }
+  }
+
+  .categories-grid--photo {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
   }
 }
