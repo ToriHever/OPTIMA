@@ -14,4 +14,14 @@ export class BrandSelector {
   @Input() brands: BrandRepairData[] = [];
   @Input() basePath: string = '';
   @Input() deviceName: string = '';
+
+  failedLogos = new Set<string>();
+
+  logoUrl(brand: BrandRepairData): string {
+    return `/assets/img/brands/${brand.brandName}.png`;
+  }
+
+  onLogoError(slug: string): void {
+    this.failedLogos.add(slug);
+  }
 }

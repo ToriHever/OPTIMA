@@ -14,7 +14,6 @@ import { ModalService } from '../../../core/services/modal.service';
 export class BrandHero {
   @Input() brandName = '';
   @Input() deviceName = '';
-  @Input() city = 'Ростове-на-Дону';
   @Input() features: string[] = [];
   @Input() breadcrumbs: BreadcrumbItem[] = [];
   @Input() backPath = '/';

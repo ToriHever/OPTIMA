@@ -1,12 +1,21 @@
 <div class="brand-selector" *ngIf="brands.length > 0">
   <div class="container">
     <p class="brand-selector__label">Ремонт по брендам</p>
-    <div class="brand-selector__chips">
+    <div class="brand-selector__grid">
       <a
         *ngFor="let brand of brands"
         [routerLink]="basePath + '/' + brand.slug"
-        class="brand-chip">
-        {{ brand.brandName }}
+        class="brand-card">
+        <span class="brand-card__logo-wrap">
+          <img
+            *ngIf="!failedLogos.has(brand.slug)"
+            [src]="logoUrl(brand)"
+            [alt]="brand.brandName"
+            class="brand-card__logo"
+            loading="lazy"
+            (error)="onLogoError(brand.slug)">
+        </span>
+        <span class="brand-card__name">{{ brand.brandName }}</span>
       </a>
     </div>
   </div>
