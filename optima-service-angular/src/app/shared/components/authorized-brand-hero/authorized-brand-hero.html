@@ -1,0 +1,30 @@
+<section class="auth-hero">
+  <div class="auth-hero__decor">
+    <div class="auth-hero__glow"></div>
+  </div>
+
+  <div class="container">
+    <app-breadcrumb *ngIf="breadcrumbs.length" [items]="breadcrumbs" [light]="true"></app-breadcrumb>
+
+    <div class="auth-hero__content">
+      <p class="auth-hero__eyebrow">Авторизованный</p>
+      <h1 class="auth-hero__title">
+        Сервисный центр <span class="auth-hero__brand">{{ brandName }}</span>
+      </h1>
+
+      <p class="auth-hero__subtitle">{{ computedSubtitle }}</p>
+
+      <button class="auth-hero__cta" (click)="openCallback()">
+        {{ ctaText }}
+      </button>
+    </div>
+
+    <div class="auth-hero__stage" *ngIf="imageUrl && !imageFailed">
+      <img [src]="imageUrl" [alt]="brandName" class="auth-hero__image" loading="eager" (error)="onImageError()">
+      <div class="auth-hero__platform"></div>
+      <svg class="auth-hero__sparkle" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8L12 0Z"/>
+      </svg>
+    </div>
+  </div>
+</section>

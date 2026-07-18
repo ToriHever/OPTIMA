@@ -1,17 +1,26 @@
 <ng-container *ngIf="brandData && deviceData">
 
   <!-- 1. Брендовый Hero -->
-  <app-brand-hero
+  <app-authorized-brand-hero
+    *ngIf="isAuthorizedBrand; else regularBrandHero"
     [brandName]="brandData.brandName"
-    [deviceName]="brandData.hero.titleAccent"
-    [deviceLabel]="deviceData.hero.titleAccent"
-    [features]="brandData.hero.features"
-    [backPath]="backPath"
-    [backLabel]="sectionLabel"
-    [devicePath]="backPath + '/' + deviceData.slug"
-    priceScrollTarget="brand-price"
+    [imageUrl]="authorizedHeroImage"
     [breadcrumbs]="breadcrumbs"
-  ></app-brand-hero>
+  ></app-authorized-brand-hero>
+
+  <ng-template #regularBrandHero>
+    <app-brand-hero
+      [brandName]="brandData.brandName"
+      [deviceName]="brandData.hero.titleAccent"
+      [deviceLabel]="deviceData.hero.titleAccent"
+      [features]="brandData.hero.features"
+      [backPath]="backPath"
+      [backLabel]="sectionLabel"
+      [devicePath]="backPath + '/' + deviceData.slug"
+      priceScrollTarget="brand-price"
+      [breadcrumbs]="breadcrumbs"
+    ></app-brand-hero>
+  </ng-template>
 
   <!-- 2. Виды неисправностей -->
   <app-categories-grid
