@@ -36,6 +36,7 @@ export class CategoriesGrid implements OnInit {
   @Input() ctaDescription: string = 'Ремонтируем любую технику. Напишите — поможем.';
   @Input() categories: CategoryItem[] = [];
   @Input() cardStyle: 'flip' | 'photo' | 'photo-overlay' = 'flip';
+  @Input() dark = false;
 
   isVisible = false;
   failedImages = new Set<string>();

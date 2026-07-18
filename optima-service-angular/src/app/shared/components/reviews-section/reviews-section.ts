@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmailService, EmailData } from '../../../core/services/email.service';
@@ -11,6 +11,8 @@ import { EmailService, EmailData } from '../../../core/services/email.service';
   styleUrl: './reviews-section.scss'
 })
 export class ReviewsSection implements OnInit {
+  @Input() dark = false;
+
   contactForm!: FormGroup;
   isSubmitting = false;
   isSubmitted = false;

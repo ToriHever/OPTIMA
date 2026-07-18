@@ -1,4 +1,4 @@
-<section class="masters-team" data-nav-title="Мастера">
+<section class="masters-team" [class.dark]="dark" data-nav-title="Мастера">
   <div class="container">
     <div class="masters-team__header">
       <h2 class="section-title-dark">
@@ -8,7 +8,7 @@
     </div>
 
     <div class="masters-team__grid">
-      <app-master-card *ngFor="let master of masters" [master]="master"></app-master-card>
+      <app-master-card *ngFor="let master of masters" [master]="master" [dark]="dark"></app-master-card>
     </div>
 
     <a *ngIf="showMoreLink" routerLink="/masters" class="masters-team__more">

@@ -22,55 +22,8 @@
     ></app-brand-hero>
   </ng-template>
 
-  <!-- 2. Виды неисправностей -->
-  <app-categories-grid
-    [sectionId]="'services-' + deviceData.slug + '-' + brandData.slug"
-    navTitle="Неисправности"
-    [sectionTitle]="deviceData.categories.sectionTitle"
-    [sectionTitleAccent]="deviceData.categories.sectionTitleAccent"
-    [sectionDescription]="deviceData.categories.sectionDescription"
-    [stats]="deviceData.categories.stats"
-    [ctaTitle]="deviceData.categories.ctaTitle"
-    [ctaDescription]="deviceData.categories.ctaDescription"
-    [categories]="deviceData.categories.items"
-  ></app-categories-grid>
-
-  <!-- 3. Прайс-лист -->
-  <section class="brand-price" id="brand-price" data-nav-title="Цены">
-    <div class="container">
-      <h2 class="section-title">
-        Стоимость ремонта<br>
-        <span class="text-gradient">{{ brandData.brandName }}</span>
-      </h2>
-      <p class="brand-price__sub">
-        Точная стоимость — после бесплатной диагностики. Диагностика <strong>бесплатна при ремонте</strong>, 500 ₽ если решите не ремонтировать.
-      </p>
-      <div class="brand-price__table-wrap">
-        <table class="brand-price__table">
-          <thead>
-            <tr>
-              <th>Неисправность</th>
-              <th>Стоимость</th>
-              <th>Срок</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of deviceData.categories.items">
-              <td>{{ item.name }}</td>
-              <td class="brand-price__price">от {{ item.priceFrom }}</td>
-              <td class="brand-price__time">1 день</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="brand-price__note">
-        * Цены ориентировочные. Окончательная стоимость определяется после диагностики.
-      </p>
-    </div>
-  </section>
-
-  <!-- 4. Почему мы -->
-  <section class="brand-why" data-nav-title="О нас">
+  <!-- 2. Почему мы -->
+  <section class="brand-why" [class.dark]="isAuthorizedBrand" data-nav-title="О нас">
     <div class="container">
       <h2 class="section-title">
         Почему выбирают нас<br>
@@ -109,8 +62,56 @@
     </div>
   </section>
 
+  <!-- 3. Виды неисправностей -->
+  <app-categories-grid
+    [sectionId]="'services-' + deviceData.slug + '-' + brandData.slug"
+    navTitle="Неисправности"
+    [sectionTitle]="deviceData.categories.sectionTitle"
+    [sectionTitleAccent]="deviceData.categories.sectionTitleAccent"
+    [sectionDescription]="deviceData.categories.sectionDescription"
+    [stats]="deviceData.categories.stats"
+    [ctaTitle]="deviceData.categories.ctaTitle"
+    [ctaDescription]="deviceData.categories.ctaDescription"
+    [categories]="deviceData.categories.items"
+    [dark]="isAuthorizedBrand"
+  ></app-categories-grid>
+
+  <!-- 4. Прайс-лист -->
+  <section class="brand-price" id="brand-price" [class.dark]="isAuthorizedBrand" data-nav-title="Цены">
+    <div class="container">
+      <h2 class="section-title">
+        Стоимость ремонта<br>
+        <span class="text-gradient">{{ brandData.brandName }}</span>
+      </h2>
+      <p class="brand-price__sub">
+        Точная стоимость — после бесплатной диагностики. Диагностика <strong>бесплатна при ремонте</strong>, 500 ₽ если решите не ремонтировать.
+      </p>
+      <div class="brand-price__table-wrap">
+        <table class="brand-price__table">
+          <thead>
+            <tr>
+              <th>Неисправность</th>
+              <th>Стоимость</th>
+              <th>Срок</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of deviceData.categories.items">
+              <td>{{ item.name }}</td>
+              <td class="brand-price__price">от {{ item.priceFrom }}</td>
+              <td class="brand-price__time">1 день</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="brand-price__note">
+        * Цены ориентировочные. Окончательная стоимость определяется после диагностики.
+      </p>
+    </div>
+  </section>
+
   <!-- 5. Политика запчастей -->
-  <section class="brand-parts" data-nav-title="Запчасти">
+  <section class="brand-parts" [class.dark]="isAuthorizedBrand" data-nav-title="Запчасти">
     <div class="container">
       <h2 class="section-title">
         Запчасти для<br>
@@ -151,18 +152,20 @@
     navTitle="Процесс ремонта"
     [stats]="deviceData.process.stats"
     [steps]="deviceData.process.steps"
+    [dark]="isAuthorizedBrand"
   ></app-process-accordion>
 
   <!-- 7. Мастера -->
-  <app-masters-team [limit]="3"></app-masters-team>
+  <app-masters-team [limit]="3" [dark]="isAuthorizedBrand"></app-masters-team>
 
   <!-- 8. Отзывы -->
-  <app-reviews-section></app-reviews-section>
+  <app-reviews-section [dark]="isAuthorizedBrand"></app-reviews-section>
 
   <!-- 9. FAQ -->
   <app-faq-section
     [questions]="deviceData.faq"
     navTitle="FAQ"
+    [dark]="isAuthorizedBrand"
   ></app-faq-section>
 
   <app-page-progress-nav></app-page-progress-nav>

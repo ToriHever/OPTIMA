@@ -4,6 +4,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { Breadcrumb, BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb';
 import { getBrandHub, BrandHub } from '../brand-hub-data';
+import { isAuthorizedBrandSlug } from '../../../shared/data/authorized-brands';
+import { HeaderThemeService } from '../../../core/services/header-theme.service';
 
 @Component({
   selector: 'app-brand-hub',
@@ -22,7 +24,8 @@ export class BrandHubPage implements OnInit {
     private router: Router,
     private scroller: ViewportScroller,
     private title: Title,
-    private meta: Meta
+    private meta: Meta,
+    private headerThemeService: HeaderThemeService
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +50,12 @@ export class BrandHubPage implements OnInit {
       name: 'description',
       content: `Ремонт техники ${this.hub.brandName} в Ростове-на-Дону: ${this.hub.categories.map(c => c.deviceName).join(', ')}. Оригинальные запчасти, гарантия до 90 дней.`
     });
+
+    this.headerThemeService.setDark(this.isAuthorizedBrand);
+  }
+
+  get isAuthorizedBrand(): boolean {
+    return isAuthorizedBrandSlug(this.hub?.slug);
   }
 
   onLogoError(): void {

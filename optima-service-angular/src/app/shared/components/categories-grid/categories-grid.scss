@@ -500,3 +500,57 @@
     gap: $spacing-md;
   }
 }
+
+// ── Тёмная тема (авторизованные бренды) ──────────────────────
+$auth-gold: #c9a876;
+
+.categories-section.dark {
+  background: #1a1a1a;
+
+  .section-title,
+  .card-title,
+  .category-photo__body .card-title {
+    color: $color-white;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, $auth-gold 0%, #e0c9a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-description,
+  .category-photo__desc {
+    color: rgba($color-white, 0.6);
+  }
+
+  .stat-item,
+  .category-card,
+  .category-card--photo {
+    background: #242424;
+    border-color: rgba($color-white, 0.1);
+  }
+
+  .stat-number {
+    color: $auth-gold;
+  }
+
+  .stat-label,
+  .card-price {
+    color: rgba($color-white, 0.6);
+  }
+
+  .categories-cta {
+    background: rgba($auth-gold, 0.06);
+    border-color: rgba($auth-gold, 0.25);
+
+    .cta-content p {
+      color: rgba($color-white, 0.6);
+    }
+  }
+
+  .card-back {
+    background: linear-gradient(135deg, #242424 0%, #303030 100%);
+  }
+}

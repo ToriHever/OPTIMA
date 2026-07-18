@@ -1,9 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { ModalService } from '../../core/services/modal.service';
 import { ScrollService } from '../../core/services/scroll.service';
 import { NavigationService } from '../../core/services/navigation.service';
+import { HeaderThemeService } from '../../core/services/header-theme.service';
 import { MobileMenu } from '../mobile-menu/mobile-menu';
 import {
   PHONE_BRANDS, PHONE_ISSUES,
@@ -40,8 +41,17 @@ export class Header {
     private modalService: ModalService,
     private scrollService: ScrollService,
     private navigationService: NavigationService,
-    private router: Router
-  ) {}
+    private router: Router,
+    public headerThemeService: HeaderThemeService
+  ) {
+    // Тёмная тема шапки — только для той страницы, которая её включила.
+    // Сбрасываем в начале каждой навигации, чтобы не «протекала» на другие страницы.
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.headerThemeService.setDark(false);
+      }
+    });
+  }
 
   /**
    * Навигация к секции с учётом текущего маршрута.

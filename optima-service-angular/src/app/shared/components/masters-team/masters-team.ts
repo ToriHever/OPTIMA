@@ -16,6 +16,7 @@ export class MastersTeam {
   @Input() titleAccent = 'ремонтируют';
   @Input() subtitle = 'Опытные мастера с многолетней практикой — каждый специализируется на своей технике';
   @Input() limit?: number;
+  @Input() dark = false;
 
   readonly allMasters = MASTERS_DATA;
 

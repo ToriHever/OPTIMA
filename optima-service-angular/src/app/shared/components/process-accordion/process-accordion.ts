@@ -37,6 +37,7 @@ export class ProcessAccordion {
   @Input() stats: SidebarStat[] = [];
   @Input() steps: ProcessStep[] = [];
   @Input() navTitle: string = 'Как работаем';
+  @Input() dark = false;
 
   activeStep: number | null = 0;
 

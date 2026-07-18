@@ -12,4 +12,5 @@ import { MasterData } from '../../../features/masters/masters-data';
 })
 export class MasterCard {
   @Input({ required: true }) master!: MasterData;
+  @Input() dark = false;
 }

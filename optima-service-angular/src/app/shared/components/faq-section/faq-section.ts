@@ -27,6 +27,7 @@ export class FaqSection {
   @Input() sectionTitle: string = 'Часто задаваемые';
   @Input() sectionTitleAccent: string = 'вопросы';
   @Input() navTitle: string = 'FAQ';
+  @Input() dark = false;
 
   activeIndex: number | null = null;
 

@@ -249,3 +249,64 @@ select.form-input {
   .form-icon { width: 56px; height: 56px; }
   .widget-wrapper { height: 400px; }
 }
+
+// ── Тёмная тема (авторизованные бренды) ──────────────────────
+$auth-gold: #c9a876;
+
+.reviews-section.dark {
+  background: #1a1a1a;
+
+  .section-title,
+  .reviews-form-title,
+  .success-title {
+    color: $color-white;
+  }
+
+  .section-subtitle,
+  .reviews-form-subtitle,
+  .success-text,
+  .form-counter {
+    color: rgba($color-white, 0.6);
+  }
+
+  .reviews-widget,
+  .reviews-form {
+    background: #242424;
+    border: 1px solid rgba($color-white, 0.1);
+  }
+
+  .form-icon {
+    background: rgba($auth-gold, 0.12);
+    color: $auth-gold;
+  }
+
+  .form-input,
+  .form-textarea {
+    color: $color-white;
+    background: #141414;
+    border-color: rgba($color-white, 0.15);
+
+    &:focus {
+      border-color: $auth-gold;
+      box-shadow: 0 0 0 3px rgba($auth-gold, 0.15);
+    }
+
+    &::placeholder { color: rgba($color-white, 0.35); }
+  }
+
+  select.form-input {
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23c9a876' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .btn-primary {
+    background: $auth-gold;
+    color: #0a0a0a;
+
+    &:hover { background: darken($auth-gold, 8%); }
+  }
+
+  .reviews-link {
+    color: rgba($color-white, 0.5);
+    &:hover { color: $auth-gold; }
+  }
+}

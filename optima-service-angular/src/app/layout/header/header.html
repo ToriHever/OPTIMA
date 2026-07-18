@@ -1,4 +1,4 @@
-<header class="header">
+<header class="header" [class.header--dark]="headerThemeService.dark()">
   <!-- Верхняя часть шапки -->
   <div class="header-top">
     <div class="header-contacts">
@@ -45,7 +45,7 @@
     <div class="container">
       <div class="header-content">
         <a routerLink="/" (click)="scrollTo('hero')" class="logo">
-          <img src="assets/logo/logo.png" alt="Оптима Сервис" width="140" height="50">
+          <img [src]="headerThemeService.dark() ? 'assets/logo/logo-wh.png' : 'assets/logo/logo.png'" alt="Оптима Сервис" width="140" height="50">
         </a>
         <iframe src="https://yandex.ru/sprav/widget/rating-badge/228625207834?type=award" width="150" height="50" frameborder="0"></iframe>
         <div class="header-actions">

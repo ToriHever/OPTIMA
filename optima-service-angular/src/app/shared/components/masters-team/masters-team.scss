@@ -44,3 +44,24 @@
     margin: 0 auto;
   }
 }
+
+// ── Тёмная тема (авторизованные бренды) ──────────────────────
+.masters-team.dark {
+  background: #1a1a1a;
+
+  .section-title-dark {
+    color: $color-white;
+  }
+
+  .section-subtitle-dark {
+    color: rgba($color-white, 0.6);
+  }
+
+  .masters-team__more {
+    color: #c9a876;
+
+    &:hover {
+      color: #e0c9a0;
+    }
+  }
+}

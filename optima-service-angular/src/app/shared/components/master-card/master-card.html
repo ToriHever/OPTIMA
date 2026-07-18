@@ -1,4 +1,4 @@
-<a class="master-card" [routerLink]="['/masters', master.slug]">
+<a class="master-card" [class.dark]="dark" [routerLink]="['/masters', master.slug]">
   <div class="master-card__avatar" [style.background]="master.bg">
     <img *ngIf="master.photo" [src]="master.photo" [alt]="master.name" class="master-card__photo">
     <span *ngIf="!master.photo" class="master-card__initials">{{ master.initials }}</span>

@@ -1,13 +1,83 @@
 @import '../../../styles/variables';
 @import '../../../styles/mixins';
 
+$header-gold: #c9a876;
+
 .header {
   position: sticky;
   top: 0;
   z-index: 1000;
   background: $color-white;
   box-shadow: $shadow-sm;
-  transition: box-shadow $transition-base;
+  transition: box-shadow $transition-base, background $transition-base;
+}
+
+// ── Тёмная тема — для персонализированных страниц (Dreame, Polaris) ──
+.header--dark {
+  .header-main {
+    background: #1a1a1a;
+  }
+
+  .nav-link {
+    color: rgba($color-white, 0.85);
+
+    &:hover,
+    &.active {
+      color: $header-gold;
+      background: rgba($header-gold, 0.1);
+    }
+  }
+
+  .header-subnav {
+    background: #141414;
+    border-top-color: rgba($color-white, 0.08);
+  }
+
+  .subnav-link {
+    color: rgba($color-white, 0.85);
+
+    &:hover,
+    &.active {
+      color: $header-gold;
+    }
+  }
+
+  .mega-panel {
+    background: #1a1a1a;
+    border-color: rgba($color-white, 0.1);
+  }
+
+  .mega-col {
+    &:not(:last-child) {
+      border-right-color: rgba($color-white, 0.1);
+    }
+  }
+
+  .mega-col__title {
+    color: rgba($color-white, 0.4);
+  }
+
+  .mega-link {
+    color: rgba($color-white, 0.85);
+
+    &:hover {
+      background: rgba($header-gold, 0.12);
+      color: $header-gold;
+    }
+  }
+
+  .btn-primary {
+    background: $header-gold;
+    color: #0a0a0a;
+
+    &:hover {
+      background: darken($header-gold, 8%);
+    }
+  }
+
+  .mobile-menu-btn span {
+    background: $header-gold;
+  }
 }
 
 .header-top {

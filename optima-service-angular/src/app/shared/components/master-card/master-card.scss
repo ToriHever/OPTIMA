@@ -101,3 +101,29 @@
     color: rgba($color-dark, 0.7);
   }
 }
+
+// ── Тёмная тема (авторизованные бренды) ──────────────────────
+$auth-gold: #c9a876;
+
+.master-card.dark {
+  background: #242424;
+  border: 1px solid rgba($color-white, 0.1);
+
+  .master-card__name {
+    color: $color-white;
+  }
+
+  .master-card__role {
+    background: rgba($auth-gold, 0.12);
+    color: $auth-gold;
+  }
+
+  .master-card__exp {
+    color: rgba($color-white, 0.6);
+  }
+
+  .master-card__skills li {
+    background: rgba($color-white, 0.08);
+    color: rgba($color-white, 0.7);
+  }
+}

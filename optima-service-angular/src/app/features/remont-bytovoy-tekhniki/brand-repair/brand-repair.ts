@@ -17,8 +17,8 @@ import { IT_BRAND_REPAIR_DATA } from '../../remont-kompyuterov/it-brand-repair-d
 import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
 import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-data';
 import { MastersTeam } from '../../../shared/components/masters-team/masters-team';
-
-const AUTHORIZED_BRAND_SLUGS = ['dreame', 'polaris'];
+import { isAuthorizedBrandSlug } from '../../../shared/data/authorized-brands';
+import { HeaderThemeService } from '../../../core/services/header-theme.service';
 
 @Component({
   selector: 'app-brand-repair',
@@ -39,7 +39,8 @@ export class BrandRepairPage implements OnInit {
     private router: Router,
     private scroller: ViewportScroller,
     private title: Title,
-    private meta: Meta
+    private meta: Meta,
+    private headerThemeService: HeaderThemeService
   ) {}
 
   ngOnInit(): void {
@@ -78,10 +79,12 @@ export class BrandRepairPage implements OnInit {
 
     this.title.setTitle(this.brandData.meta.title);
     this.meta.updateTag({ name: 'description', content: this.brandData.meta.description });
+
+    this.headerThemeService.setDark(this.isAuthorizedBrand);
   }
 
   get isAuthorizedBrand(): boolean {
-    return AUTHORIZED_BRAND_SLUGS.includes(this.brandData?.slug ?? '');
+    return isAuthorizedBrandSlug(this.brandData?.slug);
   }
 
   get authorizedHeroImage(): string {
