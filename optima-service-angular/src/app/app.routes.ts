@@ -10,6 +10,18 @@ export const routes: Routes = [
     loadComponent: () => import('./features/about/about').then(m => m.About)
   },
   {
+    path: 'prices',
+    loadComponent: () => import('./features/prices/prices').then(m => m.Prices)
+  },
+  {
+    path: 'contacts',
+    loadComponent: () => import('./features/contacts/contacts').then(m => m.Contacts)
+  },
+  {
+    path: 'brands',
+    loadComponent: () => import('./features/brands/brands').then(m => m.Brands)
+  },
+  {
     path: 'masters',
     children: [
       {

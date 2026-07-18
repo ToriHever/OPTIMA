@@ -50,24 +50,20 @@
 
         <div class="header-actions">
           <nav class="nav">
-            <a routerLink="/" (click)="scrollTo('hero')" class="nav-link"
-               routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-              Главная
+            <a routerLink="/prices" class="nav-link" routerLinkActive="active">
+              Цены
             </a>
-            <a routerLink="/" (click)="scrollTo('process')" fragment="process" class="nav-link">
-              Как работаем
+            <a routerLink="/contacts" class="nav-link" routerLinkActive="active">
+              Контакты
             </a>
-            <a routerLink="/" (click)="scrollTo('warranty')" fragment="warranty" class="nav-link">
-              Гарантии
+            <a routerLink="/about" class="nav-link" routerLinkActive="active">
+              О сервисе
             </a>
             <a routerLink="/" (click)="scrollTo('certificates')" fragment="certificates" class="nav-link">
               Авторизации
             </a>
-            <a routerLink="/about" class="nav-link" routerLinkActive="active">
-              О нас
-            </a>
-            <a routerLink="/masters" class="nav-link" routerLinkActive="active">
-              Мастера
+            <a routerLink="/brands" class="nav-link" routerLinkActive="active">
+              Бренды
             </a>
           </nav>
 
@@ -87,6 +83,99 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Доп. меню: разделы ремонта с раскрывающимися мега-меню -->
+  <div class="header-subnav">
+    <div class="container">
+      <nav class="subnav">
+
+        <div class="subnav-item" (mouseenter)="openMegaMenu('phones')" (mouseleave)="closeMegaMenu()">
+          <a routerLink="/remont-kompyuterov/smartfony" class="subnav-link" [class.active]="activeMegaMenu === 'phones'">
+            Ремонт телефонов
+            <svg class="subnav-link__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor">
+              <path d="M2 3.5L5 6.5L8 3.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+
+          <div class="mega-panel" *ngIf="activeMegaMenu === 'phones'">
+            <div class="mega-col">
+              <span class="mega-col__title">Ремонт по брендам</span>
+              <a *ngFor="let b of phoneBrands" [routerLink]="b.path" class="mega-link">Ремонт телефона {{ b.name }}</a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col__title">Виды неисправностей</span>
+              <a *ngFor="let i of phoneIssues" [routerLink]="i.path" class="mega-link">{{ i.name }}</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subnav-item" (mouseenter)="openMegaMenu('computers')" (mouseleave)="closeMegaMenu()">
+          <a routerLink="/remont-kompyuterov" class="subnav-link" [class.active]="activeMegaMenu === 'computers'">
+            Ремонт компьютеров и ноутбуков
+            <svg class="subnav-link__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor">
+              <path d="M2 3.5L5 6.5L8 3.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+
+          <div class="mega-panel" *ngIf="activeMegaMenu === 'computers'">
+            <div class="mega-col">
+              <span class="mega-col__title">Устройства</span>
+              <a *ngFor="let d of computerDevices" [routerLink]="d.path" class="mega-link">{{ d.name }}</a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col__title">Бренды</span>
+              <a *ngFor="let b of computerBrands" [routerLink]="b.path" class="mega-link">{{ b.name }}</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subnav-item" (mouseenter)="openMegaMenu('appliances')" (mouseleave)="closeMegaMenu()">
+          <a routerLink="/remont-bytovoy-tekhniki" class="subnav-link" [class.active]="activeMegaMenu === 'appliances'">
+            Ремонт бытовой техники
+            <svg class="subnav-link__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor">
+              <path d="M2 3.5L5 6.5L8 3.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+
+          <div class="mega-panel mega-panel--wide" *ngIf="activeMegaMenu === 'appliances'">
+            <div class="mega-col">
+              <span class="mega-col__title">Крупная техника</span>
+              <a *ngFor="let d of applianceLarge" [routerLink]="d.path" class="mega-link">{{ d.name }}</a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col__title">Малая техника</span>
+              <a *ngFor="let d of applianceSmall" [routerLink]="d.path" class="mega-link">{{ d.name }}</a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col__title">Бренды</span>
+              <a *ngFor="let b of applianceBrands" [routerLink]="b.path" class="mega-link">{{ b.name }}</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="subnav-item" (mouseenter)="openMegaMenu('av')" (mouseleave)="closeMegaMenu()">
+          <a routerLink="/remont-audiovideo" class="subnav-link" [class.active]="activeMegaMenu === 'av'">
+            Ремонт телевизоров и аудио устройств
+            <svg class="subnav-link__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor">
+              <path d="M2 3.5L5 6.5L8 3.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+
+          <div class="mega-panel" *ngIf="activeMegaMenu === 'av'">
+            <div class="mega-col">
+              <span class="mega-col__title">Устройства</span>
+              <a *ngFor="let d of avDevices" [routerLink]="d.path" class="mega-link">{{ d.name }}</a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col__title">Бренды</span>
+              <a *ngFor="let b of avBrands" [routerLink]="b.path" class="mega-link">{{ b.name }}</a>
+            </div>
+          </div>
+        </div>
+
+      </nav>
     </div>
   </div>
 </header>

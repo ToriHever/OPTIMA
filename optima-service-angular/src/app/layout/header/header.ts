@@ -5,6 +5,14 @@ import { ModalService } from '../../core/services/modal.service';
 import { ScrollService } from '../../core/services/scroll.service';
 import { NavigationService } from '../../core/services/navigation.service';
 import { MobileMenu } from '../mobile-menu/mobile-menu';
+import {
+  PHONE_BRANDS, PHONE_ISSUES,
+  COMPUTER_DEVICES, COMPUTER_BRANDS,
+  AV_DEVICES, AV_BRANDS,
+  APPLIANCE_LARGE, APPLIANCE_SMALL, APPLIANCE_BRANDS
+} from '../../shared/data/nav-data';
+
+type MegaMenuKey = 'phones' | 'computers' | 'appliances' | 'av';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +24,17 @@ import { MobileMenu } from '../mobile-menu/mobile-menu';
 export class Header {
   isMenuOpen = false;
   isScrolled = false;
+  activeMegaMenu: MegaMenuKey | null = null;
+
+  readonly phoneBrands = PHONE_BRANDS;
+  readonly phoneIssues = PHONE_ISSUES;
+  readonly computerDevices = COMPUTER_DEVICES;
+  readonly computerBrands = COMPUTER_BRANDS;
+  readonly avDevices = AV_DEVICES;
+  readonly avBrands = AV_BRANDS;
+  readonly applianceLarge = APPLIANCE_LARGE;
+  readonly applianceSmall = APPLIANCE_SMALL;
+  readonly applianceBrands = APPLIANCE_BRANDS;
 
   constructor(
     private modalService: ModalService,
@@ -40,6 +59,14 @@ export class Header {
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  openMegaMenu(key: MegaMenuKey): void {
+    this.activeMegaMenu = key;
+  }
+
+  closeMegaMenu(): void {
+    this.activeMegaMenu = null;
   }
 
   closeMenu(): void {

@@ -60,12 +60,20 @@
       Аудио и видео
     </a>
 
-    <a routerLink="/" (click)="scrollTo('services')" class="drawer-link">
+    <a routerLink="/prices" class="drawer-link" routerLinkActive="active" (click)="onClose()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
         <path d="M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-3M9 7V5a2 2 0 014 0v2M9 7h6"
               stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       Цены
+    </a>
+
+    <a routerLink="/contacts" class="drawer-link" routerLinkActive="active" (click)="onClose()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Контакты
     </a>
 
     <a routerLink="/" (click)="scrollTo('process')" class="drawer-link">
@@ -106,6 +114,16 @@
               stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       Мастера
+    </a>
+
+    <a routerLink="/brands" class="drawer-link" routerLinkActive="active" (click)="onClose()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="4" y="4" width="7" height="7" rx="1" stroke-width="2"/>
+        <rect x="13" y="4" width="7" height="7" rx="1" stroke-width="2"/>
+        <rect x="4" y="13" width="7" height="7" rx="1" stroke-width="2"/>
+        <rect x="13" y="13" width="7" height="7" rx="1" stroke-width="2"/>
+      </svg>
+      Бренды
     </a>
   </nav>
 

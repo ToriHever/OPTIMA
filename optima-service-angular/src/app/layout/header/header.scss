@@ -109,6 +109,104 @@
   }
 }
 
+// ── Доп. меню (разделы ремонта + мега-меню) ──────────────────
+
+.header-subnav {
+  background: $color-bg-light;
+  border-top: 1px solid $color-bg-grey;
+}
+
+.subnav {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: $spacing-lg;
+}
+
+.subnav-item {
+  position: relative;
+}
+
+.subnav-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: $spacing-sm $spacing-xs;
+  @include text-mini;
+  font-weight: 600;
+  color: $color-dark;
+  transition: color $transition-fast;
+
+  &:hover,
+  &.active {
+    color: $color-primary;
+  }
+
+  &.active .subnav-link__chevron {
+    transform: rotate(180deg);
+  }
+}
+
+.subnav-link__chevron {
+  flex-shrink: 0;
+  transition: transform $transition-fast;
+}
+
+.mega-panel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  display: flex;
+  gap: $space-lg;
+  min-width: 320px;
+  padding: $space-md;
+  background: $color-white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+  border: 1px solid $color-bg-grey;
+
+  &.mega-panel--wide {
+    min-width: 560px;
+  }
+}
+
+.mega-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 180px;
+
+  &:not(:last-child) {
+    padding-right: $space-md;
+    border-right: 1px solid $color-bg-grey;
+  }
+}
+
+.mega-col__title {
+  @include text-mini;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba($color-dark, 0.45);
+  margin-bottom: $spacing-xs;
+}
+
+.mega-link {
+  padding: 6px $spacing-xs;
+  border-radius: $radius-sm;
+  @include text-mini;
+  color: $color-dark;
+  white-space: nowrap;
+  transition: background $transition-fast, color $transition-fast;
+
+  &:hover {
+    background: rgba($color-primary, 0.08);
+    color: $color-primary;
+  }
+}
+
 .mobile-menu-btn {
   display: none;
   flex-direction: column;
@@ -182,6 +280,10 @@
 @include tablet {
 
   .header-top {
+    display: none;
+  }
+
+  .header-subnav {
     display: none;
   }
 

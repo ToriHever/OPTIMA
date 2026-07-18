@@ -1,0 +1,30 @@
+<section class="brands-intro">
+  <div class="container">
+    <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
+    <h1 class="brands-intro__title">Бренды, с которыми мы работаем</h1>
+    <p class="brands-intro__subtitle">
+      Ремонтируем технику всех популярных производителей — от бюджетных моделей до премиум-сегмента.
+    </p>
+  </div>
+</section>
+
+<section class="brands-sections">
+  <div class="container">
+    <div class="brands-section" *ngFor="let section of sections">
+      <h2 class="brands-section__title">{{ section.title }}</h2>
+      <div class="brands-section__grid">
+        <a *ngFor="let brand of section.cards" [routerLink]="brand.path" class="brand-card">
+          <span class="brand-card__logo-wrap">
+            <img
+              *ngIf="!failedLogos.has(brand.name)"
+              [src]="brand.logo"
+              [alt]="brand.name"
+              loading="lazy"
+              (error)="onLogoError(brand.name)">
+          </span>
+          <span class="brand-card__name">{{ brand.name }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

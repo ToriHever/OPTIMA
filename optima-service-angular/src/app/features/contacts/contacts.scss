@@ -1,0 +1,140 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.contacts-page {
+  padding: $space-xl 0 $space-xxl;
+  background: $color-white;
+}
+
+.contacts-page__title {
+  @include text-h1;
+  color: $color-dark;
+  margin: $space-md 0 $space-xl;
+}
+
+.contacts-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: $space-xl;
+  align-items: start;
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.contact-card {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  padding: $space-md;
+  background: $color-bg-light;
+  border: 1px solid $color-bg-grey;
+  border-radius: $radius-lg;
+  text-decoration: none;
+  transition: border-color $transition-base, box-shadow $transition-base;
+
+  &:not(.contact-card--static):hover {
+    border-color: $color-primary-lighter;
+    box-shadow: $shadow-sm;
+  }
+}
+
+.contact-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: $radius-md;
+  background: rgba($color-primary, 0.08);
+  color: $color-primary;
+}
+
+.contact-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact-card__label {
+  @include text-mini;
+  color: rgba($color-dark, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.contact-card__value {
+  @include text-body;
+  font-weight: 600;
+  color: $color-dark;
+
+  &--muted {
+    font-weight: 400;
+    color: rgba($color-dark, 0.5);
+  }
+}
+
+.contact-card__link {
+  @include text-mini;
+  color: $color-primary;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.contacts-cta {
+  padding: $space-lg;
+  background: $color-bg-light;
+  border-radius: $radius-lg;
+  text-align: center;
+
+  h3 {
+    @include text-h4;
+    color: $color-dark;
+    margin: 0 0 $spacing-xs;
+  }
+
+  p {
+    @include text-body;
+    color: rgba($color-dark, 0.6);
+    margin: 0 0 $space-md;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: $space-md;
+  }
+}
+
+.contacts-social {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-md;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: $color-white;
+  color: $color-primary;
+  transition: background $transition-base, color $transition-base;
+
+  &:hover {
+    background: $color-primary;
+    color: $color-white;
+  }
+}
+
+@media (max-width: 768px) {
+  .contacts-layout {
+    grid-template-columns: 1fr;
+  }
+}

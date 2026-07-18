@@ -1,0 +1,23 @@
+<section class="prices-intro">
+  <div class="container">
+    <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
+    <h1 class="prices-intro__title">Цены на ремонт</h1>
+    <p class="prices-intro__subtitle">
+      Ориентировочная стоимость по видам техники. Точную цену называем после бесплатной диагностики.
+    </p>
+  </div>
+</section>
+
+<section class="prices-sections">
+  <div class="container">
+    <div class="prices-section" *ngFor="let section of sections">
+      <h2 class="prices-section__title">{{ section.title }}</h2>
+      <div class="prices-section__grid">
+        <a *ngFor="let card of section.cards" [routerLink]="card.path" class="price-card">
+          <span class="price-card__name">{{ card.name }}</span>
+          <span class="price-card__price">от {{ card.priceFrom }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
