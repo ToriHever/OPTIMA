@@ -36,6 +36,11 @@
     [steps]="data.process.steps"
   ></app-process-accordion>
 
+  <app-trust-block
+    [deviceGenitive]="data.categories.sectionTitleAccent"
+    [brands]="brands"
+  ></app-trust-block>
+
   <app-faq-section
     [questions]="data.faq"
     navTitle="FAQ"
