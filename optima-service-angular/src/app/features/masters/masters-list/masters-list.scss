@@ -1,0 +1,45 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.masters-list-intro {
+  padding: $space-xl 0 $space-md;
+  background: $color-white;
+}
+
+.masters-list-intro__title {
+  @include text-h1;
+  color: $color-dark;
+  margin: $space-md 0 $spacing-xs;
+}
+
+.masters-list-intro__subtitle {
+  @include text-subtitle-1;
+  color: rgba($color-dark, 0.65);
+  max-width: 560px;
+  margin: 0;
+}
+
+.masters-list-grid {
+  padding: $space-md 0 $space-xxl;
+  background: $color-white;
+}
+
+.masters-list-grid__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-xl;
+}
+
+@media (max-width: 1024px) {
+  .masters-list-grid__cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .masters-list-grid__cards {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}

@@ -14,6 +14,7 @@ import { Certificates } from '../../shared/components/certificates/certificates'
 import { PageProgressNavComponent } from '../../shared/components/page-progress-nav/page-progress-nav';
 import { FaqSection, FaqItem } from '../../shared/components/faq-section/faq-section';
 import { ServiceSections } from '../../shared/components/service-sections/service-sections';
+import { MastersTeam } from '../../shared/components/masters-team/masters-team';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,8 @@ import { ServiceSections } from '../../shared/components/service-sections/servic
     Certificates,
     PageProgressNavComponent,
     FaqSection,
-    ServiceSections
+    ServiceSections,
+    MastersTeam
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss'

@@ -1,19 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MasterCard } from '../../../../shared/components/master-card/master-card';
+import { MASTERS_DATA } from '../../../masters/masters-data';
 
 interface Value {
   title: string;
   desc: string;
   icon: string;
-}
-
-interface TeamMember {
-  name: string;
-  role: string;
-  experience: string;
-  initials: string;
-  bg: string;
-  skills: string[];
 }
 
 interface TimelineEvent {
@@ -25,7 +18,7 @@ interface TimelineEvent {
 @Component({
   selector: 'app-about-values',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MasterCard],
   templateUrl: './about-values.html',
   styleUrl: './about-values.scss'
 })
@@ -53,32 +46,7 @@ export class AboutValues {
     }
   ];
 
-  team: TeamMember[] = [
-    {
-      name: 'Алексей',
-      role: 'Главный мастер',
-      experience: 'Опыт работы 12 лет. Специализируется на сложных электронных поломках и BGA-пайке.',
-      initials: 'АВ',
-      bg: 'linear-gradient(135deg, #00444D 0%, #30676E 100%)',
-      skills: ['Смартфоны', 'Ноутбуки', 'BGA-пайка', 'Платы']
-    },
-    {
-      name: 'Дмитрий',
-      role: 'Мастер по крупной технике',
-      experience: 'Опыт работы 9 лет. Авторизован Dreame и Polaris. Специалист по холодильникам и СМА.',
-      initials: 'ДС',
-      bg: 'linear-gradient(135deg, #1e8a8a 0%, #00444D 100%)',
-      skills: ['Холодильники', 'Стиральные машины', 'Dreame', 'Polaris']
-    },
-    {
-      name: 'Станислав',
-      role: 'Администратор сервиса',
-      experience: 'Координирует приём заявок, контролирует сроки и качество обслуживания клиентов.',
-      initials: 'НЛ',
-      bg: 'linear-gradient(135deg, #2a7a80 0%, #00444D 100%)',
-      skills: ['Клиентский сервис', 'Документооборот', 'Контроль качества']
-    }
-  ];
+  team = MASTERS_DATA;
 
   timeline: TimelineEvent[] = [
     // {

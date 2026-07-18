@@ -1,0 +1,46 @@
+<ng-container *ngIf="master">
+
+  <!-- Минималистичный hero -->
+  <section class="master-hero">
+    <div class="container">
+      <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
+
+      <div class="master-hero__row">
+        <div class="master-hero__avatar" [style.background]="master.bg">
+          <img *ngIf="master.photo" [src]="master.photo" [alt]="master.name" class="master-hero__photo">
+          <span *ngIf="!master.photo" class="master-hero__initials">{{ master.initials }}</span>
+        </div>
+
+        <div class="master-hero__info">
+          <h1 class="master-hero__name">{{ master.name }}</h1>
+          <span class="master-hero__role">{{ master.role }}</span>
+          <span class="master-hero__years">{{ master.yearsLabel }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Био + навыки + CTA -->
+  <section class="master-body">
+    <div class="container">
+      <div class="master-body__layout">
+        <div class="master-body__bio">
+          <p>{{ master.bio }}</p>
+
+          <ul class="master-body__skills">
+            <li *ngFor="let skill of master.skills">{{ skill }}</li>
+          </ul>
+        </div>
+
+        <div class="master-body__cta">
+          <h3>Хотите, чтобы ремонт делал {{ master.name }}?</h3>
+          <p>Оставьте заявку — при возможности передадим её именно этому мастеру.</p>
+          <button class="btn btn-primary btn-large" (click)="openCallbackForm()">
+            Вызвать мастера
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</ng-container>

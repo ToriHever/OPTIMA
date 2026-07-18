@@ -1,0 +1,103 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.master-card {
+  display: block;
+  background: $color-white;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  text-decoration: none;
+  transition: all $transition-base;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-lg;
+
+    .master-card__avatar-ring {
+      transform: scale(1.08);
+      opacity: 0.6;
+    }
+  }
+}
+
+.master-card__avatar {
+  position: relative;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.master-card__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.master-card__initials {
+  position: relative;
+  z-index: 1;
+  font-size: 3rem;
+  font-weight: $font-weight-bold;
+  color: $color-white;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.master-card__avatar-ring {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid rgba($color-white, 0.3);
+  opacity: 0.4;
+  transition: all $transition-slow;
+}
+
+.master-card__body {
+  padding: $space-lg;
+}
+
+.master-card__name {
+  @include text-h4;
+  color: $color-dark;
+  margin-bottom: 4px;
+}
+
+.master-card__role {
+  display: inline-block;
+  padding: 4px $spacing-md;
+  background: rgba($color-primary, 0.1);
+  color: $color-primary;
+  @include text-mini;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-full;
+  margin-bottom: $spacing-sm;
+}
+
+.master-card__exp {
+  @include text-body;
+  color: rgba($color-dark, 0.6);
+  margin-bottom: $space-sm;
+}
+
+.master-card__skills {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+
+  li {
+    @include text-mini;
+    padding: 3px $spacing-sm;
+    background: $color-bg-grey;
+    border-radius: $radius-full;
+    color: rgba($color-dark, 0.7);
+  }
+}

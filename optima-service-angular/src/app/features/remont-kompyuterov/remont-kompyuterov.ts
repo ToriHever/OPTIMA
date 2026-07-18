@@ -8,11 +8,12 @@ import { ProcessAccordion, ProcessStep } from '../../shared/components/process-a
 import { PageProgressNavComponent } from '../../shared/components/page-progress-nav/page-progress-nav';
 import { ReviewsSection } from '../../shared/components/reviews-section/reviews-section';
 import { FaqSection, FaqItem } from '../../shared/components/faq-section/faq-section';
+import { MastersTeam } from '../../shared/components/masters-team/masters-team';
 
 @Component({
   selector: 'app-remont-kompyuterov',
   standalone: true,
-  imports: [CommonModule, RouterModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection],
+  imports: [CommonModule, RouterModule, HeroSection, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, MastersTeam],
   templateUrl: './remont-kompyuterov.html',
   styleUrl: './remont-kompyuterov.scss'
 })

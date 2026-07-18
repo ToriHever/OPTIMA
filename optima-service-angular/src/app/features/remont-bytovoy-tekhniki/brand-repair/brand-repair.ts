@@ -15,11 +15,12 @@ import { IT_REPAIR_DATA } from '../../remont-kompyuterov/it-repair-data';
 import { IT_BRAND_REPAIR_DATA } from '../../remont-kompyuterov/it-brand-repair-data';
 import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
 import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-data';
+import { MastersTeam } from '../../../shared/components/masters-team/masters-team';
 
 @Component({
   selector: 'app-brand-repair',
   standalone: true,
-  imports: [CommonModule, BrandHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection],
+  imports: [CommonModule, BrandHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, MastersTeam],
   templateUrl: './brand-repair.html',
   styleUrl: './brand-repair.scss'
 })

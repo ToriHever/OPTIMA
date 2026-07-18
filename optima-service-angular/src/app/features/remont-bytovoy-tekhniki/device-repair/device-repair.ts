@@ -10,6 +10,7 @@ import { ReviewsSection } from '../../../shared/components/reviews-section/revie
 import { FaqSection } from '../../../shared/components/faq-section/faq-section';
 import { BrandSelector } from '../../../shared/components/brand-selector/brand-selector';
 import { TrustBlock } from '../../../shared/components/trust-block/trust-block';
+import { MastersTeam } from '../../../shared/components/masters-team/masters-team';
 import { DEVICE_REPAIR_DATA, DeviceRepairData } from './device-repair-data';
 import { IT_REPAIR_DATA } from '../../remont-kompyuterov/it-repair-data';
 import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
@@ -21,7 +22,7 @@ import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-da
 @Component({
   selector: 'app-device-repair',
   standalone: true,
-  imports: [CommonModule, TechHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, BrandSelector, TrustBlock],
+  imports: [CommonModule, TechHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, BrandSelector, TrustBlock, MastersTeam],
   templateUrl: './device-repair.html',
   styleUrl: './device-repair.scss'
 })

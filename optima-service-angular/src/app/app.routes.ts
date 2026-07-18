@@ -10,6 +10,19 @@ export const routes: Routes = [
     loadComponent: () => import('./features/about/about').then(m => m.About)
   },
   {
+    path: 'masters',
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/masters/masters-list/masters-list').then(m => m.MastersList)
+      },
+      {
+        path: ':slug',
+        loadComponent: () => import('./features/masters/master-detail/master-detail').then(m => m.MasterDetail)
+      }
+    ]
+  },
+  {
     path: 'remont-bytovoy-tekhniki',
     children: [
       {

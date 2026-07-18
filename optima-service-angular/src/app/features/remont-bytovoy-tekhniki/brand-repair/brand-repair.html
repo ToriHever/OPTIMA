@@ -144,10 +144,13 @@
     [steps]="deviceData.process.steps"
   ></app-process-accordion>
 
-  <!-- 7. Отзывы -->
+  <!-- 7. Мастера -->
+  <app-masters-team [limit]="3"></app-masters-team>
+
+  <!-- 8. Отзывы -->
   <app-reviews-section></app-reviews-section>
 
-  <!-- 8. FAQ -->
+  <!-- 9. FAQ -->
   <app-faq-section
     [questions]="deviceData.faq"
     navTitle="FAQ"

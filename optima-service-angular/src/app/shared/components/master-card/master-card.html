@@ -1,0 +1,17 @@
+<a class="master-card" [routerLink]="['/masters', master.slug]">
+  <div class="master-card__avatar" [style.background]="master.bg">
+    <img *ngIf="master.photo" [src]="master.photo" [alt]="master.name" class="master-card__photo">
+    <span *ngIf="!master.photo" class="master-card__initials">{{ master.initials }}</span>
+    <div class="master-card__avatar-ring"></div>
+  </div>
+
+  <div class="master-card__body">
+    <h3 class="master-card__name">{{ master.name }}</h3>
+    <span class="master-card__role">{{ master.role }}</span>
+    <p class="master-card__exp">{{ master.experience }}</p>
+
+    <ul class="master-card__skills">
+      <li *ngFor="let skill of master.skills">{{ skill }}</li>
+    </ul>
+  </div>
+</a>

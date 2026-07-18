@@ -1,0 +1,18 @@
+<section class="masters-team" data-nav-title="Мастера">
+  <div class="container">
+    <div class="masters-team__header">
+      <h2 class="section-title-dark">
+        {{ title }} <strong>{{ titleAccent }}</strong>
+      </h2>
+      <p class="section-subtitle-dark">{{ subtitle }}</p>
+    </div>
+
+    <div class="masters-team__grid">
+      <app-master-card *ngFor="let master of masters" [master]="master"></app-master-card>
+    </div>
+
+    <a *ngIf="showMoreLink" routerLink="/masters" class="masters-team__more">
+      Смотреть всех мастеров →
+    </a>
+  </div>
+</section>

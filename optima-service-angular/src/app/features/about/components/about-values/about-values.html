@@ -40,23 +40,7 @@
       </div>
 
       <div class="team-grid">
-        <div class="team-card" *ngFor="let member of team">
-          <!-- Аватар-плейсхолдер с инициалами -->
-          <div class="team-card__avatar" [style.background]="member.bg">
-            <span class="team-card__initials">{{ member.initials }}</span>
-            <div class="team-card__avatar-ring"></div>
-          </div>
-
-          <div class="team-card__body">
-            <h3 class="team-card__name">{{ member.name }}</h3>
-            <span class="team-card__role">{{ member.role }}</span>
-            <p class="team-card__exp">{{ member.experience }}</p>
-
-            <ul class="team-card__skills">
-              <li *ngFor="let skill of member.skills">{{ skill }}</li>
-            </ul>
-          </div>
-        </div>
+        <app-master-card *ngFor="let member of team" [master]="member"></app-master-card>
       </div>
 
       <!-- CTA под командой -->

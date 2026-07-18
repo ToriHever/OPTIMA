@@ -1,0 +1,17 @@
+<section class="masters-list-intro">
+  <div class="container">
+    <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
+    <h1 class="masters-list-intro__title">Наши мастера</h1>
+    <p class="masters-list-intro__subtitle">
+      Каждый специалист отвечает за своё направление — от бытовой техники до сложной электроники.
+    </p>
+  </div>
+</section>
+
+<section class="masters-list-grid">
+  <div class="container">
+    <div class="masters-list-grid__cards">
+      <app-master-card *ngFor="let master of masters" [master]="master"></app-master-card>
+    </div>
+  </div>
+</section>
