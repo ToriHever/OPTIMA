@@ -2,11 +2,11 @@ import { DeviceRepairData } from '../remont-bytovoy-tekhniki/device-repair/devic
 import { CategoryItem } from '../../shared/components/categories-grid/categories-grid';
 import { ProcessStep } from '../../shared/components/process-accordion/process-accordion';
 
-const cats = (deviceTitle: string, items: CategoryItem[]) => ({
-  sectionTitle: 'Виды', sectionTitleAccent: 'ремонта',
-  sectionDescription: `Диагностируем и устраняем все виды неисправностей ${deviceTitle}.`,
+const cats = (deviceGenitive: string, items: CategoryItem[]) => ({
+  sectionTitle: 'Стоимость ремонта', sectionTitleAccent: deviceGenitive,
+  sectionDescription: `Ориентировочные цены на популярные неисправности ${deviceGenitive}. Точную стоимость назовём после бесплатной диагностики.`,
   stats: [{ number: '6+', label: 'Видов работ' }, { number: 'до 90 дней', label: 'Гарантия' }],
-  ctaTitle: 'Другая поломка?', ctaDescription: 'Опишите симптом — определим причину и стоимость.',
+  ctaTitle: 'Не нашли свою поломку?', ctaDescription: 'Не знаете, что случилось с техникой? Вызовите мастера на дом — диагностика бесплатна, а точную стоимость ремонта назовём сразу после осмотра.',
   items
 });
 
@@ -39,7 +39,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
       features: ['Выезд мастера на дом', 'LED, OLED, QLED, Plasma', 'Замена подсветки от 2 500 ₽', 'Бесплатная диагностика при ремонте', 'Гарантия до 90 дней'],
       image: '/assets/img/hero/televizory.jpg'
     },
-    categories: cats('телевизора', [
+    categories: cats('телевизоров', [
       { name: 'Замена подсветки', description: 'Восстановление LED-подсветки матрицы телевизора', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', features: ['LED-полоски подсветки', 'Инвертор и драйвер', 'Гарантия 90 дней'], priceFrom: '2 500 ₽' },
       { name: 'Ремонт матрицы', description: 'Замена треснувшей или битой матрицы телевизора', icon: 'M6 6H22V18H2V8H6V6Z M8 14H20', features: ['LED / OLED / QLED / VA', 'Подбор совместимой матрицы', 'Гарантия 90 дней'], priceFrom: 'по стоимости матрицы' },
       { name: 'Ремонт блока питания', description: 'Восстановление или замена блока питания', icon: 'M13 10V3L4 14h7v7l9-11h-7z', features: ['Замена конденсаторов', 'Ремонт инвертора', 'Гарантия 90 дней'], priceFrom: '2 000 ₽' },
@@ -135,7 +135,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
       features: ['PS4, PS5, Xbox, Nintendo Switch', 'Замена дисковода от 2 000 ₽', 'Ремонт HDMI-разъёма', 'Чистка системы охлаждения', 'Гарантия до 90 дней'],
       image: '/assets/img/hero/konsoli.jpg'
     },
-    categories: cats('игровой консоли', [
+    categories: cats('игровых консолей', [
       { name: 'Чистка и замена термопасты', description: 'Чистка от пыли, замена термопасты CPU/GPU', icon: 'M12 2L15 8H21L16 12L18 18L12 14L6 18L8 12L3 8H9L12 2Z', features: ['Снижение температуры на 10–20°C', 'Замена термоинтерфейса', 'Гарантия 90 дней'], priceFrom: '1 500 ₽' },
       { name: 'Ремонт HDMI-разъёма', description: 'Замена сломанного или окисленного HDMI-порта', icon: 'M5 12h14M12 5l7 7-7 7', features: ['PS4 / PS5 / Xbox', 'Микропайка разъёма', 'Гарантия 90 дней'], priceFrom: '2 000 ₽' },
       { name: 'Замена дисковода', description: 'Ремонт или замена оптического привода', icon: 'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18', features: ['Полная замена привода', 'Прошивка лазерного блока', 'Гарантия 90 дней'], priceFrom: '2 000 ₽' },
@@ -167,7 +167,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
       features: ['Epson, BenQ, Optoma, Sony', 'Замена лампы от 3 000 ₽', 'Лазерные и DLP проекторы', 'Бесплатная диагностика при ремонте', 'Гарантия до 90 дней'],
       image: '/assets/img/hero/proektory.jpg'
     },
-    categories: cats('проектора', [
+    categories: cats('проекторов', [
       { name: 'Замена лампы', description: 'Замена ртутной или галогенной лампы проектора', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', features: ['Оригинальные лампы OEM', 'Все марки проекторов', 'Гарантия 90 дней'], priceFrom: '3 000 ₽' },
       { name: 'Ремонт цветового колеса', description: 'Замена или балансировка цветового колеса DLP', icon: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5', features: ['DLP проекторы', 'Замена подшипника', 'Гарантия 90 дней'], priceFrom: '2 000 ₽' },
       { name: 'Ремонт оптики', description: 'Очистка и выравнивание оптической системы', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z', features: ['Чистка линз', 'Юстировка объектива', 'Гарантия 90 дней'], priceFrom: '1 500 ₽' },

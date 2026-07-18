@@ -2,11 +2,11 @@ import { DeviceRepairData } from '../remont-bytovoy-tekhniki/device-repair/devic
 import { CategoryItem } from '../../shared/components/categories-grid/categories-grid';
 import { ProcessStep } from '../../shared/components/process-accordion/process-accordion';
 
-const cats = (deviceTitle: string, items: CategoryItem[]) => ({
-  sectionTitle: 'Виды', sectionTitleAccent: 'ремонта',
-  sectionDescription: `Диагностируем и устраняем все виды неисправностей ${deviceTitle}.`,
+const cats = (deviceGenitive: string, items: CategoryItem[]) => ({
+  sectionTitle: 'Стоимость ремонта', sectionTitleAccent: deviceGenitive,
+  sectionDescription: `Ориентировочные цены на популярные неисправности ${deviceGenitive}. Точную стоимость назовём после бесплатной диагностики.`,
   stats: [{ number: '6+', label: 'Видов работ' }, { number: 'до 90 дней', label: 'Гарантия' }],
-  ctaTitle: 'Другая поломка?', ctaDescription: 'Опишите симптом — определим причину и стоимость.',
+  ctaTitle: 'Не нашли свою поломку?', ctaDescription: 'Не знаете, что случилось с техникой? Вызовите мастера на дом — диагностика бесплатна, а точную стоимость ремонта назовём сразу после осмотра.',
   items
 });
 
@@ -39,7 +39,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
       features: ['Бесплатная диагностика при ремонте', 'Замена матрицы от 2 500 ₽', 'Чистка системы охлаждения', 'Гарантия до 90 дней', 'Срочный ремонт от 30 минут'],
       image: '/assets/img/hero/noutbuki.jpg'
     },
-    categories: cats('ноутбука', [
+    categories: cats('ноутбуков', [
       { name: 'Замена матрицы', description: 'Замена треснувшего или нерабочего дисплея', icon: 'M6 6H22V18H2V8H6V6Z M8 14H20', features: ['Все диагонали и разрешения', 'Замена за 30–60 минут', 'Гарантия 90 дней'], priceFrom: '2 500 ₽' },
       { name: 'Замена аккумулятора', description: 'Замена износившегося аккумулятора', icon: 'M3 10H21V14H3V10Z M6 7V10 M18 7V10', features: ['Оригинальные АКБ', 'Замена за 20–40 минут', 'Гарантия 90 дней'], priceFrom: '1 800 ₽' },
       { name: 'Чистка и замена термопасты', description: 'Чистка от пыли и замена термоинтерфейса', icon: 'M12 2L15 8H21L16 12L18 18L12 14L6 18L8 12L3 8H9L12 2Z', features: ['Снижение температуры на 15–25°C', 'Замена термоинтерфейса', 'Гарантия 90 дней'], priceFrom: '1 200 ₽' },
@@ -71,7 +71,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
       features: ['Замена дисплея от 30 минут', 'iPhone и Android', 'Ремонт после залития', 'Бесплатная диагностика', 'Гарантия до 90 дней'],
       image: '/assets/img/hero/smartfony.jpg'
     },
-    categories: cats('смартфона', [
+    categories: cats('смартфонов', [
       { name: 'Замена дисплея', description: 'Замена треснувшего или нерабочего экрана', icon: 'M12 2C10 2 8 4 8 6V18C8 20 10 22 12 22H16C18 22 20 20 20 18V6C20 4 18 2 16 2H12Z', features: ['OLED / IPS / AMOLED', 'Замена за 30–60 минут', 'Гарантия 90 дней'], priceFrom: '1 000 ₽' },
       { name: 'Замена аккумулятора', description: 'Замена износившегося аккумулятора', icon: 'M3 10H21V14H3V10Z M6 7V10 M18 7V10', features: ['Оригинальные АКБ', 'Замена за 20 минут', 'Гарантия 90 дней'], priceFrom: '800 ₽' },
       { name: 'Ремонт после залития', description: 'Восстановление смартфона после попадания воды', icon: 'M12 2L14 8H20L15 12L17 18L12 14L7 18L9 12L4 8H10L12 2Z', features: ['Промывка платы ультразвуком', 'Восстановление в 80%', 'Гарантия 90 дней'], priceFrom: '1 500 ₽' },
@@ -103,7 +103,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
       features: ['Замена дисплея от 1 500 ₽', 'iPad всех поколений', 'Samsung, Huawei, Xiaomi', 'Бесплатная диагностика', 'Гарантия до 90 дней'],
       image: '/assets/img/hero/planshety.jpg'
     },
-    categories: cats('планшета', [
+    categories: cats('планшетов', [
       { name: 'Замена дисплея', description: 'Замена треснувшего или нерабочего экрана', icon: 'M6 4H22V20H6V4Z M10 8H18V10H10V8Z', features: ['Все диагонали', 'Замена за 1–2 часа', 'Гарантия 90 дней'], priceFrom: '1 500 ₽' },
       { name: 'Замена аккумулятора', description: 'Замена износившегося аккумулятора', icon: 'M3 10H21V14H3V10Z M6 7V10 M18 7V10', features: ['Оригинальные АКБ', 'Замена за 30–60 минут', 'Гарантия 90 дней'], priceFrom: '1 500 ₽' },
       { name: 'Ремонт разъёма зарядки', description: 'Замена нерабочего порта зарядки', icon: 'M12 2V10M8 6L12 2L16 6 M5 14H19V20H5V14Z', features: ['Lightning / USB-C', 'Замена за 30–60 минут', 'Гарантия 90 дней'], priceFrom: '1 000 ₽' },
@@ -135,7 +135,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
       features: ['Выезд мастера на дом', 'Замена видеокарты, ОЗУ, SSD', 'Сборка ПК под заказ', 'Бесплатная диагностика при ремонте', 'Гарантия до 90 дней'],
       image: '/assets/img/hero/pk-i-komputery.jpg'
     },
-    categories: cats('ПК', [
+    categories: cats('компьютеров и ПК', [
       { name: 'Диагностика и ремонт', description: 'Полная диагностика ПК и устранение неисправностей', icon: 'M4 4H20V20H4V4Z M8 8H16 M8 12H16 M8 16H12', features: ['Аппаратная диагностика', 'Ремонт материнской платы', 'Гарантия 90 дней'], priceFrom: '1 000 ₽' },
       { name: 'Замена видеокарты', description: 'Установка и замена видеокарты', icon: 'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18', features: ['Nvidia и AMD', 'Проверка совместимости', 'Гарантия 90 дней'], priceFrom: 'от стоимости видеокарты' },
       { name: 'Замена и добавление ОЗУ', description: 'Расширение оперативной памяти ПК', icon: 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', features: ['DDR4 / DDR5', 'Настройка XMP', 'Гарантия 90 дней'], priceFrom: 'от стоимости ОЗУ' },
@@ -167,7 +167,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
       features: ['LED / IPS / VA / OLED', 'Замена подсветки от 2 000 ₽', 'Ремонт блока питания', 'Бесплатная диагностика при ремонте', 'Гарантия до 90 дней'],
       image: '/assets/img/hero/monitory.jpg'
     },
-    categories: cats('монитора', [
+    categories: cats('мониторов', [
       { name: 'Замена подсветки', description: 'Восстановление подсветки матрицы', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', features: ['LED и CCFL', 'Равномерность подсветки', 'Гарантия 90 дней'], priceFrom: '2 000 ₽' },
       { name: 'Замена матрицы', description: 'Замена треснувшей или битой матрицы', icon: 'M6 6H22V18H2V8H6V6Z M8 14H20', features: ['IPS, VA, TN, OLED', 'Калибровка после замены', 'Гарантия 90 дней'], priceFrom: '3 000 ₽' },
       { name: 'Ремонт блока питания', description: 'Ремонт или замена блока питания', icon: 'M13 10V3L4 14h7v7l9-11h-7z', features: ['Замена конденсаторов', 'Восстановление блока питания', 'Гарантия 90 дней'], priceFrom: '1 500 ₽' },
@@ -199,7 +199,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
       features: ['HP, Canon, Epson, Brother', 'Лазерные и струйные', 'Заправка картриджей', 'Бесплатная диагностика при ремонте', 'Гарантия до 90 дней'],
       image: '/assets/img/hero/printeryi-i-mfu.jpg'
     },
-    categories: cats('принтера или МФУ', [
+    categories: cats('принтеров и МФУ', [
       { name: 'Устранение замятий', description: 'Устранение причин частого замятия бумаги', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', features: ['Замена роликов подачи', 'Очистка тракта', 'Гарантия 90 дней'], priceFrom: '1 000 ₽' },
       { name: 'Ремонт печатающей головки', description: 'Промывка или замена засорённой головки', icon: 'M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z', features: ['Ультразвуковая промывка', 'Калибровка', 'Гарантия 90 дней'], priceFrom: '1 500 ₽' },
       { name: 'Заправка картриджей', description: 'Заправка оригинальных и совместимых картриджей', icon: 'M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4', features: ['Струйные и лазерные', 'Оригинальные чернила', 'Гарантия качества'], priceFrom: '300 ₽' },
