@@ -19,7 +19,16 @@ export const routes: Routes = [
   },
   {
     path: 'brands',
-    loadComponent: () => import('./features/brands/brands').then(m => m.Brands)
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/brands/brands').then(m => m.Brands)
+      },
+      {
+        path: ':slug',
+        loadComponent: () => import('./features/brands/brand-hub/brand-hub').then(m => m.BrandHubPage)
+      }
+    ]
   },
   {
     path: 'masters',

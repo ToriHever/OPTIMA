@@ -18,7 +18,7 @@ interface BrandSection {
   cards: BrandCard[];
 }
 
-function toUniqueBrandCards(data: Record<string, Record<string, { brandName: string; slug: string }>>, basePath: string): BrandCard[] {
+function toUniqueBrandCards(data: Record<string, Record<string, { brandName: string; slug: string }>>): BrandCard[] {
   const seen = new Map<string, BrandCard>();
 
   for (const deviceSlug of Object.keys(data)) {
@@ -26,7 +26,7 @@ function toUniqueBrandCards(data: Record<string, Record<string, { brandName: str
       if (!seen.has(brand.brandName)) {
         seen.set(brand.brandName, {
           name: brand.brandName,
-          path: `${basePath}/${deviceSlug}/${brand.slug}`,
+          path: `/brands/${brand.slug}`,
           logo: `/assets/img/brands/${brand.brandName}.png`
         });
       }
@@ -50,9 +50,9 @@ export class Brands implements OnInit {
   ];
 
   sections: BrandSection[] = [
-    { title: 'Бытовая техника', cards: toUniqueBrandCards(BRAND_REPAIR_DATA, '/remont-bytovoy-tekhniki') },
-    { title: 'Компьютеры и гаджеты', cards: toUniqueBrandCards(IT_BRAND_REPAIR_DATA, '/remont-kompyuterov') },
-    { title: 'Аудио и видео', cards: toUniqueBrandCards(AV_BRAND_REPAIR_DATA, '/remont-audiovideo') }
+    { title: 'Бытовая техника', cards: toUniqueBrandCards(BRAND_REPAIR_DATA) },
+    { title: 'Компьютеры и гаджеты', cards: toUniqueBrandCards(IT_BRAND_REPAIR_DATA) },
+    { title: 'Аудио и видео', cards: toUniqueBrandCards(AV_BRAND_REPAIR_DATA) }
   ];
 
   failedLogos = new Set<string>();

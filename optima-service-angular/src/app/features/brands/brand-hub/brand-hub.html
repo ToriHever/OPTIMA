@@ -1,0 +1,31 @@
+<ng-container *ngIf="hub">
+
+  <section class="brand-hub-intro">
+    <div class="container">
+      <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
+
+      <div class="brand-hub-intro__row">
+        <div class="brand-hub-intro__logo" *ngIf="!logoFailed">
+          <img [src]="hub.logo" [alt]="hub.brandName" (error)="onLogoError()">
+        </div>
+        <div>
+          <h1 class="brand-hub-intro__title">Ремонт техники {{ hub.brandName }}</h1>
+          <p class="brand-hub-intro__subtitle">
+            Все виды техники {{ hub.brandName }}, которую мы ремонтируем в Ростове-на-Дону — выберите свою категорию.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="brand-hub-grid">
+    <div class="container">
+      <a *ngFor="let category of hub.categories" [routerLink]="category.path" class="brand-hub-card">
+        <span class="brand-hub-card__section">{{ category.sectionLabel }}</span>
+        <span class="brand-hub-card__name">Ремонт {{ category.deviceName }}</span>
+        <span class="brand-hub-card__arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+</ng-container>
