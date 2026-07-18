@@ -28,8 +28,8 @@ export interface SidebarStat {
 export class CategoriesGrid implements OnInit {
   @Input() sectionId: string = 'technique';
   @Input() navTitle: string = 'Техника';
-  @Input() sectionTitle: string = 'Что мы';
-  @Input() sectionTitleAccent: string = 'ремонтируем';
+  @Input() sectionTitle: string = 'Виды и стоимость';
+  @Input() sectionTitleAccent: string = 'ремонтных работ';
   @Input() sectionDescription: string = '';
   @Input() stats: SidebarStat[] = [];
   @Input() ctaTitle: string = 'Не нашли свою технику?';
