@@ -123,6 +123,12 @@
             </tbody>
           </table>
         </div>
+
+        <div class="content-link-wrap" *ngIf="list[activeCategory].link">
+          <a [routerLink]="list[activeCategory].link" class="btn btn-secondary">
+            {{ list[activeCategory].linkLabel || 'Перейти в раздел' }}
+          </a>
+        </div>
       </div>
     </div>
 

@@ -88,7 +88,9 @@ export class BrandHubPage implements OnInit {
         name: item.name,
         price: item.priceFrom,
         duration: item.description
-      }))
+      })),
+      link: c.path,
+      linkLabel: `Перейти к разделу «${c.device.name}»`
     }));
   }
 

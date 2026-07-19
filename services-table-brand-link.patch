@@ -1,0 +1,113 @@
+From 3d3779b8f4e9a239790dedc8abcbdc624deeb62a Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sun, 19 Jul 2026 16:45:46 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=91=D0=BB=D0=BE=D0=BA=20=D1=86=D0=B5=D0=BD?=
+ =?UTF-8?q?=20=D0=BD=D0=B0=20=D1=81=D1=82=D1=80=D0=B0=D0=BD=D0=B8=D1=86?=
+ =?UTF-8?q?=D0=B5=20=D0=B1=D1=80=D0=B5=D0=BD=D0=B4=D0=B0:=20=D0=BA=D0=BD?=
+ =?UTF-8?q?=D0=BE=D0=BF=D0=BA=D0=B0-=D0=BF=D0=B5=D1=80=D0=B5=D1=85=D0=BE?=
+ =?UTF-8?q?=D0=B4=20=D0=B2=20=D1=80=D0=B0=D0=B7=D0=B4=D0=B5=D0=BB=20=D1=82?=
+ =?UTF-8?q?=D0=B5=D1=85=D0=BD=D0=B8=D0=BA=D0=B8?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+В app-services-table добавлены опциональные ServiceCategory.link/linkLabel:
+если заданы, под таблицей текущей вкладки показывается кнопка-переход
+(routerLink). Поля опциональны — на главной странице (дефолтные категории
+без link) поведение не меняется.
+
+На странице бренда кнопка ведёт на страницу «техника по бренду»
+(/remont-.../{device}/{brand}) для активного вида техники — используется
+уже имеющийся BrandCategoryLink.path.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+---
+ .../src/app/features/brands/brand-hub/brand-hub.ts         | 4 +++-
+ .../shared/components/services-table/services-table.html   | 6 ++++++
+ .../shared/components/services-table/services-table.scss   | 5 +++++
+ .../app/shared/components/services-table/services-table.ts | 7 ++++++-
+ 4 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
+index 094cf16..c305684 100644
+--- a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
++++ b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
+@@ -88,7 +88,9 @@ export class BrandHubPage implements OnInit {
+         name: item.name,
+         price: item.priceFrom,
+         duration: item.description
+-      }))
++      })),
++      link: c.path,
++      linkLabel: `Перейти к разделу «${c.device.name}»`
+     }));
+   }
+ 
+diff --git a/optima-service-angular/src/app/shared/components/services-table/services-table.html b/optima-service-angular/src/app/shared/components/services-table/services-table.html
+index 170cd15..9f6124b 100644
+--- a/optima-service-angular/src/app/shared/components/services-table/services-table.html
++++ b/optima-service-angular/src/app/shared/components/services-table/services-table.html
+@@ -123,6 +123,12 @@
+             </tbody>
+           </table>
+         </div>
++
++        <div class="content-link-wrap" *ngIf="list[activeCategory].link">
++          <a [routerLink]="list[activeCategory].link" class="btn btn-secondary">
++            {{ list[activeCategory].linkLabel || 'Перейти в раздел' }}
++          </a>
++        </div>
+       </div>
+     </div>
+ 
+diff --git a/optima-service-angular/src/app/shared/components/services-table/services-table.scss b/optima-service-angular/src/app/shared/components/services-table/services-table.scss
+index 2fa7092..7f8acd1 100644
+--- a/optima-service-angular/src/app/shared/components/services-table/services-table.scss
++++ b/optima-service-angular/src/app/shared/components/services-table/services-table.scss
+@@ -166,6 +166,11 @@
+   }
+ }
+ 
++.content-link-wrap {
++  padding-top: $spacing-md;
++  text-align: right;
++}
++
+ .services-table {
+   width: 100%;
+   border-collapse: separate;
+diff --git a/optima-service-angular/src/app/shared/components/services-table/services-table.ts b/optima-service-angular/src/app/shared/components/services-table/services-table.ts
+index 5bf6f27..30ca1f1 100644
+--- a/optima-service-angular/src/app/shared/components/services-table/services-table.ts
++++ b/optima-service-angular/src/app/shared/components/services-table/services-table.ts
+@@ -9,6 +9,7 @@ import {
+   HostListener,
+ } from '@angular/core';
+ import { CommonModule, isPlatformBrowser } from '@angular/common';
++import { RouterModule } from '@angular/router';
+ import { trigger, state, style, transition, animate } from '@angular/animations';
+ import { ModalService } from '../../../core/services/modal.service';
+ import { ScrollService } from '../../../core/services/scroll.service';
+@@ -25,6 +26,10 @@ export interface ServiceCategory {
+   description: string;
+   icon: string;
+   services: Service[];
++  // Ссылка на профильный раздел (напр. «техника по бренду») — если задана,
++  // под таблицей показывается кнопка-переход. Не используется на главной.
++  link?: string;
++  linkLabel?: string;
+ }
+ 
+ const CAT_SCROLL_STEP = 200;
+@@ -32,7 +37,7 @@ const CAT_SCROLL_STEP = 200;
+ @Component({
+   selector: 'app-services-table',
+   standalone: true,
+-  imports: [CommonModule],
++  imports: [CommonModule, RouterModule],
+   templateUrl: './services-table.html',
+   styleUrl: './services-table.scss',
+   animations: [
+-- 
+2.52.0.windows.1
+

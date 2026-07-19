@@ -9,6 +9,7 @@ import {
   HostListener,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ModalService } from '../../../core/services/modal.service';
 import { ScrollService } from '../../../core/services/scroll.service';
@@ -25,6 +26,10 @@ export interface ServiceCategory {
   description: string;
   icon: string;
   services: Service[];
+  // Ссылка на профильный раздел (напр. «техника по бренду») — если задана,
+  // под таблицей показывается кнопка-переход. Не используется на главной.
+  link?: string;
+  linkLabel?: string;
 }
 
 const CAT_SCROLL_STEP = 200;
@@ -32,7 +37,7 @@ const CAT_SCROLL_STEP = 200;
 @Component({
   selector: 'app-services-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './services-table.html',
   styleUrl: './services-table.scss',
   animations: [
