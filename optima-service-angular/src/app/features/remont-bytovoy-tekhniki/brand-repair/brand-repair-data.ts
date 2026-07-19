@@ -7,6 +7,9 @@ export interface BrandRepairData {
     titleAccent: string;
     subtitle: string;
     features: string[];
+    // Своё фото для этого бренда+вида техники. Необязательное — если не
+    // задано, страница показывает общее фото вида техники (deviceData.hero.image).
+    image?: string;
   };
 }
 

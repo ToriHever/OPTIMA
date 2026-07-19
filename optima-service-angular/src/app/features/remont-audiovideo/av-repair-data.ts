@@ -37,7 +37,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт', titleAccent: 'телевизоров в Ростове‑на‑Дону',
       subtitle: 'Профессиональный ремонт телевизоров LED, OLED, QLED в Ростове-на-Дону. Выезд мастера на дом, замена подсветки и матрицы. Гарантия до 90 дней.',
       features: ['Выезд мастера на дом', 'LED, OLED, QLED, Plasma', 'Замена подсветки от 2 500 ₽', 'Бесплатная диагностика при ремонте', 'Гарантия до 90 дней'],
-      image: '/assets/img/hero/televizory.jpg'
+      image: '/assets/img/technique/audio-video/televizory.png'
     },
     categories: cats('телевизоров', [
       { name: 'Замена подсветки', description: 'Восстановление LED-подсветки матрицы телевизора', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', features: ['LED-полоски подсветки', 'Инвертор и драйвер', 'Гарантия 90 дней'], priceFrom: '2 500 ₽' },
@@ -69,7 +69,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт', titleAccent: 'акустики в Ростове‑на‑Дону',
       subtitle: 'Ремонт акустических систем, саундбаров, сабвуферов и домашних кинотеатров в Ростове-на-Дону. Гарантия до 90 дней.',
       features: ['Колонки, саундбары, сабвуферы', 'Ремонт усилителя', 'Замена динамиков', 'Бесплатная диагностика при ремонте', 'Гарантия до 90 дней'],
-      image: '/assets/img/hero/akustika.jpg'
+      image: '/assets/img/technique/audio-video/akustika.png'
     },
     categories: cats('акустики', [
       { name: 'Замена динамиков', description: 'Замена пищалки, мидбаса или НЧ-динамика', icon: 'M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z', features: ['Пищалки и мидбасы', 'НЧ-динамики сабвуфера', 'Гарантия 90 дней'], priceFrom: '1 500 ₽' },
@@ -101,7 +101,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт', titleAccent: 'наушников в Ростове‑на‑Дону',
       subtitle: 'Ремонт проводных и беспроводных наушников Sony, Bose, Sennheiser, AirPods в Ростове-на-Дону. Замена кабеля, динамиков, аккумулятора. Гарантия до 90 дней.',
       features: ['Sony, Bose, Sennheiser, AirPods', 'Замена кабеля от 500 ₽', 'Ремонт шумоподавления', 'Бесплатная диагностика при ремонте', 'Гарантия до 90 дней'],
-      image: '/assets/img/hero/naushniki.jpg'
+      image: '/assets/img/technique/audio-video/naushniki.png'
     },
     categories: cats('наушников', [
       { name: 'Замена кабеля', description: 'Замена перебитого или потрескавшегося кабеля', icon: 'M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4', features: ['Съёмные и несъёмные кабели', 'Jack 3.5, 4.4 mm, балансные', 'Гарантия 90 дней'], priceFrom: '500 ₽' },
@@ -133,7 +133,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт игровых', titleAccent: 'консолей в Ростове‑на‑Дону',
       subtitle: 'Ремонт PS4/PS5, Xbox Series X/S/One, Nintendo Switch в Ростове-на-Дону. Чистка, замена дисковода, ремонт HDMI, перепайка. Гарантия до 90 дней.',
       features: ['PS4, PS5, Xbox, Nintendo Switch', 'Замена дисковода от 2 000 ₽', 'Ремонт HDMI-разъёма', 'Чистка системы охлаждения', 'Гарантия до 90 дней'],
-      image: '/assets/img/hero/konsoli.jpg'
+      image: '/assets/img/technique/audio-video/konsoli.png'
     },
     categories: cats('игровых консолей', [
       { name: 'Чистка и замена термопасты', description: 'Чистка от пыли, замена термопасты CPU/GPU', icon: 'M12 2L15 8H21L16 12L18 18L12 14L6 18L8 12L3 8H9L12 2Z', features: ['Снижение температуры на 10–20°C', 'Замена термоинтерфейса', 'Гарантия 90 дней'], priceFrom: '1 500 ₽' },
@@ -165,7 +165,7 @@ export const AV_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт', titleAccent: 'проекторов в Ростове‑на‑Дону',
       subtitle: 'Ремонт проекторов Epson, BenQ, Optoma, Sony в Ростове-на-Дону. Замена лампы, ремонт оптики, цветового колеса, лазерного источника. Гарантия до 90 дней.',
       features: ['Epson, BenQ, Optoma, Sony', 'Замена лампы от 3 000 ₽', 'Лазерные и DLP проекторы', 'Бесплатная диагностика при ремонте', 'Гарантия до 90 дней'],
-      image: '/assets/img/hero/proektory.jpg'
+      image: '/assets/img/technique/audio-video/proektory.png'
     },
     categories: cats('проекторов', [
       { name: 'Замена лампы', description: 'Замена ртутной или галогенной лампы проектора', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', features: ['Оригинальные лампы OEM', 'Все марки проекторов', 'Гарантия 90 дней'], priceFrom: '3 000 ₽' },
