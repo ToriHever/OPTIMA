@@ -98,7 +98,7 @@ export const DEVICE_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleAccent: 'Стиральных машин в Ростове‑на‑Дону',
       subtitle: 'Ремонтируем стиральные и сушильные машины всех марок. Выезд мастера на дом, бесплатная диагностика, гарантия до 90 дней.',
       features: ['Выезд на дом', 'Бесплатная диагностика', 'Оригинальные запчасти', 'Гарантия до 90 дней', 'Ремонт за 1–2 часа'],
-      image: '/assets/img/technique/appliances/stiralnye-mashiny.webp'
+      image: '/assets/img/technique/appliances/stiralnye-mashiny.png'
     },
     categories: {
       sectionTitle: 'Стоимость ремонта',
