@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ModalService } from '../../../core/services/modal.service';
 import { ScrollService } from '../../../core/services/scroll.service';
 import { Breadcrumb, BreadcrumbItem } from '../breadcrumb/breadcrumb';
@@ -7,7 +8,7 @@ import { Breadcrumb, BreadcrumbItem } from '../breadcrumb/breadcrumb';
 @Component({
   selector: 'app-hero-section',
   standalone: true,
-  imports: [CommonModule, Breadcrumb],
+  imports: [CommonModule, RouterModule, Breadcrumb],
   templateUrl: './hero-section.html',
   styleUrl: './hero-section.scss'
 })
@@ -23,6 +24,7 @@ export class HeroSection implements OnInit, OnDestroy {
   @Input() phoneHref: string = 'tel:89885163131';
   @Input() breadcrumbs: BreadcrumbItem[] = [];
   @Input() imageUrl?: string;
+  @Input() brandTabs: { name: string; path: string }[] = [];
 
   isVisible = false;
   parallaxOffset = 0;

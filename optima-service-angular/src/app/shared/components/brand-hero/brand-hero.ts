@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Breadcrumb, BreadcrumbItem } from '../breadcrumb/breadcrumb';
 import { ModalService } from '../../../core/services/modal.service';
+import { PhoneModel } from '../../../features/remont-kompyuterov/phone-models-data';
 
 @Component({
   selector: 'app-brand-hero',
@@ -21,6 +22,12 @@ export class BrandHero {
   @Input() devicePath = '/';
   @Input() deviceLabel = '';
   @Input() priceScrollTarget = '';
+
+  // Модельные табы (только для страниц телефонов)
+  @Input() models: PhoneModel[] = [];
+  @Input() activeModelSlug: string | null = null;
+  @Input() modelName = '';
+  @Input() brandBasePath = '';
 
   private modalService = inject(ModalService);
 

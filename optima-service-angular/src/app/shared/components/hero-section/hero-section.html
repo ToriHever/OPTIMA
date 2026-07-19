@@ -15,6 +15,13 @@
 
       <p class="hero-subtitle delay-1" [class.animated]="isVisible">{{ subtitle }}</p>
 
+      <div class="hero-brand-tabs delay-1" *ngIf="brandTabs.length" [class.animated]="isVisible">
+        <span class="hero-brand-tabs__label">Авторизованный сервис</span>
+        <div class="hero-brand-tabs__list">
+          <a *ngFor="let t of brandTabs" [routerLink]="t.path" class="hero-brand-tab">{{ t.name }}</a>
+        </div>
+      </div>
+
       <div class="hero-features delay-2" [class.animated]="isVisible">
         <div class="hero-feature" *ngFor="let feature of features">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

@@ -115,6 +115,38 @@
   margin: 0;
 }
 
+// Модельные табы (настоящие ссылки, /brand/model)
+.brand-hero__models {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.brand-hero__model {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.9rem;
+  border-radius: $radius-full;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.8);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all $transition-base;
+
+  &:hover {
+    background: rgba(255,255,255,0.16);
+    color: $color-white;
+  }
+
+  &.active {
+    background: $color-white;
+    color: $color-primary;
+    border-color: $color-white;
+  }
+}
+
 // Триггеры
 .brand-hero__features {
   list-style: none;

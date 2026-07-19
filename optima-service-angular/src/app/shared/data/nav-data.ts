@@ -9,18 +9,19 @@ export interface NavLink {
 }
 
 // Собирает уникальные (по названию) бренды из нескольких устройств
-// одного раздела меню — ссылка ведёт на первое найденное устройство.
+// одного раздела меню — ссылка ведёт на объединяющую страницу бренда
+// (/brands/:slug). На страницу «категория-бренд» попадают только с самой
+// категории или со страницы бренда.
 function uniqueBrands(
   data: Record<string, Record<string, { brandName: string; slug: string }>>,
-  deviceSlugs: string[],
-  basePath: string
+  deviceSlugs: string[]
 ): NavLink[] {
   const seen = new Map<string, NavLink>();
 
   for (const deviceSlug of deviceSlugs) {
     for (const brand of Object.values(data[deviceSlug] ?? {})) {
       if (!seen.has(brand.brandName)) {
-        seen.set(brand.brandName, { name: brand.brandName, path: `${basePath}/${deviceSlug}/${brand.slug}` });
+        seen.set(brand.brandName, { name: brand.brandName, path: `/brands/${brand.slug}` });
       }
     }
   }
@@ -34,7 +35,7 @@ function uniqueBrands(
 export const PHONE_BASE_PATH = '/remont-kompyuterov/smartfony';
 
 export const PHONE_BRANDS: NavLink[] = Object.values(IT_BRAND_REPAIR_DATA['smartfony'] ?? {})
-  .map(b => ({ name: b.brandName, path: `${PHONE_BASE_PATH}/${b.slug}` }));
+  .map(b => ({ name: b.brandName, path: `/brands/${b.slug}` }));
 
 export const PHONE_ISSUES: NavLink[] = (IT_REPAIR_DATA['smartfony']?.categories.items ?? [])
   .map(i => ({ name: i.name, path: PHONE_BASE_PATH }));
@@ -51,7 +52,7 @@ export const COMPUTER_DEVICES: NavLink[] = [
   { name: 'Принтеры и МФУ', path: '/remont-kompyuterov/printeryi-i-mfu' }
 ];
 
-export const COMPUTER_BRANDS: NavLink[] = uniqueBrands(IT_BRAND_REPAIR_DATA, COMPUTER_DEVICE_SLUGS, '/remont-kompyuterov');
+export const COMPUTER_BRANDS: NavLink[] = uniqueBrands(IT_BRAND_REPAIR_DATA, COMPUTER_DEVICE_SLUGS);
 
 // ── Ремонт телевизоров и аудио устройств: список устройств + бренды.
 const AV_DEVICE_SLUGS = ['televizory', 'akustika', 'naushniki', 'konsoli', 'proektory'];
@@ -64,7 +65,7 @@ export const AV_DEVICES: NavLink[] = [
   { name: 'Проекторы', path: '/remont-audiovideo/proektory' }
 ];
 
-export const AV_BRANDS: NavLink[] = uniqueBrands(AV_BRAND_REPAIR_DATA, AV_DEVICE_SLUGS, '/remont-audiovideo');
+export const AV_BRANDS: NavLink[] = uniqueBrands(AV_BRAND_REPAIR_DATA, AV_DEVICE_SLUGS);
 
 // ── Ремонт бытовой техники: крупногабаритная / малогабаритная + бренды.
 const APPLIANCE_DEVICE_SLUGS = [
@@ -85,4 +86,4 @@ export const APPLIANCE_SMALL: NavLink[] = [
   { name: 'Утюги и парогенераторы', path: '/remont-bytovoy-tekhniki/utyugi-i-parogeneratory' }
 ];
 
-export const APPLIANCE_BRANDS: NavLink[] = uniqueBrands(BRAND_REPAIR_DATA, APPLIANCE_DEVICE_SLUGS, '/remont-bytovoy-tekhniki');
+export const APPLIANCE_BRANDS: NavLink[] = uniqueBrands(BRAND_REPAIR_DATA, APPLIANCE_DEVICE_SLUGS);

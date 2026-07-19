@@ -47,6 +47,11 @@ export class Home implements OnInit {
     'Авторизация POLARIS'
   ];
 
+  brandTabs = [
+    { name: 'Dreame', path: '/brands/dreame' },
+    { name: 'Polaris', path: '/brands/polaris' }
+  ];
+
   categoryStats: SidebarStat[] = [
     { number: '9+', label: 'Категорий техники' },
     { number: '50+', label: 'Видов работ' }

@@ -19,12 +19,18 @@
 
         <h1 class="brand-hero__title">
           Ремонт {{ deviceLabel }}<br>
-          <span class="brand-hero__brand">{{ brandName }}</span>
+          <span class="brand-hero__brand">{{ brandName }}<ng-container *ngIf="modelName"> {{ modelName }}</ng-container></span>
         </h1>
 
         <p class="brand-hero__sub">
-          Знаем особенности каждой серии. Оригинальные запчасти со склада, выезд мастера за 30 минут. Гарантия до 90 дней на все работы.
+          <ng-container *ngIf="modelName">Ремонтируем {{ brandName }} {{ modelName }}: замена дисплея, аккумулятора, ремонт после залития. </ng-container>Знаем особенности каждой серии. Оригинальные запчасти со склада, выезд мастера за 30 минут. Гарантия до 90 дней на все работы.
         </p>
+
+        <div class="brand-hero__models" *ngIf="models.length">
+          <a [routerLink]="brandBasePath" class="brand-hero__model" [class.active]="!activeModelSlug">Все модели</a>
+          <a *ngFor="let m of models" [routerLink]="[brandBasePath, m.slug]"
+             class="brand-hero__model" [class.active]="m.slug === activeModelSlug">{{ m.name }}</a>
+        </div>
 
         <ul class="brand-hero__features" *ngIf="features.length">
           <li *ngFor="let f of features">

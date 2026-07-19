@@ -1,0 +1,648 @@
+From d050b06a4dcda4f546274fddc28553ab7e1d2c57 Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sun, 19 Jul 2026 11:27:28 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=A0=D0=BE=D1=83=D1=82=D1=8B=20=D0=B1=D1=80?=
+ =?UTF-8?q?=D0=B5=D0=BD=D0=B4=D0=BE=D0=B2=20=D0=B2=20=D0=BC=D0=B5=D0=BD?=
+ =?UTF-8?q?=D1=8E,=20=D1=82=D0=B0=D0=B1=D1=8B=20=D0=B1=D1=80=D0=B5=D0=BD?=
+ =?UTF-8?q?=D0=B4=D0=BE=D0=B2=20=D0=B2=20hero,=20=D0=BC=D0=BE=D0=B4=D0=B5?=
+ =?UTF-8?q?=D0=BB=D1=8C=D0=BD=D1=8B=D0=B5=20=D1=82=D0=B0=D0=B1=D1=8B=20?=
+ =?UTF-8?q?=D1=82=D0=B5=D0=BB=D0=B5=D1=84=D0=BE=D0=BD=D0=BE=D0=B2?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+1. Ссылки на бренды в мега-меню теперь ведут на страницу бренда
+   (/brands/:slug), а не на страницу «категория-бренд». На категорию-бренд
+   попадают только с самой категории или со страницы бренда.
+
+2. В hero главной добавлены табы Dreame/Polaris со ссылками на /brands/:slug
+   (подчёркивают статус авторизованного сервиса).
+
+3. На странице «телефон-бренд» (apple/samsung/xiaomi) добавлены табы моделей.
+   Клик по табу — настоящая ссылка (routerLink), меняет URL на доп. сегмент
+   (/remont-kompyuterov/smartfony/samsung/galaxy-s24) и минимально обновляет
+   страницу (H1, meta title/description, упоминания модели) БЕЗ пересоздания
+   компонента. Реализовано через custom UrlMatcher (brand-model.matcher.ts):
+   один узел роута матчит и :brand, и :brand/:model, поэтому компонент
+   переиспользуется. Обновление вида — по router.events(NavigationEnd) с
+   разбором router.url и markForCheck() (проект zoneless).
+
+Также: серверные роуты (app.routes.server.ts) — добавлены brands/:slug и
+masters/:slug (RenderMode.Server), сегмент моделей покрыт :slug/**; это чинит
+предсуществующую ошибку prerender-сборки для параметризованных роутов.
+
+Данные моделей — новый phone-models-data.ts (только смартфоны).
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+---
+ .../src/app/app.routes.server.ts              |  8 +-
+ optima-service-angular/src/app/app.routes.ts  |  7 +-
+ .../src/app/features/home/home.html           |  1 +
+ .../src/app/features/home/home.ts             |  5 +
+ .../brand-repair/brand-repair.html            |  4 +
+ .../brand-repair/brand-repair.ts              | 96 +++++++++++++++++--
+ .../remont-kompyuterov/phone-models-data.ts   | 52 ++++++++++
+ .../components/brand-hero/brand-hero.html     | 10 +-
+ .../components/brand-hero/brand-hero.scss     | 32 +++++++
+ .../components/brand-hero/brand-hero.ts       |  7 ++
+ .../components/hero-section/hero-section.html |  7 ++
+ .../components/hero-section/hero-section.scss | 45 +++++++++
+ .../components/hero-section/hero-section.ts   |  4 +-
+ .../src/app/shared/data/nav-data.ts           | 17 ++--
+ .../app/shared/routing/brand-model.matcher.ts | 20 ++++
+ 15 files changed, 288 insertions(+), 27 deletions(-)
+ create mode 100644 optima-service-angular/src/app/features/remont-kompyuterov/phone-models-data.ts
+ create mode 100644 optima-service-angular/src/app/shared/routing/brand-model.matcher.ts
+
+diff --git a/optima-service-angular/src/app/app.routes.server.ts b/optima-service-angular/src/app/app.routes.server.ts
+index cb1446b..004c71d 100644
+--- a/optima-service-angular/src/app/app.routes.server.ts
++++ b/optima-service-angular/src/app/app.routes.server.ts
+@@ -2,10 +2,12 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
+ 
+ export const serverRoutes: ServerRoute[] = [
+   { path: 'remont-bytovoy-tekhniki/:slug', renderMode: RenderMode.Server },
+-  { path: 'remont-bytovoy-tekhniki/:slug/:brand', renderMode: RenderMode.Server },
++  { path: 'remont-bytovoy-tekhniki/:slug/**', renderMode: RenderMode.Server },
+   { path: 'remont-kompyuterov/:slug', renderMode: RenderMode.Server },
+-  { path: 'remont-kompyuterov/:slug/:brand', renderMode: RenderMode.Server },
++  { path: 'remont-kompyuterov/:slug/**', renderMode: RenderMode.Server },
+   { path: 'remont-audiovideo/:slug', renderMode: RenderMode.Server },
+-  { path: 'remont-audiovideo/:slug/:brand', renderMode: RenderMode.Server },
++  { path: 'remont-audiovideo/:slug/**', renderMode: RenderMode.Server },
++  { path: 'brands/:slug', renderMode: RenderMode.Server },
++  { path: 'masters/:slug', renderMode: RenderMode.Server },
+   { path: '**', renderMode: RenderMode.Prerender }
+ ];
+diff --git a/optima-service-angular/src/app/app.routes.ts b/optima-service-angular/src/app/app.routes.ts
+index 9a1bc60..d9c796d 100644
+--- a/optima-service-angular/src/app/app.routes.ts
++++ b/optima-service-angular/src/app/app.routes.ts
+@@ -1,4 +1,5 @@
+ import { Routes } from '@angular/router';
++import { brandModelMatcher } from './shared/routing/brand-model.matcher';
+ 
+ export const routes: Routes = [
+   {
+@@ -59,7 +60,7 @@ export const routes: Routes = [
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
+           },
+           {
+-            path: ':brand',
++            matcher: brandModelMatcher,
+             data: { section: 'appliances', backPath: '/remont-bytovoy-tekhniki' },
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
+           }
+@@ -83,7 +84,7 @@ export const routes: Routes = [
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
+           },
+           {
+-            path: ':brand',
++            matcher: brandModelMatcher,
+             data: { section: 'computers', backPath: '/remont-kompyuterov' },
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
+           }
+@@ -107,7 +108,7 @@ export const routes: Routes = [
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
+           },
+           {
+-            path: ':brand',
++            matcher: brandModelMatcher,
+             data: { section: 'av', backPath: '/remont-audiovideo' },
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
+           }
+diff --git a/optima-service-angular/src/app/features/home/home.html b/optima-service-angular/src/app/features/home/home.html
+index 38f0249..a642230 100644
+--- a/optima-service-angular/src/app/features/home/home.html
++++ b/optima-service-angular/src/app/features/home/home.html
+@@ -3,6 +3,7 @@
+   titleAccent="в центре города"
+   subtitle="Сервисный центр «Optima» — авторизованный сервис DREAME и POLARIS. Ремонт смартфонов, ноутбуков и бытовой техники с гарантией."
+   [features]="heroFeatures"
++  [brandTabs]="brandTabs"
+   imageUrl="/assets/img/hero/home.jpg"
+ ></app-hero-section>
+ 
+diff --git a/optima-service-angular/src/app/features/home/home.ts b/optima-service-angular/src/app/features/home/home.ts
+index 8e18c38..f07b581 100644
+--- a/optima-service-angular/src/app/features/home/home.ts
++++ b/optima-service-angular/src/app/features/home/home.ts
+@@ -47,6 +47,11 @@ export class Home implements OnInit {
+     'Авторизация POLARIS'
+   ];
+ 
++  brandTabs = [
++    { name: 'Dreame', path: '/brands/dreame' },
++    { name: 'Polaris', path: '/brands/polaris' }
++  ];
++
+   categoryStats: SidebarStat[] = [
+     { number: '9+', label: 'Категорий техники' },
+     { number: '50+', label: 'Видов работ' }
+diff --git a/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.html b/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.html
+index d440ef5..5b8a658 100644
+--- a/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.html
++++ b/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.html
+@@ -11,6 +11,10 @@
+     [devicePath]="backPath + '/' + deviceData.slug"
+     priceScrollTarget="brand-price"
+     [breadcrumbs]="breadcrumbs"
++    [models]="models"
++    [activeModelSlug]="activeModelSlug"
++    [modelName]="modelName"
++    [brandBasePath]="brandBasePath"
+   ></app-brand-hero>
+ 
+   <!-- 2. Почему мы -->
+diff --git a/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.ts b/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.ts
+index 203a494..1db0696 100644
+--- a/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.ts
++++ b/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.ts
+@@ -1,7 +1,9 @@
+-import { Component, OnInit } from '@angular/core';
++import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+ import { CommonModule, ViewportScroller } from '@angular/common';
+-import { ActivatedRoute, Router } from '@angular/router';
++import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+ import { Title, Meta } from '@angular/platform-browser';
++import { Subscription } from 'rxjs';
++import { filter } from 'rxjs/operators';
+ import { BrandHero } from '../../../shared/components/brand-hero/brand-hero';
+ import { CategoriesGrid } from '../../../shared/components/categories-grid/categories-grid';
+ import { ProcessAccordion } from '../../../shared/components/process-accordion/process-accordion';
+@@ -16,6 +18,7 @@ import { IT_BRAND_REPAIR_DATA } from '../../remont-kompyuterov/it-brand-repair-d
+ import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
+ import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-data';
+ import { MastersTeam } from '../../../shared/components/masters-team/masters-team';
++import { PhoneModel, getPhoneModels, findPhoneModel } from '../../remont-kompyuterov/phone-models-data';
+ 
+ @Component({
+   selector: 'app-brand-repair',
+@@ -24,26 +27,51 @@ import { MastersTeam } from '../../../shared/components/masters-team/masters-tea
+   templateUrl: './brand-repair.html',
+   styleUrl: './brand-repair.scss'
+ })
+-export class BrandRepairPage implements OnInit {
++export class BrandRepairPage implements OnInit, OnDestroy {
+   brandData: BrandRepairData | null = null;
+   deviceData: DeviceRepairData | null = null;
+   backPath = '/remont-bytovoy-tekhniki';
+   sectionLabel = 'Бытовая техника';
+   breadcrumbs: BreadcrumbItem[] = [];
+ 
++  models: PhoneModel[] = [];
++  activeModel: PhoneModel | null = null;
++  brandBasePath = '';
++
++  private paramsSub?: Subscription;
++  private currentKey = '';
++
+   constructor(
+     private route: ActivatedRoute,
+     private router: Router,
+     private scroller: ViewportScroller,
+     private title: Title,
+-    private meta: Meta
++    private meta: Meta,
++    private cdr: ChangeDetectorRef
+   ) {}
+ 
+   ngOnInit(): void {
+-    this.scroller.scrollToPosition([0, 0]);
++    // Первичная отрисовка + реакция на все последующие навигации.
++    // Используем NavigationEnd (а не route.paramMap): при matcher-роуте
++    // компонент переиспользуется, а paramMap не всегда переэмитит при
++    // навигации «назад» между вариантами с разным числом сегментов.
++    // NavigationEnd срабатывает всегда — читаем актуальный snapshot.
++    this.render();
++    this.paramsSub = this.router.events
++      .pipe(filter(e => e instanceof NavigationEnd))
++      .subscribe(() => this.render());
++  }
+ 
+-    const slug = this.route.snapshot.paramMap.get('slug') ?? '';
+-    const brand = this.route.snapshot.paramMap.get('brand') ?? '';
++  private render(): void {
++    // Разбираем сегменты из актуального URL, а не из route.snapshot.paramMap:
++    // при matcher-роуте с переиспользованием компонента params у snapshot не
++    // обновляются при навигации «назад». router.url всегда актуален.
++    // Формат: /{section-base}/{slug}/{brand}/{model?} — база всегда 1 сегмент.
++    const path = this.router.url.split('?')[0].split('#')[0];
++    const seg = path.split('/').filter(Boolean);
++    const slug = seg[1] ?? '';
++    const brand = seg[2] ?? '';
++    const model = seg[3] ?? null;
+     const section = this.route.snapshot.data['section'] ?? 'appliances';
+     this.backPath = this.route.snapshot.data['backPath'] ?? '/remont-bytovoy-tekhniki';
+ 
+@@ -66,15 +94,63 @@ export class BrandRepairPage implements OnInit {
+       return;
+     }
+ 
++    // Скроллим вверх только при смене бренда/устройства, а не при выборе
++    // модели — иначе страница будет «прыгать» вверх на каждый таб.
++    const brandKey = `${section}/${slug}/${brand}`;
++    if (brandKey !== this.currentKey) {
++      this.scroller.scrollToPosition([0, 0]);
++      this.currentKey = brandKey;
++    }
++
++    this.brandBasePath = `${this.backPath}/${slug}/${brand}`;
++    this.models = getPhoneModels(section, slug, brand);
++    this.activeModel = findPhoneModel(this.models, model);
++
+     this.breadcrumbs = [
+       { label: 'Главная', path: '/' },
+       { label: this.sectionLabel, path: this.backPath },
+       { label: this.deviceData.name, path: `${this.backPath}/${slug}` },
+-      { label: this.brandData.brandName }
++      this.activeModel
++        ? { label: this.brandData.brandName, path: this.brandBasePath }
++        : { label: this.brandData.brandName }
+     ];
++    if (this.activeModel) {
++      this.breadcrumbs.push({ label: this.activeModel.name });
++    }
+ 
+-    this.title.setTitle(this.brandData.meta.title);
+-    this.meta.updateTag({ name: 'description', content: this.brandData.meta.description });
++    this.updateMeta();
++
++    // Zoneless: подписка на router.events сама по себе не запускает change
++    // detection (в отличие от клика по routerLink). При навигации «назад»
++    // без этого вид не обновится, хотя данные уже актуальны.
++    this.cdr.markForCheck();
+   }
+ 
++  ngOnDestroy(): void {
++    this.paramsSub?.unsubscribe();
++  }
++
++  get modelName(): string {
++    return this.activeModel?.name ?? '';
++  }
++
++  get activeModelSlug(): string | null {
++    return this.activeModel?.slug ?? null;
++  }
++
++  private updateMeta(): void {
++    if (!this.brandData) return;
++
++    const model = this.activeModel;
++    if (model) {
++      this.title.setTitle(`Ремонт ${this.brandData.brandName} ${model.name} в Ростове-на-Дону — Optima Сервис`);
++      this.meta.updateTag({
++        name: 'description',
++        content: `Ремонт ${this.brandData.brandName} ${model.name} в Ростове-на-Дону. Замена дисплея, аккумулятора, ремонт после залития. Оригинальные запчасти, гарантия до 90 дней.`
++      });
++    } else {
++      this.title.setTitle(this.brandData.meta.title);
++      this.meta.updateTag({ name: 'description', content: this.brandData.meta.description });
++    }
++  }
+ }
+diff --git a/optima-service-angular/src/app/features/remont-kompyuterov/phone-models-data.ts b/optima-service-angular/src/app/features/remont-kompyuterov/phone-models-data.ts
+new file mode 100644
+index 0000000..2650e6b
+--- /dev/null
++++ b/optima-service-angular/src/app/features/remont-kompyuterov/phone-models-data.ts
+@@ -0,0 +1,52 @@
++export interface PhoneModel {
++  slug: string;
++  name: string;
++}
++
++// Модели смартфонов для табов на странице «бренд-телефон».
++// Ключи: deviceSlug -> brandSlug -> модели.
++export const PHONE_MODELS: Record<string, Record<string, PhoneModel[]>> = {
++  smartfony: {
++    apple: [
++      { slug: 'iphone-16-pro-max', name: 'iPhone 16 Pro Max' },
++      { slug: 'iphone-16-pro', name: 'iPhone 16 Pro' },
++      { slug: 'iphone-16', name: 'iPhone 16' },
++      { slug: 'iphone-15-pro-max', name: 'iPhone 15 Pro Max' },
++      { slug: 'iphone-15', name: 'iPhone 15' },
++      { slug: 'iphone-14', name: 'iPhone 14' },
++      { slug: 'iphone-13', name: 'iPhone 13' },
++      { slug: 'iphone-12', name: 'iPhone 12' }
++    ],
++    samsung: [
++      { slug: 'galaxy-s24-ultra', name: 'Galaxy S24 Ultra' },
++      { slug: 'galaxy-s24', name: 'Galaxy S24' },
++      { slug: 'galaxy-s23', name: 'Galaxy S23' },
++      { slug: 'galaxy-z-fold-6', name: 'Galaxy Z Fold 6' },
++      { slug: 'galaxy-z-flip-6', name: 'Galaxy Z Flip 6' },
++      { slug: 'galaxy-a55', name: 'Galaxy A55' },
++      { slug: 'galaxy-a35', name: 'Galaxy A35' },
++      { slug: 'galaxy-note-20', name: 'Galaxy Note 20' }
++    ],
++    xiaomi: [
++      { slug: 'xiaomi-14-pro', name: 'Xiaomi 14 Pro' },
++      { slug: 'xiaomi-14', name: 'Xiaomi 14' },
++      { slug: 'xiaomi-13', name: 'Xiaomi 13' },
++      { slug: 'redmi-note-13-pro', name: 'Redmi Note 13 Pro' },
++      { slug: 'redmi-note-13', name: 'Redmi Note 13' },
++      { slug: 'redmi-note-12', name: 'Redmi Note 12' },
++      { slug: 'poco-x6-pro', name: 'POCO X6 Pro' },
++      { slug: 'poco-f6', name: 'POCO F6' }
++    ]
++  }
++};
++
++// Список моделей для конкретной страницы. Модели заведены только для
++// смартфонов (section === 'computers', deviceSlug === 'smartfony').
++export function getPhoneModels(section: string, deviceSlug: string, brandSlug: string): PhoneModel[] {
++  if (section !== 'computers') return [];
++  return PHONE_MODELS[deviceSlug]?.[brandSlug] ?? [];
++}
++
++export function findPhoneModel(models: PhoneModel[], slug: string | null | undefined): PhoneModel | null {
++  return slug ? (models.find(m => m.slug === slug) ?? null) : null;
++}
+diff --git a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html
+index 6482228..2f33dd9 100644
+--- a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html
++++ b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html
+@@ -19,13 +19,19 @@
+ 
+         <h1 class="brand-hero__title">
+           Ремонт {{ deviceLabel }}<br>
+-          <span class="brand-hero__brand">{{ brandName }}</span>
++          <span class="brand-hero__brand">{{ brandName }}<ng-container *ngIf="modelName"> {{ modelName }}</ng-container></span>
+         </h1>
+ 
+         <p class="brand-hero__sub">
+-          Знаем особенности каждой серии. Оригинальные запчасти со склада, выезд мастера за 30 минут. Гарантия до 90 дней на все работы.
++          <ng-container *ngIf="modelName">Ремонтируем {{ brandName }} {{ modelName }}: замена дисплея, аккумулятора, ремонт после залития. </ng-container>Знаем особенности каждой серии. Оригинальные запчасти со склада, выезд мастера за 30 минут. Гарантия до 90 дней на все работы.
+         </p>
+ 
++        <div class="brand-hero__models" *ngIf="models.length">
++          <a [routerLink]="brandBasePath" class="brand-hero__model" [class.active]="!activeModelSlug">Все модели</a>
++          <a *ngFor="let m of models" [routerLink]="[brandBasePath, m.slug]"
++             class="brand-hero__model" [class.active]="m.slug === activeModelSlug">{{ m.name }}</a>
++        </div>
++
+         <ul class="brand-hero__features" *ngIf="features.length">
+           <li *ngFor="let f of features">
+             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+diff --git a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.scss b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.scss
+index 3f6412d..162a097 100644
+--- a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.scss
++++ b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.scss
+@@ -115,6 +115,38 @@
+   margin: 0;
+ }
+ 
++// Модельные табы (настоящие ссылки, /brand/model)
++.brand-hero__models {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 0.5rem;
++}
++
++.brand-hero__model {
++  display: inline-flex;
++  align-items: center;
++  padding: 0.4rem 0.9rem;
++  border-radius: $radius-full;
++  border: 1px solid rgba(255,255,255,0.25);
++  background: rgba(255,255,255,0.06);
++  color: rgba(255,255,255,0.8);
++  font-size: 0.8125rem;
++  font-weight: 600;
++  text-decoration: none;
++  transition: all $transition-base;
++
++  &:hover {
++    background: rgba(255,255,255,0.16);
++    color: $color-white;
++  }
++
++  &.active {
++    background: $color-white;
++    color: $color-primary;
++    border-color: $color-white;
++  }
++}
++
+ // Триггеры
+ .brand-hero__features {
+   list-style: none;
+diff --git a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts
+index 235627f..56a4412 100644
+--- a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts
++++ b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts
+@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
+ import { RouterModule } from '@angular/router';
+ import { Breadcrumb, BreadcrumbItem } from '../breadcrumb/breadcrumb';
+ import { ModalService } from '../../../core/services/modal.service';
++import { PhoneModel } from '../../../features/remont-kompyuterov/phone-models-data';
+ 
+ @Component({
+   selector: 'app-brand-hero',
+@@ -22,6 +23,12 @@ export class BrandHero {
+   @Input() deviceLabel = '';
+   @Input() priceScrollTarget = '';
+ 
++  // Модельные табы (только для страниц телефонов)
++  @Input() models: PhoneModel[] = [];
++  @Input() activeModelSlug: string | null = null;
++  @Input() modelName = '';
++  @Input() brandBasePath = '';
++
+   private modalService = inject(ModalService);
+ 
+   get logoPath(): string {
+diff --git a/optima-service-angular/src/app/shared/components/hero-section/hero-section.html b/optima-service-angular/src/app/shared/components/hero-section/hero-section.html
+index 05ee2f4..2425704 100644
+--- a/optima-service-angular/src/app/shared/components/hero-section/hero-section.html
++++ b/optima-service-angular/src/app/shared/components/hero-section/hero-section.html
+@@ -15,6 +15,13 @@
+ 
+       <p class="hero-subtitle delay-1" [class.animated]="isVisible">{{ subtitle }}</p>
+ 
++      <div class="hero-brand-tabs delay-1" *ngIf="brandTabs.length" [class.animated]="isVisible">
++        <span class="hero-brand-tabs__label">Авторизованный сервис</span>
++        <div class="hero-brand-tabs__list">
++          <a *ngFor="let t of brandTabs" [routerLink]="t.path" class="hero-brand-tab">{{ t.name }}</a>
++        </div>
++      </div>
++
+       <div class="hero-features delay-2" [class.animated]="isVisible">
+         <div class="hero-feature" *ngFor="let feature of features">
+           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+diff --git a/optima-service-angular/src/app/shared/components/hero-section/hero-section.scss b/optima-service-angular/src/app/shared/components/hero-section/hero-section.scss
+index 1986deb..62c5603 100644
+--- a/optima-service-angular/src/app/shared/components/hero-section/hero-section.scss
++++ b/optima-service-angular/src/app/shared/components/hero-section/hero-section.scss
+@@ -136,6 +136,51 @@
+   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+ }
+ 
++// Табы авторизованных брендов (Dreame / Polaris) — ссылки на страницы брендов
++.hero-brand-tabs {
++  display: flex;
++  align-items: center;
++  flex-wrap: wrap;
++  gap: $spacing-sm $spacing-md;
++  margin-bottom: $space-lg;
++}
++
++.hero-brand-tabs__label {
++  @include text-mini;
++  font-weight: 700;
++  text-transform: uppercase;
++  letter-spacing: 0.06em;
++  color: rgba($color-white, 0.7);
++}
++
++.hero-brand-tabs__list {
++  display: flex;
++  flex-wrap: wrap;
++  gap: $spacing-sm;
++}
++
++.hero-brand-tab {
++  display: inline-flex;
++  align-items: center;
++  padding: $spacing-xs $spacing-md;
++  background: rgba($color-white, 0.12);
++  border: 1px solid rgba($color-white, 0.35);
++  border-radius: $radius-full;
++  color: $color-white;
++  @include text-mini;
++  font-weight: 700;
++  letter-spacing: 0.03em;
++  text-decoration: none;
++  backdrop-filter: blur(10px);
++  transition: all $transition-base;
++
++  &:hover {
++    background: $color-white;
++    color: $color-primary;
++    transform: translateY(-2px);
++  }
++}
++
+ // РџСЂРµРёРјСѓС‰РµСЃС‚РІР°
+ .hero-features {
+   display: flex;
+diff --git a/optima-service-angular/src/app/shared/components/hero-section/hero-section.ts b/optima-service-angular/src/app/shared/components/hero-section/hero-section.ts
+index 29ca584..8eb4e61 100644
+--- a/optima-service-angular/src/app/shared/components/hero-section/hero-section.ts
++++ b/optima-service-angular/src/app/shared/components/hero-section/hero-section.ts
+@@ -1,5 +1,6 @@
+ import { Component, Input, OnInit, OnDestroy, HostListener, PLATFORM_ID, Inject } from '@angular/core';
+ import { CommonModule, isPlatformBrowser } from '@angular/common';
++import { RouterModule } from '@angular/router';
+ import { ModalService } from '../../../core/services/modal.service';
+ import { ScrollService } from '../../../core/services/scroll.service';
+ import { Breadcrumb, BreadcrumbItem } from '../breadcrumb/breadcrumb';
+@@ -7,7 +8,7 @@ import { Breadcrumb, BreadcrumbItem } from '../breadcrumb/breadcrumb';
+ @Component({
+   selector: 'app-hero-section',
+   standalone: true,
+-  imports: [CommonModule, Breadcrumb],
++  imports: [CommonModule, RouterModule, Breadcrumb],
+   templateUrl: './hero-section.html',
+   styleUrl: './hero-section.scss'
+ })
+@@ -23,6 +24,7 @@ export class HeroSection implements OnInit, OnDestroy {
+   @Input() phoneHref: string = 'tel:89885163131';
+   @Input() breadcrumbs: BreadcrumbItem[] = [];
+   @Input() imageUrl?: string;
++  @Input() brandTabs: { name: string; path: string }[] = [];
+ 
+   isVisible = false;
+   parallaxOffset = 0;
+diff --git a/optima-service-angular/src/app/shared/data/nav-data.ts b/optima-service-angular/src/app/shared/data/nav-data.ts
+index e015318..8132223 100644
+--- a/optima-service-angular/src/app/shared/data/nav-data.ts
++++ b/optima-service-angular/src/app/shared/data/nav-data.ts
+@@ -9,18 +9,19 @@ export interface NavLink {
+ }
+ 
+ // Собирает уникальные (по названию) бренды из нескольких устройств
+-// одного раздела меню — ссылка ведёт на первое найденное устройство.
++// одного раздела меню — ссылка ведёт на объединяющую страницу бренда
++// (/brands/:slug). На страницу «категория-бренд» попадают только с самой
++// категории или со страницы бренда.
+ function uniqueBrands(
+   data: Record<string, Record<string, { brandName: string; slug: string }>>,
+-  deviceSlugs: string[],
+-  basePath: string
++  deviceSlugs: string[]
+ ): NavLink[] {
+   const seen = new Map<string, NavLink>();
+ 
+   for (const deviceSlug of deviceSlugs) {
+     for (const brand of Object.values(data[deviceSlug] ?? {})) {
+       if (!seen.has(brand.brandName)) {
+-        seen.set(brand.brandName, { name: brand.brandName, path: `${basePath}/${deviceSlug}/${brand.slug}` });
++        seen.set(brand.brandName, { name: brand.brandName, path: `/brands/${brand.slug}` });
+       }
+     }
+   }
+@@ -34,7 +35,7 @@ function uniqueBrands(
+ export const PHONE_BASE_PATH = '/remont-kompyuterov/smartfony';
+ 
+ export const PHONE_BRANDS: NavLink[] = Object.values(IT_BRAND_REPAIR_DATA['smartfony'] ?? {})
+-  .map(b => ({ name: b.brandName, path: `${PHONE_BASE_PATH}/${b.slug}` }));
++  .map(b => ({ name: b.brandName, path: `/brands/${b.slug}` }));
+ 
+ export const PHONE_ISSUES: NavLink[] = (IT_REPAIR_DATA['smartfony']?.categories.items ?? [])
+   .map(i => ({ name: i.name, path: PHONE_BASE_PATH }));
+@@ -51,7 +52,7 @@ export const COMPUTER_DEVICES: NavLink[] = [
+   { name: 'Принтеры и МФУ', path: '/remont-kompyuterov/printeryi-i-mfu' }
+ ];
+ 
+-export const COMPUTER_BRANDS: NavLink[] = uniqueBrands(IT_BRAND_REPAIR_DATA, COMPUTER_DEVICE_SLUGS, '/remont-kompyuterov');
++export const COMPUTER_BRANDS: NavLink[] = uniqueBrands(IT_BRAND_REPAIR_DATA, COMPUTER_DEVICE_SLUGS);
+ 
+ // ── Ремонт телевизоров и аудио устройств: список устройств + бренды.
+ const AV_DEVICE_SLUGS = ['televizory', 'akustika', 'naushniki', 'konsoli', 'proektory'];
+@@ -64,7 +65,7 @@ export const AV_DEVICES: NavLink[] = [
+   { name: 'Проекторы', path: '/remont-audiovideo/proektory' }
+ ];
+ 
+-export const AV_BRANDS: NavLink[] = uniqueBrands(AV_BRAND_REPAIR_DATA, AV_DEVICE_SLUGS, '/remont-audiovideo');
++export const AV_BRANDS: NavLink[] = uniqueBrands(AV_BRAND_REPAIR_DATA, AV_DEVICE_SLUGS);
+ 
+ // ── Ремонт бытовой техники: крупногабаритная / малогабаритная + бренды.
+ const APPLIANCE_DEVICE_SLUGS = [
+@@ -85,4 +86,4 @@ export const APPLIANCE_SMALL: NavLink[] = [
+   { name: 'Утюги и парогенераторы', path: '/remont-bytovoy-tekhniki/utyugi-i-parogeneratory' }
+ ];
+ 
+-export const APPLIANCE_BRANDS: NavLink[] = uniqueBrands(BRAND_REPAIR_DATA, APPLIANCE_DEVICE_SLUGS, '/remont-bytovoy-tekhniki');
++export const APPLIANCE_BRANDS: NavLink[] = uniqueBrands(BRAND_REPAIR_DATA, APPLIANCE_DEVICE_SLUGS);
+diff --git a/optima-service-angular/src/app/shared/routing/brand-model.matcher.ts b/optima-service-angular/src/app/shared/routing/brand-model.matcher.ts
+new file mode 100644
+index 0000000..98da78a
+--- /dev/null
++++ b/optima-service-angular/src/app/shared/routing/brand-model.matcher.ts
+@@ -0,0 +1,20 @@
++import { UrlMatchResult, UrlSegment } from '@angular/router';
++
++/**
++ * Матчер для роута «бренд» с необязательным сегментом модели.
++ *
++ * Поглощает 1 сегмент (`:brand`) или 2 сегмента (`:brand/:model`) и кладёт их
++ * в posParams. Оба варианта матчатся ОДНИМ узлом роута — значит при переходе
++ * между `/…/brand` и `/…/brand/model` (и между моделями) Angular переиспользует
++ * компонент, а не пересоздаёт его: страница не «перезапускается», обновляется
++ * только paramMap.
++ */
++export function brandModelMatcher(segments: UrlSegment[]): UrlMatchResult | null {
++  if (segments.length === 1) {
++    return { consumed: segments, posParams: { brand: segments[0] } };
++  }
++  if (segments.length === 2) {
++    return { consumed: segments, posParams: { brand: segments[0], model: segments[1] } };
++  }
++  return null;
++}
+-- 
+2.52.0.windows.1
+

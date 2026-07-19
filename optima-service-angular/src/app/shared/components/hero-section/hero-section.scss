@@ -136,6 +136,51 @@
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
 }
 
+// Табы авторизованных брендов (Dreame / Polaris) — ссылки на страницы брендов
+.hero-brand-tabs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-sm $spacing-md;
+  margin-bottom: $space-lg;
+}
+
+.hero-brand-tabs__label {
+  @include text-mini;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba($color-white, 0.7);
+}
+
+.hero-brand-tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.hero-brand-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-xs $spacing-md;
+  background: rgba($color-white, 0.12);
+  border: 1px solid rgba($color-white, 0.35);
+  border-radius: $radius-full;
+  color: $color-white;
+  @include text-mini;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  transition: all $transition-base;
+
+  &:hover {
+    background: $color-white;
+    color: $color-primary;
+    transform: translateY(-2px);
+  }
+}
+
 // РџСЂРµРёРјСѓС‰РµСЃС‚РІР°
 .hero-features {
   display: flex;
