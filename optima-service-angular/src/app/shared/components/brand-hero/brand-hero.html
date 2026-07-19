@@ -48,10 +48,11 @@
 
       </div>
 
-      <!-- Правая колонка: лого бренда -->
-      <div class="brand-hero__logo-wrap" *ngIf="!logoFailed">
-        <div class="brand-hero__logo-card">
-          <img [src]="logoPath" [alt]="brandName" class="brand-hero__logo-img" (error)="onLogoError()">
+      <!-- Правая колонка: фото вида техники -->
+      <div class="brand-hero__visual-wrap" *ngIf="imageUrl && !imageFailed">
+        <div class="brand-hero__visual">
+          <div class="brand-hero__visual-bg"></div>
+          <img [src]="imageUrl" [alt]="deviceLabel" class="brand-hero__visual-img" loading="eager" (error)="onImageError()">
         </div>
         <div class="brand-hero__logo-note">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">

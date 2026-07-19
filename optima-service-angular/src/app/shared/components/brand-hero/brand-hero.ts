@@ -23,31 +23,31 @@ export class BrandHero implements OnChanges {
   @Input() deviceLabel = '';
   @Input() priceScrollTarget = '';
 
+  // Фото вида техники (напр. device.hero.image) — общее для всех брендов
+  // этого вида, не зависит от бренда/модели.
+  @Input() imageUrl?: string;
+
   // Модельные табы (только для страниц телефонов)
   @Input() models: PhoneModel[] = [];
   @Input() activeModelSlug: string | null = null;
   @Input() modelName = '';
   @Input() brandBasePath = '';
 
-  logoFailed = false;
+  imageFailed = false;
 
   private modalService = inject(ModalService);
 
-  get logoPath(): string {
-    return `assets/img/brands/${this.brandName}.png`;
-  }
-
-  // Компонент переиспользуется при смене бренда на той же странице
-  // (тот же matcher-роут :brand) — без сброса флаг «картинка не найдена»
-  // остался бы от предыдущего бренда.
+  // Компонент переиспользуется при смене бренда/устройства на той же
+  // странице (тот же matcher-роут :brand) — без сброса флаг «картинка не
+  // найдена» остался бы от предыдущего вида техники.
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['brandName']) {
-      this.logoFailed = false;
+    if (changes['imageUrl']) {
+      this.imageFailed = false;
     }
   }
 
-  onLogoError(): void {
-    this.logoFailed = true;
+  onImageError(): void {
+    this.imageFailed = true;
   }
 
   openCallback() {

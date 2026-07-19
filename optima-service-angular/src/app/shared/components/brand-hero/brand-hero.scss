@@ -208,40 +208,49 @@
   }
 }
 
-// Правая колонка — логотип
-.brand-hero__logo-wrap {
+// Правая колонка — фото вида техники
+.brand-hero__visual-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
 
   @include tablet {
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+    display: none;
   }
 }
 
-.brand-hero__logo-card {
+.brand-hero__visual {
+  position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: $radius-lg;
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
-
-  @include tablet {
-    max-width: 160px;
-    padding: 1.25rem;
-  }
 }
 
-.brand-hero__logo-img {
-  width: 70%;
-  height: 100%;
-  object-fit: contain;
+.brand-hero__visual-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 82%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  backdrop-filter: blur(6px);
+  z-index: 0;
+}
+
+.brand-hero__visual-img {
+  position: relative;
+  z-index: 1;
+  width: 78%;
+  height: 78%;
+  border-radius: $radius-lg;
+  object-fit: cover;
+  filter: drop-shadow(0 24px 48px rgba(0,0,0,0.3));
 }
 
 .brand-hero__logo-note {

@@ -1,0 +1,211 @@
+From ee2195c1afd2bc7cb57af99b1e13b02d5ee78b10 Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sun, 19 Jul 2026 17:19:44 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=A1=D1=82=D1=80=D0=B0=D0=BD=D0=B8=D1=86?=
+ =?UTF-8?q?=D0=B0=20=D1=82=D0=B5=D1=85=D0=BD=D0=B8=D0=BA=D0=B0-=D0=B1?=
+ =?UTF-8?q?=D1=80=D0=B5=D0=BD=D0=B4:=20=D1=84=D0=BE=D1=82=D0=BE=20=D0=B2?=
+ =?UTF-8?q?=D0=B8=D0=B4=D0=B0=20=D1=82=D0=B5=D1=85=D0=BD=D0=B8=D0=BA=D0=B8?=
+ =?UTF-8?q?=20=D0=B2=D0=BC=D0=B5=D1=81=D1=82=D0=BE=20=D0=BB=D0=BE=D0=B3?=
+ =?UTF-8?q?=D0=BE=D1=82=D0=B8=D0=BF=D0=B0=20=D0=B1=D1=80=D0=B5=D0=BD=D0=B4?=
+ =?UTF-8?q?=D0=B0?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+По ТЗ: для каждого вида техники (стиральные машины, смартфоны и т.д.) должна
+показываться своя фотография, а не логотип бренда — логотип бренда одинаков
+для всех устройств и не отражает, что именно ремонтируется.
+
+brand-hero теперь принимает [imageUrl] (device.hero.image — то же поле, что
+уже используется на странице устройства в app-tech-hero) вместо вычисления
+пути к логотипу по имени бренда. Картинка общая для всех брендов одного вида
+техники, но своя для каждого вида. Визуал переделан под фото (круглая
+подложка + object-fit:cover, как в hero-section/tech-hero) вместо рамки-логотипа.
+
+Деградация: если для вида техники ещё не загружен реальный файл (сейчас есть
+только smartfony.png и stiralnye-mashiny.webp — остальные device.hero.image
+ссылаются на отсутствующие файлы), блок с фото просто скрывается вместо
+битой иконки. Остальные фото по видам техники нужно будет добавить отдельно
+(assets в public/assets/img/hero/) — сборка не требует их наличия.
+
+Заодно исправлена опечатка в it-repair-data.ts: smartfony.jpg → smartfony.png
+(расширение не совпадало с реальным файлом, из-за чего фото не показывалось
+даже на странице устройства).
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+---
+ .../brand-repair/brand-repair.html            |  1 +
+ .../remont-kompyuterov/it-repair-data.ts      |  2 +-
+ .../components/brand-hero/brand-hero.html     |  9 ++--
+ .../components/brand-hero/brand-hero.scss     | 45 +++++++++++--------
+ .../components/brand-hero/brand-hero.ts       | 24 +++++-----
+ 5 files changed, 46 insertions(+), 35 deletions(-)
+
+diff --git a/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.html b/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.html
+index 5b8a658..5324184 100644
+--- a/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.html
++++ b/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/brand-repair/brand-repair.html
+@@ -5,6 +5,7 @@
+     [brandName]="brandData.brandName"
+     [deviceName]="brandData.hero.titleAccent"
+     [deviceLabel]="deviceData.hero.titleAccent"
++    [imageUrl]="deviceData.hero.image"
+     [features]="brandData.hero.features"
+     [backPath]="backPath"
+     [backLabel]="sectionLabel"
+diff --git a/optima-service-angular/src/app/features/remont-kompyuterov/it-repair-data.ts b/optima-service-angular/src/app/features/remont-kompyuterov/it-repair-data.ts
+index 829052c..4b914c5 100644
+--- a/optima-service-angular/src/app/features/remont-kompyuterov/it-repair-data.ts
++++ b/optima-service-angular/src/app/features/remont-kompyuterov/it-repair-data.ts
+@@ -69,7 +69,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
+       titleLine1: 'Ремонт', titleAccent: 'смартфонов в Ростове‑на‑Дону',
+       subtitle: 'Быстрый ремонт смартфонов iPhone и Android в Ростове-на-Дону. Замена дисплея от 30 минут, ремонт после залития. Гарантия до 90 дней.',
+       features: ['Замена дисплея от 30 минут', 'iPhone и Android', 'Ремонт после залития', 'Бесплатная диагностика', 'Гарантия до 90 дней'],
+-      image: '/assets/img/hero/smartfony.jpg'
++      image: '/assets/img/hero/smartfony.png'
+     },
+     categories: cats('смартфонов', [
+       { name: 'Замена дисплея', description: 'Замена треснувшего или нерабочего экрана', icon: 'M12 2C10 2 8 4 8 6V18C8 20 10 22 12 22H16C18 22 20 20 20 18V6C20 4 18 2 16 2H12Z', features: ['OLED / IPS / AMOLED', 'Замена за 30–60 минут', 'Гарантия 90 дней'], priceFrom: '1 000 ₽' },
+diff --git a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html
+index 05db3ee..8b44f9f 100644
+--- a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html
++++ b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html
+@@ -48,10 +48,11 @@
+ 
+       </div>
+ 
+-      <!-- Правая колонка: лого бренда -->
+-      <div class="brand-hero__logo-wrap" *ngIf="!logoFailed">
+-        <div class="brand-hero__logo-card">
+-          <img [src]="logoPath" [alt]="brandName" class="brand-hero__logo-img" (error)="onLogoError()">
++      <!-- Правая колонка: фото вида техники -->
++      <div class="brand-hero__visual-wrap" *ngIf="imageUrl && !imageFailed">
++        <div class="brand-hero__visual">
++          <div class="brand-hero__visual-bg"></div>
++          <img [src]="imageUrl" [alt]="deviceLabel" class="brand-hero__visual-img" loading="eager" (error)="onImageError()">
+         </div>
+         <div class="brand-hero__logo-note">
+           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+diff --git a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.scss b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.scss
+index 162a097..87b2143 100644
+--- a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.scss
++++ b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.scss
+@@ -208,40 +208,49 @@
+   }
+ }
+ 
+-// Правая колонка — логотип
+-.brand-hero__logo-wrap {
++// Правая колонка — фото вида техники
++.brand-hero__visual-wrap {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 1rem;
+ 
+   @include tablet {
+-    flex-direction: row;
+-    align-items: center;
+-    justify-content: flex-start;
++    display: none;
+   }
+ }
+ 
+-.brand-hero__logo-card {
++.brand-hero__visual {
++  position: relative;
+   width: 100%;
+-  aspect-ratio: 4 / 3;
+-  border-radius: $radius-lg;
++  aspect-ratio: 1 / 1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+-  padding: 2rem;
+-  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
++}
+ 
+-  @include tablet {
+-    max-width: 160px;
+-    padding: 1.25rem;
+-  }
++.brand-hero__visual-bg {
++  position: absolute;
++  top: 50%;
++  left: 50%;
++  transform: translate(-50%, -50%);
++  width: 82%;
++  aspect-ratio: 1 / 1;
++  border-radius: 50%;
++  background: rgba(255,255,255,0.08);
++  border: 1px solid rgba(255,255,255,0.14);
++  backdrop-filter: blur(6px);
++  z-index: 0;
+ }
+ 
+-.brand-hero__logo-img {
+-  width: 70%;
+-  height: 100%;
+-  object-fit: contain;
++.brand-hero__visual-img {
++  position: relative;
++  z-index: 1;
++  width: 78%;
++  height: 78%;
++  border-radius: $radius-lg;
++  object-fit: cover;
++  filter: drop-shadow(0 24px 48px rgba(0,0,0,0.3));
+ }
+ 
+ .brand-hero__logo-note {
+diff --git a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts
+index d007e8c..e2f1c0c 100644
+--- a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts
++++ b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts
+@@ -23,31 +23,31 @@ export class BrandHero implements OnChanges {
+   @Input() deviceLabel = '';
+   @Input() priceScrollTarget = '';
+ 
++  // Фото вида техники (напр. device.hero.image) — общее для всех брендов
++  // этого вида, не зависит от бренда/модели.
++  @Input() imageUrl?: string;
++
+   // Модельные табы (только для страниц телефонов)
+   @Input() models: PhoneModel[] = [];
+   @Input() activeModelSlug: string | null = null;
+   @Input() modelName = '';
+   @Input() brandBasePath = '';
+ 
+-  logoFailed = false;
++  imageFailed = false;
+ 
+   private modalService = inject(ModalService);
+ 
+-  get logoPath(): string {
+-    return `assets/img/brands/${this.brandName}.png`;
+-  }
+-
+-  // Компонент переиспользуется при смене бренда на той же странице
+-  // (тот же matcher-роут :brand) — без сброса флаг «картинка не найдена»
+-  // остался бы от предыдущего бренда.
++  // Компонент переиспользуется при смене бренда/устройства на той же
++  // странице (тот же matcher-роут :brand) — без сброса флаг «картинка не
++  // найдена» остался бы от предыдущего вида техники.
+   ngOnChanges(changes: SimpleChanges): void {
+-    if (changes['brandName']) {
+-      this.logoFailed = false;
++    if (changes['imageUrl']) {
++      this.imageFailed = false;
+     }
+   }
+ 
+-  onLogoError(): void {
+-    this.logoFailed = true;
++  onImageError(): void {
++    this.imageFailed = true;
+   }
+ 
+   openCallback() {
+-- 
+2.52.0.windows.1
+

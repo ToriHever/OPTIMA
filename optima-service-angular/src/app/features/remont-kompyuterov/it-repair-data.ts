@@ -69,7 +69,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
       titleLine1: 'Ремонт', titleAccent: 'смартфонов в Ростове‑на‑Дону',
       subtitle: 'Быстрый ремонт смартфонов iPhone и Android в Ростове-на-Дону. Замена дисплея от 30 минут, ремонт после залития. Гарантия до 90 дней.',
       features: ['Замена дисплея от 30 минут', 'iPhone и Android', 'Ремонт после залития', 'Бесплатная диагностика', 'Гарантия до 90 дней'],
-      image: '/assets/img/hero/smartfony.jpg'
+      image: '/assets/img/hero/smartfony.png'
     },
     categories: cats('смартфонов', [
       { name: 'Замена дисплея', description: 'Замена треснувшего или нерабочего экрана', icon: 'M12 2C10 2 8 4 8 6V18C8 20 10 22 12 22H16C18 22 20 20 20 18V6C20 4 18 2 16 2H12Z', features: ['OLED / IPS / AMOLED', 'Замена за 30–60 минут', 'Гарантия 90 дней'], priceFrom: '1 000 ₽' },
