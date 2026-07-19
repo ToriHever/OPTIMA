@@ -71,7 +71,7 @@ export const IT_REPAIR_DATA: Record<string, DeviceRepairData> = {
       features: ['Замена дисплея от 30 минут', 'iPhone и Android', 'Ремонт после залития', 'Бесплатная диагностика', 'Гарантия до 90 дней'],
       image: '/assets/img/hero/smartfony.jpg'
     },
-    categories: cats('смартфонов', [
+    categories: cats('Cмартфоны', [
       { name: 'Замена дисплея', description: 'Замена треснувшего или нерабочего экрана', icon: 'M12 2C10 2 8 4 8 6V18C8 20 10 22 12 22H16C18 22 20 20 20 18V6C20 4 18 2 16 2H12Z', features: ['OLED / IPS / AMOLED', 'Замена за 30–60 минут', 'Гарантия 90 дней'], priceFrom: '1 000 ₽' },
       { name: 'Замена аккумулятора', description: 'Замена износившегося аккумулятора', icon: 'M3 10H21V14H3V10Z M6 7V10 M18 7V10', features: ['Оригинальные АКБ', 'Замена за 20 минут', 'Гарантия 90 дней'], priceFrom: '800 ₽' },
       { name: 'Ремонт после залития', description: 'Восстановление смартфона после попадания воды', icon: 'M12 2L14 8H20L15 12L17 18L12 14L7 18L9 12L4 8H10L12 2Z', features: ['Промывка платы ультразвуком', 'Восстановление в 80%', 'Гарантия 90 дней'], priceFrom: '1 500 ₽' },

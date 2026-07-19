@@ -81,7 +81,7 @@ export class BrandHubPage implements OnInit {
   // строки — типовые неисправности этого вида с ценой.
   get priceCategories(): ServiceCategory[] {
     return (this.hub?.categories ?? []).map(c => ({
-      name: c.deviceName,
+      name: `Ремонт ${c.deviceName}`,
       description: c.device.categories.sectionDescription,
       icon: DEVICE_TAB_ICON,
       services: c.device.categories.items.map(item => ({
