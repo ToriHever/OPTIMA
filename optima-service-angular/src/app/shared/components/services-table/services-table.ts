@@ -1,5 +1,6 @@
 import {
   Component,
+  Input,
   PLATFORM_ID,
   Inject,
   AfterViewInit,
@@ -12,14 +13,14 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { ModalService } from '../../../core/services/modal.service';
 import { ScrollService } from '../../../core/services/scroll.service';
 
-interface Service {
+export interface Service {
   name: string;
   price: string;
   duration: string;
   note?: string;
 }
 
-interface ServiceCategory {
+export interface ServiceCategory {
   name: string;
   description: string;
   icon: string;
@@ -46,6 +47,14 @@ export class ServicesTable implements AfterViewInit {
   @ViewChild('catNavRef')  catNavRef!:  ElementRef<HTMLElement>;
   @ViewChild('ctaScroll')  ctaScrollRef!: ElementRef<HTMLElement>;
 
+  // Позволяет переиспользовать компонент с произвольным набором категорий
+  // (напр. на странице бренда) — без @Input берётся дефолтный список услуг.
+  @Input() categories: ServiceCategory[] | null = null;
+  @Input() headingBold = 'Наши услуги';
+  @Input() headingRest = ' и цены';
+  @Input() subtitle = 'Прозрачное ценообразование. Диагностика бесплатная при ремонте. Цены указаны ориентировочные, точная стоимость определяется после диагностики.';
+  @Input() showCta = true;
+
   activeCategory = 0;
   activeTooltip: string | null = null;
 
@@ -56,7 +65,11 @@ export class ServicesTable implements AfterViewInit {
 
   private isMobileNav = false;
 
-  serviceCategories: ServiceCategory[] = [
+  get list(): ServiceCategory[] {
+    return this.categories && this.categories.length ? this.categories : this.defaultCategories;
+  }
+
+  private readonly defaultCategories: ServiceCategory[] = [
     {
       name: 'Диагностика и ПО',
       description: 'Профессиональная диагностика и восстановление программного обеспечения',

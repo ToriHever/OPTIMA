@@ -1,0 +1,229 @@
+From e4dd417cb9a437c5230a561426243b8154ff1a50 Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sun, 19 Jul 2026 15:37:00 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=A1=D1=82=D1=80=D0=B0=D0=BD=D0=B8=D1=86?=
+ =?UTF-8?q?=D0=B0=20=D0=B1=D1=80=D0=B5=D0=BD=D0=B4=D0=B0:=20=D0=BA=D0=BE?=
+ =?UTF-8?q?=D0=BC=D0=BF=D0=B0=D0=BA=D1=82=D0=BD=D0=B0=D1=8F=20=D1=82=D0=B0?=
+ =?UTF-8?q?=D0=B1=D0=BB=D0=B8=D1=86=D0=B0=20=D1=86=D0=B5=D0=BD=20=D0=B2?=
+ =?UTF-8?q?=D0=BC=D0=B5=D1=81=D1=82=D0=BE=20=D1=81=D0=B5=D1=82=D0=BA=D0=B8?=
+ =?UTF-8?q?=20=D0=BA=D0=B0=D1=80=D1=82=D0=BE=D1=87=D0=B5=D0=BA?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Блок цен на /brands/:slug перегружал страницу — по секции categories-grid
+на каждую категорию техники бренда. Заменён на переиспользование
+app-services-table (тот же компактный табличный компонент, что на главной):
+слева табы по видам техники бренда, справа таблица «услуга/цена/описание».
+
+ServicesTable параметризован через @Input (categories, headingBold,
+headingRest, subtitle, showCta) с дефолтами, воспроизводящими прежнее
+поведение — использование на главной странице не изменилось. На странице
+бренда CTA-карточки скрыты (showCta=false): дублировали кнопки hero
+и блок преимуществ.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+---
+ .../features/brands/brand-hub/brand-hub.html  | 20 +++++++---------
+ .../features/brands/brand-hub/brand-hub.ts    | 23 +++++++++++++++++--
+ .../services-table/services-table.html        | 16 ++++++-------
+ .../services-table/services-table.ts          | 19 ++++++++++++---
+ 4 files changed, 52 insertions(+), 26 deletions(-)
+
+diff --git a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.html b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.html
+index a7e5663..e069c2e 100644
+--- a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.html
++++ b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.html
+@@ -36,18 +36,14 @@
+     </div>
+   </section>
+ 
+-  <!-- 2. Цены — сетка услуг по каждой категории техники бренда -->
+-  <app-categories-grid *ngFor="let c of hub.categories"
+-    [sectionId]="'prices-' + c.device.slug"
+-    [navTitle]="'Цены: ' + c.deviceName"
+-    sectionTitle="Стоимость ремонта"
+-    [sectionTitleAccent]="hub.brandName + ' — ' + c.deviceName"
+-    [sectionDescription]="c.device.categories.sectionDescription"
+-    [stats]="c.device.categories.stats"
+-    [ctaTitle]="c.device.categories.ctaTitle"
+-    [ctaDescription]="c.device.categories.ctaDescription"
+-    [categories]="c.device.categories.items"
+-  ></app-categories-grid>
++  <!-- 2. Цены — компактная таблица по видам техники бренда -->
++  <app-services-table
++    [categories]="priceCategories"
++    [headingBold]="'Ремонт ' + hub.brandName"
++    headingRest=": цены по видам техники"
++    [subtitle]="'Ориентировочные цены на популярные неисправности техники ' + hub.brandName + '. Точную стоимость назовём после бесплатной диагностики.'"
++    [showCta]="false"
++  ></app-services-table>
+ 
+   <!-- 3. Преимущества -->
+   <section class="brand-why" data-nav-title="Преимущества">
+diff --git a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
+index 9620f95..05f4f12 100644
+--- a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
++++ b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
+@@ -3,7 +3,7 @@ import { CommonModule, ViewportScroller } from '@angular/common';
+ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+ import { Title, Meta } from '@angular/platform-browser';
+ import { Breadcrumb, BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb';
+-import { CategoriesGrid } from '../../../shared/components/categories-grid/categories-grid';
++import { ServicesTable, ServiceCategory } from '../../../shared/components/services-table/services-table';
+ import { ProcessAccordion, ProcessStep, SidebarStat } from '../../../shared/components/process-accordion/process-accordion';
+ import { ReviewsSection } from '../../../shared/components/reviews-section/reviews-section';
+ import { FaqSection, FaqItem } from '../../../shared/components/faq-section/faq-section';
+@@ -11,10 +11,14 @@ import { PageProgressNavComponent } from '../../../shared/components/page-progre
+ import { ModalService } from '../../../core/services/modal.service';
+ import { getBrandHub, BrandHub } from '../brand-hub-data';
+ 
++// Единая иконка для вкладок таблицы цен — вкладка обозначает вид техники,
++// а не конкретную услугу, поэтому одной декоративной иконки-инструмента достаточно.
++const DEVICE_TAB_ICON = 'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z';
++
+ @Component({
+   selector: 'app-brand-hub',
+   standalone: true,
+-  imports: [CommonModule, RouterModule, Breadcrumb, CategoriesGrid, ProcessAccordion, ReviewsSection, FaqSection, PageProgressNavComponent],
++  imports: [CommonModule, RouterModule, Breadcrumb, ServicesTable, ProcessAccordion, ReviewsSection, FaqSection, PageProgressNavComponent],
+   templateUrl: './brand-hub.html',
+   styleUrl: './brand-hub.scss'
+ })
+@@ -73,6 +77,21 @@ export class BrandHubPage implements OnInit {
+     return `Ремонтируем всю технику ${this.hub?.brandName}${list}. Ставим оригинальные запчасти, работаем по стандарту производителя и отвечаем за каждый ремонт.`;
+   }
+ 
++  // Компактная таблица цен (как на главной): вкладка — вид техники бренда,
++  // строки — типовые неисправности этого вида с ценой.
++  get priceCategories(): ServiceCategory[] {
++    return (this.hub?.categories ?? []).map(c => ({
++      name: c.deviceName,
++      description: c.device.categories.sectionDescription,
++      icon: DEVICE_TAB_ICON,
++      services: c.device.categories.items.map(item => ({
++        name: item.name,
++        price: item.priceFrom,
++        duration: item.description
++      }))
++    }));
++  }
++
+   // Процесс ремонта берём из первой связанной категории (шаги универсальны).
+   get processSteps(): ProcessStep[] {
+     return this.hub?.categories[0]?.device.process.steps ?? [];
+diff --git a/optima-service-angular/src/app/shared/components/services-table/services-table.html b/optima-service-angular/src/app/shared/components/services-table/services-table.html
+index b2f1924..170cd15 100644
+--- a/optima-service-angular/src/app/shared/components/services-table/services-table.html
++++ b/optima-service-angular/src/app/shared/components/services-table/services-table.html
+@@ -3,12 +3,9 @@
+ 
+     <div class="services-header">
+       <h2 class="section-title-dark">
+-        <strong>Наши услуги</strong> и цены
++        <strong>{{ headingBold }}</strong>{{ headingRest }}
+       </h2>
+-      <p class="section-subtitle-dark">
+-        Прозрачное ценообразование. Диагностика бесплатная при ремонте.
+-        Цены указаны ориентировочные, точная стоимость определяется после диагностики.
+-      </p>
++      <p class="section-subtitle-dark">{{ subtitle }}</p>
+     </div>
+ 
+     <div class="services-layout">
+@@ -33,7 +30,7 @@
+           <nav class="categories-nav" #catNavRef (scroll)="onCatNavScroll()">
+             <button
+               class="category-item"
+-              *ngFor="let category of serviceCategories; let i = index"
++              *ngFor="let category of list; let i = index"
+               [class.active]="activeCategory === i"
+               (click)="selectCategory(i)">
+               <div class="category-icon">
+@@ -69,8 +66,8 @@
+       <!-- Правая колонка — таблица -->
+       <div class="services-content">
+         <div class="content-header">
+-          <h3 class="content-title">{{ serviceCategories[activeCategory].name }}</h3>
+-          <p class="content-description">{{ serviceCategories[activeCategory].description }}</p>
++          <h3 class="content-title">{{ list[activeCategory].name }}</h3>
++          <p class="content-description">{{ list[activeCategory].description }}</p>
+         </div>
+ 
+         <div class="services-table-wrapper">
+@@ -83,7 +80,7 @@
+               </tr>
+             </thead>
+             <tbody>
+-              <tr *ngFor="let service of serviceCategories[activeCategory].services">
++              <tr *ngFor="let service of list[activeCategory].services">
+ 
+                 <td class="col-service" [attr.data-label]="'Услуга'">
+                   <span class="service-name">{{ service.name }}</span>
+@@ -131,6 +128,7 @@
+ 
+     <!-- CTA -->
+     <div
++      *ngIf="showCta"
+       class="services-cta-wrapper"
+       [class.fade-left]="ctaFadeLeft"
+       [class.fade-right]="ctaFadeRight">
+diff --git a/optima-service-angular/src/app/shared/components/services-table/services-table.ts b/optima-service-angular/src/app/shared/components/services-table/services-table.ts
+index d7c2a93..5bf6f27 100644
+--- a/optima-service-angular/src/app/shared/components/services-table/services-table.ts
++++ b/optima-service-angular/src/app/shared/components/services-table/services-table.ts
+@@ -1,5 +1,6 @@
+ import {
+   Component,
++  Input,
+   PLATFORM_ID,
+   Inject,
+   AfterViewInit,
+@@ -12,14 +13,14 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
+ import { ModalService } from '../../../core/services/modal.service';
+ import { ScrollService } from '../../../core/services/scroll.service';
+ 
+-interface Service {
++export interface Service {
+   name: string;
+   price: string;
+   duration: string;
+   note?: string;
+ }
+ 
+-interface ServiceCategory {
++export interface ServiceCategory {
+   name: string;
+   description: string;
+   icon: string;
+@@ -46,6 +47,14 @@ export class ServicesTable implements AfterViewInit {
+   @ViewChild('catNavRef')  catNavRef!:  ElementRef<HTMLElement>;
+   @ViewChild('ctaScroll')  ctaScrollRef!: ElementRef<HTMLElement>;
+ 
++  // Позволяет переиспользовать компонент с произвольным набором категорий
++  // (напр. на странице бренда) — без @Input берётся дефолтный список услуг.
++  @Input() categories: ServiceCategory[] | null = null;
++  @Input() headingBold = 'Наши услуги';
++  @Input() headingRest = ' и цены';
++  @Input() subtitle = 'Прозрачное ценообразование. Диагностика бесплатная при ремонте. Цены указаны ориентировочные, точная стоимость определяется после диагностики.';
++  @Input() showCta = true;
++
+   activeCategory = 0;
+   activeTooltip: string | null = null;
+ 
+@@ -56,7 +65,11 @@ export class ServicesTable implements AfterViewInit {
+ 
+   private isMobileNav = false;
+ 
+-  serviceCategories: ServiceCategory[] = [
++  get list(): ServiceCategory[] {
++    return this.categories && this.categories.length ? this.categories : this.defaultCategories;
++  }
++
++  private readonly defaultCategories: ServiceCategory[] = [
+     {
+       name: 'Диагностика и ПО',
+       description: 'Профессиональная диагностика и восстановление программного обеспечения',
+-- 
+2.52.0.windows.1
+

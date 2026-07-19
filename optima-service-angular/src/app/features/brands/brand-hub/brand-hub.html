@@ -36,18 +36,14 @@
     </div>
   </section>
 
-  <!-- 2. Цены — сетка услуг по каждой категории техники бренда -->
-  <app-categories-grid *ngFor="let c of hub.categories"
-    [sectionId]="'prices-' + c.device.slug"
-    [navTitle]="'Цены: ' + c.deviceName"
-    sectionTitle="Стоимость ремонта"
-    [sectionTitleAccent]="hub.brandName + ' — ' + c.deviceName"
-    [sectionDescription]="c.device.categories.sectionDescription"
-    [stats]="c.device.categories.stats"
-    [ctaTitle]="c.device.categories.ctaTitle"
-    [ctaDescription]="c.device.categories.ctaDescription"
-    [categories]="c.device.categories.items"
-  ></app-categories-grid>
+  <!-- 2. Цены — компактная таблица по видам техники бренда -->
+  <app-services-table
+    [categories]="priceCategories"
+    [headingBold]="'Ремонт ' + hub.brandName"
+    headingRest=": цены по видам техники"
+    [subtitle]="'Ориентировочные цены на популярные неисправности техники ' + hub.brandName + '. Точную стоимость назовём после бесплатной диагностики.'"
+    [showCta]="false"
+  ></app-services-table>
 
   <!-- 3. Преимущества -->
   <section class="brand-why" data-nav-title="Преимущества">

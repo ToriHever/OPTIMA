@@ -3,7 +3,7 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { Breadcrumb, BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb';
-import { CategoriesGrid } from '../../../shared/components/categories-grid/categories-grid';
+import { ServicesTable, ServiceCategory } from '../../../shared/components/services-table/services-table';
 import { ProcessAccordion, ProcessStep, SidebarStat } from '../../../shared/components/process-accordion/process-accordion';
 import { ReviewsSection } from '../../../shared/components/reviews-section/reviews-section';
 import { FaqSection, FaqItem } from '../../../shared/components/faq-section/faq-section';
@@ -11,10 +11,14 @@ import { PageProgressNavComponent } from '../../../shared/components/page-progre
 import { ModalService } from '../../../core/services/modal.service';
 import { getBrandHub, BrandHub } from '../brand-hub-data';
 
+// Единая иконка для вкладок таблицы цен — вкладка обозначает вид техники,
+// а не конкретную услугу, поэтому одной декоративной иконки-инструмента достаточно.
+const DEVICE_TAB_ICON = 'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z';
+
 @Component({
   selector: 'app-brand-hub',
   standalone: true,
-  imports: [CommonModule, RouterModule, Breadcrumb, CategoriesGrid, ProcessAccordion, ReviewsSection, FaqSection, PageProgressNavComponent],
+  imports: [CommonModule, RouterModule, Breadcrumb, ServicesTable, ProcessAccordion, ReviewsSection, FaqSection, PageProgressNavComponent],
   templateUrl: './brand-hub.html',
   styleUrl: './brand-hub.scss'
 })
@@ -71,6 +75,21 @@ export class BrandHubPage implements OnInit {
     const devices = this.hub?.categories.map(c => c.device.name.toLowerCase()).join(', ') ?? '';
     const list = devices ? `: ${devices}` : '';
     return `Ремонтируем всю технику ${this.hub?.brandName}${list}. Ставим оригинальные запчасти, работаем по стандарту производителя и отвечаем за каждый ремонт.`;
+  }
+
+  // Компактная таблица цен (как на главной): вкладка — вид техники бренда,
+  // строки — типовые неисправности этого вида с ценой.
+  get priceCategories(): ServiceCategory[] {
+    return (this.hub?.categories ?? []).map(c => ({
+      name: c.deviceName,
+      description: c.device.categories.sectionDescription,
+      icon: DEVICE_TAB_ICON,
+      services: c.device.categories.items.map(item => ({
+        name: item.name,
+        price: item.priceFrom,
+        duration: item.description
+      }))
+    }));
   }
 
   // Процесс ремонта берём из первой связанной категории (шаги универсальны).

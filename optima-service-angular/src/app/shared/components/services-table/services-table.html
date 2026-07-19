@@ -3,12 +3,9 @@
 
     <div class="services-header">
       <h2 class="section-title-dark">
-        <strong>Наши услуги</strong> и цены
+        <strong>{{ headingBold }}</strong>{{ headingRest }}
       </h2>
-      <p class="section-subtitle-dark">
-        Прозрачное ценообразование. Диагностика бесплатная при ремонте.
-        Цены указаны ориентировочные, точная стоимость определяется после диагностики.
-      </p>
+      <p class="section-subtitle-dark">{{ subtitle }}</p>
     </div>
 
     <div class="services-layout">
@@ -33,7 +30,7 @@
           <nav class="categories-nav" #catNavRef (scroll)="onCatNavScroll()">
             <button
               class="category-item"
-              *ngFor="let category of serviceCategories; let i = index"
+              *ngFor="let category of list; let i = index"
               [class.active]="activeCategory === i"
               (click)="selectCategory(i)">
               <div class="category-icon">
@@ -69,8 +66,8 @@
       <!-- Правая колонка — таблица -->
       <div class="services-content">
         <div class="content-header">
-          <h3 class="content-title">{{ serviceCategories[activeCategory].name }}</h3>
-          <p class="content-description">{{ serviceCategories[activeCategory].description }}</p>
+          <h3 class="content-title">{{ list[activeCategory].name }}</h3>
+          <p class="content-description">{{ list[activeCategory].description }}</p>
         </div>
 
         <div class="services-table-wrapper">
@@ -83,7 +80,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let service of serviceCategories[activeCategory].services">
+              <tr *ngFor="let service of list[activeCategory].services">
 
                 <td class="col-service" [attr.data-label]="'Услуга'">
                   <span class="service-name">{{ service.name }}</span>
@@ -131,6 +128,7 @@
 
     <!-- CTA -->
     <div
+      *ngIf="showCta"
       class="services-cta-wrapper"
       [class.fade-left]="ctaFadeLeft"
       [class.fade-right]="ctaFadeRight">
