@@ -15,7 +15,7 @@ $header-gold: #c9a876;
 // ── Тёмная тема — для персонализированных страниц (Dreame, Polaris) ──
 .header--dark {
   .header-main {
-    background: #1a1a1a;
+    background: #1A1A1A;
   }
 
   .nav-link {
@@ -29,7 +29,7 @@ $header-gold: #c9a876;
   }
 
   .header-subnav {
-    background: #141414;
+    background: #1A1A1A;
     border-top-color: rgba($color-white, 0.08);
   }
 
@@ -68,7 +68,7 @@ $header-gold: #c9a876;
 
   .btn-primary {
     background: $header-gold;
-    color: #0a0a0a;
+    color: #1A1A1A;
 
     &:hover {
       background: darken($header-gold, 8%);
@@ -157,25 +157,12 @@ $header-gold: #c9a876;
   transition: all $transition-fast;
   position: relative;
   
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: $color-primary-light;
-    transition: width $transition-base;
-  }
-  
+
   &:hover,
   &.active {
     color: $color-primary-light;
     background: $gradient-primary-light;
-    &::after {
-      width: 80%;
-    }
+
   }
 }
 
@@ -394,10 +381,6 @@ $header-gold: #c9a876;
     width: 100%;
     font-size: 0.8rem;
     padding: $spacing-sm;
-    
-    &::after {
-      display: none;
-    }
   }
   
   .mobile-menu-btn {

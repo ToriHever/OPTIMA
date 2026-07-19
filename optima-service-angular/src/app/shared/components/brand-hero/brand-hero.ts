@@ -25,7 +25,7 @@ export class BrandHero {
   private modalService = inject(ModalService);
 
   get logoPath(): string {
-    return `assets/img/brands/${this.brandName}.png`;
+    return `assets/img/brands/technique/phone/${this.brandName}.png`;
   }
 
   openCallback() {
