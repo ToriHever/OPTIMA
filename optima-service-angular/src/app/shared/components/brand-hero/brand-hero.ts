@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Breadcrumb, BreadcrumbItem } from '../breadcrumb/breadcrumb';
@@ -12,7 +12,7 @@ import { PhoneModel } from '../../../features/remont-kompyuterov/phone-models-da
   templateUrl: './brand-hero.html',
   styleUrl: './brand-hero.scss'
 })
-export class BrandHero {
+export class BrandHero implements OnChanges {
   @Input() brandName = '';
   @Input() deviceName = '';
   @Input() features: string[] = [];
@@ -29,10 +29,25 @@ export class BrandHero {
   @Input() modelName = '';
   @Input() brandBasePath = '';
 
+  logoFailed = false;
+
   private modalService = inject(ModalService);
 
   get logoPath(): string {
-    return `assets/img/brands/technique/phone/${this.brandName}.png`;
+    return `assets/img/brands/${this.brandName}.png`;
+  }
+
+  // Компонент переиспользуется при смене бренда на той же странице
+  // (тот же matcher-роут :brand) — без сброса флаг «картинка не найдена»
+  // остался бы от предыдущего бренда.
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['brandName']) {
+      this.logoFailed = false;
+    }
+  }
+
+  onLogoError(): void {
+    this.logoFailed = true;
   }
 
   openCallback() {

@@ -1,0 +1,101 @@
+From 8c5d7e42bb6248fae25c0a5b43a6c84b8e76ec3f Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sun, 19 Jul 2026 17:05:42 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=A1=D1=82=D1=80=D0=B0=D0=BD=D0=B8=D1=86?=
+ =?UTF-8?q?=D0=B0=20=D1=82=D0=B5=D1=85=D0=BD=D0=B8=D0=BA=D0=B0-=D0=B1?=
+ =?UTF-8?q?=D1=80=D0=B5=D0=BD=D0=B4:=20=D1=83=D0=B1=D1=80=D0=B0=D0=BD?=
+ =?UTF-8?q?=D0=B0=20=D0=BE=D0=B4=D0=BD=D0=B0=20=D1=84=D0=BE=D1=82=D0=BA?=
+ =?UTF-8?q?=D0=B0=20=D1=82=D0=B5=D0=BB=D0=B5=D1=84=D0=BE=D0=BD=D0=B0=20?=
+ =?UTF-8?q?=D0=BD=D0=B0=20=D0=B2=D1=81=D0=B5=D1=85=20=D1=83=D1=81=D1=82?=
+ =?UTF-8?q?=D1=80=D0=BE=D0=B9=D1=81=D1=82=D0=B2=D0=B0=D1=85?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+brand-hero.ts брал картинку из assets/img/brands/technique/phone/{brand}.png
+для ЛЮБОГО вида техники — эта папка реально содержит только 3 файла
+(Apple/Samsung/Xiaomi, фото телефонов). Поэтому для Samsung на стиральных
+машинах, холодильниках и т.д. показывалось фото смартфона Samsung; для
+большинства остальных брендов (Bosch, LG, Dreame и т.п.) картинка вообще
+была битой (404) на любых устройствах — этой папки для них не существовало.
+
+Переключено на общий флэт-логотип бренда assets/img/brands/{brand}.png —
+тот же набор из 40 файлов, что уже используется на странице бренда
+(/brands/:slug) и одинаково уместен для любого вида техники.
+
+Добавлена деградация как в brand-hub: если логотипа нет (assets не заведены
+для бренда), блок с картинкой скрывается вместо битой иконки. Добавлен сброс
+logoFailed по ngOnChanges — компонент переиспользуется при переходе между
+разными брендами на одной странице устройства (тот же matcher-роут :brand).
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+---
+ .../components/brand-hero/brand-hero.html     |  4 ++--
+ .../components/brand-hero/brand-hero.ts       | 21 ++++++++++++++++---
+ 2 files changed, 20 insertions(+), 5 deletions(-)
+
+diff --git a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html
+index 2f33dd9..05db3ee 100644
+--- a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html
++++ b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.html
+@@ -49,9 +49,9 @@
+       </div>
+ 
+       <!-- Правая колонка: лого бренда -->
+-      <div class="brand-hero__logo-wrap">
++      <div class="brand-hero__logo-wrap" *ngIf="!logoFailed">
+         <div class="brand-hero__logo-card">
+-          <img [src]="logoPath" [alt]="brandName" class="brand-hero__logo-img">
++          <img [src]="logoPath" [alt]="brandName" class="brand-hero__logo-img" (error)="onLogoError()">
+         </div>
+         <div class="brand-hero__logo-note">
+           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+diff --git a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts
+index 56a4412..d007e8c 100644
+--- a/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts
++++ b/optima-service-angular/src/app/shared/components/brand-hero/brand-hero.ts
+@@ -1,4 +1,4 @@
+-import { Component, Input, inject } from '@angular/core';
++import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+ import { CommonModule } from '@angular/common';
+ import { RouterModule } from '@angular/router';
+ import { Breadcrumb, BreadcrumbItem } from '../breadcrumb/breadcrumb';
+@@ -12,7 +12,7 @@ import { PhoneModel } from '../../../features/remont-kompyuterov/phone-models-da
+   templateUrl: './brand-hero.html',
+   styleUrl: './brand-hero.scss'
+ })
+-export class BrandHero {
++export class BrandHero implements OnChanges {
+   @Input() brandName = '';
+   @Input() deviceName = '';
+   @Input() features: string[] = [];
+@@ -29,10 +29,25 @@ export class BrandHero {
+   @Input() modelName = '';
+   @Input() brandBasePath = '';
+ 
++  logoFailed = false;
++
+   private modalService = inject(ModalService);
+ 
+   get logoPath(): string {
+-    return `assets/img/brands/technique/phone/${this.brandName}.png`;
++    return `assets/img/brands/${this.brandName}.png`;
++  }
++
++  // Компонент переиспользуется при смене бренда на той же странице
++  // (тот же matcher-роут :brand) — без сброса флаг «картинка не найдена»
++  // остался бы от предыдущего бренда.
++  ngOnChanges(changes: SimpleChanges): void {
++    if (changes['brandName']) {
++      this.logoFailed = false;
++    }
++  }
++
++  onLogoError(): void {
++    this.logoFailed = true;
+   }
+ 
+   openCallback() {
+-- 
+2.52.0.windows.1
+
