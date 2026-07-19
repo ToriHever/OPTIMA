@@ -1,0 +1,117 @@
+From caeb5d7742c3fd4b86eadd78fa293f09042bf1bf Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sun, 19 Jul 2026 18:58:51 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=A1=D1=82=D1=80=D0=B0=D0=BD=D0=B8=D1=86?=
+ =?UTF-8?q?=D0=B0=20=D0=B2=D0=B8=D0=B4=D0=B0=20=D1=82=D0=B5=D1=85=D0=BD?=
+ =?UTF-8?q?=D0=B8=D0=BA=D0=B8:=20=D1=87=D0=B8=D0=BD=D0=B8=D1=82=20=D0=BF?=
+ =?UTF-8?q?=D0=B5=D1=80=D0=B5=D0=B8=D1=81=D0=BF=D0=BE=D0=BB=D1=8C=D0=B7?=
+ =?UTF-8?q?=D0=BE=D0=B2=D0=B0=D0=BD=D0=B8=D0=B5=20=D0=BA=D0=BE=D0=BC=D0=BF?=
+ =?UTF-8?q?=D0=BE=D0=BD=D0=B5=D0=BD=D1=82=D0=B0=20=D0=BF=D1=80=D0=B8=20?=
+ =?UTF-8?q?=D0=BF=D0=B5=D1=80=D0=B5=D1=85=D0=BE=D0=B4=D0=B5=20=D1=87=D0=B5?=
+ =?UTF-8?q?=D1=80=D0=B5=D0=B7=20=D0=B2=D1=82=D0=BE=D1=80=D0=BE=D1=81=D1=82?=
+ =?UTF-8?q?=D0=B5=D0=BF=D0=B5=D0=BD=D0=BD=D0=BE=D0=B5=20=D0=BC=D0=B5=D0=BD?=
+ =?UTF-8?q?=D1=8E?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Родительский узел маршрута ':slug' — один и тот же routeConfig для любого
+значения slug (дочерний путь '' идентичен что для «ноутбуков», что для
+«мониторов»), поэтому Angular Router переиспользует DeviceRepairPage вместо
+пересоздания при переходе между видами техники ОДНОГО раздела через мега-меню
+шапки. ngOnInit при этом больше не вызывается — данные, заголовок и meta
+оставались от предыдущей страницы.
+
+Это не связано с SSR и не зависит от прод/дев сборки — чисто клиентская
+семантика reuse-стратегии Angular Router, проявляется одинаково в обоих
+режимах.
+
+Исправлено тем же паттерном, что и в brand-repair.ts/device: подписка на
+NavigationEnd, разбор актуального URL и markForCheck() на каждую навигацию
+(проект zoneless — без markForCheck подписка на router.events не обновляет
+вид). Переход между разными ВЕРХНЕУРОВНЕВЫМИ разделами (компьютеры ->
+бытовая техника) не затронут — там разные статические сегменты пути,
+компонент и раньше пересоздавался штатно.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+---
+ .../device-repair/device-repair.ts            | 36 ++++++++++++++++---
+ 1 file changed, 31 insertions(+), 5 deletions(-)
+
+diff --git a/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/device-repair/device-repair.ts b/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/device-repair/device-repair.ts
+index 1e4d43b..875ba52 100644
+--- a/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/device-repair/device-repair.ts
++++ b/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/device-repair/device-repair.ts
+@@ -1,7 +1,9 @@
+-import { Component, OnInit } from '@angular/core';
++import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+ import { CommonModule, ViewportScroller } from '@angular/common';
+-import { ActivatedRoute, Router } from '@angular/router';
++import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+ import { Title, Meta } from '@angular/platform-browser';
++import { Subscription } from 'rxjs';
++import { filter } from 'rxjs/operators';
+ import { TechHero } from '../../../shared/components/tech-hero/tech-hero';
+ import { CategoriesGrid } from '../../../shared/components/categories-grid/categories-grid';
+ import { ProcessAccordion } from '../../../shared/components/process-accordion/process-accordion';
+@@ -26,24 +28,44 @@ import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-da
+   templateUrl: './device-repair.html',
+   styleUrl: './device-repair.scss'
+ })
+-export class DeviceRepairPage implements OnInit {
++export class DeviceRepairPage implements OnInit, OnDestroy {
+   data: DeviceRepairData | null = null;
+   brands: BrandRepairData[] = [];
+   brandBasePath: string = '';
+   breadcrumbs: BreadcrumbItem[] = [];
+ 
++  private navSub?: Subscription;
++
+   constructor(
+     private route: ActivatedRoute,
+     private router: Router,
+     private scroller: ViewportScroller,
+     private title: Title,
+-    private meta: Meta
++    private meta: Meta,
++    private cdr: ChangeDetectorRef
+   ) {}
+ 
+   ngOnInit(): void {
++    // Родительский узел ':slug' — один и тот же объект route-конфига для
++    // любого значения slug (тот же путь ''), поэтому при переходе между
++    // видами техники через второстепенное меню Angular переиспользует этот
++    // компонент, а не пересоздаёт его — ngOnInit больше не вызывается.
++    // Реагируем на каждую навигацию отдельно и парсим актуальный URL.
++    this.render();
++    this.navSub = this.router.events
++      .pipe(filter(e => e instanceof NavigationEnd))
++      .subscribe(() => this.render());
++  }
++
++  ngOnDestroy(): void {
++    this.navSub?.unsubscribe();
++  }
++
++  private render(): void {
+     this.scroller.scrollToPosition([0, 0]);
+ 
+-    const slug = this.route.snapshot.paramMap.get('slug') ?? '';
++    const path = this.router.url.split('?')[0].split('#')[0];
++    const slug = path.split('/').filter(Boolean)[1] ?? '';
+     const section = this.route.snapshot.data['section'] ?? 'appliances';
+     const backPath = this.route.snapshot.data['backPath'] ?? '/remont-bytovoy-tekhniki';
+ 
+@@ -75,5 +97,9 @@ export class DeviceRepairPage implements OnInit {
+ 
+     this.title.setTitle(this.data.meta.title);
+     this.meta.updateTag({ name: 'description', content: this.data.meta.description });
++
++    // Zoneless: подписка на router.events сама по себе не запускает change
++    // detection — без этого вид не обновится при переиспользовании компонента.
++    this.cdr.markForCheck();
+   }
+ }
+-- 
+2.52.0.windows.1
+

@@ -36,6 +36,7 @@ export class RemontKompyuterov implements OnInit {
       name: 'Ноутбуки',
       description: 'Ремонт ноутбуков всех марок и моделей',
       icon: 'M6 6H22V18H2V8H6V6Z M8 14H20 M12 18H16',
+      image: '/assets/img/technique/computers/noutbuki.png',
       features: ['Замена матрицы', 'Замена клавиатуры', 'Чистка от пыли', 'Ремонт материнской платы'],
       priceFrom: '1 200 ₽',
       link: '/remont-kompyuterov/noutbuki'
@@ -44,6 +45,7 @@ export class RemontKompyuterov implements OnInit {
       name: 'Смартфоны',
       description: 'Ремонт смартфонов iPhone и Android любых моделей',
       icon: 'M12 2C10 2 8 4 8 6V18C8 20 10 22 12 22H16C18 22 20 20 20 18V6C20 4 18 2 16 2H12Z M14 18H14.01',
+      image: '/assets/img/technique/computers/smartfony.png',
       features: ['Замена дисплея', 'Замена аккумулятора', 'Ремонт после залития', 'Замена разъёма'],
       priceFrom: '800 ₽',
       link: '/remont-kompyuterov/smartfony'
@@ -52,6 +54,7 @@ export class RemontKompyuterov implements OnInit {
       name: 'Планшеты',
       description: 'Ремонт планшетов iPad, Samsung, Huawei и других',
       icon: 'M6 4H22V20H6V4Z M10 8H18V10H10V8Z M10 12H18V14H10V12Z',
+      image: '/assets/img/technique/computers/planshety.png',
       features: ['Замена дисплея', 'Замена аккумулятора', 'Ремонт разъёма', 'Ремонт корпуса'],
       priceFrom: '1 500 ₽',
       link: '/remont-kompyuterov/planshety'
@@ -60,6 +63,7 @@ export class RemontKompyuterov implements OnInit {
       name: 'Компьютеры и ПК',
       description: 'Диагностика и ремонт настольных компьютеров',
       icon: 'M4 4H20V20H4V4Z M8 8H16 M8 12H16 M8 16H12',
+      image: '/assets/img/technique/computers/pk-i-komputery.png',
       features: ['Замена комплектующих', 'Сборка ПК', 'Чистка системы охлаждения', 'Замена SSD/HDD'],
       priceFrom: '1 000 ₽',
       link: '/remont-kompyuterov/pk-i-komputery'
@@ -68,6 +72,7 @@ export class RemontKompyuterov implements OnInit {
       name: 'Мониторы',
       description: 'Ремонт мониторов всех марок и типов',
       icon: 'M6 6H22V18H2V8H6V6Z M8 20H20 M14 18V20',
+      image: '/assets/img/technique/computers/monitory.png',
       features: ['Замена подсветки', 'Замена матрицы', 'Ремонт блока питания', 'Ремонт разъёмов'],
       priceFrom: '1 500 ₽',
       link: '/remont-kompyuterov/monitory'
@@ -76,6 +81,7 @@ export class RemontKompyuterov implements OnInit {
       name: 'Принтеры и МФУ',
       description: 'Ремонт принтеров, МФУ и плоттеров',
       icon: 'M6 9v3h12V9M6 18h12M9 3h6v6H9z',
+      image: '/assets/img/technique/computers/printeryi-i-mfu.png',
       features: ['Заправка картриджей', 'Замена головки', 'Устранение замятий', 'Прошивка'],
       priceFrom: '500 ₽',
       link: '/remont-kompyuterov/printeryi-i-mfu'
@@ -84,6 +90,7 @@ export class RemontKompyuterov implements OnInit {
       name: 'Умные часы',
       description: 'Ремонт смарт-часов Apple Watch, Samsung, Garmin',
       icon: 'M9 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2h-2M9 3v3h6V3M9 3a2 2 0 012-2h2a2 2 0 012 2',
+      image: '/assets/img/technique/computers/umnye-chasy.png',
       features: ['Замена дисплея', 'Замена аккумулятора', 'Ремонт кейса AirPods', 'Ремонт зарядки'],
       priceFrom: '1 200 ₽',
       link: '/remont-kompyuterov/umnye-chasy'

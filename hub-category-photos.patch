@@ -1,0 +1,224 @@
+From 52e46c11d1bb553b9c99b51ca0cdd0e3f43c7d87 Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sun, 19 Jul 2026 22:27:38 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=91=D0=BB=D0=BE=D0=BA=20=C2=AB=D0=A7=D1=82?=
+ =?UTF-8?q?=D0=BE=20=D0=BC=D1=8B=20=D1=80=D0=B5=D0=BC=D0=BE=D0=BD=D1=82?=
+ =?UTF-8?q?=D0=B8=D1=80=D1=83=D0=B5=D0=BC=C2=BB:=20=D1=84=D0=BE=D1=82?=
+ =?UTF-8?q?=D0=BE=20=D0=B2=D0=B8=D0=B4=D0=B0=20=D1=82=D0=B5=D1=85=D0=BD?=
+ =?UTF-8?q?=D0=B8=D0=BA=D0=B8=20=D0=B2=D0=BC=D0=B5=D1=81=D1=82=D0=BE=20?=
+ =?UTF-8?q?=D0=B8=D0=BA=D0=BE=D0=BD=D0=BE=D0=BA=20=D0=BD=D0=B0=20=D1=85?=
+ =?UTF-8?q?=D0=B0=D0=B1=D0=B0=D1=85=20=D1=80=D0=B0=D0=B7=D0=B4=D0=B5=D0=BB?=
+ =?UTF-8?q?=D0=BE=D0=B2?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Категории на трёх страницах-хабах (/remont-kompyuterov, /remont-bytovoy-tekhniki,
+/remont-audiovideo) используют app-categories-grid с cardStyle="photo"/"photo-overlay" —
+компонент уже поддерживал category.image с автоматическим откатом на иконку,
+если фото нет/не загрузилось, просто ни у одной категории image не был задан.
+
+Прописан image для всех 19 категорий по трём разделам, путь строится из
+слага категории (того же, что в link): /assets/img/technique/{раздел}/{slug}.png.
+Заведены папки:
+  computers/    — 7 файлов (noutbuki, smartfony, planshety, pk-i-komputery,
+                  monitory, printeryi-i-mfu, umnye-chasy)
+  appliances/   — 7 файлов (stiralnye-mashiny, kholodilniki,
+                  posudomoechnye-mashiny, kofemashiny, pylesosy,
+                  mikrovolnovye-pechi, utyugi-i-parogeneratory)
+  audio-video/  — 5 файлов (televizory, akusticheskie-sistemy, naushniki,
+                  igrovye-konsoli, proektory)
+
+Файлов физически ещё нет — до загрузки карточки показывают иконку (штатный
+фолбэк компонента), сборка не требует их наличия. Как только фото появятся
+по этим путям — подхватятся сами, без правок кода.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+---
+ .../public/assets/img/technique/appliances/.gitkeep        | 0
+ .../public/assets/img/technique/audio-video/.gitkeep       | 0
+ .../public/assets/img/technique/computers/.gitkeep         | 0
+ .../app/features/remont-audiovideo/remont-audiovideo.ts    | 5 +++++
+ .../remont-bytovoy-tekhniki/remont-bytovoy-tekhniki.ts     | 7 +++++++
+ .../app/features/remont-kompyuterov/remont-kompyuterov.ts  | 7 +++++++
+ 6 files changed, 19 insertions(+)
+ create mode 100644 optima-service-angular/public/assets/img/technique/appliances/.gitkeep
+ create mode 100644 optima-service-angular/public/assets/img/technique/audio-video/.gitkeep
+ create mode 100644 optima-service-angular/public/assets/img/technique/computers/.gitkeep
+
+diff --git a/optima-service-angular/public/assets/img/technique/appliances/.gitkeep b/optima-service-angular/public/assets/img/technique/appliances/.gitkeep
+new file mode 100644
+index 0000000..e69de29
+diff --git a/optima-service-angular/public/assets/img/technique/audio-video/.gitkeep b/optima-service-angular/public/assets/img/technique/audio-video/.gitkeep
+new file mode 100644
+index 0000000..e69de29
+diff --git a/optima-service-angular/public/assets/img/technique/computers/.gitkeep b/optima-service-angular/public/assets/img/technique/computers/.gitkeep
+new file mode 100644
+index 0000000..e69de29
+diff --git a/optima-service-angular/src/app/features/remont-audiovideo/remont-audiovideo.ts b/optima-service-angular/src/app/features/remont-audiovideo/remont-audiovideo.ts
+index 3e51c6c..d377927 100644
+--- a/optima-service-angular/src/app/features/remont-audiovideo/remont-audiovideo.ts
++++ b/optima-service-angular/src/app/features/remont-audiovideo/remont-audiovideo.ts
+@@ -37,6 +37,7 @@ export class RemontAudiovideo implements OnInit {
+       name: 'Телевизоры',
+       description: 'Ремонт LED, OLED, QLED и плазменных телевизоров',
+       icon: 'M4 6H24V16H4V6Z M10 18H18',
++      image: '/assets/img/technique/audio-video/televizory.png',
+       features: ['Замена подсветки', 'Ремонт матрицы', 'Ремонт блока питания', 'Выезд мастера'],
+       priceFrom: '2 000 ₽',
+       link: '/remont-audiovideo/televizory'
+@@ -45,6 +46,7 @@ export class RemontAudiovideo implements OnInit {
+       name: 'Акустические системы',
+       description: 'Ремонт колонок и домашних кинотеатров',
+       icon: 'M15.536 8.464a5 5 0 010 7.072M12 6a7 7 0 010 12M6 9v6',
++      image: '/assets/img/technique/audio-video/akusticheskie-sistemy.png',
+       features: ['Замена динамика', 'Ремонт усилителя', 'Замена аккумулятора', 'Ремонт Bluetooth'],
+       priceFrom: '1 000 ₽',
+       link: '/remont-audiovideo/akusticheskie-sistemy'
+@@ -53,6 +55,7 @@ export class RemontAudiovideo implements OnInit {
+       name: 'Наушники',
+       description: 'Ремонт наушников Sony, Bose, Apple AirPods',
+       icon: 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z',
++      image: '/assets/img/technique/audio-video/naushniki.png',
+       features: ['Замена динамика', 'Замена аккумулятора', 'Ремонт ANC', 'Ремонт кейса AirPods'],
+       priceFrom: '800 ₽',
+       link: '/remont-audiovideo/naushniki'
+@@ -61,6 +64,7 @@ export class RemontAudiovideo implements OnInit {
+       name: 'Игровые консоли',
+       description: 'Ремонт PlayStation, Xbox, Nintendo Switch',
+       icon: 'M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z',
++      image: '/assets/img/technique/audio-video/igrovye-konsoli.png',
+       features: ['Ремонт HDMI и привода', 'Устранение перегрева', 'Drift джойстика', 'Восстановление ПО'],
+       priceFrom: '1 500 ₽',
+       link: '/remont-audiovideo/igrovye-konsoli'
+@@ -69,6 +73,7 @@ export class RemontAudiovideo implements OnInit {
+       name: 'Проекторы',
+       description: 'Ремонт мультимедийных и домашних проекторов',
+       icon: 'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18',
++      image: '/assets/img/technique/audio-video/proektory.png',
+       features: ['Замена лампы', 'Ремонт блока питания', 'Чистка оптики', 'Ремонт разъёмов'],
+       priceFrom: '1 500 ₽',
+       link: '/remont-audiovideo/proektory'
+diff --git a/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/remont-bytovoy-tekhniki.ts b/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/remont-bytovoy-tekhniki.ts
+index 7babfa6..839db23 100644
+--- a/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/remont-bytovoy-tekhniki.ts
++++ b/optima-service-angular/src/app/features/remont-bytovoy-tekhniki/remont-bytovoy-tekhniki.ts
+@@ -35,6 +35,7 @@ export class RemontBytovoyTekhniki implements OnInit {
+       name: 'Стиральные машины',
+       description: 'Ремонт стиральных и сушильных машин всех марок',
+       icon: 'M6 4H22V20H6V4Z M10 8H18V10H10V8Z M14 14C14 15.1 13.1 16 12 16C10.9 16 10 15.1 10 14C10 12.9 10.9 12 12 12C13.1 12 14 12.9 14 14Z',
++      image: '/assets/img/technique/appliances/stiralnye-mashiny.png',
+       features: ['Замена подшипников и ТЭНа', 'Ремонт двигателя', 'Замена помпы', 'Ремонт модуля управления'],
+       priceFrom: '1 500 ₽',
+       link: '/remont-bytovoy-tekhniki/stiralnye-mashiny'
+@@ -43,6 +44,7 @@ export class RemontBytovoyTekhniki implements OnInit {
+       name: 'Холодильники',
+       description: 'Ремонт холодильников и морозильных камер',
+       icon: 'M8 3H16V21H8V3Z M8 10H16 M10 6H10.01 M10 14H10.01',
++      image: '/assets/img/technique/appliances/kholodilniki.png',
+       features: ['Замена компрессора', 'Заправка фреоном', 'Ремонт электроники', 'Устранение утечек'],
+       priceFrom: '1 500 ₽',
+       link: '/remont-bytovoy-tekhniki/kholodilniki'
+@@ -51,6 +53,7 @@ export class RemontBytovoyTekhniki implements OnInit {
+       name: 'Посудомоечные машины',
+       description: 'Ремонт посудомоечных машин любых брендов',
+       icon: 'M4 6H20V18H4V6Z M8 10H16 M8 14H12',
++      image: '/assets/img/technique/appliances/posudomoechnye-mashiny.png',
+       features: ['Замена помпы', 'Ремонт нагревательного элемента', 'Устранение протечек', 'Ремонт электронного блока'],
+       priceFrom: '1 500 ₽',
+       link: '/remont-bytovoy-tekhniki/posudomoechnye-mashiny'
+@@ -59,6 +62,7 @@ export class RemontBytovoyTekhniki implements OnInit {
+       name: 'Кофемашины',
+       description: 'Ремонт автоматических и рожковых кофемашин',
+       icon: 'M20 20H4V16H20V20Z M6 10H18V14H6V10Z M8 4H16V8H8V4Z',
++      image: '/assets/img/technique/appliances/kofemashiny.png',
+       features: ['Ремонт заварочного блока', 'Чистка и декальцинация', 'Замена помпы', 'Ремонт кофемолки'],
+       priceFrom: '2 000 ₽',
+       link: '/remont-bytovoy-tekhniki/kofemashiny'
+@@ -67,6 +71,7 @@ export class RemontBytovoyTekhniki implements OnInit {
+       name: 'Пылесосы',
+       description: 'Ремонт вертикальных, традиционных и роботов-пылесосов',
+       icon: 'M8 4H20V12H8V4Z M6 12H22V16H6V12Z M10 16H18V20H10V16Z',
++      image: '/assets/img/technique/appliances/pylesosy.png',
+       features: ['Замена аккумулятора', 'Ремонт двигателя', 'Чистка фильтров', 'Ремонт щёток'],
+       priceFrom: '1 000 ₽',
+       link: '/remont-bytovoy-tekhniki/pylesosy'
+@@ -75,6 +80,7 @@ export class RemontBytovoyTekhniki implements OnInit {
+       name: 'Микроволновые печи',
+       description: 'Ремонт микроволновок всех производителей',
+       icon: 'M4 6H22V18H4V6Z M18 10V14 M15 12H21',
++      image: '/assets/img/technique/appliances/mikrovolnovye-pechi.png',
+       features: ['Замена магнетрона', 'Ремонт блока питания', 'Замена тарелки привода', 'Ремонт дверцы'],
+       priceFrom: '1 000 ₽',
+       link: '/remont-bytovoy-tekhniki/mikrovolnovye-pechi'
+@@ -83,6 +89,7 @@ export class RemontBytovoyTekhniki implements OnInit {
+       name: 'Утюги и парогенераторы',
+       description: 'Ремонт утюгов и паровых станций',
+       icon: 'M4 14H20V18H4V14Z M6 10H18V14H6V10Z M10 6H14V10H10V6Z',
++      image: '/assets/img/technique/appliances/utyugi-i-parogeneratory.png',
+       features: ['Замена нагревательного элемента', 'Чистка от накипи', 'Ремонт парогенератора', 'Замена шнура'],
+       priceFrom: '800 ₽',
+       link: '/remont-bytovoy-tekhniki/utyugi-i-parogeneratory'
+diff --git a/optima-service-angular/src/app/features/remont-kompyuterov/remont-kompyuterov.ts b/optima-service-angular/src/app/features/remont-kompyuterov/remont-kompyuterov.ts
+index 0552ecc..d5cf750 100644
+--- a/optima-service-angular/src/app/features/remont-kompyuterov/remont-kompyuterov.ts
++++ b/optima-service-angular/src/app/features/remont-kompyuterov/remont-kompyuterov.ts
+@@ -37,6 +37,7 @@ export class RemontKompyuterov implements OnInit {
+       name: 'Ноутбуки',
+       description: 'Ремонт ноутбуков всех марок и моделей',
+       icon: 'M6 6H22V18H2V8H6V6Z M8 14H20 M12 18H16',
++      image: '/assets/img/technique/computers/noutbuki.png',
+       features: ['Замена матрицы', 'Замена клавиатуры', 'Чистка от пыли', 'Ремонт материнской платы'],
+       priceFrom: '1 200 ₽',
+       link: '/remont-kompyuterov/noutbuki'
+@@ -45,6 +46,7 @@ export class RemontKompyuterov implements OnInit {
+       name: 'Смартфоны',
+       description: 'Ремонт смартфонов iPhone и Android любых моделей',
+       icon: 'M12 2C10 2 8 4 8 6V18C8 20 10 22 12 22H16C18 22 20 20 20 18V6C20 4 18 2 16 2H12Z M14 18H14.01',
++      image: '/assets/img/technique/computers/smartfony.png',
+       features: ['Замена дисплея', 'Замена аккумулятора', 'Ремонт после залития', 'Замена разъёма'],
+       priceFrom: '800 ₽',
+       link: '/remont-kompyuterov/smartfony'
+@@ -53,6 +55,7 @@ export class RemontKompyuterov implements OnInit {
+       name: 'Планшеты',
+       description: 'Ремонт планшетов iPad, Samsung, Huawei и других',
+       icon: 'M6 4H22V20H6V4Z M10 8H18V10H10V8Z M10 12H18V14H10V12Z',
++      image: '/assets/img/technique/computers/planshety.png',
+       features: ['Замена дисплея', 'Замена аккумулятора', 'Ремонт разъёма', 'Ремонт корпуса'],
+       priceFrom: '1 500 ₽',
+       link: '/remont-kompyuterov/planshety'
+@@ -61,6 +64,7 @@ export class RemontKompyuterov implements OnInit {
+       name: 'Компьютеры и ПК',
+       description: 'Диагностика и ремонт настольных компьютеров',
+       icon: 'M4 4H20V20H4V4Z M8 8H16 M8 12H16 M8 16H12',
++      image: '/assets/img/technique/computers/pk-i-komputery.png',
+       features: ['Замена комплектующих', 'Сборка ПК', 'Чистка системы охлаждения', 'Замена SSD/HDD'],
+       priceFrom: '1 000 ₽',
+       link: '/remont-kompyuterov/pk-i-komputery'
+@@ -69,6 +73,7 @@ export class RemontKompyuterov implements OnInit {
+       name: 'Мониторы',
+       description: 'Ремонт мониторов всех марок и типов',
+       icon: 'M6 6H22V18H2V8H6V6Z M8 20H20 M14 18V20',
++      image: '/assets/img/technique/computers/monitory.png',
+       features: ['Замена подсветки', 'Замена матрицы', 'Ремонт блока питания', 'Ремонт разъёмов'],
+       priceFrom: '1 500 ₽',
+       link: '/remont-kompyuterov/monitory'
+@@ -77,6 +82,7 @@ export class RemontKompyuterov implements OnInit {
+       name: 'Принтеры и МФУ',
+       description: 'Ремонт принтеров, МФУ и плоттеров',
+       icon: 'M6 9v3h12V9M6 18h12M9 3h6v6H9z',
++      image: '/assets/img/technique/computers/printeryi-i-mfu.png',
+       features: ['Заправка картриджей', 'Замена головки', 'Устранение замятий', 'Прошивка'],
+       priceFrom: '500 ₽',
+       link: '/remont-kompyuterov/printeryi-i-mfu'
+@@ -85,6 +91,7 @@ export class RemontKompyuterov implements OnInit {
+       name: 'Умные часы',
+       description: 'Ремонт смарт-часов Apple Watch, Samsung, Garmin',
+       icon: 'M9 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2h-2M9 3v3h6V3M9 3a2 2 0 012-2h2a2 2 0 012 2',
++      image: '/assets/img/technique/computers/umnye-chasy.png',
+       features: ['Замена дисплея', 'Замена аккумулятора', 'Ремонт кейса AirPods', 'Ремонт зарядки'],
+       priceFrom: '1 200 ₽',
+       link: '/remont-kompyuterov/umnye-chasy'
+-- 
+2.52.0.windows.1
+

@@ -37,6 +37,7 @@ export class RemontAudiovideo implements OnInit {
       name: 'Телевизоры',
       description: 'Ремонт LED, OLED, QLED и плазменных телевизоров',
       icon: 'M4 6H24V16H4V6Z M10 18H18',
+      image: '/assets/img/technique/audio-video/televizory.png',
       features: ['Замена подсветки', 'Ремонт матрицы', 'Ремонт блока питания', 'Выезд мастера'],
       priceFrom: '2 000 ₽',
       link: '/remont-audiovideo/televizory'
@@ -45,6 +46,7 @@ export class RemontAudiovideo implements OnInit {
       name: 'Акустические системы',
       description: 'Ремонт колонок и домашних кинотеатров',
       icon: 'M15.536 8.464a5 5 0 010 7.072M12 6a7 7 0 010 12M6 9v6',
+      image: '/assets/img/technique/audio-video/akusticheskie-sistemy.png',
       features: ['Замена динамика', 'Ремонт усилителя', 'Замена аккумулятора', 'Ремонт Bluetooth'],
       priceFrom: '1 000 ₽',
       link: '/remont-audiovideo/akusticheskie-sistemy'
@@ -53,6 +55,7 @@ export class RemontAudiovideo implements OnInit {
       name: 'Наушники',
       description: 'Ремонт наушников Sony, Bose, Apple AirPods',
       icon: 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z',
+      image: '/assets/img/technique/audio-video/naushniki.png',
       features: ['Замена динамика', 'Замена аккумулятора', 'Ремонт ANC', 'Ремонт кейса AirPods'],
       priceFrom: '800 ₽',
       link: '/remont-audiovideo/naushniki'
@@ -61,6 +64,7 @@ export class RemontAudiovideo implements OnInit {
       name: 'Игровые консоли',
       description: 'Ремонт PlayStation, Xbox, Nintendo Switch',
       icon: 'M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z',
+      image: '/assets/img/technique/audio-video/igrovye-konsoli.png',
       features: ['Ремонт HDMI и привода', 'Устранение перегрева', 'Drift джойстика', 'Восстановление ПО'],
       priceFrom: '1 500 ₽',
       link: '/remont-audiovideo/igrovye-konsoli'
@@ -69,6 +73,7 @@ export class RemontAudiovideo implements OnInit {
       name: 'Проекторы',
       description: 'Ремонт мультимедийных и домашних проекторов',
       icon: 'M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18',
+      image: '/assets/img/technique/audio-video/proektory.png',
       features: ['Замена лампы', 'Ремонт блока питания', 'Чистка оптики', 'Ремонт разъёмов'],
       priceFrom: '1 500 ₽',
       link: '/remont-audiovideo/proektory'
