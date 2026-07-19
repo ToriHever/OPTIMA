@@ -1,0 +1,550 @@
+From e9bc3bd761f08185ec7aa24284f52ad1c73d202b Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sun, 19 Jul 2026 12:58:20 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=A1=D1=82=D1=80=D0=B0=D0=BD=D0=B8=D1=86?=
+ =?UTF-8?q?=D0=B0=20=D0=B1=D1=80=D0=B5=D0=BD=D0=B4=D0=B0:=20=D0=BF=D0=BE?=
+ =?UTF-8?q?=D0=BB=D0=BD=D0=BE=D1=86=D0=B5=D0=BD=D0=BD=D0=B0=D1=8F=20=D0=BF?=
+ =?UTF-8?q?=D0=BE=D1=81=D0=B0=D0=B4=D0=BE=D1=87=D0=BD=D0=B0=D1=8F=20=D1=81?=
+ =?UTF-8?q?=D1=82=D1=80=D1=83=D0=BA=D1=82=D1=83=D1=80=D0=B0?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Переработана страница /brands/:slug:
+- Hero: заголовок «Ремонт техники <бренд> с гарантией», описание в активной
+  форме, кнопки «Позвонить» (tel) и «Оставить заявку» (модалка), табы УТП
+  (бесплатная диагностика, любой способ оплаты, оригинал/аналоги, выезд).
+- Блок цен: переиспользован app-categories-grid по каждой связанной с брендом
+  категории техники (данные device.categories из getBrandHub).
+- Преимущества (brand-why): «Гарантия на каждую работу», «Демократичные цены»,
+  «Бесплатная диагностика».
+- «Как происходит ремонт»: app-process-accordion, персонализирован под бренд.
+- Отзывы: app-reviews-section.
+- FAQ: app-faq-section с популярными вопросами + «Какие бывают виды поломок
+  техники <бренд>» (сводка типовых неисправностей из категорий).
+
+getBrandHub теперь отдаёт полный DeviceRepairData по каждой категории.
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+---
+ .../src/app/features/brands/brand-hub-data.ts |  11 +-
+ .../features/brands/brand-hub/brand-hub.html  | 110 ++++++++++--
+ .../features/brands/brand-hub/brand-hub.scss  | 164 +++++++++++-------
+ .../features/brands/brand-hub/brand-hub.ts    |  86 ++++++++-
+ 4 files changed, 291 insertions(+), 80 deletions(-)
+
+diff --git a/optima-service-angular/src/app/features/brands/brand-hub-data.ts b/optima-service-angular/src/app/features/brands/brand-hub-data.ts
+index 377c92d..e12d28f 100644
+--- a/optima-service-angular/src/app/features/brands/brand-hub-data.ts
++++ b/optima-service-angular/src/app/features/brands/brand-hub-data.ts
+@@ -1,4 +1,4 @@
+-import { DEVICE_REPAIR_DATA } from '../remont-bytovoy-tekhniki/device-repair/device-repair-data';
++import { DEVICE_REPAIR_DATA, DeviceRepairData } from '../remont-bytovoy-tekhniki/device-repair/device-repair-data';
+ import { BRAND_REPAIR_DATA } from '../remont-bytovoy-tekhniki/brand-repair/brand-repair-data';
+ import { IT_REPAIR_DATA } from '../remont-kompyuterov/it-repair-data';
+ import { IT_BRAND_REPAIR_DATA } from '../remont-kompyuterov/it-brand-repair-data';
+@@ -9,6 +9,7 @@ export interface BrandCategoryLink {
+   sectionLabel: string;
+   deviceName: string;
+   path: string;
++  device: DeviceRepairData;
+ }
+ 
+ export interface BrandHub {
+@@ -21,7 +22,7 @@ export interface BrandHub {
+ interface SectionConfig {
+   label: string;
+   basePath: string;
+-  deviceData: Record<string, { name: string; categories: { sectionTitleAccent: string } }>;
++  deviceData: Record<string, DeviceRepairData>;
+   brandData: Record<string, Record<string, { brandName: string; slug: string }>>;
+ }
+ 
+@@ -42,10 +43,12 @@ export function getBrandHub(slug: string): BrandHub | null {
+ 
+       brandName ??= brand.brandName;
+       const device = section.deviceData[deviceSlug];
++      if (!device) continue;
+       categories.push({
+         sectionLabel: section.label,
+-        deviceName: device?.categories.sectionTitleAccent ?? device?.name ?? deviceSlug,
+-        path: `${section.basePath}/${deviceSlug}/${slug}`
++        deviceName: device.categories.sectionTitleAccent ?? device.name ?? deviceSlug,
++        path: `${section.basePath}/${deviceSlug}/${slug}`,
++        device
+       });
+     }
+   }
+diff --git a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.html b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.html
+index f420703..a7e5663 100644
+--- a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.html
++++ b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.html
+@@ -1,31 +1,113 @@
+ <ng-container *ngIf="hub">
+ 
+-  <section class="brand-hub-intro">
++  <!-- 1. Hero -->
++  <section class="brandhub-hero" data-nav-title="О сервисе">
+     <div class="container">
+       <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
+ 
+-      <div class="brand-hub-intro__row">
+-        <div class="brand-hub-intro__logo" *ngIf="!logoFailed">
++      <div class="brandhub-hero__row">
++        <div class="brandhub-hero__logo" *ngIf="!logoFailed">
+           <img [src]="hub.logo" [alt]="hub.brandName" (error)="onLogoError()">
+         </div>
+-        <div>
+-          <h1 class="brand-hub-intro__title">Ремонт техники {{ hub.brandName }}</h1>
+-          <p class="brand-hub-intro__subtitle">
+-            Все виды техники {{ hub.brandName }}, которую мы ремонтируем в Ростове-на-Дону — выберите свою категорию.
+-          </p>
++
++        <div class="brandhub-hero__content">
++          <p class="brandhub-hero__eyebrow">Сервисный центр {{ hub.brandName }}</p>
++          <h1 class="brandhub-hero__title">
++            Ремонт техники <span class="brandhub-hero__brand">{{ hub.brandName }}</span> с гарантией
++          </h1>
++          <p class="brandhub-hero__desc">{{ heroDescription }}</p>
++
++          <div class="brandhub-hero__actions">
++            <a [href]="phoneHref" class="btn btn-primary">Позвонить {{ phone }}</a>
++            <button class="btn btn-secondary" (click)="openCallback()">Оставить заявку</button>
++          </div>
+         </div>
+       </div>
++
++      <!-- УТП -->
++      <ul class="brandhub-utp">
++        <li class="brandhub-utp__item" *ngFor="let u of utp">
++          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
++            <path d="M5 13l4 4L19 7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
++          </svg>
++          {{ u }}
++        </li>
++      </ul>
+     </div>
+   </section>
+ 
+-  <section class="brand-hub-grid">
++  <!-- 2. Цены — сетка услуг по каждой категории техники бренда -->
++  <app-categories-grid *ngFor="let c of hub.categories"
++    [sectionId]="'prices-' + c.device.slug"
++    [navTitle]="'Цены: ' + c.deviceName"
++    sectionTitle="Стоимость ремонта"
++    [sectionTitleAccent]="hub.brandName + ' — ' + c.deviceName"
++    [sectionDescription]="c.device.categories.sectionDescription"
++    [stats]="c.device.categories.stats"
++    [ctaTitle]="c.device.categories.ctaTitle"
++    [ctaDescription]="c.device.categories.ctaDescription"
++    [categories]="c.device.categories.items"
++  ></app-categories-grid>
++
++  <!-- 3. Преимущества -->
++  <section class="brand-why" data-nav-title="Преимущества">
+     <div class="container">
+-      <a *ngFor="let category of hub.categories" [routerLink]="category.path" class="brand-hub-card">
+-        <span class="brand-hub-card__section">{{ category.sectionLabel }}</span>
+-        <span class="brand-hub-card__name">Ремонт {{ category.deviceName }}</span>
+-        <span class="brand-hub-card__arrow">→</span>
+-      </a>
++      <h2 class="section-title">
++        Почему выбирают нас<br>
++        <span class="text-gradient">для ремонта {{ hub.brandName }}</span>
++      </h2>
++      <div class="brand-why__grid">
++        <div class="brand-why__card">
++          <div class="brand-why__icon">
++            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
++              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-width="2"/>
++              <path d="M9 12l2 2 4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
++            </svg>
++          </div>
++          <h3>Гарантия на каждую работу</h3>
++          <p>Даём гарантию до 90 дней на работы и запчасти. Отвечаем за результат — при гарантийном случае устраняем повторно бесплатно.</p>
++        </div>
++        <div class="brand-why__card">
++          <div class="brand-why__icon">
++            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
++              <path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
++            </svg>
++          </div>
++          <h3>Демократичные цены</h3>
++          <p>Называем стоимость до начала ремонта и не навязываем лишнего. Предлагаем оригинал или качественный аналог — выбираете вы.</p>
++        </div>
++        <div class="brand-why__card">
++          <div class="brand-why__icon">
++            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
++              <circle cx="11" cy="11" r="7" stroke-width="2"/>
++              <path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
++            </svg>
++          </div>
++          <h3>Бесплатная диагностика</h3>
++          <p>Находим причину поломки бесплатно при последующем ремонте. Сразу называем точную стоимость и срок работ.</p>
++        </div>
++      </div>
+     </div>
+   </section>
+ 
++  <!-- 4. Процесс ремонта -->
++  <app-process-accordion
++    sectionTitle="Как происходит"
++    sectionTitleAccent="ремонт"
++    [sectionDescription]="'Ремонтируем технику ' + hub.brandName + ' по прозрачному процессу — от заявки до гарантии.'"
++    navTitle="Процесс ремонта"
++    [stats]="processStats"
++    [steps]="processSteps"
++  ></app-process-accordion>
++
++  <!-- 5. Отзывы -->
++  <app-reviews-section></app-reviews-section>
++
++  <!-- 6. FAQ -->
++  <app-faq-section
++    [questions]="brandFaq"
++    navTitle="FAQ"
++  ></app-faq-section>
++
++  <app-page-progress-nav></app-page-progress-nav>
+ </ng-container>
+diff --git a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.scss b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.scss
+index 9e42dc1..a3122f2 100644
+--- a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.scss
++++ b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.scss
+@@ -1,29 +1,36 @@
+ @import '../../../../styles/variables';
+ @import '../../../../styles/mixins';
+ 
+-.brand-hub-intro {
++// ── Hero ─────────────────────────────────────────────────
++.brandhub-hero {
+   position: relative;
+   padding: $space-xl 0 $space-lg;
+-  background: $color-white;
++  background: $color-bg-light;
+   overflow: hidden;
+ }
+ 
+-.brand-hub-intro__row {
++.brandhub-hero__row {
+   display: flex;
+   align-items: center;
+-  gap: $space-md;
++  gap: $space-lg;
+   margin-top: $space-md;
++
++  @include tablet {
++    flex-direction: column;
++    align-items: flex-start;
++    gap: $space-md;
++  }
+ }
+ 
+-.brand-hub-intro__logo {
++.brandhub-hero__logo {
+   flex-shrink: 0;
+-  width: 88px;
+-  height: 88px;
++  width: 110px;
++  height: 110px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: $spacing-md;
+-  background: $color-bg-light;
++  background: $color-white;
+   border: 1px solid $color-bg-grey;
+   border-radius: $radius-lg;
+ 
+@@ -34,75 +41,116 @@
+   }
+ }
+ 
+-.brand-hub-intro__title {
++.brandhub-hero__eyebrow {
++  @include text-mini;
++  font-weight: 700;
++  text-transform: uppercase;
++  letter-spacing: 0.06em;
++  color: $color-primary;
++  margin: 0 0 6px;
++}
++
++.brandhub-hero__title {
+   @include text-h1;
+   color: $color-dark;
+-  margin: 0 0 $spacing-xs;
++  margin: 0 0 $spacing-sm;
++}
++
++.brandhub-hero__brand {
++  color: $color-primary;
+ }
+ 
+-.brand-hub-intro__subtitle {
++.brandhub-hero__desc {
+   @include text-subtitle-1;
+-  color: rgba($color-dark, 0.65);
+-  max-width: 560px;
+-  margin: 0;
++  color: rgba($color-dark, 0.7);
++  line-height: 1.6;
++  max-width: 640px;
++  margin: 0 0 $space-md;
++}
++
++.brandhub-hero__actions {
++  display: flex;
++  flex-wrap: wrap;
++  gap: $spacing-sm;
++}
++
++// ── УТП ──────────────────────────────────────────────────
++.brandhub-utp {
++  list-style: none;
++  padding: 0;
++  margin: $space-lg 0 0;
++  display: flex;
++  flex-wrap: wrap;
++  gap: $spacing-sm;
+ }
+ 
+-.brand-hub-grid {
+-  padding: $space-md 0 $space-xxl;
++.brandhub-utp__item {
++  display: inline-flex;
++  align-items: center;
++  gap: $spacing-xs;
++  padding: $spacing-xs $spacing-md;
+   background: $color-white;
++  border: 1px solid $color-bg-grey;
++  border-radius: $radius-full;
++  @include text-mini;
++  font-weight: 600;
++  color: $color-dark;
+ 
+-  .container {
+-    display: grid;
+-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+-    gap: $spacing-md;
++  svg {
++    color: $color-primary;
++    flex-shrink: 0;
+   }
+ }
+ 
+-.brand-hub-card {
+-  display: flex;
+-  flex-direction: column;
+-  gap: 4px;
+-  padding: $space-md;
+-  background: $color-bg-light;
+-  border: 1px solid $color-bg-grey;
+-  border-radius: $radius-md;
+-  text-decoration: none;
+-  transition: border-color $transition-base, box-shadow $transition-base, transform $transition-base;
++// ── Преимущества (brand-why) ─────────────────────────────
++.brand-why {
++  padding: $spacing-xxl 0;
++  background: $color-white;
+ 
+-  &:hover {
+-    border-color: $color-primary-lighter;
+-    box-shadow: $shadow-md;
+-    transform: translateY(-2px);
++  &__grid {
++    display: grid;
++    grid-template-columns: repeat(3, 1fr);
++    gap: 1.25rem;
++    margin-top: 2.5rem;
+ 
+-    .brand-hub-card__arrow {
+-      transform: translateX(4px);
++    @include tablet {
++      grid-template-columns: 1fr;
+     }
+   }
+-}
+ 
+-.brand-hub-card__section {
+-  @include text-mini;
+-  color: rgba($color-dark, 0.5);
+-  text-transform: uppercase;
+-  letter-spacing: 0.04em;
+-}
++  &__card {
++    padding: 1.75rem;
++    background: $color-bg-light;
++    border: 1px solid $color-bg-grey;
++    border-radius: $radius-lg;
++    display: flex;
++    flex-direction: column;
++    gap: 0.75rem;
+ 
+-.brand-hub-card__name {
+-  @include text-body;
+-  font-weight: 700;
+-  color: $color-dark;
+-}
++    h3 {
++      font-size: 1rem;
++      font-weight: 700;
++      color: $color-dark;
++      margin: 0;
++    }
+ 
+-.brand-hub-card__arrow {
+-  align-self: flex-end;
+-  color: $color-primary;
+-  font-weight: 700;
+-  transition: transform $transition-base;
+-}
++    p {
++      font-size: 0.875rem;
++      color: $color-text;
++      line-height: 1.6;
++      opacity: 0.75;
++      margin: 0;
++    }
++  }
+ 
+-@media (max-width: 480px) {
+-  .brand-hub-intro__row {
+-    flex-direction: column;
+-    align-items: flex-start;
++  &__icon {
++    width: 52px;
++    height: 52px;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    background: rgba($color-primary, 0.08);
++    border-radius: $radius-md;
++    color: $color-primary;
+   }
+ }
+diff --git a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
+index 1d9c080..9620f95 100644
+--- a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
++++ b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
+@@ -1,14 +1,20 @@
+-import { Component, OnInit } from '@angular/core';
++import { Component, OnInit, inject } from '@angular/core';
+ import { CommonModule, ViewportScroller } from '@angular/common';
+ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+ import { Title, Meta } from '@angular/platform-browser';
+ import { Breadcrumb, BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb';
++import { CategoriesGrid } from '../../../shared/components/categories-grid/categories-grid';
++import { ProcessAccordion, ProcessStep, SidebarStat } from '../../../shared/components/process-accordion/process-accordion';
++import { ReviewsSection } from '../../../shared/components/reviews-section/reviews-section';
++import { FaqSection, FaqItem } from '../../../shared/components/faq-section/faq-section';
++import { PageProgressNavComponent } from '../../../shared/components/page-progress-nav/page-progress-nav';
++import { ModalService } from '../../../core/services/modal.service';
+ import { getBrandHub, BrandHub } from '../brand-hub-data';
+ 
+ @Component({
+   selector: 'app-brand-hub',
+   standalone: true,
+-  imports: [CommonModule, RouterModule, Breadcrumb],
++  imports: [CommonModule, RouterModule, Breadcrumb, CategoriesGrid, ProcessAccordion, ReviewsSection, FaqSection, PageProgressNavComponent],
+   templateUrl: './brand-hub.html',
+   styleUrl: './brand-hub.scss'
+ })
+@@ -17,6 +23,18 @@ export class BrandHubPage implements OnInit {
+   breadcrumbs: BreadcrumbItem[] = [];
+   logoFailed = false;
+ 
++  readonly phone = '8 (988) 516-31-31';
++  readonly phoneHref = 'tel:89885163131';
++
++  readonly utp = [
++    'Бесплатная диагностика',
++    'Любой способ оплаты',
++    'Оригинальные запчасти и качественные аналоги',
++    'Выезд мастера на дом'
++  ];
++
++  private modalService = inject(ModalService);
++
+   constructor(
+     private route: ActivatedRoute,
+     private router: Router,
+@@ -42,13 +60,73 @@ export class BrandHubPage implements OnInit {
+       { label: this.hub.brandName }
+     ];
+ 
+-    this.title.setTitle(`Ремонт техники ${this.hub.brandName} в Ростове-на-Дону — Optima Сервис`);
++    this.title.setTitle(`Ремонт техники ${this.hub.brandName} с гарантией в Ростове-на-Дону — Optima Сервис`);
+     this.meta.updateTag({
+       name: 'description',
+-      content: `Ремонт техники ${this.hub.brandName} в Ростове-на-Дону: ${this.hub.categories.map(c => c.deviceName).join(', ')}. Оригинальные запчасти, гарантия до 90 дней.`
++      content: `Ремонтируем всю технику ${this.hub.brandName}: ${this.hub.categories.map(c => c.deviceName).join(', ')}. Ставим оригинальные запчасти, соблюдаем стандарт ремонта, даём гарантию до 90 дней.`
+     });
+   }
+ 
++  get heroDescription(): string {
++    const devices = this.hub?.categories.map(c => c.device.name.toLowerCase()).join(', ') ?? '';
++    const list = devices ? `: ${devices}` : '';
++    return `Ремонтируем всю технику ${this.hub?.brandName}${list}. Ставим оригинальные запчасти, работаем по стандарту производителя и отвечаем за каждый ремонт.`;
++  }
++
++  // Процесс ремонта берём из первой связанной категории (шаги универсальны).
++  get processSteps(): ProcessStep[] {
++    return this.hub?.categories[0]?.device.process.steps ?? [];
++  }
++
++  get processStats(): SidebarStat[] {
++    return this.hub?.categories[0]?.device.process.stats ?? [];
++  }
++
++  // FAQ: общие вопросы по бренду + сводка типовых поломок из связанных категорий.
++  get brandFaq(): FaqItem[] {
++    const brand = this.hub?.brandName ?? '';
++    const faults = this.faultTypes;
++    return [
++      {
++        question: `Сколько стоит диагностика техники ${brand}?`,
++        answer: `Диагностика бесплатна при последующем ремонте. Если решите не ремонтировать — назовём стоимость заранее.`
++      },
++      {
++        question: `Даёте гарантию на ремонт ${brand}?`,
++        answer: `Да, даём гарантию до 90 дней на работы и запчасти. При гарантийном случае устраняем повторно бесплатно.`
++      },
++      {
++        question: `Используете оригинальные запчасти?`,
++        answer: `Ставим оригинальные запчасти ${brand}, а по желанию клиента — качественные сертифицированные аналоги. Тип запчасти согласуем до ремонта.`
++      },
++      {
++        question: `Выезжаете на дом?`,
++        answer: `Да, выезжаем на дом по Ростову-на-Дону. Крупную технику чиним на месте, малую удобнее принести в сервис.`
++      },
++      {
++        question: `Какие бывают виды поломок техники ${brand}?`,
++        answer: faults.length
++          ? `Чаще всего обращаются с такими неисправностями: ${faults.join(', ')}. Точную причину определим на диагностике.`
++          : `Ремонтируем любые неисправности — точную причину определим на бесплатной диагностике.`
++      }
++    ];
++  }
++
++  private get faultTypes(): string[] {
++    const names = new Set<string>();
++    for (const c of this.hub?.categories ?? []) {
++      for (const item of c.device.categories.items) {
++        names.add(item.name.toLowerCase());
++        if (names.size >= 8) break;
++      }
++    }
++    return Array.from(names);
++  }
++
++  openCallback(): void {
++    this.modalService.open('callback-modal', { purpose: 'callback' });
++  }
++
+   onLogoError(): void {
+     this.logoFailed = true;
+   }
+-- 
+2.52.0.windows.1
+

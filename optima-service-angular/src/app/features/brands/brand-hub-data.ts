@@ -1,4 +1,4 @@
-import { DEVICE_REPAIR_DATA } from '../remont-bytovoy-tekhniki/device-repair/device-repair-data';
+import { DEVICE_REPAIR_DATA, DeviceRepairData } from '../remont-bytovoy-tekhniki/device-repair/device-repair-data';
 import { BRAND_REPAIR_DATA } from '../remont-bytovoy-tekhniki/brand-repair/brand-repair-data';
 import { IT_REPAIR_DATA } from '../remont-kompyuterov/it-repair-data';
 import { IT_BRAND_REPAIR_DATA } from '../remont-kompyuterov/it-brand-repair-data';
@@ -9,6 +9,7 @@ export interface BrandCategoryLink {
   sectionLabel: string;
   deviceName: string;
   path: string;
+  device: DeviceRepairData;
 }
 
 export interface BrandHub {
@@ -21,7 +22,7 @@ export interface BrandHub {
 interface SectionConfig {
   label: string;
   basePath: string;
-  deviceData: Record<string, { name: string; categories: { sectionTitleAccent: string } }>;
+  deviceData: Record<string, DeviceRepairData>;
   brandData: Record<string, Record<string, { brandName: string; slug: string }>>;
 }
 
@@ -42,10 +43,12 @@ export function getBrandHub(slug: string): BrandHub | null {
 
       brandName ??= brand.brandName;
       const device = section.deviceData[deviceSlug];
+      if (!device) continue;
       categories.push({
         sectionLabel: section.label,
-        deviceName: device?.categories.sectionTitleAccent ?? device?.name ?? deviceSlug,
-        path: `${section.basePath}/${deviceSlug}/${slug}`
+        deviceName: device.categories.sectionTitleAccent ?? device.name ?? deviceSlug,
+        path: `${section.basePath}/${deviceSlug}/${slug}`,
+        device
       });
     }
   }

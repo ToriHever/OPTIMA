@@ -1,31 +1,113 @@
 <ng-container *ngIf="hub">
 
-  <section class="brand-hub-intro">
+  <!-- 1. Hero -->
+  <section class="brandhub-hero" data-nav-title="О сервисе">
     <div class="container">
       <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
 
-      <div class="brand-hub-intro__row">
-        <div class="brand-hub-intro__logo" *ngIf="!logoFailed">
+      <div class="brandhub-hero__row">
+        <div class="brandhub-hero__logo" *ngIf="!logoFailed">
           <img [src]="hub.logo" [alt]="hub.brandName" (error)="onLogoError()">
         </div>
-        <div>
-          <h1 class="brand-hub-intro__title">Ремонт техники {{ hub.brandName }}</h1>
-          <p class="brand-hub-intro__subtitle">
-            Все виды техники {{ hub.brandName }}, которую мы ремонтируем в Ростове-на-Дону — выберите свою категорию.
-          </p>
+
+        <div class="brandhub-hero__content">
+          <p class="brandhub-hero__eyebrow">Сервисный центр {{ hub.brandName }}</p>
+          <h1 class="brandhub-hero__title">
+            Ремонт техники <span class="brandhub-hero__brand">{{ hub.brandName }}</span> с гарантией
+          </h1>
+          <p class="brandhub-hero__desc">{{ heroDescription }}</p>
+
+          <div class="brandhub-hero__actions">
+            <a [href]="phoneHref" class="btn btn-primary">Позвонить {{ phone }}</a>
+            <button class="btn btn-secondary" (click)="openCallback()">Оставить заявку</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- УТП -->
+      <ul class="brandhub-utp">
+        <li class="brandhub-utp__item" *ngFor="let u of utp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M5 13l4 4L19 7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {{ u }}
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. Цены — сетка услуг по каждой категории техники бренда -->
+  <app-categories-grid *ngFor="let c of hub.categories"
+    [sectionId]="'prices-' + c.device.slug"
+    [navTitle]="'Цены: ' + c.deviceName"
+    sectionTitle="Стоимость ремонта"
+    [sectionTitleAccent]="hub.brandName + ' — ' + c.deviceName"
+    [sectionDescription]="c.device.categories.sectionDescription"
+    [stats]="c.device.categories.stats"
+    [ctaTitle]="c.device.categories.ctaTitle"
+    [ctaDescription]="c.device.categories.ctaDescription"
+    [categories]="c.device.categories.items"
+  ></app-categories-grid>
+
+  <!-- 3. Преимущества -->
+  <section class="brand-why" data-nav-title="Преимущества">
+    <div class="container">
+      <h2 class="section-title">
+        Почему выбирают нас<br>
+        <span class="text-gradient">для ремонта {{ hub.brandName }}</span>
+      </h2>
+      <div class="brand-why__grid">
+        <div class="brand-why__card">
+          <div class="brand-why__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-width="2"/>
+              <path d="M9 12l2 2 4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Гарантия на каждую работу</h3>
+          <p>Даём гарантию до 90 дней на работы и запчасти. Отвечаем за результат — при гарантийном случае устраняем повторно бесплатно.</p>
+        </div>
+        <div class="brand-why__card">
+          <div class="brand-why__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Демократичные цены</h3>
+          <p>Называем стоимость до начала ремонта и не навязываем лишнего. Предлагаем оригинал или качественный аналог — выбираете вы.</p>
+        </div>
+        <div class="brand-why__card">
+          <div class="brand-why__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="11" cy="11" r="7" stroke-width="2"/>
+              <path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Бесплатная диагностика</h3>
+          <p>Находим причину поломки бесплатно при последующем ремонте. Сразу называем точную стоимость и срок работ.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="brand-hub-grid">
-    <div class="container">
-      <a *ngFor="let category of hub.categories" [routerLink]="category.path" class="brand-hub-card">
-        <span class="brand-hub-card__section">{{ category.sectionLabel }}</span>
-        <span class="brand-hub-card__name">Ремонт {{ category.deviceName }}</span>
-        <span class="brand-hub-card__arrow">→</span>
-      </a>
-    </div>
-  </section>
+  <!-- 4. Процесс ремонта -->
+  <app-process-accordion
+    sectionTitle="Как происходит"
+    sectionTitleAccent="ремонт"
+    [sectionDescription]="'Ремонтируем технику ' + hub.brandName + ' по прозрачному процессу — от заявки до гарантии.'"
+    navTitle="Процесс ремонта"
+    [stats]="processStats"
+    [steps]="processSteps"
+  ></app-process-accordion>
 
+  <!-- 5. Отзывы -->
+  <app-reviews-section></app-reviews-section>
+
+  <!-- 6. FAQ -->
+  <app-faq-section
+    [questions]="brandFaq"
+    navTitle="FAQ"
+  ></app-faq-section>
+
+  <app-page-progress-nav></app-page-progress-nav>
 </ng-container>
