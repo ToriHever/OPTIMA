@@ -34,8 +34,11 @@ function uniqueBrands(
 // сгруппированы по типам устройств (см. ниже).
 export const PHONE_BASE_PATH = '/remont-kompyuterov/smartfony';
 
+// «Ремонт по брендам» в меню телефонов ведёт на страницу «техника по бренду»
+// (/remont-kompyuterov/smartfony/:brand) — там же модельные табы. В отличие от
+// остальных меню, где бренд ведёт на объединяющую страницу /brands/:slug.
 export const PHONE_BRANDS: NavLink[] = Object.values(IT_BRAND_REPAIR_DATA['smartfony'] ?? {})
-  .map(b => ({ name: b.brandName, path: `/brands/${b.slug}` }));
+  .map(b => ({ name: b.brandName, path: `${PHONE_BASE_PATH}/${b.slug}` }));
 
 export const PHONE_ISSUES: NavLink[] = (IT_REPAIR_DATA['smartfony']?.categories.items ?? [])
   .map(i => ({ name: i.name, path: PHONE_BASE_PATH }));
