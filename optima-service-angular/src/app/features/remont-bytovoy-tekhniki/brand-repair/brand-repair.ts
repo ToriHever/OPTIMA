@@ -3,7 +3,6 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { BrandHero } from '../../../shared/components/brand-hero/brand-hero';
-import { AuthorizedBrandHero } from '../../../shared/components/authorized-brand-hero/authorized-brand-hero';
 import { CategoriesGrid } from '../../../shared/components/categories-grid/categories-grid';
 import { ProcessAccordion } from '../../../shared/components/process-accordion/process-accordion';
 import { PageProgressNavComponent } from '../../../shared/components/page-progress-nav/page-progress-nav';
@@ -17,13 +16,11 @@ import { IT_BRAND_REPAIR_DATA } from '../../remont-kompyuterov/it-brand-repair-d
 import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
 import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-data';
 import { MastersTeam } from '../../../shared/components/masters-team/masters-team';
-import { isAuthorizedBrandSlug } from '../../../shared/data/authorized-brands';
-import { HeaderThemeService } from '../../../core/services/header-theme.service';
 
 @Component({
   selector: 'app-brand-repair',
   standalone: true,
-  imports: [CommonModule, BrandHero, AuthorizedBrandHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, MastersTeam],
+  imports: [CommonModule, BrandHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, MastersTeam],
   templateUrl: './brand-repair.html',
   styleUrl: './brand-repair.scss'
 })
@@ -39,8 +36,7 @@ export class BrandRepairPage implements OnInit {
     private router: Router,
     private scroller: ViewportScroller,
     private title: Title,
-    private meta: Meta,
-    private headerThemeService: HeaderThemeService
+    private meta: Meta
   ) {}
 
   ngOnInit(): void {
@@ -79,15 +75,6 @@ export class BrandRepairPage implements OnInit {
 
     this.title.setTitle(this.brandData.meta.title);
     this.meta.updateTag({ name: 'description', content: this.brandData.meta.description });
-
-    this.headerThemeService.setDark(this.isAuthorizedBrand);
   }
 
-  get isAuthorizedBrand(): boolean {
-    return isAuthorizedBrandSlug(this.brandData?.slug);
-  }
-
-  get authorizedHeroImage(): string {
-    return `/assets/img/authorized/${this.brandData?.slug}.png`;
-  }
 }

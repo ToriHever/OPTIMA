@@ -1,53 +1,11 @@
 @import '../../../../styles/variables';
 @import '../../../../styles/mixins';
 
-$auth-gold: #c9a876;
-
 .brand-hub-intro {
   position: relative;
   padding: $space-xl 0 $space-lg;
   background: $color-white;
   overflow: hidden;
-}
-
-// ── Тёмная тема — авторизованные бренды (Dreame, Polaris) ──
-.brand-hub-intro--dark {
-  background: linear-gradient(160deg, #1a1a1a 0%, #242424 100%);
-  padding-bottom: $space-xl;
-
-  .brand-hub-intro__title,
-  .brand-hub-intro__eyebrow {
-    color: $color-white;
-  }
-
-  .brand-hub-intro__subtitle {
-    color: rgba($color-white, 0.65);
-  }
-
-  .brand-hub-intro__logo {
-    background: rgba($color-white, 0.06);
-    border-color: rgba($color-white, 0.15);
-  }
-}
-
-.brand-hub-intro__eyebrow {
-  @include text-mini;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: $auth-gold;
-  margin: 0 0 4px;
-}
-
-.auth-glow {
-  position: absolute;
-  top: -20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 900px;
-  height: 400px;
-  background: radial-gradient(ellipse at center, rgba($auth-gold, 0.12) 0%, transparent 70%);
-  pointer-events: none;
 }
 
 .brand-hub-intro__row {
@@ -97,32 +55,6 @@ $auth-gold: #c9a876;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: $spacing-md;
-  }
-}
-
-.brand-hub-grid--dark {
-  background: #1a1a1a;
-
-  .brand-hub-card {
-    background: #242424;
-    border-color: rgba($color-white, 0.1);
-
-    &:hover {
-      border-color: $auth-gold;
-      box-shadow: 0 8px 28px rgba($auth-gold, 0.12);
-    }
-  }
-
-  .brand-hub-card__section {
-    color: rgba($color-white, 0.4);
-  }
-
-  .brand-hub-card__name {
-    color: $color-white;
-  }
-
-  .brand-hub-card__arrow {
-    color: $auth-gold;
   }
 }
 

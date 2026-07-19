@@ -1,16 +1,14 @@
 <ng-container *ngIf="hub">
 
-  <section class="brand-hub-intro" [class.brand-hub-intro--dark]="isAuthorizedBrand">
-    <div class="auth-glow" *ngIf="isAuthorizedBrand"></div>
+  <section class="brand-hub-intro">
     <div class="container">
-      <app-breadcrumb [items]="breadcrumbs" [light]="isAuthorizedBrand"></app-breadcrumb>
+      <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
 
       <div class="brand-hub-intro__row">
         <div class="brand-hub-intro__logo" *ngIf="!logoFailed">
           <img [src]="hub.logo" [alt]="hub.brandName" (error)="onLogoError()">
         </div>
         <div>
-          <p class="brand-hub-intro__eyebrow" *ngIf="isAuthorizedBrand">Авторизованный сервисный центр</p>
           <h1 class="brand-hub-intro__title">Ремонт техники {{ hub.brandName }}</h1>
           <p class="brand-hub-intro__subtitle">
             Все виды техники {{ hub.brandName }}, которую мы ремонтируем в Ростове-на-Дону — выберите свою категорию.
@@ -20,7 +18,7 @@
     </div>
   </section>
 
-  <section class="brand-hub-grid" [class.brand-hub-grid--dark]="isAuthorizedBrand">
+  <section class="brand-hub-grid">
     <div class="container">
       <a *ngFor="let category of hub.categories" [routerLink]="category.path" class="brand-hub-card">
         <span class="brand-hub-card__section">{{ category.sectionLabel }}</span>

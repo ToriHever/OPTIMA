@@ -1,29 +1,20 @@
 <ng-container *ngIf="brandData && deviceData">
 
   <!-- 1. Брендовый Hero -->
-  <app-authorized-brand-hero
-    *ngIf="isAuthorizedBrand; else regularBrandHero"
+  <app-brand-hero
     [brandName]="brandData.brandName"
-    [imageUrl]="authorizedHeroImage"
+    [deviceName]="brandData.hero.titleAccent"
+    [deviceLabel]="deviceData.hero.titleAccent"
+    [features]="brandData.hero.features"
+    [backPath]="backPath"
+    [backLabel]="sectionLabel"
+    [devicePath]="backPath + '/' + deviceData.slug"
+    priceScrollTarget="brand-price"
     [breadcrumbs]="breadcrumbs"
-  ></app-authorized-brand-hero>
-
-  <ng-template #regularBrandHero>
-    <app-brand-hero
-      [brandName]="brandData.brandName"
-      [deviceName]="brandData.hero.titleAccent"
-      [deviceLabel]="deviceData.hero.titleAccent"
-      [features]="brandData.hero.features"
-      [backPath]="backPath"
-      [backLabel]="sectionLabel"
-      [devicePath]="backPath + '/' + deviceData.slug"
-      priceScrollTarget="brand-price"
-      [breadcrumbs]="breadcrumbs"
-    ></app-brand-hero>
-  </ng-template>
+  ></app-brand-hero>
 
   <!-- 2. Почему мы -->
-  <section class="brand-why" [class.dark]="isAuthorizedBrand" data-nav-title="О нас">
+  <section class="brand-why" data-nav-title="О нас">
     <div class="container">
       <h2 class="section-title">
         Почему выбирают нас<br>
@@ -73,11 +64,10 @@
     [ctaTitle]="deviceData.categories.ctaTitle"
     [ctaDescription]="deviceData.categories.ctaDescription"
     [categories]="deviceData.categories.items"
-    [dark]="isAuthorizedBrand"
   ></app-categories-grid>
 
   <!-- 4. Прайс-лист -->
-  <section class="brand-price" id="brand-price" [class.dark]="isAuthorizedBrand" data-nav-title="Цены">
+  <section class="brand-price" id="brand-price" data-nav-title="Цены">
     <div class="container">
       <h2 class="section-title">
         Стоимость ремонта<br>
@@ -111,7 +101,7 @@
   </section>
 
   <!-- 5. Политика запчастей -->
-  <section class="brand-parts" [class.dark]="isAuthorizedBrand" data-nav-title="Запчасти">
+  <section class="brand-parts" data-nav-title="Запчасти">
     <div class="container">
       <h2 class="section-title">
         Запчасти для<br>
@@ -152,20 +142,18 @@
     navTitle="Процесс ремонта"
     [stats]="deviceData.process.stats"
     [steps]="deviceData.process.steps"
-    [dark]="isAuthorizedBrand"
   ></app-process-accordion>
 
   <!-- 7. Мастера -->
-  <app-masters-team [limit]="3" [dark]="isAuthorizedBrand"></app-masters-team>
+  <app-masters-team [limit]="3"></app-masters-team>
 
   <!-- 8. Отзывы -->
-  <app-reviews-section [dark]="isAuthorizedBrand"></app-reviews-section>
+  <app-reviews-section></app-reviews-section>
 
   <!-- 9. FAQ -->
   <app-faq-section
     [questions]="deviceData.faq"
     navTitle="FAQ"
-    [dark]="isAuthorizedBrand"
   ></app-faq-section>
 
   <app-page-progress-nav></app-page-progress-nav>
