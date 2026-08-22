@@ -1,0 +1,214 @@
+From 36144211c4a97bcad712b40d6e783b1810b43d50 Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sat, 22 Aug 2026 17:33:35 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=9F=D0=BE=D0=BB=D0=BD=D1=8B=D0=B9=20=D1=81?=
+ =?UTF-8?q?=D1=82=D0=B0=D1=82=D0=B8=D1=87=D0=B5=D1=81=D0=BA=D0=B8=D0=B9=20?=
+ =?UTF-8?q?prerender=20=E2=80=94=20=D1=81=D0=B0=D0=B9=D1=82=20=D0=B1=D0=BE?=
+ =?UTF-8?q?=D0=BB=D1=8C=D1=88=D0=B5=20=D0=BD=D0=B5=20=D1=82=D1=80=D0=B5?=
+ =?UTF-8?q?=D0=B1=D1=83=D0=B5=D1=82=20Node=20=D0=BD=D0=B0=20=D1=81=D0=B5?=
+ =?UTF-8?q?=D1=80=D0=B2=D0=B5=D1=80=D0=B5?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Хостинг раздаёт сайт обычным Apache без Node-процесса, поэтому маршруты
+с RenderMode.Server (рендер по запросу) не работали вообще — оттуда и 404
+на разделах вида /remont-bytovoy-tekhniki/stiralnye-mashiny.
+
+Все параметризованные страницы (вид техники, вид+бренд, бренд+модель
+телефона, /brands/:slug, /masters/:slug) теперь перечисляются в
+app.routes.server.ts через getPrerenderParams и превращаются в готовые
+HTML-файлы при сборке — итог 141 статическая страница, каждая с реальным
+уникальным <title>/meta/контентом (проверено выборочно по всем разделам).
+Это же чинит SEO/краулинг: без Node крауler получал пустой JS-каркас,
+теперь — обычный HTML.
+
+Убран кастомный brandModelMatcher (роут «бренд+необязательная модель» одним
+узлом) — Angular не разрешает prerender для роутов с matcher(«Routes with
+matchers cannot use prerendering»). Вернул обычные вложенные именованные
+:brand/:model. Компонент BrandRepairPage по-прежнему не пересоздаётся при
+переключении между МОДЕЛЯМИ и между БРЕНДАМИ (та же нода роута) — полный
+ремонт происходит только на переходе «без модели» → «есть модель» и
+обратно (переход на другую ноду), проверено в браузере.
+
+Доставка на сервер теперь проще: нужна только папка
+dist/optima-service-angular/browser целиком, залитая как статика —
+Node-процесс и его проксирование через Apache больше не нужны.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+---
+ .../src/app/app.routes.server.ts              | 79 +++++++++++++++++--
+ optima-service-angular/src/app/app.routes.ts  | 21 +++--
+ .../app/shared/routing/brand-model.matcher.ts | 20 -----
+ 3 files changed, 86 insertions(+), 34 deletions(-)
+ delete mode 100644 optima-service-angular/src/app/shared/routing/brand-model.matcher.ts
+
+diff --git a/optima-service-angular/src/app/app.routes.server.ts b/optima-service-angular/src/app/app.routes.server.ts
+index 004c71d..f1031ae 100644
+--- a/optima-service-angular/src/app/app.routes.server.ts
++++ b/optima-service-angular/src/app/app.routes.server.ts
+@@ -1,13 +1,76 @@
+ import { RenderMode, ServerRoute } from '@angular/ssr';
++import { DEVICE_REPAIR_DATA, DeviceRepairData } from './features/remont-bytovoy-tekhniki/device-repair/device-repair-data';
++import { IT_REPAIR_DATA } from './features/remont-kompyuterov/it-repair-data';
++import { AV_REPAIR_DATA } from './features/remont-audiovideo/av-repair-data';
++import { BRAND_REPAIR_DATA, BrandRepairData } from './features/remont-bytovoy-tekhniki/brand-repair/brand-repair-data';
++import { IT_BRAND_REPAIR_DATA } from './features/remont-kompyuterov/it-brand-repair-data';
++import { AV_BRAND_REPAIR_DATA } from './features/remont-audiovideo/av-brand-repair-data';
++import { PHONE_MODELS } from './features/remont-kompyuterov/phone-models-data';
++import { MASTERS_DATA } from './features/masters/masters-data';
++
++// Сайт раздаётся обычным статическим хостингом без Node — на нём не может
++// работать RenderMode.Server (рендер по запросу). Поэтому каждая
++// параметризованная страница (вид техники, бренд, модель телефона) заранее
++// перечисляется здесь и превращается в готовый HTML-файл при сборке.
++
++type DeviceMap = Record<string, DeviceRepairData>;
++type BrandMap = Record<string, Record<string, BrandRepairData>>;
++
++function deviceParams(deviceMap: DeviceMap): { slug: string }[] {
++  return Object.keys(deviceMap).map(slug => ({ slug }));
++}
++
++function brandParams(deviceMap: DeviceMap, brandMap: BrandMap): { slug: string; brand: string }[] {
++  const params: { slug: string; brand: string }[] = [];
++  for (const slug of Object.keys(deviceMap)) {
++    for (const brand of Object.keys(brandMap[slug] ?? {})) {
++      params.push({ slug, brand });
++    }
++  }
++  return params;
++}
++
++function phoneModelParams(): { slug: string; brand: string; model: string }[] {
++  const params: { slug: string; brand: string; model: string }[] = [];
++  for (const [slug, brands] of Object.entries(PHONE_MODELS)) {
++    for (const [brand, models] of Object.entries(brands)) {
++      for (const model of models) {
++        params.push({ slug, brand, model: model.slug });
++      }
++    }
++  }
++  return params;
++}
++
++function brandHubParams(): { slug: string }[] {
++  const slugs = new Set<string>();
++  for (const brandMap of [BRAND_REPAIR_DATA, IT_BRAND_REPAIR_DATA, AV_BRAND_REPAIR_DATA] as BrandMap[]) {
++    for (const brands of Object.values(brandMap)) {
++      for (const brand of Object.values(brands)) {
++        slugs.add(brand.slug);
++      }
++    }
++  }
++  return Array.from(slugs, slug => ({ slug }));
++}
++
++function masterParams(): { slug: string }[] {
++  return MASTERS_DATA.map(m => ({ slug: m.slug }));
++}
+ 
+ export const serverRoutes: ServerRoute[] = [
+-  { path: 'remont-bytovoy-tekhniki/:slug', renderMode: RenderMode.Server },
+-  { path: 'remont-bytovoy-tekhniki/:slug/**', renderMode: RenderMode.Server },
+-  { path: 'remont-kompyuterov/:slug', renderMode: RenderMode.Server },
+-  { path: 'remont-kompyuterov/:slug/**', renderMode: RenderMode.Server },
+-  { path: 'remont-audiovideo/:slug', renderMode: RenderMode.Server },
+-  { path: 'remont-audiovideo/:slug/**', renderMode: RenderMode.Server },
+-  { path: 'brands/:slug', renderMode: RenderMode.Server },
+-  { path: 'masters/:slug', renderMode: RenderMode.Server },
++  { path: 'brands/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => brandHubParams() },
++  { path: 'masters/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => masterParams() },
++
++  { path: 'remont-bytovoy-tekhniki/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => deviceParams(DEVICE_REPAIR_DATA) },
++  { path: 'remont-bytovoy-tekhniki/:slug/:brand', renderMode: RenderMode.Prerender, getPrerenderParams: async () => brandParams(DEVICE_REPAIR_DATA, BRAND_REPAIR_DATA) },
++
++  { path: 'remont-kompyuterov/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => deviceParams(IT_REPAIR_DATA) },
++  { path: 'remont-kompyuterov/:slug/:brand', renderMode: RenderMode.Prerender, getPrerenderParams: async () => brandParams(IT_REPAIR_DATA, IT_BRAND_REPAIR_DATA) },
++  { path: 'remont-kompyuterov/:slug/:brand/:model', renderMode: RenderMode.Prerender, getPrerenderParams: async () => phoneModelParams() },
++
++  { path: 'remont-audiovideo/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => deviceParams(AV_REPAIR_DATA) },
++  { path: 'remont-audiovideo/:slug/:brand', renderMode: RenderMode.Prerender, getPrerenderParams: async () => brandParams(AV_REPAIR_DATA, AV_BRAND_REPAIR_DATA) },
++
+   { path: '**', renderMode: RenderMode.Prerender }
+ ];
+diff --git a/optima-service-angular/src/app/app.routes.ts b/optima-service-angular/src/app/app.routes.ts
+index d9c796d..6093ba2 100644
+--- a/optima-service-angular/src/app/app.routes.ts
++++ b/optima-service-angular/src/app/app.routes.ts
+@@ -1,5 +1,4 @@
+ import { Routes } from '@angular/router';
+-import { brandModelMatcher } from './shared/routing/brand-model.matcher';
+ 
+ export const routes: Routes = [
+   {
+@@ -60,7 +59,7 @@ export const routes: Routes = [
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
+           },
+           {
+-            matcher: brandModelMatcher,
++            path: ':brand',
+             data: { section: 'appliances', backPath: '/remont-bytovoy-tekhniki' },
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
+           }
+@@ -84,9 +83,19 @@ export const routes: Routes = [
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
+           },
+           {
+-            matcher: brandModelMatcher,
+-            data: { section: 'computers', backPath: '/remont-kompyuterov' },
+-            loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
++            path: ':brand',
++            children: [
++              {
++                path: '',
++                data: { section: 'computers', backPath: '/remont-kompyuterov' },
++                loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
++              },
++              {
++                path: ':model',
++                data: { section: 'computers', backPath: '/remont-kompyuterov' },
++                loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
++              }
++            ]
+           }
+         ]
+       }
+@@ -108,7 +117,7 @@ export const routes: Routes = [
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
+           },
+           {
+-            matcher: brandModelMatcher,
++            path: ':brand',
+             data: { section: 'av', backPath: '/remont-audiovideo' },
+             loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
+           }
+diff --git a/optima-service-angular/src/app/shared/routing/brand-model.matcher.ts b/optima-service-angular/src/app/shared/routing/brand-model.matcher.ts
+deleted file mode 100644
+index 98da78a..0000000
+--- a/optima-service-angular/src/app/shared/routing/brand-model.matcher.ts
++++ /dev/null
+@@ -1,20 +0,0 @@
+-import { UrlMatchResult, UrlSegment } from '@angular/router';
+-
+-/**
+- * Матчер для роута «бренд» с необязательным сегментом модели.
+- *
+- * Поглощает 1 сегмент (`:brand`) или 2 сегмента (`:brand/:model`) и кладёт их
+- * в posParams. Оба варианта матчатся ОДНИМ узлом роута — значит при переходе
+- * между `/…/brand` и `/…/brand/model` (и между моделями) Angular переиспользует
+- * компонент, а не пересоздаёт его: страница не «перезапускается», обновляется
+- * только paramMap.
+- */
+-export function brandModelMatcher(segments: UrlSegment[]): UrlMatchResult | null {
+-  if (segments.length === 1) {
+-    return { consumed: segments, posParams: { brand: segments[0] } };
+-  }
+-  if (segments.length === 2) {
+-    return { consumed: segments, posParams: { brand: segments[0], model: segments[1] } };
+-  }
+-  return null;
+-}
+-- 
+2.52.0.windows.1
+

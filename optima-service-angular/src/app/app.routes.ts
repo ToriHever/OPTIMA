@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { brandModelMatcher } from './shared/routing/brand-model.matcher';
 
 export const routes: Routes = [
   {
@@ -60,7 +59,7 @@ export const routes: Routes = [
             loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
           },
           {
-            matcher: brandModelMatcher,
+            path: ':brand',
             data: { section: 'appliances', backPath: '/remont-bytovoy-tekhniki' },
             loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
           }
@@ -84,9 +83,19 @@ export const routes: Routes = [
             loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
           },
           {
-            matcher: brandModelMatcher,
-            data: { section: 'computers', backPath: '/remont-kompyuterov' },
-            loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
+            path: ':brand',
+            children: [
+              {
+                path: '',
+                data: { section: 'computers', backPath: '/remont-kompyuterov' },
+                loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
+              },
+              {
+                path: ':model',
+                data: { section: 'computers', backPath: '/remont-kompyuterov' },
+                loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
+              }
+            ]
           }
         ]
       }
@@ -108,7 +117,7 @@ export const routes: Routes = [
             loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
           },
           {
-            matcher: brandModelMatcher,
+            path: ':brand',
             data: { section: 'av', backPath: '/remont-audiovideo' },
             loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
           }
