@@ -27,6 +27,11 @@ export class BrandHero implements OnChanges {
   // этого вида, не зависит от бренда/модели.
   @Input() imageUrl?: string;
 
+  // Общее фото вида техники — подстраховка на случай, если своё фото бренда
+  // (imageUrl) ещё не загружено на сервер. Пока brand-специфичного файла нет,
+  // страница показывает общее фото вместо пустоты.
+  @Input() fallbackImageUrl?: string;
+
   // Модельные табы (только для страниц телефонов)
   @Input() models: PhoneModel[] = [];
   @Input() activeModelSlug: string | null = null;
@@ -34,20 +39,32 @@ export class BrandHero implements OnChanges {
   @Input() brandBasePath = '';
 
   imageFailed = false;
+  private triedFallback = false;
 
   private modalService = inject(ModalService);
+
+  get displayImageUrl(): string | undefined {
+    return this.triedFallback ? this.fallbackImageUrl : this.imageUrl;
+  }
 
   // Компонент переиспользуется при смене бренда/устройства на той же
   // странице (тот же matcher-роут :brand) — без сброса флаг «картинка не
   // найдена» остался бы от предыдущего вида техники.
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['imageUrl']) {
+    if (changes['imageUrl'] || changes['fallbackImageUrl']) {
       this.imageFailed = false;
+      this.triedFallback = false;
     }
   }
 
   onImageError(): void {
-    this.imageFailed = true;
+    // Своё фото бренда ещё не загружено на сервер — пробуем общее фото вида
+    // техники, прежде чем скрывать блок совсем.
+    if (!this.triedFallback && this.fallbackImageUrl && this.fallbackImageUrl !== this.imageUrl) {
+      this.triedFallback = true;
+    } else {
+      this.imageFailed = true;
+    }
   }
 
   openCallback() {

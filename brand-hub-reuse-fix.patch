@@ -1,0 +1,114 @@
+From 9bc1a7ac6708d5c9703fc3d1000b204a76725dfe Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sat, 22 Aug 2026 12:34:12 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=A1=D1=82=D1=80=D0=B0=D0=BD=D0=B8=D1=86?=
+ =?UTF-8?q?=D0=B0=20=D0=B1=D1=80=D0=B5=D0=BD=D0=B4=D0=B0=20(/brands/:slug)?=
+ =?UTF-8?q?:=20=D1=87=D0=B8=D0=BD=D0=B8=D1=82=20=D0=BF=D0=B5=D1=80=D0=B5?=
+ =?UTF-8?q?=D0=B8=D1=81=D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=BE=D0=B2=D0=B0?=
+ =?UTF-8?q?=D0=BD=D0=B8=D0=B5=20=D0=BA=D0=BE=D0=BC=D0=BF=D0=BE=D0=BD=D0=B5?=
+ =?UTF-8?q?=D0=BD=D1=82=D0=B0=20=D0=BF=D1=80=D0=B8=20=D0=BF=D0=B5=D1=80?=
+ =?UTF-8?q?=D0=B5=D1=85=D0=BE=D0=B4=D0=B5=20=D1=87=D0=B5=D1=80=D0=B5=D0=B7?=
+ =?UTF-8?q?=20=D0=BC=D0=B5=D0=BD=D1=8E?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Тот же класс бага, что уже чинил для DeviceRepairPage: path: ':slug' под
+/brands — один объект route-конфига для любого бренда, поэтому при переходе
+между разными брендами через меню (напр. компьютеры -> Бренды -> Apple,
+затем -> Samsung) Angular переиспользует BrandHubPage вместо пересоздания —
+ngOnInit больше не вызывается, URL меняется, а контент (hub, breadcrumbs,
+title, meta) остаётся от предыдущего бренда.
+
+Исправлено тем же паттерном: подписка на NavigationEnd, разбор актуального
+URL и markForCheck() на каждую навигацию (zoneless). Проверено реальным
+кликом через мега-меню: Apple -> Samsung — DOM-узел переиспользован
+(без пересоздания), заголовок и контент корректно обновились.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+---
+ .../features/brands/brand-hub/brand-hub.ts    | 36 ++++++++++++++++---
+ 1 file changed, 31 insertions(+), 5 deletions(-)
+
+diff --git a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
+index c305684..70a6832 100644
+--- a/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
++++ b/optima-service-angular/src/app/features/brands/brand-hub/brand-hub.ts
+@@ -1,7 +1,9 @@
+-import { Component, OnInit, inject } from '@angular/core';
++import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
+ import { CommonModule, ViewportScroller } from '@angular/common';
+-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
++import { ActivatedRoute, Router, RouterModule, NavigationEnd } from '@angular/router';
+ import { Title, Meta } from '@angular/platform-browser';
++import { Subscription } from 'rxjs';
++import { filter } from 'rxjs/operators';
+ import { Breadcrumb, BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb';
+ import { ServicesTable, ServiceCategory } from '../../../shared/components/services-table/services-table';
+ import { ProcessAccordion, ProcessStep, SidebarStat } from '../../../shared/components/process-accordion/process-accordion';
+@@ -22,7 +24,7 @@ const DEVICE_TAB_ICON = 'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77
+   templateUrl: './brand-hub.html',
+   styleUrl: './brand-hub.scss'
+ })
+-export class BrandHubPage implements OnInit {
++export class BrandHubPage implements OnInit, OnDestroy {
+   hub: BrandHub | null = null;
+   breadcrumbs: BreadcrumbItem[] = [];
+   logoFailed = false;
+@@ -38,20 +40,40 @@ export class BrandHubPage implements OnInit {
+   ];
+ 
+   private modalService = inject(ModalService);
++  private navSub?: Subscription;
+ 
+   constructor(
+     private route: ActivatedRoute,
+     private router: Router,
+     private scroller: ViewportScroller,
+     private title: Title,
+-    private meta: Meta
++    private meta: Meta,
++    private cdr: ChangeDetectorRef
+   ) {}
+ 
+   ngOnInit(): void {
++    // Родительский узел ':slug' — один и тот же объект route-конфига для
++    // любого значения slug, поэтому при переходе между разными брендами
++    // через меню (URL /brands/apple -> /brands/samsung) Angular переиспользует
++    // этот компонент, а не пересоздаёт его — ngOnInit больше не вызывается.
++    // Реагируем на каждую навигацию отдельно и парсим актуальный URL.
++    this.render();
++    this.navSub = this.router.events
++      .pipe(filter(e => e instanceof NavigationEnd))
++      .subscribe(() => this.render());
++  }
++
++  ngOnDestroy(): void {
++    this.navSub?.unsubscribe();
++  }
++
++  private render(): void {
+     this.scroller.scrollToPosition([0, 0]);
+ 
+-    const slug = this.route.snapshot.paramMap.get('slug') ?? '';
++    const path = this.router.url.split('?')[0].split('#')[0];
++    const slug = path.split('/').filter(Boolean)[1] ?? '';
+     this.hub = getBrandHub(slug);
++    this.logoFailed = false;
+ 
+     if (!this.hub) {
+       this.router.navigate(['/brands']);
+@@ -69,6 +91,10 @@ export class BrandHubPage implements OnInit {
+       name: 'description',
+       content: `Ремонтируем всю технику ${this.hub.brandName}: ${this.hub.categories.map(c => c.deviceName).join(', ')}. Ставим оригинальные запчасти, соблюдаем стандарт ремонта, даём гарантию до 90 дней.`
+     });
++
++    // Zoneless: подписка на router.events сама по себе не запускает change
++    // detection — без этого вид не обновится при переиспользовании компонента.
++    this.cdr.markForCheck();
+   }
+ 
+   get heroDescription(): string {
+-- 
+2.52.0.windows.1
+

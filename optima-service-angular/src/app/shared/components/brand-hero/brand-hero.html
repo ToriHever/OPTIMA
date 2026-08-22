@@ -49,10 +49,10 @@
       </div>
 
       <!-- Правая колонка: фото вида техники -->
-      <div class="brand-hero__visual-wrap" *ngIf="imageUrl && !imageFailed">
+      <div class="brand-hero__visual-wrap" *ngIf="displayImageUrl && !imageFailed">
         <div class="brand-hero__visual">
           <div class="brand-hero__visual-bg"></div>
-          <img [src]="imageUrl" [alt]="deviceLabel" class="brand-hero__visual-img" loading="eager" (error)="onImageError()">
+          <img [src]="displayImageUrl" [alt]="deviceLabel" class="brand-hero__visual-img" loading="eager" (error)="onImageError()">
         </div>
         <div class="brand-hero__logo-note">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">

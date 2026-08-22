@@ -1,7 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule, ViewportScroller } from '@angular/common';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule, NavigationEnd } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { Breadcrumb, BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb';
 import { ServicesTable, ServiceCategory } from '../../../shared/components/services-table/services-table';
 import { ProcessAccordion, ProcessStep, SidebarStat } from '../../../shared/components/process-accordion/process-accordion';
@@ -22,7 +24,7 @@ const DEVICE_TAB_ICON = 'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77
   templateUrl: './brand-hub.html',
   styleUrl: './brand-hub.scss'
 })
-export class BrandHubPage implements OnInit {
+export class BrandHubPage implements OnInit, OnDestroy {
   hub: BrandHub | null = null;
   breadcrumbs: BreadcrumbItem[] = [];
   logoFailed = false;
@@ -38,20 +40,40 @@ export class BrandHubPage implements OnInit {
   ];
 
   private modalService = inject(ModalService);
+  private navSub?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private scroller: ViewportScroller,
     private title: Title,
-    private meta: Meta
+    private meta: Meta,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    // Родительский узел ':slug' — один и тот же объект route-конфига для
+    // любого значения slug, поэтому при переходе между разными брендами
+    // через меню (URL /brands/apple -> /brands/samsung) Angular переиспользует
+    // этот компонент, а не пересоздаёт его — ngOnInit больше не вызывается.
+    // Реагируем на каждую навигацию отдельно и парсим актуальный URL.
+    this.render();
+    this.navSub = this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe(() => this.render());
+  }
+
+  ngOnDestroy(): void {
+    this.navSub?.unsubscribe();
+  }
+
+  private render(): void {
     this.scroller.scrollToPosition([0, 0]);
 
-    const slug = this.route.snapshot.paramMap.get('slug') ?? '';
+    const path = this.router.url.split('?')[0].split('#')[0];
+    const slug = path.split('/').filter(Boolean)[1] ?? '';
     this.hub = getBrandHub(slug);
+    this.logoFailed = false;
 
     if (!this.hub) {
       this.router.navigate(['/brands']);
@@ -69,6 +91,10 @@ export class BrandHubPage implements OnInit {
       name: 'description',
       content: `Ремонтируем всю технику ${this.hub.brandName}: ${this.hub.categories.map(c => c.deviceName).join(', ')}. Ставим оригинальные запчасти, соблюдаем стандарт ремонта, даём гарантию до 90 дней.`
     });
+
+    // Zoneless: подписка на router.events сама по себе не запускает change
+    // detection — без этого вид не обновится при переиспользовании компонента.
+    this.cdr.markForCheck();
   }
 
   get heroDescription(): string {
