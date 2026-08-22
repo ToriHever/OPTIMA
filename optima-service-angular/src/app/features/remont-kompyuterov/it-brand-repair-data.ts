@@ -56,7 +56,7 @@ export const IT_BRAND_REPAIR_DATA: Record<string, Record<string, BrandRepairData
         titleAccent: 'iPhone',
         subtitle: 'Профессиональный ремонт iPhone всех моделей в Ростове-на-Дону. Замена OLED-дисплея, аккумулятора, ремонт после залития. Гарантия до 90 дней.',
         features: ['iPhone 8 — iPhone 16 Pro Max', 'Оригинальные дисплеи OLED', 'Замена за 30–60 минут', 'Бесплатная диагностика', 'Гарантия до 90 дней'],
-        image: '/assets/img/hero/smartfony-apple.png'
+        image: '/assets/img/technique/computers/phone/smartfony-apple.png'
       }
     },
     'samsung': {
@@ -70,7 +70,7 @@ export const IT_BRAND_REPAIR_DATA: Record<string, Record<string, BrandRepairData
         titleAccent: 'Samsung',
         subtitle: 'Ремонт Samsung Galaxy всех серий в Ростове-на-Дону. Galaxy S, A, M, Note, Z Fold и Flip — знаем каждую модель. Гарантия до 90 дней.',
         features: ['Galaxy S, A, M, Note, Z Fold/Flip', 'Оригинальные Super AMOLED дисплеи', 'Ремонт складных смартфонов', 'Оригинальные запчасти', 'Гарантия до 90 дней'],
-        image: '/assets/img/hero/smartfony-samsung.png'
+        image: '/assets/img/technique/computers/phone/smartfony-samsung.png'
       }
     },
     'xiaomi': {
@@ -84,7 +84,7 @@ export const IT_BRAND_REPAIR_DATA: Record<string, Record<string, BrandRepairData
         titleAccent: 'Xiaomi',
         subtitle: 'Ремонт смартфонов Xiaomi, Redmi и POCO в Ростове-на-Дону. Замена дисплея, аккумулятора, ремонт разъёма зарядки. Гарантия до 90 дней.',
         features: ['Xiaomi, Redmi, POCO', 'Замена дисплея и АКБ', 'Ремонт разъёма зарядки', 'Оригинальные запчасти', 'Гарантия до 90 дней'],
-        image: '/assets/img/hero/smartfony-xiaomi.png'
+        image: '/assets/img/technique/computers/phone/smartfony-xiaomi.png'
       }
     }
   },
