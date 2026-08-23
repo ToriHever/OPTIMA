@@ -1,0 +1,118 @@
+From 459a4f4357029e0ff2bd2b140cc527f2a2800276 Mon Sep 17 00:00:00 2001
+From: VI <vika.miroshnikova2016@gmail.com>
+Date: Sun, 23 Aug 2026 17:27:30 +0300
+Subject: [PATCH] =?UTF-8?q?=D0=94=D0=BE=D0=B1=D0=B0=D0=B2=D0=BB=D0=B5?=
+ =?UTF-8?q?=D0=BD=20<link=20rel=3D"canonical">=20=D0=BD=D0=B0=20=D0=B2?=
+ =?UTF-8?q?=D1=81=D0=B5=20=D1=81=D1=82=D1=80=D0=B0=D0=BD=D0=B8=D1=86=D1=8B?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+На сайте не было canonical-тега вообще — вероятная причина, почему
+SEO-плагин пользователя не может кластеризовать sitemap (в связке с уже
+найденной проблемой: https редиректит на http почти на всех страницах,
+кроме главной — без canonical поисковик/плагин не может однозначно
+определить авторитетный URL при таком разночтении протокола).
+
+Новый CanonicalService (core/services/canonical.service.ts) подписывается
+на NavigationEnd и на каждой навигации проставляет/обновляет
+<link rel="canonical"> в <head> на https://larina.optima-sc.ru + текущий
+путь. Единая точка вместо дублирования в ngOnInit каждой из ~15
+page-компонентов. Подключается через инъекцию в AppComponent (сервис сам
+себя не создаст без хотя бы одной инъекции — providedIn: 'root' не
+означает автозапуск).
+
+Работает через DOCUMENT (не глобальный window.document) — поэтому
+корректно отрабатывает и при статическом prerender на сборке (тег уже
+запечён в HTML для краулеров), и при последующей клиентской SPA-навигации
+между страницами.
+
+Проверено на реальной сборке: все проверенные типы страниц (главная,
+раздел, вид техники, бренд, 3-уровневая модель телефона, хаб бренда,
+страница мастера) — тег на месте, ровно один, адрес правильный. В браузере
+подтвердил, что клиентская навигация обновляет href без дублирования тега.
+
+Домен захардкожен константой SITE_ORIGIN — во время prerender нет живого
+HTTP-запроса с Host-заголовком, который можно было бы прочитать.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+---
+ optima-service-angular/src/app/app.ts         |  6 ++-
+ .../app/core/services/canonical.service.ts    | 38 +++++++++++++++++++
+ 2 files changed, 43 insertions(+), 1 deletion(-)
+ create mode 100644 optima-service-angular/src/app/core/services/canonical.service.ts
+
+diff --git a/optima-service-angular/src/app/app.ts b/optima-service-angular/src/app/app.ts
+index 77e9016..3dac9d8 100644
+--- a/optima-service-angular/src/app/app.ts
++++ b/optima-service-angular/src/app/app.ts
+@@ -1,4 +1,4 @@
+-import { Component } from '@angular/core';
++import { Component, inject } from '@angular/core';
+ import { RouterOutlet } from '@angular/router';
+ import { Header } from './layout/header/header';
+ import { Footer } from './layout/footer/footer';
+@@ -6,6 +6,7 @@ import { RepairStatusModal } from './shared/components/repair-status-modal/repai
+ import { CallbackModal } from './shared/components/callback-modal/callback-modal';
+ import { SocialBar } from './layout/social-bar/social-bar';
+ import { PageProgressNavComponent } from './shared/components/page-progress-nav/page-progress-nav';
++import { CanonicalService } from './core/services/canonical.service';
+ 
+ @Component({
+   selector: 'app-root',
+@@ -17,4 +18,7 @@ import { PageProgressNavComponent } from './shared/components/page-progress-nav/
+ export class AppComponent {
+   title = 'Оптима Сервис';
+ 
++  // Инъекция только чтобы форсировать создание сервиса при старте
++  // приложения — сам он подписывается на роутинг в конструкторе.
++  private canonicalService = inject(CanonicalService);
+ }
+\ No newline at end of file
+diff --git a/optima-service-angular/src/app/core/services/canonical.service.ts b/optima-service-angular/src/app/core/services/canonical.service.ts
+new file mode 100644
+index 0000000..417772a
+--- /dev/null
++++ b/optima-service-angular/src/app/core/services/canonical.service.ts
+@@ -0,0 +1,38 @@
++import { Injectable, Inject } from '@angular/core';
++import { DOCUMENT } from '@angular/common';
++import { Router, NavigationEnd } from '@angular/router';
++import { filter } from 'rxjs/operators';
++
++const SITE_ORIGIN = 'https://larina.optima-sc.ru';
++
++/**
++ * Проставляет <link rel="canonical"> на каждой странице — единая точка,
++ * а не дублирование в ngOnInit каждого page-компонента. Работает и при
++ * статическом prerender (через DOCUMENT, не глобальный window.document —
++ * корректно на сервере при сборке), и при клиентской SPA-навигации между
++ * уже отрендеренными страницами.
++ */
++@Injectable({ providedIn: 'root' })
++export class CanonicalService {
++  constructor(
++    @Inject(DOCUMENT) private doc: Document,
++    private router: Router
++  ) {
++    this.router.events
++      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
++      .subscribe(e => this.setCanonical(e.urlAfterRedirects));
++  }
++
++  private setCanonical(url: string): void {
++    const path = url.split('?')[0].split('#')[0];
++    const href = `${SITE_ORIGIN}${path}`;
++
++    let link = this.doc.querySelector<HTMLLinkElement>('link[rel="canonical"]');
++    if (!link) {
++      link = this.doc.createElement('link');
++      link.setAttribute('rel', 'canonical');
++      this.doc.head.appendChild(link);
++    }
++    link.setAttribute('href', href);
++  }
++}
+-- 
+2.52.0.windows.1
+
