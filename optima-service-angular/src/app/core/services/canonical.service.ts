@@ -24,7 +24,12 @@ export class CanonicalService {
   }
 
   private setCanonical(url: string): void {
-    const path = url.split('?')[0].split('#')[0];
+    let path = url.split('?')[0].split('#')[0];
+    // канонический адрес всегда с завершающим слэшем — nginx всё равно
+    // редиректит на такой вид, дублей без слэша быть не должно
+    if (path !== '/' && !path.endsWith('/')) {
+      path += '/';
+    }
     const href = `${SITE_ORIGIN}${path}`;
 
     let link = this.doc.querySelector<HTMLLinkElement>('link[rel="canonical"]');
