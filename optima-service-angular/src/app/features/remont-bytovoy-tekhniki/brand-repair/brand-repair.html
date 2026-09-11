@@ -1,3 +1,5 @@
+<app-not-found *ngIf="!brandData || !deviceData"></app-not-found>
+
 <ng-container *ngIf="brandData && deviceData">
 
   <!-- 1. Брендовый Hero -->

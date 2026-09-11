@@ -13,6 +13,7 @@ import { FaqSection } from '../../../shared/components/faq-section/faq-section';
 import { BrandSelector } from '../../../shared/components/brand-selector/brand-selector';
 import { TrustBlock } from '../../../shared/components/trust-block/trust-block';
 import { MastersTeam } from '../../../shared/components/masters-team/masters-team';
+import { NotFound } from '../../not-found/not-found';
 import { DEVICE_REPAIR_DATA, DeviceRepairData } from './device-repair-data';
 import { IT_REPAIR_DATA } from '../../remont-kompyuterov/it-repair-data';
 import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
@@ -24,7 +25,7 @@ import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-da
 @Component({
   selector: 'app-device-repair',
   standalone: true,
-  imports: [CommonModule, TechHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, BrandSelector, TrustBlock, MastersTeam],
+  imports: [CommonModule, TechHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, BrandSelector, TrustBlock, MastersTeam, NotFound],
   templateUrl: './device-repair.html',
   styleUrl: './device-repair.scss'
 })
@@ -76,7 +77,11 @@ export class DeviceRepairPage implements OnInit, OnDestroy {
     this.data = (dataMap as Record<string, DeviceRepairData>)[slug] ?? null;
 
     if (!this.data) {
-      this.router.navigate([backPath]);
+      // Раньше молча уводили на backPath — адрес выглядел рабочим, а
+      // пользователь терял контекст. Теперь показываем 404 прямо на этом
+      // URL (см. app.routes.ts и NotFound) — так же, как для неизвестного
+      // маршрута целиком.
+      this.cdr.markForCheck();
       return;
     }
 

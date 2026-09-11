@@ -11,6 +11,7 @@ import { ReviewsSection } from '../../../shared/components/reviews-section/revie
 import { FaqSection, FaqItem } from '../../../shared/components/faq-section/faq-section';
 import { PageProgressNavComponent } from '../../../shared/components/page-progress-nav/page-progress-nav';
 import { ModalService } from '../../../core/services/modal.service';
+import { NotFound } from '../../not-found/not-found';
 import { getBrandHub, BrandHub } from '../brand-hub-data';
 
 // Единая иконка для вкладок таблицы цен — вкладка обозначает вид техники,
@@ -20,7 +21,7 @@ const DEVICE_TAB_ICON = 'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77
 @Component({
   selector: 'app-brand-hub',
   standalone: true,
-  imports: [CommonModule, RouterModule, Breadcrumb, ServicesTable, ProcessAccordion, ReviewsSection, FaqSection, PageProgressNavComponent],
+  imports: [CommonModule, RouterModule, Breadcrumb, ServicesTable, ProcessAccordion, ReviewsSection, FaqSection, PageProgressNavComponent, NotFound],
   templateUrl: './brand-hub.html',
   styleUrl: './brand-hub.scss'
 })
@@ -76,7 +77,9 @@ export class BrandHubPage implements OnInit, OnDestroy {
     this.logoFailed = false;
 
     if (!this.hub) {
-      this.router.navigate(['/brands']);
+      // Показываем 404 на этом же URL вместо тихого увода на /brands —
+      // см. пояснение в device-repair.ts.
+      this.cdr.markForCheck();
       return;
     }
 

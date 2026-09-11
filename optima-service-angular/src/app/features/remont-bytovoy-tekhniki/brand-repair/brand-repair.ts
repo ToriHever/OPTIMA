@@ -19,11 +19,12 @@ import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
 import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-data';
 import { MastersTeam } from '../../../shared/components/masters-team/masters-team';
 import { PhoneModel, getPhoneModels, findPhoneModel } from '../../remont-kompyuterov/phone-models-data';
+import { NotFound } from '../../not-found/not-found';
 
 @Component({
   selector: 'app-brand-repair',
   standalone: true,
-  imports: [CommonModule, BrandHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, MastersTeam],
+  imports: [CommonModule, BrandHero, CategoriesGrid, ProcessAccordion, PageProgressNavComponent, ReviewsSection, FaqSection, MastersTeam, NotFound],
   templateUrl: './brand-repair.html',
   styleUrl: './brand-repair.scss'
 })
@@ -90,7 +91,9 @@ export class BrandRepairPage implements OnInit, OnDestroy {
     this.brandData = (brandMap as Record<string, Record<string, BrandRepairData>>)[slug]?.[brand] ?? null;
 
     if (!this.brandData || !this.deviceData) {
-      this.router.navigate([this.backPath, slug]);
+      // Показываем 404 на этом же URL вместо тихого увода на backPath —
+      // см. пояснение в device-repair.ts.
+      this.cdr.markForCheck();
       return;
     }
 

@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, ViewportScroller } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { Breadcrumb, BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb';
 import { ModalService } from '../../../core/services/modal.service';
+import { NotFound } from '../../not-found/not-found';
 import { MASTERS_DATA, MasterData } from '../masters-data';
 
 @Component({
   selector: 'app-master-detail',
   standalone: true,
-  imports: [CommonModule, Breadcrumb],
+  imports: [CommonModule, Breadcrumb, NotFound],
   templateUrl: './master-detail.html',
   styleUrl: './master-detail.scss'
 })
@@ -19,7 +20,6 @@ export class MasterDetail implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private scroller: ViewportScroller,
     private title: Title,
     private meta: Meta,
@@ -33,7 +33,8 @@ export class MasterDetail implements OnInit {
     this.master = MASTERS_DATA.find(m => m.slug === slug) ?? null;
 
     if (!this.master) {
-      this.router.navigate(['/masters']);
+      // Показываем 404 на этом же URL вместо тихого увода на /masters —
+      // см. пояснение в device-repair.ts.
       return;
     }
 
