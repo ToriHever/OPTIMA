@@ -127,6 +127,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''
+    loadComponent: () => import('./features/not-found/not-found').then(m => m.NotFound)
   }
 ];

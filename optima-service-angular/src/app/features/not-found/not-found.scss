@@ -1,0 +1,150 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.notfound {
+  padding: $space-xxl 0 $space-xl;
+}
+
+// ── Hero ──────────────────────────────────────────────
+.notfound__hero {
+  @include flex-column;
+  align-items: center;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.notfound__code {
+  margin: 0;
+  font-weight: $font-weight-bold;
+  font-size: clamp(4.5rem, 12vw, 7.5rem);
+  line-height: 1;
+  background: $gradient-primary;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+}
+
+.notfound__title {
+  @include text-h2;
+  margin: $space-sm 0 $space-sm;
+}
+
+.notfound__subtitle {
+  @include text-subtitle-1;
+  margin: 0 0 $space-lg;
+}
+
+.notfound__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-sm;
+  justify-content: center;
+  margin-bottom: $space-lg;
+}
+
+.notfound__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: $color-primary;
+  text-decoration: none;
+  @include text-body;
+
+  svg {
+    flex-shrink: 0;
+    color: $color-accent;
+  }
+
+  strong {
+    color: $color-dark;
+    font-weight: $font-weight-semibold;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ── Популярные разделы ───────────────────────────────
+.notfound__section {
+  margin-top: $space-xxl;
+  padding-top: $space-xl;
+  border-top: 1px solid $color-bg-grey;
+}
+
+.notfound__section-title {
+  @include text-h4;
+  text-align: center;
+  margin: 0 0 $space-lg;
+}
+
+.notfound__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-md;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: $breakpoint-xs) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.notfound__card {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-md;
+  background: $color-white;
+  border: 1px solid $color-bg-grey;
+  border-radius: $radius-lg;
+  text-decoration: none;
+  color: inherit;
+  transition: $transition-base;
+
+  &:hover {
+    border-color: $color-primary-light;
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+
+    .notfound__card-arrow {
+      transform: translateX(3px);
+      color: $color-primary;
+    }
+  }
+}
+
+.notfound__card-icon {
+  @include flex-center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: $radius-md;
+  background: $gradient-primary-light;
+  color: $color-primary;
+}
+
+.notfound__card-text {
+  @include flex-column;
+  flex: 1;
+  min-width: 0;
+}
+
+.notfound__card-title {
+  @include text-h5;
+  margin-bottom: 2px;
+}
+
+.notfound__card-desc {
+  @include text-subtitle-2;
+}
+
+.notfound__card-arrow {
+  flex-shrink: 0;
+  color: $color-bg-grey;
+  transition: $transition-base;
+}
