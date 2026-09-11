@@ -180,6 +180,19 @@ export const BRAND_REPAIR_DATA: Record<string, Record<string, BrandRepairData>> 
         subtitle: 'Ремонт кофемашин Philips Series 1200, 2200, 3200, 5400. Быстрая диагностика, оригинальные запчасти, ремонт в день обращения.',
         features: ['Series 1200 / 2200 / 3200 / 5400', 'Ремонт заварочного блока', 'Декальцинация', 'Оригинальные запчасти', 'Гарантия до 90 дней']
       }
+    },
+    'polaris': {
+      brandName: 'Polaris', slug: 'polaris',
+      meta: {
+        title: 'Ремонт кофемашин Polaris в Ростове-на-Дону — Optima Сервис',
+        description: 'Авторизованный ремонт кофемашин Polaris в Ростове-на-Дону. Серия PCM. Ремонт заварочного блока, замена помпы. Гарантия до 90 дней.'
+      },
+      hero: {
+        titleLine1: 'Ремонт кофемашин',
+        titleAccent: 'Polaris',
+        subtitle: 'Авторизованный сервисный центр Polaris в Ростове-на-Дону. Ремонт рожковых и капсульных кофемашин серии PCM.',
+        features: ['Авторизованный сервис Polaris', 'Серия PCM', 'Ремонт заварочного блока', 'Оригинальные запчасти', 'Гарантия до 90 дней']
+      }
     }
   },
 
@@ -221,6 +234,19 @@ export const BRAND_REPAIR_DATA: Record<string, Record<string, BrandRepairData>> 
         titleAccent: 'Xiaomi',
         subtitle: 'Ремонт пылесосов Xiaomi Mi Vacuum Cleaner G9, G10, G11 и роботов Roborock, Mi Robot Vacuum. Замена АКБ, ремонт лидара.',
         features: ['Mi Vacuum G9 / G10 / G11', 'Роботы Roborock', 'Замена аккумулятора', 'Ремонт навигации', 'Гарантия до 90 дней']
+      }
+    },
+    'polaris': {
+      brandName: 'Polaris', slug: 'polaris',
+      meta: {
+        title: 'Ремонт пылесосов Polaris в Ростове-на-Дону — Optima Сервис',
+        description: 'Авторизованный ремонт пылесосов и роботов-пылесосов Polaris в Ростове-на-Дону. Серии PVCR, PVCS. Оригинальные запчасти, гарантия до 90 дней.'
+      },
+      hero: {
+        titleLine1: 'Ремонт пылесосов',
+        titleAccent: 'Polaris',
+        subtitle: 'Авторизованный сервисный центр Polaris в Ростове-на-Дону. Ремонт роботов-пылесосов серии PVCR, вертикальных PVCS и других моделей.',
+        features: ['Авторизованный сервис Polaris', 'Серии PVCR / PVCS', 'Оригинальные запчасти', 'Гарантийный ремонт', 'Гарантия до 90 дней']
       }
     }
   },
@@ -264,6 +290,19 @@ export const BRAND_REPAIR_DATA: Record<string, Record<string, BrandRepairData>> 
         subtitle: 'Ремонт микроволновых печей Panasonic с Inverter технологией. Знаем особенности инверторных схем и умеем их ремонтировать.',
         features: ['Inverter технология', 'Ремонт инвертора', 'Замена магнетрона', 'Оригинальные запчасти', 'Гарантия до 90 дней']
       }
+    },
+    'polaris': {
+      brandName: 'Polaris', slug: 'polaris',
+      meta: {
+        title: 'Ремонт микроволновок Polaris в Ростове-на-Дону — Optima Сервис',
+        description: 'Авторизованный ремонт микроволновых печей Polaris в Ростове-на-Дону. Замена магнетрона, ремонт платы управления. Гарантия до 90 дней.'
+      },
+      hero: {
+        titleLine1: 'Ремонт микроволновых печей',
+        titleAccent: 'Polaris',
+        subtitle: 'Авторизованный сервисный центр Polaris в Ростове-на-Дону. Ремонт микроволновых печей всех серий — не греет, искрит, не включается.',
+        features: ['Авторизованный сервис Polaris', 'Замена магнетрона', 'Ремонт платы управления', 'Оригинальные запчасти', 'Гарантия до 90 дней']
+      }
     }
   },
 
@@ -305,6 +344,19 @@ export const BRAND_REPAIR_DATA: Record<string, Record<string, BrandRepairData>> 
         titleAccent: 'Rowenta',
         subtitle: 'Ремонт утюгов и паровых станций Rowenta Focus, Effective Comfort, Silence Steam, Perfect Steam. Оригинальные запчасти и гарантия.',
         features: ['Focus / Effective Comfort', 'Silence / Perfect Steam', 'Чистка от накипи', 'Оригинальные запчасти', 'Гарантия до 90 дней']
+      }
+    },
+    'polaris': {
+      brandName: 'Polaris', slug: 'polaris',
+      meta: {
+        title: 'Ремонт утюгов Polaris в Ростове-на-Дону — Optima Сервис',
+        description: 'Авторизованный ремонт утюгов и паровых станций Polaris в Ростове-на-Дону. Чистка от накипи, замена ТЭНа. Гарантия до 90 дней.'
+      },
+      hero: {
+        titleLine1: 'Ремонт утюгов',
+        titleAccent: 'Polaris',
+        subtitle: 'Авторизованный сервисный центр Polaris в Ростове-на-Дону. Ремонт утюгов и паровых станций серии PIR. Чистка от накипи, замена ТЭНа.',
+        features: ['Авторизованный сервис Polaris', 'Серия PIR', 'Чистка от накипи', 'Оригинальные запчасти', 'Гарантия до 90 дней']
       }
     }
   }
