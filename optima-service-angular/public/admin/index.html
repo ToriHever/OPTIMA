@@ -7,9 +7,14 @@
 </head>
 <body>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
+    // Сайт с /admin отдаётся не с Netlify, а с нашего хостинга —
+    // поэтому виджету явно указываем, к какому Netlify-сайту (созданному
+    // только ради Identity/Git Gateway) обращаться за авторизацией.
     if (window.netlifyIdentity) {
+      window.netlifyIdentity.init({
+        APIUrl: 'https://fancy-longma-9906c5.netlify.app/.netlify/identity'
+      });
       window.netlifyIdentity.on('init', user => {
         if (!user) {
           window.netlifyIdentity.on('login', () => {
@@ -19,5 +24,6 @@
       });
     }
   </script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
