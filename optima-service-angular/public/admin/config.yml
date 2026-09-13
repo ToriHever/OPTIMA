@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: feature/blog-decap-cms
+  branch: ang-dev
 
 # Пути ниже — от корня репозитория (его видит git-gateway), а не от папки
 # с этим config.yml, поэтому с префиксом optima-service-angular/.
