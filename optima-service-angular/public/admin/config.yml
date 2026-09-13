@@ -11,11 +11,18 @@ collections:
     label: "Блог"
     folder: "content/blog"
     create: true
-    slug: "{{slug}}"
+    # Заголовки на кириллице Decap CMS не транслитерирует в латиницу — поэтому
+    # адрес страницы берётся из отдельного поля "slug", а не из title.
+    slug: "{{fields.slug}}"
     extension: "md"
     format: "frontmatter"
     fields:
       - { label: "Заголовок", name: "title", widget: "string" }
+      - label: "Адрес страницы (латиницей, через дефис)"
+        name: "slug"
+        widget: "string"
+        hint: "Например: kak-chasto-chistit-stiralnuyu-mashinu. Виден в URL, менять после публикации не стоит."
+        pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Только латинские строчные буквы, цифры и дефисы"]
       - { label: "Дата публикации", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
       - { label: "Короткое описание (для карточки и SEO)", name: "excerpt", widget: "text" }
       - { label: "Обложка", name: "cover", widget: "image", required: false }
