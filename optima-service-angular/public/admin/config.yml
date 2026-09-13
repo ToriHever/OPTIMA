@@ -1,0 +1,23 @@
+backend:
+  name: git-gateway
+  branch: feature/blog-decap-cms
+
+# Куда Decap CMS будет коммитить загруженные картинки для постов.
+media_folder: "public/assets/blog"
+public_folder: "/assets/blog"
+
+collections:
+  - name: "blog"
+    label: "Блог"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Заголовок", name: "title", widget: "string" }
+      - { label: "Дата публикации", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "Короткое описание (для карточки и SEO)", name: "excerpt", widget: "text" }
+      - { label: "Обложка", name: "cover", widget: "image", required: false }
+      - { label: "Теги", name: "tags", widget: "list", required: false }
+      - { label: "Текст поста", name: "body", widget: "markdown" }

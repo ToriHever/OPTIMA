@@ -102,6 +102,19 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'blog',
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/blog/blog-list/blog-list').then(m => m.BlogList)
+      },
+      {
+        path: ':slug',
+        loadComponent: () => import('./features/blog/blog-post/blog-post').then(m => m.BlogPost)
+      }
+    ]
+  },
+  {
     path: 'remont-audiovideo',
     children: [
       {

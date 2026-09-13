@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "generate:blog": "node scripts/generate-blog-data.mjs",
+    "prestart": "npm run generate:blog",
     "start": "ng serve",
+    "prebuild": "npm run generate:blog",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -45,7 +48,9 @@
     "@angular/compiler-cli": "^21.1.3",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "gray-matter": "^4.0.3",
     "jsdom": "^27.1.0",
+    "marked": "^18.0.13",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }

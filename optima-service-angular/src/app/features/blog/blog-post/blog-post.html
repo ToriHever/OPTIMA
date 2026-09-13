@@ -1,0 +1,25 @@
+<app-not-found *ngIf="!post"></app-not-found>
+
+<ng-container *ngIf="post">
+
+  <section class="blog-post-hero">
+    <div class="container">
+      <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
+      <span class="blog-post-hero__date">{{ formatPostDate(post.date) }}</span>
+      <h1 class="blog-post-hero__title">{{ post.title }}</h1>
+      <div class="blog-post-hero__tags" *ngIf="post.tags.length">
+        <span class="blog-post-hero__tag" *ngFor="let tag of post.tags">{{ tag }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="blog-post-body">
+    <div class="container">
+      <img *ngIf="post.cover" [src]="post.cover" [alt]="post.title" class="blog-post-body__cover">
+      <div class="blog-post-body__content" [innerHTML]="post.bodyHtml"></div>
+
+      <a routerLink="/blog" class="blog-post-body__back">← Все статьи блога</a>
+    </div>
+  </section>
+
+</ng-container>

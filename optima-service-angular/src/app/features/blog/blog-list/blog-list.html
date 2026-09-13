@@ -1,0 +1,27 @@
+<section class="blog-list-intro">
+  <div class="container">
+    <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb>
+    <h1 class="blog-list-intro__title">Блог</h1>
+    <p class="blog-list-intro__subtitle">
+      Советы по уходу за техникой и разбор частых поломок от мастеров Optima.
+    </p>
+  </div>
+</section>
+
+<section class="blog-list-grid">
+  <div class="container">
+    <div class="blog-list-grid__cards" *ngIf="posts.length; else empty">
+      <a *ngFor="let post of posts" [routerLink]="['/blog', post.slug]" class="blog-card">
+        <img *ngIf="post.cover" [src]="post.cover" [alt]="post.title" class="blog-card__cover">
+        <div class="blog-card__body">
+          <span class="blog-card__date">{{ formatPostDate(post.date) }}</span>
+          <h2 class="blog-card__title">{{ post.title }}</h2>
+          <p class="blog-card__excerpt">{{ post.excerpt }}</p>
+        </div>
+      </a>
+    </div>
+    <ng-template #empty>
+      <p class="blog-list-grid__empty">Пока нет ни одной публикации — скоро здесь появятся первые статьи.</p>
+    </ng-template>
+  </div>
+</section>

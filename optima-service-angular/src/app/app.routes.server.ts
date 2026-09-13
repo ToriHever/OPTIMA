@@ -7,6 +7,7 @@ import { IT_BRAND_REPAIR_DATA } from './features/remont-kompyuterov/it-brand-rep
 import { AV_BRAND_REPAIR_DATA } from './features/remont-audiovideo/av-brand-repair-data';
 import { PHONE_MODELS } from './features/remont-kompyuterov/phone-models-data';
 import { MASTERS_DATA } from './features/masters/masters-data';
+import { BLOG_POSTS } from './features/blog/blog-data.generated';
 
 // Сайт раздаётся обычным статическим хостингом без Node — на нём не может
 // работать RenderMode.Server (рендер по запросу). Поэтому каждая
@@ -58,9 +59,14 @@ function masterParams(): { slug: string }[] {
   return MASTERS_DATA.map(m => ({ slug: m.slug }));
 }
 
+function blogParams(): { slug: string }[] {
+  return BLOG_POSTS.map(p => ({ slug: p.slug }));
+}
+
 export const serverRoutes: ServerRoute[] = [
   { path: 'brands/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => brandHubParams() },
   { path: 'masters/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => masterParams() },
+  { path: 'blog/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => blogParams() },
 
   { path: 'remont-bytovoy-tekhniki/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => deviceParams(DEVICE_REPAIR_DATA) },
   { path: 'remont-bytovoy-tekhniki/:slug/:brand', renderMode: RenderMode.Prerender, getPrerenderParams: async () => brandParams(DEVICE_REPAIR_DATA, BRAND_REPAIR_DATA) },
