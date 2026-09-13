@@ -2,14 +2,17 @@ backend:
   name: git-gateway
   branch: feature/blog-decap-cms
 
+# Пути ниже — от корня репозитория (его видит git-gateway), а не от папки
+# с этим config.yml, поэтому с префиксом optima-service-angular/.
+
 # Куда Decap CMS будет коммитить загруженные картинки для постов.
-media_folder: "public/assets/blog"
+media_folder: "optima-service-angular/public/assets/blog"
 public_folder: "/assets/blog"
 
 collections:
   - name: "blog"
     label: "Блог"
-    folder: "content/blog"
+    folder: "optima-service-angular/content/blog"
     create: true
     # Заголовки на кириллице Decap CMS не транслитерирует в латиницу — поэтому
     # адрес страницы берётся из отдельного поля "slug", а не из title.
