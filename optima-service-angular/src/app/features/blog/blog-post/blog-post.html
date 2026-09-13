@@ -10,15 +10,44 @@
       <div class="blog-post-hero__tags" *ngIf="post.tags.length">
         <span class="blog-post-hero__tag" *ngFor="let tag of post.tags">{{ tag }}</span>
       </div>
+
+      <a *ngIf="post.author" [routerLink]="['/masters', post.author.slug]" class="blog-post-author">
+        <span class="blog-post-author__avatar" [style.background]="post.author.bg">{{ post.author.initials }}</span>
+        <span class="blog-post-author__info">
+          <span class="blog-post-author__name">{{ post.author.name }}</span>
+          <span class="blog-post-author__role">{{ post.author.role }}</span>
+        </span>
+      </a>
     </div>
   </section>
 
   <section class="blog-post-body">
     <div class="container">
-      <img *ngIf="post.cover" [src]="post.cover" [alt]="post.title" class="blog-post-body__cover">
-      <div class="blog-post-body__content" [innerHTML]="post.bodyHtml"></div>
+      <div class="blog-post-layout">
 
-      <a routerLink="/blog" class="blog-post-body__back">← Все статьи блога</a>
+        <aside class="blog-post-toc" *ngIf="post.toc.length">
+          <div class="blog-post-toc__sticky">
+            <span class="blog-post-toc__title">Оглавление</span>
+            <nav class="blog-post-toc__nav">
+              <a *ngFor="let item of post.toc"
+                 [href]="'#' + item.id"
+                 (click)="scrollToHeading($event, item.id)"
+                 class="blog-post-toc__link"
+                 [class.blog-post-toc__link--sub]="item.level === 3">
+                {{ item.text }}
+              </a>
+            </nav>
+          </div>
+        </aside>
+
+        <div class="blog-post-main">
+          <img *ngIf="post.cover" [src]="post.cover" [alt]="post.title" class="blog-post-body__cover">
+          <div class="blog-post-body__content" [innerHTML]="safeBodyHtml"></div>
+
+          <a routerLink="/blog" class="blog-post-body__back">← Все статьи блога</a>
+        </div>
+
+      </div>
     </div>
   </section>
 

@@ -14,20 +14,41 @@ collections:
     label: "Блог"
     folder: "optima-service-angular/content/blog"
     create: true
-    # Заголовки на кириллице Decap CMS не транслитерирует в латиницу — поэтому
-    # адрес страницы берётся из отдельного поля "slug", а не из title.
     slug: "{{fields.slug}}"
     extension: "md"
     format: "frontmatter"
     fields:
       - { label: "Заголовок", name: "title", widget: "string" }
-      - label: "Адрес страницы (латиницей, через дефис)"
-        name: "slug"
-        widget: "string"
-        hint: "Например: kak-chasto-chistit-stiralnuyu-mashinu. Виден в URL, менять после публикации не стоит."
-        pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Только латинские строчные буквы, цифры и дефисы"]
+      # Скрытое поле — заполняется автоматически транслитерацией заголовка
+      # перед сохранением (см. admin/index.html, preSave). Редактор его не видит.
+      - { label: "Адрес страницы", name: "slug", widget: "hidden", default: "" }
       - { label: "Дата публикации", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
-      - { label: "Короткое описание (для карточки и SEO)", name: "excerpt", widget: "text" }
+      - { label: "Короткое описание (для карточки)", name: "excerpt", widget: "text" }
       - { label: "Обложка", name: "cover", widget: "image", required: false }
       - { label: "Теги", name: "tags", widget: "list", required: false }
-      - { label: "Текст поста", name: "body", widget: "markdown" }
+      - label: "Автор"
+        name: "author"
+        widget: "select"
+        required: false
+        options:
+          - { label: "Алексей — главный мастер", value: "aleksey" }
+          - { label: "Дмитрий — мастер по крупной технике", value: "dmitriy" }
+          - { label: "Станислав — администратор сервиса", value: "stanislav" }
+      - label: "Текст поста"
+        name: "body"
+        widget: "markdown"
+        hint: >-
+          Заголовки ## (второй уровень) автоматически попадают в оглавление
+          слева. Чтобы туда попал и заголовок ### (третий уровень), допишите
+          в конце его строки {toc} — например: "### Важный момент {toc}"
+          (сам текст {toc} в статье виден не будет).
+      - label: "SEO — заголовок страницы (необязательно)"
+        name: "seoTitle"
+        widget: "string"
+        required: false
+        hint: "Если не заполнить, будет использован обычный заголовок статьи."
+      - label: "SEO — описание страницы (необязательно)"
+        name: "seoDescription"
+        widget: "text"
+        required: false
+        hint: "Если не заполнить, будет использовано короткое описание."
