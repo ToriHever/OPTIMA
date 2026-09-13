@@ -14,11 +14,11 @@ export interface BlogPostData {
 
 export const BLOG_POSTS: BlogPostData[] = [
   {
-    "slug": "kak-chasto-chistit-stiralnuyu-mashinu",
+    "slug": "kak-chasto-nuzhno-chistit-stiralnuyu-mashinu",
     "title": "Как часто нужно чистить стиральную машину",
     "date": "2026-09-13T00:00:00.000Z",
     "excerpt": "Разбираемся, почему стиральная машина начинает пахнуть и как часто на самом деле нужна профилактика.",
-    "cover": "",
+    "cover": "/assets/blog/images.jpg",
     "tags": [
       "Стиральные машины",
       "Советы"
