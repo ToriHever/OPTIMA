@@ -30,7 +30,7 @@ export const BLOG_POSTS: BlogPostData[] = [
     "title": "Тест статья 2",
     "date": "2026-09-13T00:00:00.000Z",
     "excerpt": "Тест статья 2Тест статья 2",
-    "cover": "",
+    "cover": "/assets/blog/gemini_generated_image_61m7bl61m7bl61m7.jpg",
     "tags": [
       "Тест статья 2Тест статья 2"
     ],
