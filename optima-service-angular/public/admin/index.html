@@ -69,5 +69,94 @@
       registerSlugHook();
     })();
   </script>
+  <script>
+    // Живой предпросмотр поста в редакторе — визуально близко к тому, как
+    // статья выглядит на сайте (см. blog-post.html/.scss). Держим в синхроне
+    // вручную: это отдельный, изолированный от Angular кусок разметки/CSS,
+    // который рендерится Decap CMS внутри своего iframe предпросмотра.
+    (function () {
+      var AUTHORS = {
+        aleksey: { name: 'Алексей', role: 'Главный мастер', initials: 'АЛ', bg: 'linear-gradient(135deg, #00444D 0%, #30676E 100%)' },
+        dmitriy: { name: 'Дмитрий', role: 'Мастер по крупной технике', initials: 'ДМ', bg: 'linear-gradient(135deg, #1e8a8a 0%, #00444D 100%)' },
+        stanislav: { name: 'Станислав', role: 'Администратор сервиса', initials: 'СТ', bg: 'linear-gradient(135deg, #2a7a80 0%, #00444D 100%)' }
+      };
+
+      var PREVIEW_CSS = [
+        'body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: #313131; }',
+        '.bp-hero { padding: 24px 24px 0; }',
+        '.bp-date { display: block; font-size: 13px; color: rgba(49,49,49,0.5); margin-bottom: 8px; }',
+        '.bp-title { font-size: 32px; font-weight: 700; line-height: 1.2; margin: 0 0 12px; color: #313131; }',
+        '.bp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }',
+        '.bp-tag { font-size: 13px; padding: 4px 12px; border-radius: 999px; background: rgba(0,68,77,0.1); color: #00444D; }',
+        '.bp-author { display: inline-flex; align-items: center; gap: 12px; padding: 8px 14px 8px 8px; border-radius: 999px; background: rgba(0,68,77,0.05); margin-bottom: 16px; }',
+        '.bp-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 13px; flex-shrink: 0; }',
+        '.bp-author-name { font-weight: 600; font-size: 14px; display: block; }',
+        '.bp-author-role { color: rgba(49,49,49,0.55); font-size: 12px; }',
+        '.bp-cover { width: 100%; max-height: 360px; object-fit: cover; border-radius: 16px; margin: 0 0 16px; }',
+        '.bp-body { padding: 0 24px 24px; line-height: 1.7; max-width: 760px; }',
+        '.bp-body h2, .bp-body h3 { color: #313131; margin-top: 24px; }',
+        '.bp-body ul, .bp-body ol { padding-left: 4px; list-style: none; }',
+        '.bp-body ul li { position: relative; padding-left: 26px; margin-bottom: 8px; }',
+        '.bp-body ul li::before { content: ""; position: absolute; left: 4px; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: #30676E; }',
+        '.bp-body img { max-width: 100%; border-radius: 12px; }',
+        '.bp-body a { color: #00444D; }'
+      ].join('\n');
+
+      function formatDate(iso) {
+        var months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+        var d = iso ? new Date(iso) : new Date();
+        if (isNaN(d.getTime())) return '';
+        return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+      }
+
+      function registerBlogPreview() {
+        if (!window.CMS || !window.CMS.registerPreviewTemplate || !window.createClass || !window.h) {
+          setTimeout(registerBlogPreview, 50);
+          return;
+        }
+
+        var h = window.h;
+
+        var BlogPreview = window.createClass({
+          render: function () {
+            var entry = this.props.entry;
+            var data = entry.get('data');
+            var title = data.get('title') || '';
+            var date = data.get('date');
+            var tagsList = data.get('tags');
+            var tags = tagsList && tagsList.toJS ? tagsList.toJS() : [];
+            var authorSlug = data.get('author');
+            var author = authorSlug ? AUTHORS[authorSlug] : null;
+            var cover = data.get('cover');
+            var coverUrl = cover ? this.props.getAsset(cover) : null;
+
+            return h('div', {},
+              h('div', { className: 'bp-hero' },
+                h('span', { className: 'bp-date' }, formatDate(date)),
+                h('h1', { className: 'bp-title' }, title),
+                tags.length ? h('div', { className: 'bp-tags' }, tags.map(function (t) {
+                  return h('span', { className: 'bp-tag', key: t }, t);
+                })) : null,
+                author ? h('div', { className: 'bp-author' },
+                  h('span', { className: 'bp-avatar', style: { background: author.bg } }, author.initials),
+                  h('span', {},
+                    h('span', { className: 'bp-author-name' }, author.name),
+                    h('span', { className: 'bp-author-role' }, author.role)
+                  )
+                ) : null
+              ),
+              cover ? h('img', { className: 'bp-cover', src: coverUrl }) : null,
+              h('div', { className: 'bp-body' }, this.props.widgetFor('body'))
+            );
+          }
+        });
+
+        window.CMS.registerPreviewStyle(PREVIEW_CSS, { raw: true });
+        window.CMS.registerPreviewTemplate('blog', BlogPreview);
+      }
+
+      registerBlogPreview();
+    })();
+  </script>
 </body>
 </html>
