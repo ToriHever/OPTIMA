@@ -1,6 +1,15 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # nginx перед Apache сам добавляет завершающий слэш (см. src/app/core/
+  # trailing-slash-url-serializer.ts), но при этом теряет https и редиректит
+  # на http — Google получает небезопасный редирект и с осторожностью
+  # индексирует такие страницы. Раз nginx нам не подконтролен, страхуемся
+  # здесь: любой пришедший на Apache http-запрос сразу возвращаем на https.
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^ index.html [L]
