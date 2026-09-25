@@ -1,6 +1,6 @@
 ---
 title: Как проходит процесс ремонта вертикального моющего пылесоса Dreame
-slug: kak-prohodit-process-remonta-vertikalnogo-moyushego-pylesosa-dreame
+slug: kak-prohodit-process-remonta-vertikalnogo-moyuschego-pylesosa-dreame
 date: 2026-09-13
 excerpt: "Рассказываем как прошел ремонт пылесоса Dreame: замента гофры,
   двигателей роликовых щеток, очистка механизмов и ревизия электических
@@ -9,6 +9,7 @@ cover: /assets/blog/l.jpg
 tags:
   - Вертикальный моющий пылесос
   - Dreame
+author: stanislav
 ---
 В сервисный центр поступил вертикальный моющий пылесос Dreame. Выполнен комплексный ремонт чистящего модуля, включающий замену гофры и двигателей роликовых щеток.
 
