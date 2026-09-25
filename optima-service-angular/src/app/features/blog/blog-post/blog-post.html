@@ -23,7 +23,7 @@
 
   <section class="blog-post-body">
     <div class="container">
-      <div class="blog-post-layout">
+      <div class="blog-post-layout" [class.blog-post-layout--no-toc]="!post.toc.length">
 
         <aside class="blog-post-toc" *ngIf="post.toc.length">
           <div class="blog-post-toc__sticky">
