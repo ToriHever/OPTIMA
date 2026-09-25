@@ -60,6 +60,13 @@
             if (entry.get('collection') !== 'blog') {
               return data;
             }
+            // Только для НОВОГО поста — если slug уже есть (пост существующий,
+            // просто открыт на редактирование), не трогаем его. Иначе URL уже
+            // опубликованной статьи менялся бы при каждом сохранении любого
+            // другого поля — ссылки бы ломались, а Google терял бы индексацию.
+            if (data.get('slug')) {
+              return data;
+            }
             var slug = slugify(data.get('title'));
             return data.set('slug', slug || 'post');
           }
