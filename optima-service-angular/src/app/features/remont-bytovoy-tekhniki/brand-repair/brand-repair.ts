@@ -17,8 +17,10 @@ import { IT_REPAIR_DATA } from '../../remont-kompyuterov/it-repair-data';
 import { IT_BRAND_REPAIR_DATA } from '../../remont-kompyuterov/it-brand-repair-data';
 import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
 import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-data';
+import { PHONE_REPAIR_DATA } from '../../remont-telefonov/phone-repair-data';
+import { PHONE_BRAND_REPAIR_DATA } from '../../remont-telefonov/phone-brand-repair-data';
 import { MastersTeam } from '../../../shared/components/masters-team/masters-team';
-import { PhoneModel, getPhoneModels, findPhoneModel } from '../../remont-kompyuterov/phone-models-data';
+import { PhoneModel, getPhoneModels, findPhoneModel } from '../../remont-telefonov/phone-models-data';
 import { NotFound } from '../../not-found/not-found';
 
 @Component({
@@ -68,23 +70,28 @@ export class BrandRepairPage implements OnInit, OnDestroy {
     // при matcher-роуте с переиспользованием компонента params у snapshot не
     // обновляются при навигации «назад». router.url всегда актуален.
     // Формат: /{section-base}/{slug}/{brand}/{model?} — база всегда 1 сегмент.
+    // Исключение — «Ремонт телефонов»: там нет сегмента slug (единственный
+    // вид техники в разделе), поэтому бренд и модель сдвинуты на 1 сегмент влево.
     const path = this.router.url.split('?')[0].split('#')[0];
     const seg = path.split('/').filter(Boolean);
-    const slug = seg[1] ?? '';
-    const brand = seg[2] ?? '';
-    const model = seg[3] ?? null;
     const section = this.route.snapshot.data['section'] ?? 'appliances';
+    const slug = section === 'phones' ? 'smartfony' : seg[1] ?? '';
+    const brand = (section === 'phones' ? seg[1] : seg[2]) ?? '';
+    const model = (section === 'phones' ? seg[2] : seg[3]) ?? null;
     this.backPath = this.route.snapshot.data['backPath'] ?? '/remont-bytovoy-tekhniki';
 
     this.sectionLabel = section === 'computers' ? 'Компьютеры'
                       : section === 'av' ? 'Аудио и видео'
+                      : section === 'phones' ? 'Телефоны'
                       : 'Бытовая техника';
 
     const deviceMap = section === 'computers' ? IT_REPAIR_DATA
                     : section === 'av' ? AV_REPAIR_DATA
+                    : section === 'phones' ? PHONE_REPAIR_DATA
                     : DEVICE_REPAIR_DATA;
     const brandMap = section === 'computers' ? IT_BRAND_REPAIR_DATA
                    : section === 'av' ? AV_BRAND_REPAIR_DATA
+                   : section === 'phones' ? PHONE_BRAND_REPAIR_DATA
                    : BRAND_REPAIR_DATA;
 
     this.deviceData = (deviceMap as Record<string, DeviceRepairData>)[slug] ?? null;
@@ -105,18 +112,28 @@ export class BrandRepairPage implements OnInit, OnDestroy {
       this.currentKey = brandKey;
     }
 
-    this.brandBasePath = `${this.backPath}/${slug}/${brand}`;
+    // У телефонов нет сегмента вида техники в URL — бренд идёт сразу за backPath.
+    const deviceBasePath = section === 'phones' ? this.backPath : `${this.backPath}/${slug}`;
+    this.brandBasePath = `${deviceBasePath}/${brand}`;
     this.models = getPhoneModels(section, slug, brand);
     this.activeModel = findPhoneModel(this.models, model);
 
-    this.breadcrumbs = [
-      { label: 'Главная', path: '/' },
-      { label: this.sectionLabel, path: this.backPath },
-      { label: this.deviceData.name, path: `${this.backPath}/${slug}` },
-      this.activeModel
-        ? { label: this.brandData.brandName, path: this.brandBasePath }
-        : { label: this.brandData.brandName }
-    ];
+    this.breadcrumbs = section === 'phones'
+      ? [
+          { label: 'Главная', path: '/' },
+          { label: this.sectionLabel, path: this.backPath },
+          this.activeModel
+            ? { label: this.brandData.brandName, path: this.brandBasePath }
+            : { label: this.brandData.brandName }
+        ]
+      : [
+          { label: 'Главная', path: '/' },
+          { label: this.sectionLabel, path: this.backPath },
+          { label: this.deviceData.name, path: deviceBasePath },
+          this.activeModel
+            ? { label: this.brandData.brandName, path: this.brandBasePath }
+            : { label: this.brandData.brandName }
+        ];
     if (this.activeModel) {
       this.breadcrumbs.push({ label: this.activeModel.name });
     }

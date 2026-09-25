@@ -6,6 +6,7 @@ import { Breadcrumb, BreadcrumbItem } from '../../shared/components/breadcrumb/b
 import { BRAND_REPAIR_DATA } from '../remont-bytovoy-tekhniki/brand-repair/brand-repair-data';
 import { IT_BRAND_REPAIR_DATA } from '../remont-kompyuterov/it-brand-repair-data';
 import { AV_BRAND_REPAIR_DATA } from '../remont-audiovideo/av-brand-repair-data';
+import { PHONE_BRAND_REPAIR_DATA } from '../remont-telefonov/phone-brand-repair-data';
 
 interface BrandCard {
   name: string;
@@ -51,6 +52,7 @@ export class Brands implements OnInit {
 
   sections: BrandSection[] = [
     { title: 'Бытовая техника', cards: toUniqueBrandCards(BRAND_REPAIR_DATA) },
+    { title: 'Телефоны', cards: toUniqueBrandCards(PHONE_BRAND_REPAIR_DATA) },
     { title: 'Компьютеры и гаджеты', cards: toUniqueBrandCards(IT_BRAND_REPAIR_DATA) },
     { title: 'Аудио и видео', cards: toUniqueBrandCards(AV_BRAND_REPAIR_DATA) }
   ];

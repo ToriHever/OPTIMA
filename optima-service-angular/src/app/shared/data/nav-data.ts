@@ -2,6 +2,8 @@ import { IT_REPAIR_DATA } from '../../features/remont-kompyuterov/it-repair-data
 import { IT_BRAND_REPAIR_DATA } from '../../features/remont-kompyuterov/it-brand-repair-data';
 import { BRAND_REPAIR_DATA } from '../../features/remont-bytovoy-tekhniki/brand-repair/brand-repair-data';
 import { AV_BRAND_REPAIR_DATA } from '../../features/remont-audiovideo/av-brand-repair-data';
+import { PHONE_REPAIR_DATA } from '../../features/remont-telefonov/phone-repair-data';
+import { PHONE_BRAND_REPAIR_DATA } from '../../features/remont-telefonov/phone-brand-repair-data';
 
 export interface NavLink {
   name: string;
@@ -29,18 +31,18 @@ function uniqueBrands(
   return Array.from(seen.values());
 }
 
-// ── Ремонт телефонов: единственный пункт меню с готовой парой
-// «бренд» / «неисправность» — все остальные категории пока
-// сгруппированы по типам устройств (см. ниже).
-export const PHONE_BASE_PATH = '/remont-kompyuterov/smartfony';
+// ── Ремонт телефонов: самостоятельный раздел (см. remont-telefonov),
+// единственный пункт меню с готовой парой «бренд» / «неисправность» —
+// все остальные категории пока сгруппированы по типам устройств (см. ниже).
+export const PHONE_BASE_PATH = '/remont-telefonov';
 
-// «Ремонт по брендам» в меню телефонов ведёт на страницу «техника по бренду»
-// (/remont-kompyuterov/smartfony/:brand) — там же модельные табы. В отличие от
+// «Ремонт по брендам» в меню телефонов ведёт на страницу «бренд»
+// (/remont-telefonov/:brand) — там же модельные табы. В отличие от
 // остальных меню, где бренд ведёт на объединяющую страницу /brands/:slug.
-export const PHONE_BRANDS: NavLink[] = Object.values(IT_BRAND_REPAIR_DATA['smartfony'] ?? {})
+export const PHONE_BRANDS: NavLink[] = Object.values(PHONE_BRAND_REPAIR_DATA['smartfony'] ?? {})
   .map(b => ({ name: b.brandName, path: `${PHONE_BASE_PATH}/${b.slug}` }));
 
-export const PHONE_ISSUES: NavLink[] = (IT_REPAIR_DATA['smartfony']?.categories.items ?? [])
+export const PHONE_ISSUES: NavLink[] = (PHONE_REPAIR_DATA['smartfony']?.categories.items ?? [])
   .map(i => ({ name: i.name, path: PHONE_BASE_PATH }));
 
 // ── Ремонт компьютеров и ноутбуков: список устройств + бренды.

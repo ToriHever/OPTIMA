@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Breadcrumb, BreadcrumbItem } from '../breadcrumb/breadcrumb';
 import { ModalService } from '../../../core/services/modal.service';
-import { PhoneModel } from '../../../features/remont-kompyuterov/phone-models-data';
+import { PhoneModel } from '../../../features/remont-telefonov/phone-models-data';
 
 @Component({
   selector: 'app-brand-hero',

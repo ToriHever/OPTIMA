@@ -84,18 +84,36 @@ export const routes: Routes = [
           },
           {
             path: ':brand',
-            children: [
-              {
-                path: '',
-                data: { section: 'computers', backPath: '/remont-kompyuterov' },
-                loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
-              },
-              {
-                path: ':model',
-                data: { section: 'computers', backPath: '/remont-kompyuterov' },
-                loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
-              }
-            ]
+            data: { section: 'computers', backPath: '/remont-kompyuterov' },
+            loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
+          }
+        ]
+      }
+    ]
+  },
+  {
+    // Раньше смартфоны были видом техники внутри remont-kompyuterov
+    // (/remont-kompyuterov/smartfony/...). Раздел самостоятельный, поэтому
+    // без промежуточного :slug — сразу бренд и модель.
+    path: 'remont-telefonov',
+    children: [
+      {
+        path: '',
+        data: { section: 'phones', backPath: '/remont-telefonov' },
+        loadComponent: () => import('./features/remont-bytovoy-tekhniki/device-repair/device-repair').then(m => m.DeviceRepairPage)
+      },
+      {
+        path: ':brand',
+        children: [
+          {
+            path: '',
+            data: { section: 'phones', backPath: '/remont-telefonov' },
+            loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
+          },
+          {
+            path: ':model',
+            data: { section: 'phones', backPath: '/remont-telefonov' },
+            loadComponent: () => import('./features/remont-bytovoy-tekhniki/brand-repair/brand-repair').then(m => m.BrandRepairPage)
           }
         ]
       }

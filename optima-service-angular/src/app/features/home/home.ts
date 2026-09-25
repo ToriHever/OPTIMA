@@ -64,7 +64,7 @@ export class Home implements OnInit {
       icon: 'M12 2C10 2 8 4 8 6V18C8 20 10 22 12 22H16C18 22 20 20 20 18V6C20 4 18 2 16 2H12Z M14 18H14.01',
       features: ['Замена дисплея и стекла', 'Замена аккумулятора', 'Ремонт после залития', 'Ремонт разъёма зарядки'],
       priceFrom: '800 ₽',
-      link: '/remont-kompyuterov/smartfony'
+      link: '/remont-telefonov'
     },
     {
       name: 'Ноутбуки',

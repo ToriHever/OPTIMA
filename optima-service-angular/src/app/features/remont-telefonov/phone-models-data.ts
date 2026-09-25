@@ -41,9 +41,9 @@ export const PHONE_MODELS: Record<string, Record<string, PhoneModel[]>> = {
 };
 
 // Список моделей для конкретной страницы. Модели заведены только для
-// смартфонов (section === 'computers', deviceSlug === 'smartfony').
+// смартфонов — самостоятельного раздела «Ремонт телефонов».
 export function getPhoneModels(section: string, deviceSlug: string, brandSlug: string): PhoneModel[] {
-  if (section !== 'computers') return [];
+  if (section !== 'phones') return [];
   return PHONE_MODELS[deviceSlug]?.[brandSlug] ?? [];
 }
 

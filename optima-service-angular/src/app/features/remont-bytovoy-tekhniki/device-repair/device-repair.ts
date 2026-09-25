@@ -17,10 +17,12 @@ import { NotFound } from '../../not-found/not-found';
 import { DEVICE_REPAIR_DATA, DeviceRepairData } from './device-repair-data';
 import { IT_REPAIR_DATA } from '../../remont-kompyuterov/it-repair-data';
 import { AV_REPAIR_DATA } from '../../remont-audiovideo/av-repair-data';
+import { PHONE_REPAIR_DATA } from '../../remont-telefonov/phone-repair-data';
 import { BRAND_REPAIR_DATA, BrandRepairData } from '../brand-repair/brand-repair-data';
 import { BreadcrumbItem } from '../../../shared/components/breadcrumb/breadcrumb';
 import { IT_BRAND_REPAIR_DATA } from '../../remont-kompyuterov/it-brand-repair-data';
 import { AV_BRAND_REPAIR_DATA } from '../../remont-audiovideo/av-brand-repair-data';
+import { PHONE_BRAND_REPAIR_DATA } from '../../remont-telefonov/phone-brand-repair-data';
 
 @Component({
   selector: 'app-device-repair',
@@ -66,12 +68,17 @@ export class DeviceRepairPage implements OnInit, OnDestroy {
     this.scroller.scrollToPosition([0, 0]);
 
     const path = this.router.url.split('?')[0].split('#')[0];
-    const slug = path.split('/').filter(Boolean)[1] ?? '';
     const section = this.route.snapshot.data['section'] ?? 'appliances';
     const backPath = this.route.snapshot.data['backPath'] ?? '/remont-bytovoy-tekhniki';
 
+    // У «Ремонт телефонов» нет сегмента вида техники в URL (это
+    // единственный вид техники в разделе) — слаг всегда 'smartfony'.
+    // У остальных разделов вид техники — второй сегмент пути.
+    const slug = section === 'phones' ? 'smartfony' : path.split('/').filter(Boolean)[1] ?? '';
+
     const dataMap = section === 'computers' ? IT_REPAIR_DATA
                   : section === 'av' ? AV_REPAIR_DATA
+                  : section === 'phones' ? PHONE_REPAIR_DATA
                   : DEVICE_REPAIR_DATA;
 
     this.data = (dataMap as Record<string, DeviceRepairData>)[slug] ?? null;
@@ -87,12 +94,15 @@ export class DeviceRepairPage implements OnInit, OnDestroy {
 
     const brandMap = section === 'computers' ? IT_BRAND_REPAIR_DATA
                    : section === 'av' ? AV_BRAND_REPAIR_DATA
+                   : section === 'phones' ? PHONE_BRAND_REPAIR_DATA
                    : BRAND_REPAIR_DATA;
     this.brands = Object.values((brandMap as Record<string, Record<string, BrandRepairData>>)[slug] ?? {});
-    this.brandBasePath = `${backPath}/${slug}`;
+    // У телефонов нет сегмента вида техники в URL — бренд идёт сразу за backPath.
+    this.brandBasePath = section === 'phones' ? backPath : `${backPath}/${slug}`;
 
     const sectionLabel = section === 'computers' ? 'Компьютеры'
                        : section === 'av' ? 'Аудио и видео'
+                       : section === 'phones' ? 'Телефоны'
                        : 'Бытовая техника';
     this.breadcrumbs = [
       { label: 'Главная', path: '/' },

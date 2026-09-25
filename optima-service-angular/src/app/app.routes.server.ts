@@ -5,7 +5,8 @@ import { AV_REPAIR_DATA } from './features/remont-audiovideo/av-repair-data';
 import { BRAND_REPAIR_DATA, BrandRepairData } from './features/remont-bytovoy-tekhniki/brand-repair/brand-repair-data';
 import { IT_BRAND_REPAIR_DATA } from './features/remont-kompyuterov/it-brand-repair-data';
 import { AV_BRAND_REPAIR_DATA } from './features/remont-audiovideo/av-brand-repair-data';
-import { PHONE_MODELS } from './features/remont-kompyuterov/phone-models-data';
+import { PHONE_BRAND_REPAIR_DATA } from './features/remont-telefonov/phone-brand-repair-data';
+import { PHONE_MODELS } from './features/remont-telefonov/phone-models-data';
 import { MASTERS_DATA } from './features/masters/masters-data';
 import { BLOG_POSTS } from './features/blog/blog-data.generated';
 
@@ -31,13 +32,15 @@ function brandParams(deviceMap: DeviceMap, brandMap: BrandMap): { slug: string; 
   return params;
 }
 
-function phoneModelParams(): { slug: string; brand: string; model: string }[] {
-  const params: { slug: string; brand: string; model: string }[] = [];
-  for (const [slug, brands] of Object.entries(PHONE_MODELS)) {
-    for (const [brand, models] of Object.entries(brands)) {
-      for (const model of models) {
-        params.push({ slug, brand, model: model.slug });
-      }
+function phoneBrandParams(): { brand: string }[] {
+  return Object.keys(PHONE_BRAND_REPAIR_DATA['smartfony'] ?? {}).map(brand => ({ brand }));
+}
+
+function phoneModelParams(): { brand: string; model: string }[] {
+  const params: { brand: string; model: string }[] = [];
+  for (const [brand, models] of Object.entries(PHONE_MODELS['smartfony'] ?? {})) {
+    for (const model of models) {
+      params.push({ brand, model: model.slug });
     }
   }
   return params;
@@ -45,7 +48,7 @@ function phoneModelParams(): { slug: string; brand: string; model: string }[] {
 
 function brandHubParams(): { slug: string }[] {
   const slugs = new Set<string>();
-  for (const brandMap of [BRAND_REPAIR_DATA, IT_BRAND_REPAIR_DATA, AV_BRAND_REPAIR_DATA] as BrandMap[]) {
+  for (const brandMap of [BRAND_REPAIR_DATA, IT_BRAND_REPAIR_DATA, AV_BRAND_REPAIR_DATA, PHONE_BRAND_REPAIR_DATA] as BrandMap[]) {
     for (const brands of Object.values(brandMap)) {
       for (const brand of Object.values(brands)) {
         slugs.add(brand.slug);
@@ -73,10 +76,12 @@ export const serverRoutes: ServerRoute[] = [
 
   { path: 'remont-kompyuterov/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => deviceParams(IT_REPAIR_DATA) },
   { path: 'remont-kompyuterov/:slug/:brand', renderMode: RenderMode.Prerender, getPrerenderParams: async () => brandParams(IT_REPAIR_DATA, IT_BRAND_REPAIR_DATA) },
-  { path: 'remont-kompyuterov/:slug/:brand/:model', renderMode: RenderMode.Prerender, getPrerenderParams: async () => phoneModelParams() },
 
   { path: 'remont-audiovideo/:slug', renderMode: RenderMode.Prerender, getPrerenderParams: async () => deviceParams(AV_REPAIR_DATA) },
   { path: 'remont-audiovideo/:slug/:brand', renderMode: RenderMode.Prerender, getPrerenderParams: async () => brandParams(AV_REPAIR_DATA, AV_BRAND_REPAIR_DATA) },
+
+  { path: 'remont-telefonov/:brand', renderMode: RenderMode.Prerender, getPrerenderParams: async () => phoneBrandParams() },
+  { path: 'remont-telefonov/:brand/:model', renderMode: RenderMode.Prerender, getPrerenderParams: async () => phoneModelParams() },
 
   { path: '**', renderMode: RenderMode.Prerender }
 ];
