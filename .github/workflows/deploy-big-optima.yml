@@ -1,0 +1,36 @@
+name: Deploy big-optima to hosting
+
+on:
+  push:
+    branches:
+      - big-optima
+
+# Если пуш прилетает, пока предыдущий деплой ещё не закончился, отменяем
+# недоделанный прогон — иначе они могут завершиться не по порядку и на
+# сервер уедет более старая версия поверх новой.
+concurrency:
+  group: deploy-big-optima
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Статический сайт без сборки — деплоим файлы репозитория как есть.
+      - name: Deploy over FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./
+          server-dir: /public_html/
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            README.md
